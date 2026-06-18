@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="en"><head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Module 7: Workflows | Agentic Engineering</title>
+<title>Module 7: Workflows (the five patterns) | Agentic Engineering</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@500;600;700;800&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
@@ -104,7 +104,7 @@ footer.site .logo{font-size:20px}footer.site .fnote{max-width:46em;font-size:13.
 <button id="menuBtn">&#9776;</button></div></nav><header class="hero"><span class="blob t"></span><span class="blob c"></span><div class="wrap">
 <span class="eyebrow">&#10022; Module 7 &middot; Phase 3</span>
 <h1>Workflows: the five patterns</h1>
-<p class="lead">Master the named, battle-tested workflow patterns and *when* each applies. These solve a huge fraction of real problems without full agency.</p>
+<p class="lead">Learn the five named, well-tested ways to wire LLM calls together, and learn exactly when to reach for each one. These simple patterns solve a large share of real problems without handing full control to an autonomous agent.</p>
 <div class="chips"><span class="chip">Phase 3 &middot; <b>Workflows &amp; agents</b></span><span class="chip">Weeks 7–9</span><span class="chip">&#128296; Hands-on lab</span></div></div></header><div class="layout"><aside id="side"><button id="tocClose" class="toc-close">&times;</button><div class="toc-card"><nav class="toc">
 <div class="toc-title">Start</div><a href="../orientation.html">Orientation &amp; how to use this</a>
 <div class="toc-title">Phase 0 &middot; Orientation &amp; prerequisites</div>
@@ -131,24 +131,82 @@ footer.site .logo{font-size:20px}footer.site .fnote{max-width:46em;font-size:13.
 <a href="../modules/module-15-production-hardening.html"><b style="color:var(--teal);font-family:Poppins">15</b>&nbsp; Production hardening</a>
 <div class="toc-title">Phase 6 &middot; Practice &amp; capstone</div>
 <a href="../modules/module-16-working-with-coding-agents.html"><b style="color:var(--teal);font-family:Poppins">16</b>&nbsp; Working with coding agents</a>
-<a href="../modules/module-17-build-atlas-os.html"><b style="color:var(--teal);font-family:Poppins">17</b>&nbsp; Build &quot;Atlas OS&quot;</a>
+<a href="../modules/module-17-capstone-orchestration-platform.html"><b style="color:var(--teal);font-family:Poppins">17</b>&nbsp; Capstone: orchestration platform</a>
 <div class="toc-title">Reference</div><a href="../resources.html">Reading shelf &amp; decision rules</a>
-</nav></div></aside><main><article><blockquote class="cl-goal"><p><strong>🎯 Objective:</strong> Master the named, battle-tested workflow patterns and <em>when</em> each applies. These solve a huge fraction of real problems without full agency.</p></blockquote>
-<p><strong>The five patterns</strong> (all from Anthropic's <a href="https://www.anthropic.com/engineering/building-effective-agents">Building Effective Agents</a>):</p>
-<ol>
-<li><strong>Prompt chaining</strong> — decompose into a fixed sequence; each call processes the prior output. <em>Use when</em> the task cleanly splits into fixed subtasks. Trades latency for accuracy. (Add programmatic "gate" checks between steps.)</li>
-<li><strong>Routing</strong> — classify the input, send it to a specialized path. <em>Use when</em> there are distinct categories better handled separately (e.g., support-ticket types, easy-vs-hard routed to cheap-vs-strong models).</li>
-<li><strong>Parallelization</strong> — run subtasks concurrently. Two flavors: <strong>sectioning</strong> (independent parts in parallel) and <strong>voting</strong> (same task run multiple times for diverse outputs / consensus). <em>Use when</em> subtasks are independent or multiple perspectives raise confidence.</li>
-<li><strong>Orchestrator-workers</strong> — a central LLM <em>dynamically</em> breaks down the task, delegates to workers, synthesizes results. <em>Use when</em> you <strong>can't predict the subtasks in advance</strong> (the key difference from parallelization, where subtasks are pre-defined). This is the seed of your capstone.</li>
-<li><strong>Evaluator-optimizer</strong> — one call generates, another evaluates and gives feedback, in a loop. <em>Use when</em> you have clear eval criteria and iterative refinement measurably helps.</li>
-</ol>
-<p><strong>Claude layer:</strong> Implement each pattern with the raw Messages API first. You'll reuse orchestrator-workers and evaluator-optimizer directly in the capstone.</p>
-<div class="labbox"><p><strong>Lab 7:</strong> Implement <strong>all five</strong> patterns as small, separate programs against one domain (e.g., a content pipeline: route → chain → parallel-draft → evaluate-optimize). Write a one-paragraph note per pattern on when you'd actually reach for it.</p></div>
-<blockquote class="cl-ok"><p><strong>✅ Best practices:</strong> prefer a workflow to an agent whenever the steps are predictable — it's cheaper, faster, and more debuggable; add gates and checks between steps.</p></blockquote>
-<blockquote class="cl-no"><p><strong>⛔ Pitfalls:</strong> using an autonomous agent where a 3-step chain would do; conflating parallelization (fixed subtasks) with orchestrator-workers (dynamic subtasks).</p></blockquote>
-<blockquote class="cl-tip"><p><strong>🏁 Milestone:</strong> Five working pattern implementations and a crisp decision rule for each.</p></blockquote>
-<blockquote class="cl-key"><p><strong>✎ Publish this:</strong> "The 5 agent workflow patterns every builder should know (with a decision rule for each)." (Strong evergreen AI Nativity piece.)</p></blockquote>
-<div class="resbox"><p><strong>&#128218; Resources</strong> <a href="https://www.anthropic.com/engineering/building-effective-agents">Building Effective Agents</a></p></div><div class="lessonnav"><a class="ln" href="module-06-memory-context-management-at-scale.html"><span class="dir">&#8592; Previous</span><b>06 &middot; Memory &amp; context management at scale</b></a><a class="ln home" href="../index.html"><b>&#9632; All modules</b></a><a class="ln next" href="module-08-autonomous-agents.html"><span class="dir">Next &#8594;</span><b>08 &middot; Autonomous agents</b></a></div></article></main></div><footer class="site"><div class="wrap"><div class="logo">AI Nativity<span style="color:var(--teal)">.</span></div>
+</nav></div></aside><main><article><blockquote class="cl-goal"><p><strong>🎯 Objective:</strong> Learn the five named, well-tested workflow patterns and, just as important, learn <em>when</em> to use each one. Together these patterns solve a large share of real problems without ever handing full control to an autonomous agent.</p></blockquote>
+<p>First, one distinction to lock in. A <strong>workflow</strong> is a system where the steps are decided ahead of time by you, the engineer, and the LLM (Large Language Model, the kind of AI that powers chat assistants) fills in each step. An <strong>agent</strong>, by contrast, decides for itself what steps to take and in what order. Workflows are more predictable, cheaper, and far easier to debug, so a good habit is to reach for a workflow first and only move to an agent when the task truly needs one.</p>
+<p>The five patterns below come largely from the widely cited essay <a href="https://www.anthropic.com/research/building-effective-agents">Building Effective Agents</a>, which argues that the most reliable systems are built from <em>simple, composable patterns</em> rather than heavy frameworks. They are vendor-neutral: they work the same no matter which model provider you use, and you can build every one of them with nothing more than plain LLM API calls (an <strong>API</strong>, or Application Programming Interface, is just the way your code talks to the model over the network).</p>
+
+<h3>The building block: the augmented LLM</h3>
+<p>Every pattern here is made of one repeated piece: a single LLM call that has been given extra abilities. The essay calls this the <strong>augmented LLM</strong>. Concretely, "augmented" means the model can do three things beyond plain text generation: it can <strong>use tools</strong> (call functions you give it, covered in Module 4), <strong>retrieve information</strong> (pull in outside data, covered in Module 5), and <strong>use memory</strong> (carry facts across steps, covered in Module 6). Once you can picture that one block, the five patterns are just different ways of wiring several blocks together.</p>
+
+<h3>Pattern 1: Prompt chaining</h3>
+<p><strong>Prompt chaining</strong> means breaking a task into a fixed sequence of steps, where each LLM call works on the output of the call before it. Think of an assembly line: step one produces a draft, step two improves it, step three formats it.</p>
+<p>A small, concrete example: write marketing copy in English (call one), then translate that copy into Spanish (call two). Each step is simpler and more focused than asking for both at once, which usually raises quality.</p>
+<ul>
+<li><strong>Use it when</strong> the task splits cleanly into a known, fixed set of subtasks.</li>
+<li><strong>Trade-off:</strong> you spend more time (more calls happen one after another) in exchange for higher accuracy.</li>
+<li><strong>Add a gate:</strong> a <strong>gate</strong> is a small programmatic check between steps (plain code, not an LLM) that confirms the previous output is valid before continuing. For example, check that step one actually returned valid text before sending it to step two.</li>
+</ul>
+
+<h3>Pattern 2: Routing</h3>
+<p><strong>Routing</strong> means first classifying the input, then sending it down a specialized path built for that category. One LLM call looks at the request and decides "this is type A" or "this is type B," and each type gets its own handling.</p>
+<p>A concrete example: a customer-support system sorts incoming messages into "refund request," "technical problem," or "general question," and each kind goes to a prompt tuned for it. Routing also lets you save money: send easy requests to a small, cheap, fast model, and send only the hard ones to a larger, stronger model.</p>
+<ul>
+<li><strong>Use it when</strong> the inputs fall into distinct categories that are genuinely better handled separately.</li>
+<li><strong>Why it helps:</strong> separating the categories keeps each prompt focused, so improving one path does not accidentally break another.</li>
+</ul>
+
+<h3>Pattern 3: Parallelization</h3>
+<p><strong>Parallelization</strong> means running several LLM calls at the same time instead of one after another. There are two common flavors:</p>
+<ul>
+<li><strong>Sectioning:</strong> split the work into independent parts and run them together. For example, while reviewing a document, one call checks the facts while another checks the tone, at the same time.</li>
+<li><strong>Voting:</strong> run the <em>same</em> task several times and then combine the answers, for example by taking the majority answer. Asking three times "does this code have a security bug?" and trusting the majority verdict raises your confidence.</li>
+</ul>
+<ul>
+<li><strong>Use it when</strong> subtasks are independent of each other, or when several separate opinions raise your confidence in the result.</li>
+<li><strong>Benefit:</strong> because the calls run together, the total wait time can be much shorter than doing them in sequence.</li>
+</ul>
+
+<h3>Pattern 4: Orchestrator-workers</h3>
+<p>In the <strong>orchestrator-workers</strong> pattern, a central LLM (the orchestrator) looks at the task, breaks it into subtasks <em>on the fly</em>, hands each subtask to a worker LLM call, and then combines the workers' results into a final answer.</p>
+<p>The key difference from parallelization is <strong>when the subtasks are decided</strong>. In parallelization, you (the engineer) fix the subtasks ahead of time. In orchestrator-workers, the orchestrator decides the subtasks at runtime, because you cannot predict them in advance. A concrete example: a coding change that might touch one file or twenty, depending on the request. The orchestrator reads the request, figures out which files need editing, and dispatches a worker per file.</p>
+<ul>
+<li><strong>Use it when</strong> you cannot know the subtasks until you see the actual input.</li>
+<li><strong>Note:</strong> this pattern is the seed of the larger systems you will build later in the course, so it is worth understanding well.</li>
+</ul>
+
+<h3>Pattern 5: Evaluator-optimizer</h3>
+<p>In the <strong>evaluator-optimizer</strong> pattern, one LLM call generates a result and a second LLM call evaluates it and gives feedback. The first call then tries again using that feedback. This generate-then-critique cycle repeats until the result is good enough or a limit is reached.</p>
+<p>A concrete example: one call drafts a translation, a second call points out which phrases sound unnatural, and the first call revises just those phrases. This mirrors how a human writer improves a draft against an editor's notes.</p>
+<ul>
+<li><strong>Use it when</strong> you have clear criteria for what "good" looks like, and when trying again with feedback measurably improves the result.</li>
+<li><strong>Watch the cost:</strong> always cap the number of rounds, because each round is another pair of calls.</li>
+</ul>
+
+<h3>Workflow or agent? A simple rule</h3>
+<p>The five patterns sit on a ladder of increasing freedom. Prompt chaining, routing, and parallelization all follow paths you fix in advance. Orchestrator-workers and evaluator-optimizer let the model make some decisions, but still inside a structure you control. A full autonomous agent (Module 8) removes most of that structure. The guiding principle from the essay is to add complexity only when it clearly pays off: start with the simplest pattern that could work, measure it, and climb the ladder only if results demand it. (See also <a href="https://www.agentpatterns.ai/agent-design/anthropic-effective-agents-framework/">AgentPatterns: a pattern map of the framework</a> and <a href="https://github.com/cloudflare/agents/blob/main/guides/anthropic-patterns/README.md">Cloudflare's implementation guide</a> for worked examples in different stacks.)</p>
+
+<div class="labbox"><p><strong>Lab 7:</strong> Implement <strong>all five</strong> patterns as small, separate programs against a single domain. A content pipeline works well: route an incoming request, chain the writing steps, draft several versions in parallel, then run an evaluate-and-optimize loop on the best one. Build each one with plain LLM API calls so you see the mechanics clearly. For each pattern, write one short paragraph on when you would actually reach for it in real work.</p></div>
+<blockquote class="cl-ok"><p><strong>✅ Best practices:</strong></p>
+<ul>
+<li>Prefer a workflow over an agent whenever the steps are predictable. It is cheaper, faster, and easier to debug.</li>
+<li>Add gates and checks (plain code) between steps so a bad output is caught early instead of flowing downstream.</li>
+<li>Start with the simplest pattern that could solve the problem, then add complexity only when measurements show you need it.</li>
+<li>Use routing to send cheap tasks to small models and reserve large models for the hard cases.</li>
+</ul>
+</blockquote>
+<blockquote class="cl-no"><p><strong>⛔ Pitfalls:</strong></p>
+<ul>
+<li>Using a fully autonomous agent where a simple three-step chain would do the job.</li>
+<li>Confusing parallelization (subtasks fixed by you in advance) with orchestrator-workers (subtasks decided by the model at runtime).</li>
+<li>Running evaluate-and-optimize loops with no cap, so cost and wait time grow without limit.</li>
+<li>Skipping the gates between chained steps, which lets one bad output corrupt every step after it.</li>
+</ul>
+</blockquote>
+<blockquote class="cl-tip"><p><strong>🏁 Milestone:</strong> You have five working pattern implementations and can state a clear, one-sentence decision rule for choosing each one.</p></blockquote>
+<blockquote class="cl-key"><p><strong>✎ Publish this:</strong> Write a short article titled "The 5 agent workflow patterns every builder should know, with a decision rule for each." Explain each pattern in plain language, give one concrete example, and end with a rule for when to use it.</p></blockquote>
+<div class="resbox"><p><strong>&#128218; Resources</strong> <a href="https://www.anthropic.com/research/building-effective-agents">Building Effective Agents (the source of the five patterns)</a> · <a href="https://www.agentpatterns.ai/agent-design/anthropic-effective-agents-framework/">AgentPatterns: framework pattern map</a> · <a href="https://github.com/cloudflare/agents/blob/main/guides/anthropic-patterns/README.md">Cloudflare: pattern implementation guide</a></p></div><div class="lessonnav"><a class="ln" href="module-06-memory-context-management-at-scale.html"><span class="dir">&#8592; Previous</span><b>06 &middot; Memory &amp; context management at scale</b></a><a class="ln home" href="../index.html"><b>&#9632; All modules</b></a><a class="ln next" href="module-08-autonomous-agents.html"><span class="dir">Next &#8594;</span><b>08 &middot; Autonomous agents</b></a></div></article></main></div><footer class="site"><div class="wrap"><div class="logo">AI Nativity<span style="color:var(--teal)">.</span></div>
 <div class="fnote">Documenting the birth into being AI-native, from first principles, with no hype. Built from a deep-research pass across primary sources (Anthropic engineering, Chip Huyen, the ReAct &amp; Reflexion papers, Simon Willison, Hamel Husain, Eugene Yan). Designed to be published through, not just read.</div></div></footer>
 <script>
 var p=document.getElementById('progress');

@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="en"><head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Module 0: Baseline skills and the right mental model | Agentic Engineering</title>
+<title>Module 0: Baseline skills and the right mental model (vendor-neutral) | Agentic Engineering</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@500;600;700;800&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
@@ -104,7 +104,7 @@ footer.site .logo{font-size:20px}footer.site .fnote{max-width:46em;font-size:13.
 <button id="menuBtn">&#9776;</button></div></nav><header class="hero"><span class="blob t"></span><span class="blob c"></span><div class="wrap">
 <span class="eyebrow">&#10022; Module 0 &middot; Phase 0</span>
 <h1>Baseline skills and the right mental model</h1>
-<p class="lead">Confirm (or close) the prerequisites, and install the single most important mental model in the field.</p>
+<p class="lead">Check the few skills you genuinely need before Phase 1, see what you can safely skip, and install the single most important way of thinking in this whole field: you are not programming the model, you are giving it a good place to work.</p>
 <div class="chips"><span class="chip">Phase 0 &middot; <b>Orientation &amp; prerequisites</b></span><span class="chip">Week 0</span><span class="chip">&#128296; Hands-on lab</span></div></div></header><div class="layout"><aside id="side"><button id="tocClose" class="toc-close">&times;</button><div class="toc-card"><nav class="toc">
 <div class="toc-title">Start</div><a href="../orientation.html">Orientation &amp; how to use this</a>
 <div class="toc-title">Phase 0 &middot; Orientation &amp; prerequisites</div>
@@ -131,22 +131,52 @@ footer.site .logo{font-size:20px}footer.site .fnote{max-width:46em;font-size:13.
 <a href="../modules/module-15-production-hardening.html"><b style="color:var(--teal);font-family:Poppins">15</b>&nbsp; Production hardening</a>
 <div class="toc-title">Phase 6 &middot; Practice &amp; capstone</div>
 <a href="../modules/module-16-working-with-coding-agents.html"><b style="color:var(--teal);font-family:Poppins">16</b>&nbsp; Working with coding agents</a>
-<a href="../modules/module-17-build-atlas-os.html"><b style="color:var(--teal);font-family:Poppins">17</b>&nbsp; Build &quot;Atlas OS&quot;</a>
+<a href="../modules/module-17-capstone-orchestration-platform.html"><b style="color:var(--teal);font-family:Poppins">17</b>&nbsp; Capstone: orchestration platform</a>
 <div class="toc-title">Reference</div><a href="../resources.html">Reading shelf &amp; decision rules</a>
-</nav></div></aside><main><article><blockquote class="cl-goal"><p><strong>🎯 Objective:</strong> Confirm (or close) the prerequisites, and install the single most important mental model in the field.</p></blockquote>
-<p><strong>Prerequisites you genuinely need</strong> (close gaps before Phase 1):
-- <strong>Python</strong> — the lingua franca; appears in ~all AI-engineering postings. (<a href="https://www.kdnuggets.com/from-python-to-ai-engineer-a-self-study-roadmap">roadmap</a>)
-- <strong><code>asyncio</code></strong> — you'll fire many concurrent model calls; blocking code won't scale.
-- <strong>Type hints + Pydantic</strong> — for validating structured model outputs. This is load-bearing, not cosmetic.
-- <strong>HTTP/REST + streaming</strong> — model APIs are just APIs; understand requests, streaming responses, retries, rate limits.
-- <strong>Git + testing/CI</strong> — version everything (including prompts); "start by writing tests for your non-AI code." (<a href="https://machinelearningmastery.com/python-concepts-every-ai-engineer-must-master/">ML Mastery</a>)</p>
-<p><strong>What you can defer or skip</strong> (you are not becoming an ML researcher): training models from scratch, GPU kernel work, the heavy math (backprop derivations, optimization theory). Build <em>on</em> foundation models. (<a href="https://github.com/chiphuyen/aie-book">aie-book</a>)</p>
-<p><strong>The mental model to install now — "give the model a good workplace."</strong> You are not programming the model; you are <strong>engineering its context and environment</strong> so that a capable-but-fallible reasoner can succeed. Everything downstream — prompting, tools, memory, retrieval, evals — is a facet of that one job.</p>
-<div class="labbox"><p><strong>Lab 0:</strong> Set up your environment. Python 3.10+, a virtualenv, <code>pip install anthropic</code>, an API key in an env var (never in code), and a "hello, model" script that streams a response and prints token usage. Commit it. Write one Pydantic model and have the API return JSON that validates against it.</p></div>
-<blockquote class="cl-no"><p><strong>⛔ Pitfalls:</strong> hardcoded keys; ignoring token counts (they're your cost and your context budget); skipping async and hitting a wall in Phase 4.</p></blockquote>
-<blockquote class="cl-tip"><p><strong>🏁 Milestone:</strong> A clean repo, a working authenticated call, a validated structured output.</p></blockquote>
-<blockquote class="cl-key"><p><strong>✎ Publish this:</strong> "Day 0 of becoming an agentic engineer — here's my setup and the one mental model I'm starting with." (Build-in-public launch beat.)</p></blockquote>
-<div class="resbox"><p><strong>&#128218; Resources</strong> <a href="https://www.oreilly.com/library/view/ai-engineering/9781098166298/">Huyen, <em>AI Engineering</em> (book)</a> · <a href="https://www.kdnuggets.com/from-python-to-ai-engineer-a-self-study-roadmap">Python→AI Engineer roadmap</a></p></div><div class="lessonnav"><a class="ln" href="../orientation.html"><span class="dir">&#8592; Previous</span><b>Orientation</b></a><a class="ln home" href="../index.html"><b>&#9632; All modules</b></a><a class="ln next" href="module-01-how-llms-work.html"><span class="dir">Next &#8594;</span><b>01 &middot; How LLMs work (exactly enough, no more)</b></a></div></article></main></div><footer class="site"><div class="wrap"><div class="logo">AI Nativity<span style="color:var(--teal)">.</span></div>
+</nav></div></aside><main><article><blockquote class="cl-goal"><p><strong>🎯 Objective:</strong> Check the handful of skills you actually need before Phase 1, see what you can safely skip, and install one durable way of thinking: your job is to build a good workplace for a capable but fallible helper, not to program the model line by line.</p></blockquote>
+<p>This module is short on purpose. It is a starting line, not a hill to climb. The goal is to make sure nothing trips you up later and to hand you one idea that the rest of the course leans on. Two terms up front. An <strong>LLM</strong> is a <strong>Large Language Model</strong>, the kind of AI that powers chat assistants and writes text one small piece at a time. An <strong>agent</strong> is an LLM that has been given the ability to take actions in a loop (call tools, read results, decide what to do next) instead of just answering once. Everything in this course builds toward agents.</p>
+
+<h3>Prerequisites you genuinely need</h3>
+<p>Close any gaps here before you start Phase 1. None of these require deep expertise. You need working comfort, not mastery.</p>
+<ul>
+<li><strong>Python.</strong> This is the common language of AI engineering, and it shows up in nearly every job posting in the field. If you can read and write everyday Python (functions, loops, dictionaries, importing libraries), you are ready. (<a href="https://www.kdnuggets.com/from-python-to-ai-engineer-a-self-study-roadmap">Python to AI Engineer roadmap</a>)</li>
+<li><strong>Async Python (<code>asyncio</code>).</strong> "Async" means running several slow tasks at the same time instead of one after another. You will often send many model requests at once, and a model request is slow (you are waiting on a network call). Code that handles one request at a time (called "blocking" code, because each call blocks the next) will not keep up. You only need the basics: <code>async def</code>, <code>await</code>, and running several calls together.</li>
+<li><strong>Type hints and Pydantic.</strong> Type hints are small notes in Python that say what kind of value a variable holds, such as <code>name: str</code>. <strong>Pydantic</strong> is a popular library that uses those hints to check data and reject anything in the wrong shape. You will lean on it constantly to make sure the model's output is valid and machine-readable rather than a loose blob of text. This is load-bearing, not cosmetic. (<a href="https://ai.pydantic.dev/">Pydantic docs</a>)</li>
+<li><strong>HTTP, REST, and streaming.</strong> Model providers are reached through an <strong>API</strong> (Application Programming Interface, a way for your code to talk to a remote service). These are ordinary web APIs. <strong>HTTP</strong> is the protocol your code uses to make the request; <strong>REST</strong> is the common style those requests follow. <strong>Streaming</strong> means the reply arrives token by token as it is generated, instead of all at once at the end. You should understand sending a request, reading a streamed response, retrying when a call fails, and respecting <strong>rate limits</strong> (caps on how many requests you may send in a window of time).</li>
+<li><strong>Git plus basic testing.</strong> <strong>Git</strong> is the standard tool for version control, which means keeping a tracked history of every change. Version everything, including your prompts, because a prompt is a piece of software too. Get in the habit of writing small tests for your ordinary, non-AI code first, so you have a stable base before you add the unpredictable part. (<a href="https://github.com/chiphuyen/aie-book">Chip Huyen, AI Engineering open book</a>)</li>
+</ul>
+
+<h3>What you can defer or skip</h3>
+<p>You are becoming an engineer who builds <em>on top of</em> existing models, not a researcher who builds the models themselves. A <strong>foundation model</strong> is a large pretrained model (like the LLMs this course uses) that you adapt to your needs rather than train from scratch. Because you build on these, you can safely set the following aside for now:</p>
+<ul>
+<li>Training a model from scratch.</li>
+<li><strong>GPU kernel</strong> work (low-level code that squeezes performance out of the graphics chips used to train models).</li>
+<li>The heavy math, such as <strong>backpropagation</strong> derivations (the calculus that adjusts a model during training) and optimization theory.</li>
+</ul>
+<p>Knowing this material is not harmful, but it is not on the path to shipping useful agentic systems. Spend your early energy elsewhere. (<a href="https://github.com/chiphuyen/aie-book">Chip Huyen, AI Engineering open book</a>)</p>
+
+<h3>The one mental model: give the model a good workplace</h3>
+<p>Here is the idea to carry through the entire course. <strong>You are not programming the model. You are engineering its context and its environment so that a capable but fallible reasoner can succeed.</strong> Think of the model as a smart, fast new teammate who has no memory of yesterday, cannot see your screen, and will confidently guess when information is missing. Your job is to set up that teammate's desk: the right instructions, the right reference material, the right tools, and a way to check the work.</p>
+<p>This reframing matters because almost everything later in the course is one facet of this single job. Prompting is how you give clear instructions. Context engineering is what reference material you place on the desk. Tool use is what equipment you hand over. Memory and retrieval are how the desk stays stocked over time. Evaluation is how you check the output. When something goes wrong, the first question is rarely "is the model broken?" It is usually "what was missing or confusing in the workplace I built?" This view is the through-line of recent practitioner and lab writing on getting good results from models, which keeps returning to the same point: most of the craft is managing what the model can see and do. (<a href="https://simonwillison.net/2025/Mar/11/using-llms-for-code/">Simon Willison, how I use LLMs to write code</a>)</p>
+
+<div class="labbox"><p><strong>Lab 0:</strong> Set up a clean workspace. Install a recent Python (3.10 or newer), create a virtual environment (an isolated folder for this project's packages), and install the official client library for any one model provider you choose. Put your <strong>API key</strong> (the secret token that authorizes your requests) in an environment variable, never written directly in your code. Then write a small "hello, model" script that sends one prompt, <strong>streams</strong> the reply to your screen as it arrives, and prints the <strong>token</strong> usage (a token is a small chunk of text, and tokens are how usage and cost are measured). Commit it to Git. Finally, define one Pydantic model describing a simple data shape and have the API return JSON that validates against it. If validation passes, you have proven the full loop: authenticate, call, stream, and get a checked, structured result.</p></div>
+<blockquote class="cl-ok"><p><strong>✅ Best practices:</strong></p>
+<ul>
+<li>Keep secrets such as API keys in environment variables or a secrets manager, never in source code or Git history.</li>
+<li>Watch your token counts from day one. They are both your bill and your context budget.</li>
+<li>Pin your dependency versions so a project that works today still works next month.</li>
+<li>Write tests for the predictable, non-AI parts of your code before you add the unpredictable model calls.</li>
+</ul></blockquote>
+<blockquote class="cl-no"><p><strong>⛔ Pitfalls:</strong></p>
+<ul>
+<li>Hardcoding API keys, which leaks them the moment you push to a shared repository.</li>
+<li>Ignoring token counts until the bill or a context-limit error surprises you.</li>
+<li>Skipping async early and then hitting a wall once you need many concurrent calls in later phases.</li>
+<li>Treating the model as a normal program that should behave the same way every time. It will not.</li>
+</ul></blockquote>
+<blockquote class="cl-tip"><p><strong>🏁 Milestone:</strong> You have a clean repository, a working authenticated call that streams and reports token usage, and a structured output that passes Pydantic validation. You can also state, in one sentence, the "good workplace" mental model in your own words.</p></blockquote>
+<blockquote class="cl-key"><p><strong>✎ Publish this:</strong> Write a short post titled "Day 0 of becoming an agentic engineer: my setup and the one idea I am starting with." Describe your environment in a few steps anyone could copy, and explain the "give the model a good workplace" mental model plainly enough that a non-engineer would get it.</p></blockquote>
+<div class="resbox"><p><strong>&#128218; Resources</strong> <a href="https://github.com/chiphuyen/aie-book">Chip Huyen, AI Engineering (open companion repo)</a> · <a href="https://www.kdnuggets.com/from-python-to-ai-engineer-a-self-study-roadmap">Python to AI Engineer roadmap</a> · <a href="https://ai.pydantic.dev/">Pydantic for structured outputs</a></p></div><div class="lessonnav"><a class="ln" href="../orientation.html"><span class="dir">&#8592; Previous</span><b>Orientation</b></a><a class="ln home" href="../index.html"><b>&#9632; All modules</b></a><a class="ln next" href="module-01-how-llms-work.html"><span class="dir">Next &#8594;</span><b>01 &middot; How LLMs work (exactly enough, no more)</b></a></div></article></main></div><footer class="site"><div class="wrap"><div class="logo">AI Nativity<span style="color:var(--teal)">.</span></div>
 <div class="fnote">Documenting the birth into being AI-native, from first principles, with no hype. Built from a deep-research pass across primary sources (Anthropic engineering, Chip Huyen, the ReAct &amp; Reflexion papers, Simon Willison, Hamel Husain, Eugene Yan). Designed to be published through, not just read.</div></div></footer>
 <script>
 var p=document.getElementById('progress');

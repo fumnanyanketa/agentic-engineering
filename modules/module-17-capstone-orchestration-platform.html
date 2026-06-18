@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="en"><head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Module 17: Build &quot;Atlas OS&quot; | Agentic Engineering</title>
+<title>Module 17: Build an Enterprise Agent Orchestration Platform | Agentic Engineering</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@500;600;700;800&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
@@ -103,8 +103,8 @@ footer.site .logo{font-size:20px}footer.site .fnote{max-width:46em;font-size:13.
 <div class="navlinks"><a href="../index.html">All modules</a><a href="../orientation.html">Orientation</a><a href="../resources.html">Resources</a></div>
 <button id="menuBtn">&#9776;</button></div></nav><header class="hero"><span class="blob t"></span><span class="blob c"></span><div class="wrap">
 <span class="eyebrow">&#10022; Module 17 &middot; Phase 6</span>
-<h1>Build &quot;Atlas OS&quot;: an agent-orchestration system</h1>
-<p class="lead">Compose everything into a single, real, evaluated, observable, hardened agent-orchestration system — and document the build in public.</p>
+<h1>Capstone: build an enterprise agent orchestration platform</h1>
+<p class="lead">Compose everything you have learned into one real, evaluated, observable, and hardened agent orchestration platform, then document the build so others can follow it.</p>
 <div class="chips"><span class="chip">Phase 6 &middot; <b>Practice &amp; capstone</b></span><span class="chip">Weeks 15–17</span><span class="chip">&#128296; Hands-on lab</span></div></div></header><div class="layout"><aside id="side"><button id="tocClose" class="toc-close">&times;</button><div class="toc-card"><nav class="toc">
 <div class="toc-title">Start</div><a href="../orientation.html">Orientation &amp; how to use this</a>
 <div class="toc-title">Phase 0 &middot; Orientation &amp; prerequisites</div>
@@ -131,32 +131,40 @@ footer.site .logo{font-size:20px}footer.site .fnote{max-width:46em;font-size:13.
 <a href="../modules/module-15-production-hardening.html"><b style="color:var(--teal);font-family:Poppins">15</b>&nbsp; Production hardening</a>
 <div class="toc-title">Phase 6 &middot; Practice &amp; capstone</div>
 <a href="../modules/module-16-working-with-coding-agents.html"><b style="color:var(--teal);font-family:Poppins">16</b>&nbsp; Working with coding agents</a>
-<a href="../modules/module-17-build-atlas-os.html" class="active"><b style="color:var(--teal);font-family:Poppins">17</b>&nbsp; Build &quot;Atlas OS&quot;</a>
+<a href="../modules/module-17-capstone-orchestration-platform.html" class="active"><b style="color:var(--teal);font-family:Poppins">17</b>&nbsp; Capstone: orchestration platform</a>
 <div class="toc-title">Reference</div><a href="../resources.html">Reading shelf &amp; decision rules</a>
-</nav></div></aside><main><article><blockquote class="cl-goal"><p><strong>🎯 Objective:</strong> Compose everything into a single, real, evaluated, observable, hardened <strong>agent-orchestration system</strong> — and document the build in public.</p></blockquote>
-<p>This is the diploma. There is no new concept here; there is <strong>integration</strong>, which is its own skill. Build it <em>using</em> the coding-agent craft from Module 16 — that's the point of learning it first.</p>
-<p><strong>Required architecture (the exit bar):</strong>
-1. <strong>Orchestration</strong> — a lead/orchestrator agent that decomposes a non-trivial task and delegates to <strong>specialized workers</strong> (Modules 7, 10), with a reasoned, <em>cost-aware</em> choice of single- vs. multi-agent (Module 10).
-2. <strong>Tools via MCP</strong> — capabilities exposed through MCP, including at least one server you wrote (Modules 4, 9).
-3. <strong>Retrieval + memory</strong> — hybrid retrieval as a tool, plus compaction/external memory for long horizons (Modules 5, 6).
-4. <strong>The agent loop done right</strong> — bounded iterations, verification/self-check steps, sane stopping conditions (Module 8).
-5. <strong>An eval suite</strong> — built from real failures, with a reported pass rate per component (Module 12).
-6. <strong>Observability</strong> — full tracing, per-step cost/latency (Module 13).
-7. <strong>Safety</strong> — least-privilege, human-gated consequential actions, and a documented defense against the lethal trifecta (Module 14).
-8. <strong>Hardening</strong> — per-task cost/latency budget, tier-optimized, cached, with fallbacks (Module 15).</p>
-<p><strong>Suggested capstone domains</strong> (pick one you'll actually use — dogfooding is the point):
-- A <strong>research orchestrator</strong> (breadth-first, the multi-agent sweet spot) that answers deep questions with cited synthesis. <em>(Note: this curriculum was itself built by exactly such a system — that's a publishable meta-story.)</em>
-- A <strong>content/publishing pipeline</strong> for AI Nativity (route → research → draft → evaluate-optimize → schedule) — directly serves the build-the-habit goal.
-- A <strong>personal-knowledge agent</strong> over your notes/archive (ties to the Anchor tracker idea).</p>
-<p><strong>Capstone deliverables:</strong>
-1. The working system (repo).
-2. A <strong>system-design doc</strong> explaining each architectural choice <em>and its trade-off</em> (esp. single- vs. multi-agent, framework-or-not).
-3. An <strong>eval report</strong> with pass rates.
-4. A <strong>cost/latency report</strong> per task.
-5. A <strong>security note</strong> documenting the trifecta audit and mitigation.
-6. A <strong>build-in-public series</strong> (one post per phase — you've been drafting these all along via "Publish this").</p>
-<blockquote class="cl-tip"><p><strong>🏁 Final milestone — you are an agent orchestrator when you can:</strong> stand up a system that decomposes work across agents, ground it in tools/data via MCP, manage context across long horizons, <em>prove</em> its reliability with evals and traces, defend it against injection, and state its cost per task — and explain every design decision and its alternative. That's not a hobby project. That's the job.</p></blockquote>
-<blockquote class="cl-key"><p><strong>✎ Publish this:</strong> the whole capstone, as a series. "I taught myself agentic engineering in 16 weeks and built an agent-orchestration system. Here's everything." (The series <em>is</em> the proof of the skill — and the AI Nativity flagship.)</p></blockquote><div class="lessonnav"><a class="ln" href="module-16-working-with-coding-agents.html"><span class="dir">&#8592; Previous</span><b>16 &middot; Working with coding agents</b></a><a class="ln home" href="../index.html"><b>&#9632; All modules</b></a><a class="ln next" href="../resources.html"><span class="dir">Next &#8594;</span><b>Reading shelf &amp; rules</b></a></div></article></main></div><footer class="site"><div class="wrap"><div class="logo">AI Nativity<span style="color:var(--teal)">.</span></div>
+</nav></div></aside><main><article><blockquote class="cl-goal"><p><strong>🎯 Objective:</strong> Compose everything you have learned into a single, real, evaluated, observable, and hardened <strong>agent orchestration platform</strong> (a system where one coordinating agent plans the work and delegates it to other agents and tools), and document the build so others can follow it.</p></blockquote>
+<p>This is the capstone, the project that proves the whole course. There is no new concept to learn here. The skill on display is <strong>integration</strong>, which means making all the separate pieces work together as one dependable system. Integration is its own discipline, and it is exactly what enterprise teams hire agentic engineers to do. Build it using the coding-agent craft from Module 16.</p>
+<p>Pick a real, non-trivial problem worth automating, then hold yourself to the bar below. Each item points back to the module where the skill was taught.</p>
+<h4>Required architecture (the exit bar)</h4>
+<ol>
+<li><strong>Orchestration.</strong> A lead "orchestrator" agent that breaks a complex task into smaller pieces and delegates them to <strong>specialized worker agents</strong> (Modules 7 and 10), together with a deliberate, cost-aware decision about whether you even need more than one agent (Module 10).</li>
+<li><strong>Tools via MCP.</strong> Real capabilities exposed through MCP (Model Context Protocol, the open standard for connecting agents to tools and data), including at least one tool server you built yourself (Modules 4 and 9).</li>
+<li><strong>Retrieval and memory.</strong> Hybrid retrieval (combining keyword search and meaning-based search) offered to the agent as a tool, plus a way to compact or store information so the system stays coherent across long tasks (Modules 5 and 6).</li>
+<li><strong>The agent loop done right.</strong> A bounded loop (a capped number of steps), verification or self-check steps, and sensible stopping conditions so the agent knows when it is finished or stuck (Module 8).</li>
+<li><strong>An evaluation suite.</strong> A set of automated tests built from real failures you observed, reporting a pass rate for each component so you can prove it works and catch regressions later (Module 12).</li>
+<li><strong>Observability.</strong> Full tracing of every step, with the cost and the latency (wait time) recorded per step, so you can see inside the system while it runs in production (Module 13).</li>
+<li><strong>Safety.</strong> Least privilege (give each part only the access it truly needs), a human approval step before any consequential action, and a written defense against the lethal trifecta (Module 14).</li>
+<li><strong>Hardening.</strong> A per-task budget for cost and latency, the right model size for each job, caching where it helps, and graceful fallbacks when something fails (Module 15).</li>
+</ol>
+<p><strong>Choosing a domain.</strong> Pick something you would actually use, because real use surfaces real problems. Some ambitious, enterprise-flavored options:</p>
+<ul>
+<li>A <strong>research orchestrator</strong> that answers deep questions with cited, synthesized reports. This is a breadth-first task, which is the sweet spot for using several agents at once.</li>
+<li>A <strong>customer-operations resolver</strong> that triages incoming requests, gathers context from internal systems, drafts a resolution, and routes anything risky to a human.</li>
+<li>An <strong>incident-response assistant</strong> for software teams that reads logs and alerts, proposes a diagnosis, and prepares a fix for a human to review.</li>
+<li>A <strong>data-analysis agent</strong> that turns plain-language questions into database queries, runs them safely, and explains the results.</li>
+</ul>
+<p><strong>Capstone deliverables</strong> (what "done" looks like):</p>
+<ol>
+<li>The working system, in a code repository.</li>
+<li>A <strong>system-design document</strong> that explains each architectural choice <em>and the trade-off</em> behind it, especially single-agent vs multi-agent and framework vs no framework.</li>
+<li>An <strong>evaluation report</strong> with pass rates per component.</li>
+<li>A <strong>cost and latency report</strong> per task.</li>
+<li>A <strong>security note</strong> documenting your lethal-trifecta audit and how you mitigated it.</li>
+<li>A <strong>build-in-public write-up</strong>, one post per phase, so others can learn from the journey.</li>
+</ol>
+<blockquote class="cl-tip"><p><strong>🏁 Final milestone. You are an agent orchestrator when you can:</strong> stand up a system that splits work across agents, ground it in tools and data via MCP, manage context across long tasks, <em>prove</em> its reliability with evaluations and traces, defend it against prompt injection, state its cost per task, and explain every design decision along with the alternative you rejected. That is not a hobby project. That is the job.</p></blockquote>
+<blockquote class="cl-key"><p><strong>✎ Publish this:</strong> the whole capstone, as a series. "I taught myself agentic engineering and built an enterprise-grade agent orchestration platform. Here is everything, including what broke and how I fixed it." The series itself is the proof of the skill.</p></blockquote><div class="lessonnav"><a class="ln" href="module-16-working-with-coding-agents.html"><span class="dir">&#8592; Previous</span><b>16 &middot; Working with coding agents</b></a><a class="ln home" href="../index.html"><b>&#9632; All modules</b></a><a class="ln next" href="../resources.html"><span class="dir">Next &#8594;</span><b>Reading shelf &amp; rules</b></a></div></article></main></div><footer class="site"><div class="wrap"><div class="logo">AI Nativity<span style="color:var(--teal)">.</span></div>
 <div class="fnote">Documenting the birth into being AI-native, from first principles, with no hype. Built from a deep-research pass across primary sources (Anthropic engineering, Chip Huyen, the ReAct &amp; Reflexion papers, Simon Willison, Hamel Husain, Eugene Yan). Designed to be published through, not just read.</div></div></footer>
 <script>
 var p=document.getElementById('progress');

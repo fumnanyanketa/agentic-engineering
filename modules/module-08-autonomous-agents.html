@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="en"><head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Module 8: Autonomous agents | Agentic Engineering</title>
+<title>Module 8: Autonomous agents (the loop, and its limits) | Agentic Engineering</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@500;600;700;800&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
@@ -103,8 +103,8 @@ footer.site .logo{font-size:20px}footer.site .fnote{max-width:46em;font-size:13.
 <div class="navlinks"><a href="../index.html">All modules</a><a href="../orientation.html">Orientation</a><a href="../resources.html">Resources</a></div>
 <button id="menuBtn">&#9776;</button></div></nav><header class="hero"><span class="blob t"></span><span class="blob c"></span><div class="wrap">
 <span class="eyebrow">&#10022; Module 8 &middot; Phase 3</span>
-<h1>Autonomous agents: the loop, and its discontents</h1>
-<p class="lead">Build a genuinely autonomous agent — and understand *exactly* why and where they get fragile.</p>
+<h1>Autonomous agents: the loop, and its limits</h1>
+<p class="lead">Build a genuinely autonomous agent from scratch, and learn clearly why and where these systems become fragile so you can design around it.</p>
 <div class="chips"><span class="chip">Phase 3 &middot; <b>Workflows &amp; agents</b></span><span class="chip">Weeks 7–9</span><span class="chip">&#128296; Hands-on lab</span></div></div></header><div class="layout"><aside id="side"><button id="tocClose" class="toc-close">&times;</button><div class="toc-card"><nav class="toc">
 <div class="toc-title">Start</div><a href="../orientation.html">Orientation &amp; how to use this</a>
 <div class="toc-title">Phase 0 &middot; Orientation &amp; prerequisites</div>
@@ -131,23 +131,72 @@ footer.site .logo{font-size:20px}footer.site .fnote{max-width:46em;font-size:13.
 <a href="../modules/module-15-production-hardening.html"><b style="color:var(--teal);font-family:Poppins">15</b>&nbsp; Production hardening</a>
 <div class="toc-title">Phase 6 &middot; Practice &amp; capstone</div>
 <a href="../modules/module-16-working-with-coding-agents.html"><b style="color:var(--teal);font-family:Poppins">16</b>&nbsp; Working with coding agents</a>
-<a href="../modules/module-17-build-atlas-os.html"><b style="color:var(--teal);font-family:Poppins">17</b>&nbsp; Build &quot;Atlas OS&quot;</a>
+<a href="../modules/module-17-capstone-orchestration-platform.html"><b style="color:var(--teal);font-family:Poppins">17</b>&nbsp; Capstone: orchestration platform</a>
 <div class="toc-title">Reference</div><a href="../resources.html">Reading shelf &amp; decision rules</a>
-</nav></div></aside><main><article><blockquote class="cl-goal"><p><strong>🎯 Objective:</strong> Build a genuinely autonomous agent — and understand <em>exactly</em> why and where they get fragile.</p></blockquote>
-<p><strong>Key concepts (vendor-neutral):</strong>
-- <strong>The agent loop</strong> — gather context → act (tool call) → observe result (ground truth from the environment) → repeat, until a stopping condition. <strong>Always</strong> include stopping conditions (max iterations, budget) "to maintain control." (<a href="https://www.anthropic.com/engineering/building-effective-agents">Building Effective Agents</a>) Simon Willison strips it to its essence: an agent is <strong>"an LLM + a system prompt + tools, running in a loop."</strong> (<a href="https://simonwillison.net/guides/agentic-engineering-patterns/">Agentic Engineering Patterns</a>)
-- <strong>Designing the loop so it can self-correct</strong> — the single highest-leverage move (Willison): give the agent <strong>a way to verify its own work</strong> — tests, a type checker, a runnable environment — so each pass can check and improve the last. This is why "verify work" is a first-class step in the agent loop. He spent years rejecting "agent" as hopelessly vague (he collected <em>211</em> incompatible definitions) before settling on this minimal one — and notes the loop has <em>"a fundamental form of memory baked in"</em> (the growing message history <em>is</em> memory). Solomon Hykes' blunter version, which Willison likes: <em>"an AI agent is an LLM wrecking its environment in a loop"</em> — which is exactly why Module 14's sandboxing matters. You'll apply all of this to coding agents in Module 16. (<a href="https://simonwillison.net/2025/Sep/30/designing-agentic-loops/">Willison: designing agentic loops</a> · <a href="https://simonwillison.net/2025/Sep/18/agents/">"agent" defined</a>)
-- <strong>ReAct (Reasoning + Acting)</strong> — interleave reasoning traces with actions; reasoning helps "induce, track, and update action plans and handle exceptions," actions interface with external sources. The foundational agent pattern (Yao et al., 2022). (<a href="https://arxiv.org/abs/2210.03629">ReAct</a>)
-- <strong>Reflection / self-critique (Reflexion)</strong> — the agent verbally reflects on feedback and stores reflections in episodic memory, improving "not by updating weights, but through linguistic feedback." (<a href="https://arxiv.org/abs/2303.11366">Reflexion</a>)
-- <strong>Planning: plan-and-execute vs. ReAct</strong> — plan-and-execute fixes a plan up front (fewer LLM calls, ~lower tokens, but less adaptive); ReAct decides step-by-step (adaptive, more tokens). Choose by how predictable the path is. (<a href="https://dev.to/jamesli/react-vs-plan-and-execute-a-practical-comparison-of-llm-agent-patterns-4gh9">comparison</a>)
-- <strong>The compounding-error problem (critical):</strong> reliability decays roughly as p^N over N steps. At 95%/step: ~60% over 10 steps, ~36% over 20. Even 99%/step → ~37% over 100 steps. The math is a <em>toy model</em> (real agents have recovery, verification, dependent steps) but the lesson is iron: <strong>long autonomous chains are inherently fragile; shorter loops, verification, and per-step reliability are how you win.</strong> (<a href="https://medium.com/k8slens/the-math-behind-why-multi-step-ai-agents-fail-in-production-c6d60ea6ca31">compound-error math</a>)</p>
-<p><strong>Claude layer:</strong> Now bring in the <strong>Claude Agent SDK</strong> (<a href="https://code.claude.com/docs/en/agent-sdk/overview">overview</a>) — "the same tools, agent loop, and context management that power Claude Code," in Python/TS, via <code>query()</code>. Its design loop is literally <strong>gather context → take action → verify work → repeat</strong>, because "agents that can check and improve their own output are fundamentally more reliable." Understand the distinction: the <strong>Anthropic Client SDK</strong> = you write the tool loop; the <strong>Agent SDK</strong> = the loop + tool execution are built for you. (<a href="https://claude.com/blog/building-agents-with-the-claude-agent-sdk">building with the Agent SDK</a>)</p>
-<div class="labbox"><p><strong>Lab 8:</strong> Build a real autonomous agent two ways: (a) hand-rolled ReAct loop on the raw API, with explicit stopping conditions and a verification step; (b) the same agent on the Claude Agent SDK. Compare lines of code, debuggability, and reliability. Add a Reflexion-style self-critique step and measure whether it helps (sometimes it won't — report honestly).</p></div>
-<blockquote class="cl-ok"><p><strong>✅ Best practices:</strong> always cap iterations and budget; add a verification/self-check step; keep loops as short as the task allows.</p></blockquote>
-<blockquote class="cl-no"><p><strong>⛔ Pitfalls:</strong> unbounded loops (cost/runaway); no verification; assuming "more autonomy = better" — the compounding math says otherwise.</p></blockquote>
-<blockquote class="cl-tip"><p><strong>🏁 Milestone:</strong> An autonomous agent with stopping conditions and verification, plus a measured view of where it fails.</p></blockquote>
-<blockquote class="cl-key"><p><strong>✎ Publish this:</strong> "Why multi-step AI agents fail — the p^N problem, and what to do about it." (High-signal, contrarian-to-hype — very on-brand.)</p></blockquote>
-<div class="resbox"><p><strong>&#128218; Resources</strong> <a href="https://arxiv.org/abs/2210.03629">ReAct paper</a> · <a href="https://arxiv.org/abs/2303.11366">Reflexion paper</a> · <a href="https://code.claude.com/docs/en/agent-sdk/overview">Claude Agent SDK</a></p></div><div class="lessonnav"><a class="ln" href="module-07-workflows.html"><span class="dir">&#8592; Previous</span><b>07 &middot; Workflows</b></a><a class="ln home" href="../index.html"><b>&#9632; All modules</b></a><a class="ln next" href="module-09-mcp.html"><span class="dir">Next &#8594;</span><b>09 &middot; MCP</b></a></div></article></main></div><footer class="site"><div class="wrap"><div class="logo">AI Nativity<span style="color:var(--teal)">.</span></div>
+</nav></div></aside><main><article><blockquote class="cl-goal"><p><strong>🎯 Objective:</strong> Build a genuinely autonomous agent from scratch, and understand clearly why and where these systems get fragile, so you can design around the weak spots instead of being surprised by them.</p></blockquote>
+<p>In Module 7 you built workflows, where you decided the steps ahead of time. An <strong>autonomous agent</strong> is different: the LLM (Large Language Model, the kind of AI that powers chat assistants) decides for itself what to do next, step by step, until the job is done. That freedom is powerful, but it is also exactly where things go wrong. This module teaches both the mechanism and its limits.</p>
+
+<h3>What an agent actually is</h3>
+<p>Stripped to its essence, an agent is simply <strong>an LLM, plus a system prompt, plus tools, running in a loop</strong>. A <strong>system prompt</strong> is the standing instruction that tells the model its job and rules. <strong>Tools</strong> are functions you let it call, such as "search the web" or "run this code" (covered in Module 4). The word "loop" is the heart of it: the model is called over and over, and each turn can act on the world and see what happened. This minimal definition comes from practitioner Simon Willison, who notes that the term "agent" was so overloaded that he collected hundreds of conflicting definitions before settling on this simple one. (<a href="https://simonwillison.net/2025/Sep/18/agents/">Willison: "agent" defined</a>)</p>
+
+<h3>The agent loop</h3>
+<p>The loop has four repeating steps:</p>
+<ol>
+<li><strong>Gather context:</strong> collect what the model needs to know right now (the task, recent results, relevant data).</li>
+<li><strong>Act:</strong> the model chooses and calls a tool, for example running a command or querying a database.</li>
+<li><strong>Observe:</strong> the tool returns a real result from the environment. This is the crucial part, because it is <em>ground truth</em> (what actually happened) rather than the model's guess.</li>
+<li><strong>Repeat</strong> until a stopping condition is met.</li>
+</ol>
+<p>That last point is not optional. You must <strong>always</strong> include stopping conditions, such as a maximum number of loops or a spending budget, so the agent stays under your control and cannot run forever. (<a href="https://www.anthropic.com/research/building-effective-agents">Building Effective Agents</a>) One useful detail: the loop has a basic form of memory built in for free, because the growing list of past messages <em>is</em> the agent's record of what it has done so far.</p>
+
+<h3>Designing the loop so it can self-correct</h3>
+<p>The single highest-leverage design move is to give the agent <strong>a way to check its own work</strong>. If the agent can run tests, run a type checker (a tool that flags type mistakes in code), or otherwise see whether its last action actually worked, then each pass can correct the one before it. This is why "observe" and "verify" are first-class steps in the loop and not afterthoughts: agents that can check and improve their own output are far more reliable. (<a href="https://simonwillison.net/2025/Sep/30/designing-agentic-loops/">Willison: designing agentic loops</a>) A blunter framing from Docker founder Solomon Hykes captures the risk side: an AI agent is an LLM acting on its environment in a loop, which is precisely why the sandboxing you will learn in Module 14 matters so much. You will apply all of this to real coding agents in Module 16.</p>
+
+<h3>ReAct: reasoning plus acting</h3>
+<p><strong>ReAct</strong> (short for "Reasoning and Acting") is the foundational pattern for agent loops. The idea is to interleave short bursts of reasoning with concrete actions: the model writes out a thought ("I should look up the current price first"), takes an action (the lookup), reads the result, then reasons again. The reasoning helps the model form and update its plan and handle surprises, while the actions connect it to outside information. (<a href="https://arxiv.org/abs/2210.03629">ReAct, Yao et al., 2022</a>)</p>
+
+<h3>Reflection and self-critique</h3>
+<p><strong>Reflection</strong> means having the agent look back at feedback and write down lessons for next time. The <strong>Reflexion</strong> approach does exactly this: after a failed attempt, the agent writes a short note about what went wrong and keeps that note in memory, so its next attempt is informed by it. The striking part is that the agent improves with no retraining at all. It gets better purely through this written feedback to itself. (<a href="https://arxiv.org/abs/2303.11366">Reflexion, Shinn et al., 2023</a>)</p>
+
+<h3>Planning: plan-and-execute versus ReAct</h3>
+<p>There are two broad ways an agent can plan:</p>
+<ul>
+<li><strong>Plan-and-execute:</strong> the agent writes out a full plan up front, then carries it out. This uses fewer LLM calls and fewer tokens (a <strong>token</strong> is a small chunk of text the model reads and is billed on), but it adapts poorly if reality differs from the plan.</li>
+<li><strong>ReAct (step-by-step):</strong> the agent decides each step as it goes. This adapts well to surprises but uses more calls and more tokens.</li>
+</ul>
+<p>The choice comes down to how predictable the path is. If the steps are knowable in advance, plan ahead; if the path is uncertain, decide step by step. (<a href="https://dev.to/jamesli/react-vs-plan-and-execute-a-practical-comparison-of-llm-agent-patterns-4gh9">plan-and-execute vs. ReAct comparison</a>)</p>
+
+<h3>The compounding-error problem</h3>
+<p>This is the most important idea in the module. Suppose each step of an agent succeeds with probability <em>p</em>, and the steps depend on each other. Then the chance the whole chain of <em>N</em> steps succeeds is roughly <em>p</em> multiplied by itself <em>N</em> times (written <em>p<sup>N</sup></em>). Small per-step errors pile up fast:</p>
+<ul>
+<li>At 95% success per step: about 60% success over 10 steps, and only about 36% over 20 steps.</li>
+<li>Even at 99% success per step: about 37% success over 100 steps.</li>
+</ul>
+<p>This is a simplified model. Real agents can recover from mistakes, verify results, and have steps that do not all depend on each other, so the true numbers are usually better. But the lesson is firm: <strong>long autonomous chains are fragile by nature.</strong> The way you win is to keep loops short, verify at each step, and push per-step reliability as high as you can. (<a href="https://medium.com/k8slens/the-math-behind-why-multi-step-ai-agents-fail-in-production-c6d60ea6ca31">the math behind why multi-step agents fail</a>)</p>
+
+<h3>Frameworks versus building it yourself</h3>
+<p>You can write the agent loop yourself with plain LLM API calls, or you can use an agent framework that builds the loop and tool execution for you. Writing it yourself teaches you exactly how every piece works and keeps you in full control. A framework (there are several mature, vendor-neutral options) saves code once you understand the mechanics. The recommended order is to hand-build first, then evaluate a framework with clear eyes. Module 11 covers choosing frameworks in depth.</p>
+
+<div class="labbox"><p><strong>Lab 8:</strong> Build a real autonomous agent two ways. First, hand-roll a ReAct loop with plain LLM API calls, including explicit stopping conditions (a maximum loop count and a budget) and a verification step. Second, rebuild the same agent using an agent framework of your choice. Compare lines of code, how easy each is to debug, and how reliable each is. Then add a Reflexion-style self-critique step and measure whether it actually helps. Sometimes it will not, so report your results honestly either way.</p></div>
+<blockquote class="cl-ok"><p><strong>✅ Best practices:</strong></p>
+<ul>
+<li>Always cap both the number of loops and the spending budget, with no exceptions.</li>
+<li>Add a verification or self-check step so the agent can catch its own mistakes each pass.</li>
+<li>Keep loops as short as the task allows, because every extra step compounds the error.</li>
+<li>Give the agent a real way to see ground truth (tests, a checker, a runnable environment) rather than trusting its own judgment.</li>
+</ul>
+</blockquote>
+<blockquote class="cl-no"><p><strong>⛔ Pitfalls:</strong></p>
+<ul>
+<li>Unbounded loops, which can run up huge cost or spiral out of control.</li>
+<li>No verification step, so errors slip through unnoticed and compound.</li>
+<li>Assuming more autonomy is always better. The compounding-error math shows the opposite is often true.</li>
+<li>Letting an agent act on a real system with no sandbox, so a wrong action causes real damage.</li>
+</ul>
+</blockquote>
+<blockquote class="cl-tip"><p><strong>🏁 Milestone:</strong> You have an autonomous agent with stopping conditions and a verification step, plus a measured, honest view of where and why it fails.</p></blockquote>
+<blockquote class="cl-key"><p><strong>✎ Publish this:</strong> Write a short article titled "Why multi-step AI agents fail: the p<sup>N</sup> problem and what to do about it." Explain the compounding-error math in plain terms and lay out the practical fixes (short loops, verification, higher per-step reliability).</p></blockquote>
+<div class="resbox"><p><strong>&#128218; Resources</strong> <a href="https://arxiv.org/abs/2210.03629">ReAct paper</a> · <a href="https://arxiv.org/abs/2303.11366">Reflexion paper</a> · <a href="https://www.anthropic.com/research/building-effective-agents">Building Effective Agents</a> · <a href="https://simonwillison.net/2025/Sep/30/designing-agentic-loops/">Designing agentic loops</a></p></div><div class="lessonnav"><a class="ln" href="module-07-workflows.html"><span class="dir">&#8592; Previous</span><b>07 &middot; Workflows</b></a><a class="ln home" href="../index.html"><b>&#9632; All modules</b></a><a class="ln next" href="module-09-mcp.html"><span class="dir">Next &#8594;</span><b>09 &middot; MCP</b></a></div></article></main></div><footer class="site"><div class="wrap"><div class="logo">AI Nativity<span style="color:var(--teal)">.</span></div>
 <div class="fnote">Documenting the birth into being AI-native, from first principles, with no hype. Built from a deep-research pass across primary sources (Anthropic engineering, Chip Huyen, the ReAct &amp; Reflexion papers, Simon Willison, Hamel Husain, Eugene Yan). Designed to be published through, not just read.</div></div></footer>
 <script>
 var p=document.getElementById('progress');

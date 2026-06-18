@@ -104,7 +104,7 @@ footer.site .logo{font-size:20px}footer.site .fnote{max-width:46em;font-size:13.
 <button id="menuBtn">&#9776;</button></div></nav><header class="hero"><span class="blob t"></span><span class="blob c"></span><div class="wrap">
 <span class="eyebrow">&#10022; Module 13 &middot; Phase 5</span>
 <h1>Observability &amp; tracing</h1>
-<p class="lead">See inside your agents in production — every step, token, cost, and latency.</p>
+<p class="lead">Learn to see inside your agents while they run in production, so you can watch every step, every token, every dollar, and every delay. When something breaks, you want a recording you can replay, not a guess.</p>
 <div class="chips"><span class="chip">Phase 5 &middot; <b>Reliability</b></span><span class="chip">Weeks 12–14</span><span class="chip">&#128296; Hands-on lab</span></div></div></header><div class="layout"><aside id="side"><button id="tocClose" class="toc-close">&times;</button><div class="toc-card"><nav class="toc">
 <div class="toc-title">Start</div><a href="../orientation.html">Orientation &amp; how to use this</a>
 <div class="toc-title">Phase 0 &middot; Orientation &amp; prerequisites</div>
@@ -131,21 +131,61 @@ footer.site .logo{font-size:20px}footer.site .fnote{max-width:46em;font-size:13.
 <a href="../modules/module-15-production-hardening.html"><b style="color:var(--teal);font-family:Poppins">15</b>&nbsp; Production hardening</a>
 <div class="toc-title">Phase 6 &middot; Practice &amp; capstone</div>
 <a href="../modules/module-16-working-with-coding-agents.html"><b style="color:var(--teal);font-family:Poppins">16</b>&nbsp; Working with coding agents</a>
-<a href="../modules/module-17-build-atlas-os.html"><b style="color:var(--teal);font-family:Poppins">17</b>&nbsp; Build &quot;Atlas OS&quot;</a>
+<a href="../modules/module-17-capstone-orchestration-platform.html"><b style="color:var(--teal);font-family:Poppins">17</b>&nbsp; Capstone: orchestration platform</a>
 <div class="toc-title">Reference</div><a href="../resources.html">Reading shelf &amp; decision rules</a>
-</nav></div></aside><main><article><blockquote class="cl-goal"><p><strong>🎯 Objective:</strong> See inside your agents in production — every step, token, cost, and latency.</p></blockquote>
-<p><strong>Key concepts (vendor-neutral):</strong>
-- <strong>Three pillars</strong> — metrics (incl. <strong>Time to First Token, Tokens/sec, total latency</strong>), logs ("log everything"), and <strong>traces</strong> (the full query→response path with per-step timing and cost). Integrate from the start, not after an incident. (<a href="https://huyenchip.com/2024/07/25/genai-platform.html">Huyen: GenAI platform</a>)
-- <strong>Spans &amp; traces for agents</strong> — each tool call, model call, and sub-agent is a span; the trace is the tree. This is how you debug multi-step failures.
-- <strong>OpenTelemetry GenAI semantic conventions</strong> — a CNCF-backed standard schema for prompts, responses, token usage, tool/agent calls, so "a span from a LangChain agent looks identical to one from a raw OpenAI call." Vendor-neutral instrumentation; adopted across Datadog/Google/AWS/Azure. (<a href="https://mlflow.org/docs/latest/genai/tracing/opentelemetry/genai-semconv/">OTel GenAI</a>)
-- <strong>Platforms (interchangeable):</strong> LangSmith (LangChain-native, near-zero-config), Braintrust (eval-driven, CI/CD merge gates), Arize Phoenix (OTel-native, open-source), Langfuse (open-source, self-hostable). These rankings come from competing vendors' blogs — directionally useful, verify directly. (<a href="https://latitude.so/blog/best-llm-observability-tools-agents-latitude-vs-langfuse-langsmith">comparison</a>)</p>
-<p><strong>Claude layer:</strong> Instrument your capstone with tracing (Phoenix or Langfuse are easy open-source starts; OTel GenAI conventions keep you portable). Trace token usage per step to feed Module 15's cost analysis.</p>
-<div class="labbox"><p><strong>Lab 13:</strong> Add full tracing to your Phase 4 system. Produce a trace view of one complex run showing every span, its latency, and its token cost. Find one inefficiency from the trace (a redundant call, a context-bloated step) and fix it.</p></div>
-<blockquote class="cl-ok"><p><strong>✅ Best practices:</strong> instrument from day one; use OTel conventions for portability; trace cost, not just correctness.</p></blockquote>
-<blockquote class="cl-no"><p><strong>⛔ Pitfalls:</strong> adding observability only after an outage; logs without traces (you can't reconstruct multi-step failures); vendor lock-in via proprietary instrumentation.</p></blockquote>
-<blockquote class="cl-tip"><p><strong>🏁 Milestone:</strong> A fully traced run with per-step cost/latency, and one trace-driven optimization.</p></blockquote>
-<blockquote class="cl-key"><p><strong>✎ Publish this:</strong> "You can't fix what you can't see: tracing AI agents in production."</p></blockquote>
-<div class="resbox"><p><strong>&#128218; Resources</strong> <a href="https://huyenchip.com/2024/07/25/genai-platform.html">Huyen: Building a GenAI platform</a> · <a href="https://greptime.com/blogs/2026-05-09-opentelemetry-genai-semantic-conventions">OTel GenAI conventions</a></p></div><div class="lessonnav"><a class="ln" href="module-12-evaluation.html"><span class="dir">&#8592; Previous</span><b>12 &middot; Evaluation</b></a><a class="ln home" href="../index.html"><b>&#9632; All modules</b></a><a class="ln next" href="module-14-safety-guardrails-security.html"><span class="dir">Next &#8594;</span><b>14 &middot; Safety, guardrails &amp; security</b></a></div></article></main></div><footer class="site"><div class="wrap"><div class="logo">AI Nativity<span style="color:var(--teal)">.</span></div>
+</nav></div></aside><main><article><blockquote class="cl-goal"><p><strong>🎯 Objective:</strong> Learn to see inside your agents while they run in production. By the end you can watch every step, every token, every dollar, and every delay, and replay any run that goes wrong instead of guessing what happened.</p></blockquote>
+<p>First, one word to define. <strong>Observability</strong> means how easily you can understand what a running system is doing from the outside, just by looking at the signals it gives off. A car with a dashboard (speed, fuel, engine temperature) is observable. A car with no gauges is not. This module is about putting a good dashboard on your agents.</p>
+<p>This matters more for agents than for ordinary software. A normal program runs the same steps every time. An agent built on an <strong>LLM</strong> (a Large Language Model, the kind of AI that predicts text one chunk at a time) makes different choices on different runs. It may call a tool, read the result, change its mind, and try again. When it misbehaves, you cannot just re-run it and expect the same path. You need a recording of what it actually did.</p>
+<h3>The three pillars: logs, metrics, and traces</h3>
+<p>People who run software in production talk about three kinds of signals. They are often called the "three pillars" of observability. Each answers a different question.</p>
+<ul>
+<li><strong>Logs</strong> are timestamped text records of events, like a diary the system writes as it goes ("called the search tool", "got 5 results"). They answer "what happened, in words?" The classic advice is to log generously, because a log you did not write is a clue you will never get back.</li>
+<li><strong>Metrics</strong> are numbers measured over time, such as how many requests per minute or how long responses take. They answer "how much, and how fast?" Three metrics matter a lot for LLM systems. <strong>Time to first token</strong> (often written <strong>TTFT</strong>) is how long the user waits before the very first chunk of the answer appears. <strong>Tokens per second</strong> is how quickly the rest of the answer streams out (a token is a small chunk of text, usually part of a word). <strong>Total latency</strong> is the full wait from request to finished answer. ("Latency" just means delay.)</li>
+<li><strong>Traces</strong> are the full step-by-step path of a single request, from the moment it arrives to the moment it finishes, with timing and cost recorded for each step. They answer "what was the exact sequence, and where did the time and money go?" Traces are the pillar that makes agents debuggable, so most of this module is about them.</li>
+</ul>
+<p>The key habit is to add all three from the very beginning, not after your first outage. Chip Huyen's widely shared guide to building a generative-AI platform makes the same point: observability is part of the platform, not an afterthought bolted on once something is already on fire (<a href="https://huyenchip.com/2024/07/25/genai-platform.html">Huyen, Building a GenAI platform</a>).</p>
+<h3>Spans and traces: how to see inside a multi-step agent</h3>
+<p>To debug an agent you need to break one run into pieces. The unit is called a <strong>span</strong>. A span is one timed operation: a single model call, a single tool call, or one sub-agent doing its job. Each span records when it started, when it ended, and useful details (which tool, how many tokens, what it cost).</p>
+<p>A <strong>trace</strong> is the whole tree of spans for one request. The top span is the user's request. Underneath it sit the model calls and tool calls it triggered, and underneath those sit any further calls those steps caused. Reading a trace is like reading a receipt with sub-totals: you can see exactly which step was slow, which step was expensive, and which step returned the wrong thing.</p>
+<p>Here is a small example. Imagine a user asks an agent, "What did we spend on cloud hosting last month?" A trace of that one request might look like this:</p>
+<ul>
+<li><strong>Span 1 (root):</strong> handle user question. Total time 6.2 seconds, total cost a few cents.</li>
+<li><strong>Span 2:</strong> first model call, decides to use a database tool. 1.1 seconds, 900 input tokens, 40 output tokens.</li>
+<li><strong>Span 3:</strong> tool call to the billing database. 0.3 seconds, returns rows.</li>
+<li><strong>Span 4:</strong> second model call, writes the final answer. 4.8 seconds, 4,200 input tokens.</li>
+</ul>
+<p>One glance tells you the slow, costly step is Span 4, and that it swallowed 4,200 input tokens. That is your clue: something is stuffing too much text into the final model call. Without the trace, you would only know "the answer took 6 seconds" and have nowhere to start.</p>
+<h3>OpenTelemetry: a shared language so you are not locked in</h3>
+<p><strong>OpenTelemetry</strong> (usually shortened to <strong>OTel</strong>) is an open, vendor-neutral standard for producing logs, metrics, and traces. It is hosted by the <strong>Cloud Native Computing Foundation</strong> (the CNCF, a neutral non-profit that stewards widely used infrastructure projects). The idea is simple: you describe your spans using one agreed set of names, and then any tool that understands those names can read your data. You instrument once and stay portable.</p>
+<p>OTel has a special set of rules for AI systems called the <strong>GenAI semantic conventions</strong>. "Semantic conventions" just means an agreed naming scheme: agreed field names for the model used, the input and output token counts, the cost, the tool and agent calls, and why the model stopped. For example, the standard records the model name under <code>gen_ai.request.model</code> and token usage under <code>gen_ai.usage.input_tokens</code> and <code>gen_ai.usage.output_tokens</code>. Because the names are fixed, a span produced by one framework looks the same as a span produced by a hand-written call to a different model provider. Major platforms (including Google Cloud, AWS, Azure, and Datadog) now read these conventions, so your instrumentation is not tied to any one vendor (<a href="https://opentelemetry.io/blog/2026/genai-observability/">OpenTelemetry, GenAI observability</a> · <a href="https://mlflow.org/docs/latest/genai/tracing/opentelemetry/genai-semconv/">MLflow, OTel GenAI semantic conventions</a>).</p>
+<h3>Tracing platforms: tools, not a backbone</h3>
+<p>You do not have to build a trace viewer yourself. Several tools store traces and draw them as readable trees. Treat them as interchangeable options, and lean toward ones that speak OpenTelemetry so you can switch later without rewriting your instrumentation. Some neutral examples, in no particular order:</p>
+<ul>
+<li><strong>Arize Phoenix</strong>, an open-source tracing tool built around OpenTelemetry.</li>
+<li><strong>Langfuse</strong>, an open-source option you can run on your own servers (self-host).</li>
+<li><strong>LangSmith</strong>, which is convenient if you already use the LangChain framework.</li>
+<li><strong>Braintrust</strong>, which ties tracing closely to running evaluations in your release pipeline.</li>
+<li>General-purpose platforms such as <strong>Datadog</strong> that now read the OTel GenAI conventions directly.</li>
+</ul>
+<p>A practical note on the "which is best" question: most published comparisons are written by the vendors themselves, so read them as marketing, not as a referee's verdict. The durable advice is vendor-neutral. Pick a tool that emits OpenTelemetry data, instrument once, and keep the freedom to move.</p>
+<div class="labbox"><p><strong>Lab 13:</strong> Add full tracing to the multi-step agent you built in Phase 4. Pick any OpenTelemetry-friendly tracing tool (an open-source one like Arize Phoenix or Langfuse is an easy free start). Then do three things. (1) Run one genuinely complex request and capture a trace view that shows every span, its latency, and its token cost. (2) Read the trace and find one inefficiency, for example a redundant model call, a tool you call twice, or a step bloated with too many input tokens. (3) Fix that one thing, re-run, and capture the new trace to prove the step got faster or cheaper. Save both traces side by side.</p></div>
+<blockquote class="cl-ok"><p><strong>✅ Best practices:</strong></p>
+<ul>
+<li>Instrument from day one, before anything goes wrong, not after.</li>
+<li>Use OpenTelemetry GenAI conventions so your data stays portable across tools.</li>
+<li>Trace cost and latency, not just whether the answer was correct. A right answer that costs too much or takes too long is still a problem.</li>
+<li>Record token counts on every model span, because they feed the cost work in Module 15.</li>
+</ul></blockquote>
+<blockquote class="cl-no"><p><strong>⛔ Pitfalls:</strong></p>
+<ul>
+<li>Adding observability only after an outage, when the run you needed is already gone.</li>
+<li>Keeping logs but no traces, so you cannot reconstruct a multi-step failure (logs tell you events happened, but not the tree that connects them).</li>
+<li>Locking yourself in with one vendor's proprietary instrumentation that no other tool can read.</li>
+<li>Measuring only correctness and being blindsided later by the bill or the wait times.</li>
+</ul></blockquote>
+<blockquote class="cl-tip"><p><strong>🏁 Milestone:</strong> You can produce a fully traced run of your agent that shows per-step cost and latency, point to the slowest or most expensive span, and show one trace-driven optimization with before-and-after numbers.</p></blockquote>
+<blockquote class="cl-key"><p><strong>✎ Publish this:</strong> Write a short walkthrough titled "You can't fix what you can't see: tracing an AI agent in production." Show one real trace, name the inefficiency you found in it, and explain the fix and the savings.</p></blockquote>
+<div class="resbox"><p><strong>&#128218; Resources</strong> <a href="https://huyenchip.com/2024/07/25/genai-platform.html">Huyen: Building a GenAI platform</a> · <a href="https://opentelemetry.io/blog/2026/genai-observability/">OpenTelemetry: GenAI observability</a> · <a href="https://mlflow.org/docs/latest/genai/tracing/opentelemetry/genai-semconv/">OTel GenAI semantic conventions</a></p></div><div class="lessonnav"><a class="ln" href="module-12-evaluation.html"><span class="dir">&#8592; Previous</span><b>12 &middot; Evaluation</b></a><a class="ln home" href="../index.html"><b>&#9632; All modules</b></a><a class="ln next" href="module-14-safety-guardrails-security.html"><span class="dir">Next &#8594;</span><b>14 &middot; Safety, guardrails &amp; security</b></a></div></article></main></div><footer class="site"><div class="wrap"><div class="logo">AI Nativity<span style="color:var(--teal)">.</span></div>
 <div class="fnote">Documenting the birth into being AI-native, from first principles, with no hype. Built from a deep-research pass across primary sources (Anthropic engineering, Chip Huyen, the ReAct &amp; Reflexion papers, Simon Willison, Hamel Husain, Eugene Yan). Designed to be published through, not just read.</div></div></footer>
 <script>
 var p=document.getElementById('progress');

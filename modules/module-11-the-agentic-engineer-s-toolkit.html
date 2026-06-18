@@ -104,7 +104,7 @@ footer.site .logo{font-size:20px}footer.site .fnote{max-width:46em;font-size:13.
 <button id="menuBtn">&#9776;</button></div></nav><header class="hero"><span class="blob t"></span><span class="blob c"></span><div class="wrap">
 <span class="eyebrow">&#10022; Module 11 &middot; Phase 4</span>
 <h1>The agentic engineer&#x27;s toolkit (frameworks, with eyes open)</h1>
-<p class="lead">Map the tooling landscape and adopt a defensible &quot;framework vs. no-framework&quot; stance.</p>
+<p class="lead">Map the tooling landscape and form a defensible view on the "use a framework or not" question, so you can choose a tool for your problem instead of following the crowd.</p>
 <div class="chips"><span class="chip">Phase 4 &middot; <b>Orchestration &amp; multi-agent</b></span><span class="chip">Weeks 10–11</span><span class="chip">&#128296; Hands-on lab</span></div></div></header><div class="layout"><aside id="side"><button id="tocClose" class="toc-close">&times;</button><div class="toc-card"><nav class="toc">
 <div class="toc-title">Start</div><a href="../orientation.html">Orientation &amp; how to use this</a>
 <div class="toc-title">Phase 0 &middot; Orientation &amp; prerequisites</div>
@@ -131,27 +131,54 @@ footer.site .logo{font-size:20px}footer.site .fnote{max-width:46em;font-size:13.
 <a href="../modules/module-15-production-hardening.html"><b style="color:var(--teal);font-family:Poppins">15</b>&nbsp; Production hardening</a>
 <div class="toc-title">Phase 6 &middot; Practice &amp; capstone</div>
 <a href="../modules/module-16-working-with-coding-agents.html"><b style="color:var(--teal);font-family:Poppins">16</b>&nbsp; Working with coding agents</a>
-<a href="../modules/module-17-build-atlas-os.html"><b style="color:var(--teal);font-family:Poppins">17</b>&nbsp; Build &quot;Atlas OS&quot;</a>
+<a href="../modules/module-17-capstone-orchestration-platform.html"><b style="color:var(--teal);font-family:Poppins">17</b>&nbsp; Capstone: orchestration platform</a>
 <div class="toc-title">Reference</div><a href="../resources.html">Reading shelf &amp; decision rules</a>
-</nav></div></aside><main><article><blockquote class="cl-goal"><p><strong>🎯 Objective:</strong> Map the tooling landscape and adopt a defensible "framework vs. no-framework" stance.</p></blockquote>
-<p><strong>The honest meta-point first:</strong> Anthropic explicitly advises <strong>starting WITHOUT frameworks</strong> — "many patterns can be implemented in a few lines of code"; frameworks "create extra layers of abstraction that can obscure the underlying prompts and responses, making them harder to debug." You've followed this advice for three phases on purpose: <strong>you now understand the loop, so a framework is a convenience, not a crutch.</strong> (<a href="https://www.anthropic.com/research/building-effective-agents">Building Effective Agents</a>)</p>
-<p><strong>The landscape (treat as interchangeable examples, chosen by problem shape):</strong> (<a href="https://langfuse.com/blog/2025-03-19-ai-agent-comparison">Langfuse comparison</a>)
-- <strong>LangGraph</strong> — explicit stateful graphs: cycles, branching, retries, durable checkpoints, human-approval steps. For complex, controllable flows.
-- <strong>CrewAI</strong> — role-based multi-agent ("Planner / Researcher / Writer").
-- <strong>AutoGen / AG2</strong> — asynchronous multi-agent conversation (Microsoft Research origin).
-- <strong>OpenAI Agents SDK</strong> — structured agent runtime in the OpenAI ecosystem.
-- <strong>Pydantic AI</strong> — type-safe, model-agnostic, FastAPI-like ergonomics, native MCP.
-- <strong>smolagents</strong> — minimal, code-driven, lightweight.</p>
-<p><strong>Adjacent tooling (know the categories):</strong>
-- <strong>Vector DBs:</strong> Chroma (prototyping), pgvector (already on Postgres), Pinecone (managed/serverless), Weaviate/Qdrant (large-scale self-host). (<a href="https://www.datacamp.com/blog/the-top-5-vector-databases">vector DBs</a>)
-- <strong>Eval/observability:</strong> LangSmith, Braintrust, Arize Phoenix, Langfuse (covered in Phase 5).</p>
-<p><strong>Claude layer:</strong> Position the <strong>Claude ecosystem</strong> as your concrete reference: <strong>Claude Developer Platform / Messages API</strong> (tool use, extended/adaptive thinking, prompt caching, structured outputs), <strong>Claude Agent SDK</strong> (the programmable agent loop), <strong>Claude Code</strong> (the agentic coding CLI), <strong>MCP</strong> (the connective tissue). Keep the names straight: <strong>Claude Agent SDK</strong> (library, ex-"Claude Code SDK") ≠ <strong>Claude Code</strong> (CLI) ≠ <strong>Managed Agents</strong> (hosted REST). (<a href="https://code.claude.com/docs/en/agent-sdk/overview">Agent SDK overview</a>)</p>
-<div class="labbox"><p><strong>Lab 11:</strong> Re-implement your Module 8 agent in <strong>one</strong> framework (suggest LangGraph or Pydantic AI). Write a short, honest comparison: what the framework saved you, what it hid from you, and when you'd choose raw-API vs. framework.</p></div>
-<blockquote class="cl-ok"><p><strong>✅ Best practices:</strong> learn the primitives before the framework; pick frameworks by problem shape, not popularity; keep the underlying prompts/traces visible.</p></blockquote>
-<blockquote class="cl-no"><p><strong>⛔ Pitfalls:</strong> adopting a heavy framework before you understand the loop; framework lock-in; cargo-culting a tool because it trends. Note: the landscape moves fast and most comparison sources are vendor blogs — verify current features yourself.</p></blockquote>
-<blockquote class="cl-tip"><p><strong>🏁 Milestone:</strong> The same agent, raw vs. framework, with a clear-eyed written trade-off.</p></blockquote>
-<blockquote class="cl-key"><p><strong>✎ Publish this:</strong> "Do you need an agent framework? I built the same agent with and without one." </p></blockquote>
-<div class="resbox"><p><strong>&#128218; Resources</strong> <a href="https://www.anthropic.com/research/building-effective-agents">Building Effective Agents (frameworks section)</a> · <a href="https://langfuse.com/blog/2025-03-19-ai-agent-comparison">Agent framework comparison</a> · <a href="https://code.claude.com/docs/en/agent-sdk/overview">Claude Agent SDK</a></p></div><div class="lessonnav"><a class="ln" href="module-10-multi-agent-systems-orchestration.html"><span class="dir">&#8592; Previous</span><b>10 &middot; Multi-agent systems &amp; orchestration (with the real debate)</b></a><a class="ln home" href="../index.html"><b>&#9632; All modules</b></a><a class="ln next" href="module-12-evaluation.html"><span class="dir">Next &#8594;</span><b>12 &middot; Evaluation</b></a></div></article></main></div><footer class="site"><div class="wrap"><div class="logo">AI Nativity<span style="color:var(--teal)">.</span></div>
+</nav></div></aside><main><article><blockquote class="cl-goal"><p><strong>🎯 Objective:</strong> Map the tooling landscape and form a defensible view on the "framework or no framework" question. The goal is to choose tools by the shape of your problem, not by what is popular this month.</p></blockquote>
+<p>One definition up front. A <strong>framework</strong> here means a ready-made software library that handles the plumbing of an agent for you: the loop where the model thinks, calls a tool, reads the result, and thinks again. Without a framework you write that loop yourself by calling a model's API (an API, an Application Programming Interface, is just the way one program talks to another) and wiring up the tools by hand. With a framework, a lot of that is done for you. Both are valid. This module is about choosing on purpose.</p>
+<h3>The honest meta-point: you can start without a framework</h3>
+<p>A widely cited guide from one AI lab recommends <strong>starting without a framework</strong>. Its reasoning is plain: "many patterns can be implemented in a few lines of code," and frameworks "often create extra layers of abstraction that can obscure the underlying prompts and responses, making them harder to debug." In other words, a framework can hide the very things you most need to see when something goes wrong: the exact prompt sent and the exact response received. The same guide adds that if you do adopt a framework, you should understand the code underneath it, because wrong assumptions about what it does for you are a common source of bugs. (<a href="https://www.aihero.dev/building-effective-agents">an analysis of the "building effective agents" guidance</a>)</p>
+<p>This is not an argument that frameworks are bad. It is an argument about <strong>order</strong>. Once you understand the loop yourself (you have built one by hand in earlier modules), a framework becomes a convenience you reach for deliberately, not a crutch you depend on without understanding.</p>
+<h3>When a framework helps, and when it gets in the way</h3>
+<p>A fair, even-handed way to decide:</p>
+<ul>
+<li><strong>Reasons to use one:</strong> it saves you from re-writing common plumbing (retries, state, branching, human-approval steps); it gives your team a shared vocabulary; and the good ones come with built-in tracing so you can see what happened.</li>
+<li><strong>Reasons to skip one:</strong> your task is simple enough to write in a few lines; you need full visibility into every prompt and response; or you want to avoid <strong>lock-in</strong> (becoming so tied to one tool that switching later is painful).</li>
+</ul>
+<h3>The landscape (neutral examples, chosen by problem shape)</h3>
+<p>Treat the names below as interchangeable examples. The right pick depends on your problem, not on a leaderboard, and the field moves fast, so verify current features yourself. (<a href="https://langfuse.com/blog/2025-03-19-ai-agent-comparison">one comparison of agent frameworks</a>)</p>
+<ul>
+<li><strong>Explicit stateful graphs.</strong> Some libraries model your agent as a graph with cycles, branching, retries, saved checkpoints, and human-approval steps. Good for complex flows where you want tight control over the path.</li>
+<li><strong>Role-based multi-agent.</strong> Some let you define agents as named roles (for example "planner," "researcher," "writer") that hand work to each other.</li>
+<li><strong>Conversation-style multi-agent.</strong> Some model the system as several agents talking to each other, often running at the same time.</li>
+<li><strong>Provider-native agent runtimes.</strong> Most major model providers ship their own agent library that fits neatly into their own ecosystem.</li>
+<li><strong>Type-safe, model-agnostic libraries.</strong> Some emphasize strong typing and work across providers, and connect natively to MCP (the Model Context Protocol, an open standard for plugging tools and data into models).</li>
+<li><strong>Minimal, code-driven libraries.</strong> Some stay deliberately small and lightweight, close to writing the loop yourself.</li>
+</ul>
+<h3>Adjacent tooling (know the categories, not the brand names)</h3>
+<p>Around the agent itself you will meet two more categories. You do not need to memorize products; you need to know the categories exist.</p>
+<ul>
+<li><strong>Vector databases</strong> store text as numeric vectors so you can search by meaning (used for retrieval, covered in the retrieval module). Options range from tiny ones meant for prototyping, to extensions that live inside a database you already run, to fully managed cloud services, to large self-hosted systems. (<a href="https://www.datacamp.com/blog/the-top-5-vector-databases">an overview of vector databases</a>)</li>
+<li><strong>Evaluation and observability tools</strong> help you measure quality and watch what your agent did. These are covered in Phase 5.</li>
+</ul>
+<h3>How to choose, in one sentence</h3>
+<p>Learn the raw loop first; then, if your problem is complex enough that a framework's plumbing clearly earns its keep, pick the one whose shape matches your problem, and keep the underlying prompts and traces visible no matter what you choose.</p>
+<div class="labbox"><p><strong>Lab 11:</strong> Take the agent you built by hand in the autonomous-agents module and re-implement it in <strong>one</strong> framework of your choice. Then write a short, honest comparison covering three things: what the framework saved you, what it hid from you (could you still see every prompt and response?), and when you would choose raw API over a framework for a future project.</p></div>
+<blockquote class="cl-ok"><p><strong>✅ Best practices:</strong></p>
+<ul>
+<li>Learn the primitives (the raw loop) before adopting a framework.</li>
+<li>Pick a framework by the shape of your problem, not by popularity.</li>
+<li>Keep the underlying prompts and traces visible whatever you use.</li>
+</ul></blockquote>
+<blockquote class="cl-no"><p><strong>⛔ Pitfalls:</strong></p>
+<ul>
+<li>Adopting a heavy framework before you understand the loop it is hiding.</li>
+<li>Framework lock-in that makes switching later painful.</li>
+<li>Copying a trendy tool without asking whether it fits your problem.</li>
+<li>Trusting comparison posts uncritically: many are written by the tool's own vendor, and features change fast, so verify yourself.</li>
+</ul></blockquote>
+<blockquote class="cl-tip"><p><strong>🏁 Milestone:</strong> The same agent, built once by hand and once with a framework, plus a clear-eyed written trade-off explaining what you gained and what you gave up.</p></blockquote>
+<blockquote class="cl-key"><p><strong>✎ Publish this:</strong> Write a short piece titled "Do you need an agent framework? I built the same agent with and without one." Use your Lab 11 notes, and be specific about what the framework saved and what it hid.</p></blockquote>
+<div class="resbox"><p><strong>&#128218; Resources</strong> <a href="https://www.aihero.dev/building-effective-agents">On building effective agents (the frameworks section)</a> · <a href="https://langfuse.com/blog/2025-03-19-ai-agent-comparison">A comparison of agent frameworks</a> · <a href="https://www.datacamp.com/blog/the-top-5-vector-databases">An overview of vector databases</a></p></div><div class="lessonnav"><a class="ln" href="module-10-multi-agent-systems-orchestration.html"><span class="dir">&#8592; Previous</span><b>10 &middot; Multi-agent systems &amp; orchestration (with the real debate)</b></a><a class="ln home" href="../index.html"><b>&#9632; All modules</b></a><a class="ln next" href="module-12-evaluation.html"><span class="dir">Next &#8594;</span><b>12 &middot; Evaluation</b></a></div></article></main></div><footer class="site"><div class="wrap"><div class="logo">AI Nativity<span style="color:var(--teal)">.</span></div>
 <div class="fnote">Documenting the birth into being AI-native, from first principles, with no hype. Built from a deep-research pass across primary sources (Anthropic engineering, Chip Huyen, the ReAct &amp; Reflexion papers, Simon Willison, Hamel Husain, Eugene Yan). Designed to be published through, not just read.</div></div></footer>
 <script>
 var p=document.getElementById('progress');

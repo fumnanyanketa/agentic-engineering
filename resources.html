@@ -131,63 +131,65 @@ footer.site .logo{font-size:20px}footer.site .fnote{max-width:46em;font-size:13.
 <a href="modules/module-15-production-hardening.html"><b style="color:var(--teal);font-family:Poppins">15</b>&nbsp; Production hardening</a>
 <div class="toc-title">Phase 6 &middot; Practice &amp; capstone</div>
 <a href="modules/module-16-working-with-coding-agents.html"><b style="color:var(--teal);font-family:Poppins">16</b>&nbsp; Working with coding agents</a>
-<a href="modules/module-17-build-atlas-os.html"><b style="color:var(--teal);font-family:Poppins">17</b>&nbsp; Build &quot;Atlas OS&quot;</a>
+<a href="modules/module-17-capstone-orchestration-platform.html"><b style="color:var(--teal);font-family:Poppins">17</b>&nbsp; Capstone: orchestration platform</a>
 <div class="toc-title">Reference</div><a href="resources.html" class="active">Reading shelf &amp; decision rules</a>
-</nav></div></aside><main><article><h2>Appendix A — The anti-hype reading shelf (primary sources first)</h2>
-<p>These are the load-bearing, mostly-primary sources behind this curriculum. When in doubt, trust these over secondary blogs.</p>
-<p><strong>Foundational / discipline:</strong>
-- Chip Huyen, <em>AI Engineering</em> (O'Reilly, 2025) — <a href="https://www.oreilly.com/library/view/ai-engineering/9781098166298/">book</a> · <a href="https://github.com/chiphuyen/aie-book">repo</a>
-- swyx, "The Rise of the AI Engineer" — <a href="https://www.ai.engineer/about">ai.engineer</a>
-- Andrej Karpathy, "Neural Networks: Zero to Hero" — <a href="https://karpathy.ai/zero-to-hero.html">karpathy.ai</a></p>
-<p><strong>Agent architecture (Anthropic engineering — read all three):</strong>
-- <a href="https://www.anthropic.com/engineering/building-effective-agents">Building Effective Agents</a>
-- <a href="https://www.anthropic.com/engineering/effective-context-engineering-for-ai-agents">Effective context engineering for AI agents</a>
-- <a href="https://www.anthropic.com/engineering/multi-agent-research-system">How we built our multi-agent research system</a>
-- <a href="https://www.anthropic.com/engineering/writing-tools-for-agents">Writing tools for agents</a>
-- <a href="https://www.anthropic.com/engineering/demystifying-evals-for-ai-agents">Demystifying evals for AI agents</a></p>
+</nav></div></aside><main><article><h2>Appendix A: The anti-hype reading shelf (primary sources first)</h2>
+<p>These are the main sources behind this course, with primary sources (the original work, not someone's summary of it) listed first. When in doubt, trust these over secondhand blog posts. A few entries below are written by specific companies, including model providers. Those are cited as useful sources, one among several, not as the platform this course is built on. Read company-authored pieces knowing the author has a product to sell, and cross-check claims against the neutral sources.</p>
+<p><strong>Foundations of the discipline:</strong>
+- Chip Huyen, <em>AI Engineering</em> (O'Reilly, 2025), the standard book on building applications on top of models. <a href="https://www.oreilly.com/library/view/ai-engineering/9781098166298/">book</a> · <a href="https://github.com/chiphuyen/aie-book">code repository</a>
+- swyx, "The Rise of the AI Engineer," the essay that named the role. <a href="https://www.ai.engineer/about">ai.engineer</a>
+- Andrej Karpathy, "Neural Networks: Zero to Hero," a free video course that builds up the basics from scratch. <a href="https://karpathy.ai/zero-to-hero.html">karpathy.ai</a></p>
+<p><strong>How to build agents (start with the vendor-neutral idea, then compare guides):</strong>
+- "Building Effective Agents," a widely cited engineering guide from a model provider, argues for simple patterns first and adding complexity only when it pays off. <a href="https://www.anthropic.com/engineering/building-effective-agents">read it here</a>
+- "A Practical Guide to Building Agents," a free guide from another model provider, covers when to build an agent, design foundations, and guardrails. Reading two providers side by side is a good way to separate shared principles from house style. <a href="https://cdn.openai.com/business-guides-and-resources/a-practical-guide-to-building-agents.pdf">PDF</a>
+- "Effective context engineering for AI agents," on how to manage what goes into the model's limited context window. <a href="https://www.anthropic.com/engineering/effective-context-engineering-for-ai-agents">read it here</a>
+- "How we built our multi-agent research system," a worked example of several agents cooperating (note the cost trade-offs it reports). <a href="https://www.anthropic.com/engineering/multi-agent-research-system">read it here</a>
+- "Writing tools for agents," practical advice on designing the tools an agent calls. <a href="https://www.anthropic.com/engineering/writing-tools-for-agents">read it here</a>
+- "Demystifying evals for AI agents," an introduction to testing agent behavior. <a href="https://www.anthropic.com/engineering/demystifying-evals-for-ai-agents">read it here</a></p>
 <p><strong>The counterpoints (read the disagreements on purpose):</strong>
-- Cognition, "Don't Build Multi-Agents" — <a href="https://cognition.ai/blog/dont-build-multi-agents">cognition.ai</a>
-- LangChain, "How and when to build multi-agent systems" — <a href="https://www.langchain.com/blog/how-and-when-to-build-multi-agent-systems">langchain.com</a></p>
-<p><strong>Core papers:</strong>
-- ReAct (Yao et al., 2022) — <a href="https://arxiv.org/abs/2210.03629">arXiv:2210.03629</a>
-- Reflexion (Shinn et al., 2023) — <a href="https://arxiv.org/abs/2303.11366">arXiv:2303.11366</a></p>
-<p><strong>Evals &amp; safety:</strong>
-- Hamel Husain &amp; Shreya Shankar, evals FAQ — <a href="https://hamel.dev/blog/posts/evals-faq/">hamel.dev</a>
-- Eugene Yan, "Evaluating LLM-Evaluators" — <a href="https://eugeneyan.com/writing/llm-evaluators/">eugeneyan.com</a>
-- Chip Huyen, "Building a Generative AI Platform" — <a href="https://huyenchip.com/2024/07/25/genai-platform.html">huyenchip.com</a>
-- Simon Willison, "The lethal trifecta" — <a href="https://simonwillison.net/2025/Jun/16/the-lethal-trifecta/">simonwillison.net</a></p>
-<p><strong>Working with coding agents — Simon Willison (the spine of Module 16, and a thread through the whole course):</strong>
-- "Agentic Engineering Patterns" (the living guide) — <a href="https://simonwillison.net/guides/agentic-engineering-patterns/">simonwillison.net/guides</a> — principles, how coding agents work, git, subagents, TDD, manual testing, annotated prompts. <em>Re-check it for new chapters; he adds them over time.</em>
-- "Designing agentic loops" — <a href="https://simonwillison.net/2025/Sep/30/designing-agentic-loops/">2025/Sep/30</a> — the core skill: loops with clear success criteria and self-verification; YOLO mode in sandboxes with budget caps.
-- "I think 'agent' may finally have a widely agreed definition" — <a href="https://simonwillison.net/2025/Sep/18/agents/">2025/Sep/18</a> — <em>"an LLM agent runs tools in a loop to achieve a goal."</em>
-- "Here's how I use LLMs to help me write code" — <a href="https://simonwillison.net/2025/Mar/11/using-llms-for-code/">2025/Mar/11</a> — context management, testing you can't outsource, "fancy autocomplete," anti-anthropomorphism.
-- "Not all AI-assisted programming is vibe coding" — <a href="https://simonwillison.net/2025/Mar/19/vibe-coding/">2025/Mar/19</a> — the precise line between vibe coding and software development.
-- "Embracing the parallel coding agent lifestyle" — <a href="https://simonwillison.net/2025/Oct/5/parallel-coding-agents/">2025/Oct/5</a> — review as the bottleneck; parallelize research/scout tasks.
-- "Prompt injection" (the original, 2022) — <a href="https://simonwillison.net/2022/Sep/12/prompt-injection/">2022/Sep/12</a> — where the term came from, and why detection is recursive.</p>
-<p><strong>Protocol &amp; Claude ecosystem (official docs):</strong>
-- <a href="https://modelcontextprotocol.io/docs/getting-started/intro">Model Context Protocol — intro</a> · <a href="https://www.anthropic.com/news/model-context-protocol">Anthropic announcement</a>
-- <a href="https://code.claude.com/docs/en/agent-sdk/overview">Claude Agent SDK overview</a> · <a href="https://claude.com/blog/building-agents-with-the-claude-agent-sdk">Building agents with the Agent SDK</a>
-- <a href="https://platform.claude.com/docs/en/about-claude/models/overview">Claude models overview</a> · <a href="https://docs.claude.com/en/docs/agents-and-tools/tool-use/overview">Tool use</a> · <a href="https://docs.anthropic.com/en/docs/build-with-claude/prompt-caching">Prompt caching</a></p>
+- Cognition, "Don't Build Multi-Agents," argues that many tasks are better served by a single agent. <a href="https://cognition.ai/blog/dont-build-multi-agents">cognition.ai</a>
+- LangChain, "How and when to build multi-agent systems," takes a middle position. <a href="https://www.langchain.com/blog/how-and-when-to-build-multi-agent-systems">langchain.com</a></p>
+<p>These two disagree with the multi-agent enthusiasm above. That tension is real and unsettled. Reading both sides is the point.</p>
+<p><strong>Core research papers (the ideas many tools are built on):</strong>
+- ReAct (Yao et al., 2022), which combines reasoning and tool use in a loop. <a href="https://arxiv.org/abs/2210.03629">arXiv:2210.03629</a>
+- Reflexion (Shinn et al., 2023), where an agent reflects on its own mistakes to do better next time. <a href="https://arxiv.org/abs/2303.11366">arXiv:2303.11366</a></p>
+<p><strong>Evaluation and safety:</strong>
+- Hamel Husain and Shreya Shankar, evals FAQ, a practical question-and-answer guide to testing LLM systems. <a href="https://hamel.dev/blog/posts/evals-faq/">hamel.dev</a>
+- Eugene Yan, "Evaluating LLM-Evaluators," on the common practice of using one model to grade another, and its pitfalls. <a href="https://eugeneyan.com/writing/llm-evaluators/">eugeneyan.com</a>
+- Chip Huyen, "Building a Generative AI Platform," a vendor-neutral tour of the moving parts in a real system. <a href="https://huyenchip.com/2024/07/25/genai-platform.html">huyenchip.com</a>
+- Simon Willison, "The lethal trifecta," explains the security risk when an agent has access to private data, exposure to untrusted content, and the ability to send data out, all at once. <a href="https://simonwillison.net/2025/Jun/16/the-lethal-trifecta/">simonwillison.net</a></p>
+<p><strong>Working with coding agents (the backbone of Module 16, and a thread through the course):</strong>
+- "Agentic Engineering Patterns," an evolving free guide to getting good results from coding agents (how they work, version control, subagents, test-driven development, manual testing, annotated prompts). Re-check it for new chapters, since they are added over time. <a href="https://simonwillison.net/guides/agentic-engineering-patterns/">simonwillison.net/guides</a>
+- "Designing agentic loops," on the core skill of building loops with clear success criteria and self-checking, run inside a sandbox with spending caps. <a href="https://simonwillison.net/2025/Sep/30/designing-agentic-loops/">simonwillison.net</a>
+- "I think 'agent' may finally have a widely agreed definition," which lands on a simple one: an agent runs tools in a loop to reach a goal. <a href="https://simonwillison.net/2025/Sep/18/agents/">simonwillison.net</a>
+- "Here's how I use LLMs to help me write code," on managing context, the testing you cannot hand off, and why a model is "fancy autocomplete" rather than a colleague. <a href="https://simonwillison.net/2025/Mar/11/using-llms-for-code/">simonwillison.net</a>
+- "Not all AI-assisted programming is vibe coding," which draws the precise line between casually generating code and actually engineering software. <a href="https://simonwillison.net/2025/Mar/19/vibe-coding/">simonwillison.net</a>
+- "Embracing the parallel coding agent lifestyle," on review becoming the bottleneck, and running several research or scouting tasks in parallel. <a href="https://simonwillison.net/2025/Oct/5/parallel-coding-agents/">simonwillison.net</a>
+- "Prompt injection" (the original 2022 post), where the term came from and why it is hard to detect. <a href="https://simonwillison.net/2022/Sep/12/prompt-injection/">simonwillison.net</a></p>
+<p><strong>Standards and official documentation:</strong>
+- MCP (Model Context Protocol) is an open standard for connecting models to tools and data. Start with the official introduction. <a href="https://modelcontextprotocol.io/docs/getting-started/intro">modelcontextprotocol.io</a>
+- Your LLM provider's own documentation is the source of truth for current model names, context-window sizes, pricing, tool-use formats, and features like prompt caching (reusing repeated context to cut cost). Provider docs change often, so always check the current version rather than trusting a number you read somewhere. Treat any specific guide, including provider docs, as one input rather than the last word.</p>
 <hr />
-<h2>Appendix B — Quick-reference decision rules</h2>
+<h2>Appendix B: Quick-reference decision rules</h2>
+<p>These are short rules of thumb you will reach for again and again. Each one names a common choice and gives a simple default. A few terms used below: <strong>RAG</strong> (Retrieval-Augmented Generation) means fetching relevant text and giving it to the model so its answer is grounded in <em>your</em> data; <strong>fine-tuning</strong> means further training a model on your own examples to shift its style or behavior; a <strong>token</strong> is the small chunk of text that providers count for cost.</p>
 <ul>
-<li><strong>Workflow or agent?</strong> Predictable steps → workflow. Unpredictable steps/horizon → agent. Default to the simplest that works.</li>
-<li><strong>Single or multi-agent?</strong> Read-heavy/breadth-first/parallelizable/high-value → multi-agent. Write-heavy/dependent/sequential → single agent. Always compare cost, not just quality (multi-agent ≈ 15× tokens).</li>
-<li><strong>Prompt, RAG, or fine-tune?</strong> Prompt first → add RAG when it needs <em>your</em>/fresh data → fine-tune only for style/voice/narrow-high-volume or when prompt+RAG miss the bar.</li>
-<li><strong>Which model tier?</strong> Cheapest tier that passes the eval. Re-check the eval after any cost optimization.</li>
-<li><strong>Framework or raw API?</strong> Learn raw first. Adopt a framework for convenience once you understand the loop, chosen by problem shape.</li>
-<li><strong>Vibe coding or agentic engineering?</strong> If you're shipping agent-written code you haven't reviewed, that's vibe coding. Agentic engineering = a verification loop (tests/types) + reviewing every diff + sandboxed execution. You stay accountable for the output.</li>
-<li><strong>Is it safe?</strong> Audit for the lethal trifecta. If all three legs are present, redesign to break one. Human-gate consequential actions. Sandbox any agent that executes code.</li>
-<li><strong>Is it done?</strong> Not until it has an eval with a reported pass rate. "It works" without an eval is a vibe, not an engineering claim.</li>
+<li><strong>Workflow or agent?</strong> If the steps are predictable, use a fixed <strong>workflow</strong> (you decide the steps in advance). If the steps or the length of the task are unpredictable, use an <strong>agent</strong> (the model decides the next step). Default to the simplest option that works.</li>
+<li><strong>Single agent or multiple agents?</strong> For tasks that are mostly reading, can be split into independent parts, and are worth the extra cost, multiple agents can help. For tasks that are mostly writing, where each step depends on the last, a single agent is usually better. Always compare cost, not just quality: running many agents can use many times more tokens than one.</li>
+<li><strong>Prompt, RAG, or fine-tune?</strong> Try a plain prompt first. Add RAG when the task needs your own data or fresh, up-to-date information. Reach for fine-tuning only for matching a specific style or voice, or for a narrow high-volume task, or when prompting plus RAG still miss your quality bar.</li>
+<li><strong>Which model size?</strong> Pick the cheapest, smallest model that still passes your eval. After any change you make to save money, run the eval again to confirm quality did not drop.</li>
+<li><strong>Framework or raw API?</strong> Learn the raw API first so you understand the underlying loop. Adopt a framework (a library that handles boilerplate for you) once you know what it is doing for you, chosen to fit the shape of your problem.</li>
+<li><strong>Vibe coding or agentic engineering?</strong> If you are shipping agent-written code you have not reviewed, that is "vibe coding." Agentic engineering means a verification loop (tests and type checks), reviewing every change before it lands, and running the agent in a sandbox (an isolated environment where mistakes cannot do harm). You stay accountable for the output.</li>
+<li><strong>Is it safe?</strong> Check for the lethal trifecta: access to private data, exposure to untrusted content, and a way to send data out. If all three are present at once, redesign to remove one of them. Require a human to approve any consequential action. Sandbox any agent that runs code.</li>
+<li><strong>Is it done?</strong> Not until it has an eval with a reported pass rate. Saying "it works" without an eval is a guess, not an engineering claim.</li>
 </ul>
 <hr />
-<h2>Appendix C — Honest caveats about this curriculum</h2>
+<h2>Appendix C: Honest caveats about this course</h2>
 <ul>
-<li><strong>The field moves fast.</strong> Tooling specifics (frameworks, vector DBs, model IDs/pricing, even MCP's governance) will drift. The <em>concepts</em> (Phases 1–5 vendor-neutral layers) are durable; <strong>re-verify the Claude-layer and tooling specifics against current docs</strong> before relying on them.</li>
-<li><strong>Some sources are vendor marketing.</strong> Eval-platform and framework rankings come from competing companies' blogs. They're directionally useful, not neutral benchmarks. Primary sources (Appendix A) carry the real weight.</li>
-<li><strong>Genuine disagreements are left intact, on purpose.</strong> Multi-agent (Anthropic vs. Cognition) and evals (EDD vs. error-analysis-first) are unsettled. A curriculum that pretended otherwise would be lying to you. Form your own view by building.</li>
-<li><strong>Numbers are illustrative unless from a primary source.</strong> The p^N math, the "32k-token context rot" figure, the "+90.2%" multi-agent result, token-cost multipliers — treat as directional signals, and cite their context if you republish.</li>
-</ul><div class="lessonnav"><a class="ln" href="modules/module-17-build-atlas-os.html"><span class="dir">&#8592; Previous</span><b>17 &middot; Capstone</b></a><a class="ln home" href="index.html"><b>&#9632; All modules</b></a></div><p style="text-align:center;color:var(--muted);margin-top:40px;font-style:italic">Built for AI Nativity — documenting the birth into being AI-native, from first principles, with no hype. The best way to finish this curriculum is to publish your way through it.</p></article></main></div><footer class="site"><div class="wrap"><div class="logo">AI Nativity<span style="color:var(--teal)">.</span></div>
+<li><strong>The field moves fast.</strong> Specific tooling (frameworks, vector databases for storing text for retrieval, model names and prices, even how MCP is governed) will drift over time. The <em>concepts</em> in this course are durable. Always re-verify the specific tools and any provider details against current documentation before you rely on them.</li>
+<li><strong>Some sources are company marketing.</strong> Rankings of eval platforms and frameworks often come from competing companies' own blogs. They are directionally useful, not neutral benchmarks. The primary sources in Appendix A carry the real weight, and even those should be read with the author's interests in mind.</li>
+<li><strong>Genuine disagreements are left intact, on purpose.</strong> Whether to use multiple agents, and how best to evaluate systems, are open questions where credible experts disagree. A course that pretended otherwise would be misleading you. Form your own view by building and measuring.</li>
+<li><strong>Numbers are illustrative unless they come from a primary source.</strong> Figures you see quoted (token-cost multipliers, context-window limits, headline accuracy gains) are directional signals. Check the original context before you repeat them.</li>
+</ul><div class="lessonnav"><a class="ln" href="modules/module-17-capstone-orchestration-platform.html"><span class="dir">&#8592; Previous</span><b>17 &middot; Capstone</b></a><a class="ln home" href="index.html"><b>&#9632; All modules</b></a></div><p style="text-align:center;color:var(--muted);margin-top:40px;font-style:italic">Built from first principles, with no hype. The best way to finish this course is to build your way through it.</p></article></main></div><footer class="site"><div class="wrap"><div class="logo">AI Nativity<span style="color:var(--teal)">.</span></div>
 <div class="fnote">Documenting the birth into being AI-native, from first principles, with no hype. Built from a deep-research pass across primary sources (Anthropic engineering, Chip Huyen, the ReAct &amp; Reflexion papers, Simon Willison, Hamel Husain, Eugene Yan). Designed to be published through, not just read.</div></div></footer>
 <script>
 var p=document.getElementById('progress');

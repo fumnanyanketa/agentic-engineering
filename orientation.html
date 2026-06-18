@@ -103,9 +103,9 @@ footer.site .logo{font-size:20px}footer.site .fnote{max-width:46em;font-size:13.
 <div class="navlinks"><a href="index.html">All modules</a><a href="orientation.html">Orientation</a><a href="resources.html">Resources</a></div>
 <button id="menuBtn">&#9776;</button></div></nav><header class="hero"><span class="blob t"></span><span class="blob c"></span><div class="wrap">
 <span class="eyebrow">&#10022; Start here</span>
-<h1>How to use this curriculum</h1>
-<p class="lead">A personal learning path and a publishable syllabus at once. Read this first, then work the modules top to bottom.</p>
-<div class="chips"><span class="chip">7 phases</span><span class="chip">18 modules</span><span class="chip">~17 weeks</span><span class="chip">No hype</span></div></div></header><div class="layout"><aside id="side"><button id="tocClose" class="toc-close">&times;</button><div class="toc-card"><nav class="toc">
+<h1>How to use this playbook</h1>
+<p class="lead">A self-paced path from zero to building real, production-grade AI agents. Read this page first, then work the modules in order, top to bottom.</p>
+<div class="chips"><span class="chip">7 phases</span><span class="chip">18 modules</span><span class="chip">~17 weeks</span><span class="chip">Vendor-neutral</span></div></div></header><div class="layout"><aside id="side"><button id="tocClose" class="toc-close">&times;</button><div class="toc-card"><nav class="toc">
 <div class="toc-title">Start</div><a href="orientation.html" class="active">Orientation &amp; how to use this</a>
 <div class="toc-title">Phase 0 &middot; Orientation &amp; prerequisites</div>
 <a href="modules/module-00-baseline-skills-and-the-right-mental-mod.html"><b style="color:var(--teal);font-family:Poppins">00</b>&nbsp; Baseline skills and the right mental model</a>
@@ -131,22 +131,22 @@ footer.site .logo{font-size:20px}footer.site .fnote{max-width:46em;font-size:13.
 <a href="modules/module-15-production-hardening.html"><b style="color:var(--teal);font-family:Poppins">15</b>&nbsp; Production hardening</a>
 <div class="toc-title">Phase 6 &middot; Practice &amp; capstone</div>
 <a href="modules/module-16-working-with-coding-agents.html"><b style="color:var(--teal);font-family:Poppins">16</b>&nbsp; Working with coding agents</a>
-<a href="modules/module-17-build-atlas-os.html"><b style="color:var(--teal);font-family:Poppins">17</b>&nbsp; Build &quot;Atlas OS&quot;</a>
+<a href="modules/module-17-capstone-orchestration-platform.html"><b style="color:var(--teal);font-family:Poppins">17</b>&nbsp; Capstone: orchestration platform</a>
 <div class="toc-title">Reference</div><a href="resources.html">Reading shelf &amp; decision rules</a>
-</nav></div></aside><main><article><h2>How to read this document</h2>
-<p>This is two things at once, by design:</p>
+</nav></div></aside><main><article><h2>How to read this playbook</h2>
+<p>This page is your map. The course itself is a sequence of modules that take you from "I have never called a model" to "I can build, test, and run an agent system other people depend on." Here is how the pieces fit together.</p>
 <ol>
-<li><strong>A personal learning path.</strong> Work through it module by module. Each module has objectives, concepts, a hands-on lab, best practices, pitfalls, an assessment milestone, and a curated reading list. The labs compound into a <strong>capstone</strong>: an agent-orchestration system (the "Atlas OS" archetype).</li>
-<li><strong>A publishable syllabus.</strong> It's written so any motivated builder could follow it, and so its pieces can be atomized into AI Nativity posts. Each module ends with a <strong>"Publish this"</strong> prompt — a build-in-public artifact you can ship the same week you learn it. Learning <em>is</em> the content. (This is the "document, don't create" engine applied to a curriculum.)</li>
+<li><strong>A hands-on learning path.</strong> Work through it module by module. Each module has clear objectives, the core concepts in plain language, a hands-on lab (a small thing you actually build), best practices, common pitfalls, an assessment milestone, and a short reading list. The labs add up. By the end they form a <strong>capstone</strong>, which is one larger project that combines everything: a small system where several agents work together to finish a task.</li>
+<li><strong>A path you can share and learn out loud.</strong> The writing is plain enough that any motivated beginner can follow it. Each module ends with a <strong>"Publish this"</strong> prompt: a short writing or demo idea you can post the same week you learn the topic. Teaching a thing back, in your own words, is one of the fastest ways to make it stick. You do not have to publish anything to finish the course; the prompt is just an option.</li>
 </ol>
-<p><strong>Two layers, everywhere.</strong> Every module teaches the <strong>vendor-neutral concept first</strong> (the thing that stays true when the tools change), then a <strong>concrete implementation in the Claude ecosystem</strong> (Claude Developer Platform, Claude Agent SDK, MCP, Claude Code). Concepts are the durable asset; the Claude layer is how you get your hands dirty this year.</p>
-<p><strong>A note on honesty.</strong> This field is loud. Where the research found marketing dressed as insight, this curriculum says so. Where credible experts disagree (and they do — sharply, on multi-agent systems and on evals), you'll get both sides and a recommendation, not a tidy false consensus. No hype.</p>
+<p><strong>Two layers, in every module.</strong> Each topic is taught as a <strong>vendor-neutral concept first</strong> (the idea that stays true no matter which company's model or tools you use), and then as a <strong>concrete way to try it yourself</strong> using whatever LLM provider account and tools you have. An <strong>LLM</strong> is a Large Language Model, the kind of AI that powers chat assistants. An <strong>LLM provider</strong> is any company that lets you send text to one of their models and get a response back, usually through an <strong>API</strong> (Application Programming Interface, a way for your code to talk to their service). The concepts are the durable part you keep for years. The specific tool you happen to use is just how you get your hands dirty today.</p>
+<p><strong>A note on honesty.</strong> This field is loud and full of hype. Where something is marketing dressed up as insight, this course says so plainly. Where credible experts genuinely disagree (and they do, sharply, on topics like multi-agent systems and how to test AI), you will get both sides and a recommendation, not a fake tidy consensus.</p>
 <hr />
-<h2>What "agentic engineering" actually is (and isn't)</h2>
-<p>Start here so the rest has a frame.</p>
-<p><strong>AI engineering</strong> is the discipline of building applications <strong>on top of</strong> foundation models rather than training models from scratch. The term was popularized by Shawn "swyx" Wang's 2023 essay "The Rise of the AI Engineer," whose thesis was that foundation models collapsed "a wide range of AI tasks that used to take five years and a research team" into something achievable "with API docs and a spare afternoon." Chip Huyen's framing in <em>AI Engineering</em> (O'Reilly, 2025) is blunter: it's "just software engineering with AI models thrown in the stack," centered on <strong>model adaptation and evaluation</strong>, not model building. (<a href="https://www.ai.engineer/about">swyx</a> · <a href="https://newsletter.pragmaticengineer.com/p/the-ai-engineering-stack">Pragmatic Engineer on Huyen's stack</a>)</p>
-<p><strong>Agentic engineering</strong> is the sub-discipline focused on the <em>autonomous</em> end of that spectrum: systems "where a language model decides what to do next, calls tools, holds state, and recovers from failure." The more an LLM directs its own control flow, the more "agentic" the system — and the more your job shifts from writing the logic to <strong>engineering the conditions</strong> under which the model produces good logic. (<a href="https://www.latent.space/p/agent">Latent Space, "Agent Engineering"</a>)</p>
-<p><strong>How it differs from neighbors:</strong></p>
+<h2>What "agentic engineering" actually is (and is not)</h2>
+<p>Start here so the rest of the course has a frame.</p>
+<p><strong>AI engineering</strong> is the practice of building applications <strong>on top of</strong> existing models, rather than training new models from scratch. A <strong>foundation model</strong> is a large, general-purpose model (such as an LLM) that has already been trained by someone else, so you can use it right away. The term "AI engineer" was popularized by Shawn "swyx" Wang's 2023 essay "The Rise of the AI Engineer." Its point was that foundation models collapsed a range of AI tasks that "used to take five years and a research team" into something you can now do "with API docs and a spare afternoon." Chip Huyen, in her book <em>AI Engineering</em> (O'Reilly, 2025), puts it bluntly: it is "just software engineering with AI models thrown in the stack," and it centers on adapting and evaluating models, not building them. (<a href="https://www.ai.engineer/about">swyx</a> · <a href="https://newsletter.pragmaticengineer.com/p/the-ai-engineering-stack">Pragmatic Engineer on the AI engineering stack</a>)</p>
+<p><strong>Agentic engineering</strong> is the part of AI engineering that focuses on the more <em>autonomous</em> end: systems where the model decides what to do next, calls tools, keeps track of state (what has happened so far), and recovers when something fails. An <strong>agent</strong>, in the plainest definition, is an LLM that runs tools in a loop to reach a goal. The more the model is allowed to direct its own steps, the more "agentic" the system is. And the more agentic it is, the more your job shifts from writing every step yourself to <strong>setting up the conditions</strong> under which the model produces good steps on its own. (<a href="https://www.latent.space/p/agent">Latent Space, "Agent Engineering"</a>)</p>
+<p><strong>How it differs from nearby roles:</strong></p>
 <table>
 <thead>
 <tr>
@@ -160,32 +160,43 @@ footer.site .logo{font-size:20px}footer.site .fnote{max-width:46em;font-size:13.
 <tr>
 <td><strong>ML Engineer</strong></td>
 <td>Data</td>
-<td>Train/deploy models from scratch; feature engineering</td>
-<td>—</td>
+<td>Trains and deploys models from scratch, and prepares the data they learn from</td>
+<td>(nothing skipped; this is the from-scratch role)</td>
 </tr>
 <tr>
 <td><strong>AI / Agentic Engineer</strong></td>
 <td>A working foundation model</td>
-<td>Adapt, orchestrate, evaluate, operate</td>
-<td>Training from scratch; research math</td>
+<td>Adapts, orchestrates, evaluates, and operates models in real products</td>
+<td>Training from scratch, and the heavy research math</td>
 </tr>
 <tr>
 <td><strong>Prompt Engineer</strong></td>
 <td>A prompt</td>
-<td>Craft instructions controlling one model's behavior</td>
-<td>Systems/ops</td>
+<td>Crafts the instructions that steer one model's behavior</td>
+<td>The systems and operations work around the model</td>
 </tr>
 </tbody>
 </table>
-<p>The inversion that defines the discipline: traditional ML "begins with data collection and model training," while AI engineering enables a <strong>product-first approach</strong> — build on an existing model first, adapt later. (<a href="https://alexstrick.com/posts/2025-01-19-notes-on-ai-engineering-chapter-1.html">Notes on Huyen Ch.1</a>)</p>
+<p>The shift that defines the discipline: traditional machine learning begins with collecting data and training a model, while AI engineering enables a <strong>product-first approach</strong>, where you build on an existing model first and adapt only if you need to. (<strong>ML</strong> here is short for machine learning, the broader field of teaching computers from data.) (<a href="https://alexstrick.com/posts/2025-01-19-notes-on-ai-engineering-chapter-1.html">Notes on AI Engineering, Chapter 1</a>)</p>
 <p><strong>Two honest caveats, up front:</strong></p>
 <ul>
-<li>Huyen's provocation that "ML knowledge is no longer a must-have for building AI applications" is <em>directional</em>, not settled — even she hedges that it helps for troubleshooting. You need <em>enough</em> ML to reason about failures; you don't need to derive backprop. This curriculum's Module 1 draws that line deliberately.</li>
-<li>"Prompt engineering" is being <strong>absorbed</strong> into the broader role, not crowned as a standalone career. An empirical job-postings study found prompt-engineer-only roles at well under 1% of listings. Treat prompting as a <em>skill inside</em> agentic engineering, not a destination. (<a href="https://arxiv.org/html/2506.00058v1">job-market study</a>)</li>
+<li>The claim that "ML knowledge is no longer a must-have for building AI applications" is a <em>direction</em>, not a settled fact. Even people who say it admit some ML knowledge helps when you are troubleshooting. You need <em>enough</em> understanding to reason about why a model failed. You do not need to derive the underlying math. Module 1 draws that line on purpose.</li>
+<li>"Prompt engineering" is being <strong>folded into</strong> the broader role, not crowned as a standalone career. A study of real job postings found that prompt-engineer-only roles are well under 1% of listings. Treat prompting as a <em>skill inside</em> agentic engineering, not a destination. (<a href="https://arxiv.org/html/2506.00058v1">job-market study</a>)</li>
 </ul>
 <hr />
+<h2>What you need before you start (prerequisites)</h2>
+<p>You do not need a machine learning background. You do not need advanced math. You do need a few practical things in place so the labs go smoothly:</p>
+<ul>
+<li><strong>Comfort writing small programs.</strong> If you can read and write basic code in any one language (Python is the most common in this space, but the ideas carry over), you are ready. The labs are short scripts, not large applications.</li>
+<li><strong>A code editor and a terminal.</strong> A terminal is the text window where you type commands to your computer. You will run small scripts and install packages from it.</li>
+<li><strong>Basic version control with Git.</strong> <strong>Git</strong> is the standard tool for saving snapshots of your code and tracking changes. You only need the basics: save a change, see what changed, undo a mistake.</li>
+<li><strong>An LLM provider account with API access.</strong> Pick any reputable provider that gives you an API key (a secret token that lets your code call their model). Most providers offer low-cost, pay-as-you-go access that is more than enough for these labs. The course is written so it works with any provider; nothing here depends on one specific company.</li>
+<li><strong>A small budget for API usage.</strong> The labs send real requests, and most providers charge per token (a token is a small chunk of text). The total cost of working through the course is small, but it is not zero. Set a spending limit in your provider's dashboard so you never get a surprise bill.</li>
+</ul>
+<p>If any of these are new to you, Module 0 covers the baseline skills and the right mental model before the technical content begins.</p>
+<hr />
 <h2>The shape of the journey</h2>
-<p>Six phases, ~17 weeks at ~10 focused hours/week. Compress or stretch freely — <strong>the sequence matters more than the calendar.</strong> Each phase ends with a working artifact; the artifacts stack into the capstone.</p>
+<p>Six phases, about 17 weeks at roughly 10 focused hours per week. You can compress or stretch this freely. <strong>The order matters more than the calendar.</strong> Each phase ends with a small working result, and those results stack up into the final capstone.</p>
 <div class="codeblock"><span class="code-bar"><span class="dot r"></span><span class="dot y"></span><span class="dot g"></span></span><pre><code>PHASE 0  Orientation &amp; prerequisites            Week 0      → dev environment + mental models
 PHASE 1  Foundations: the single model          Weeks 1–3   → a reliable single-call feature
 PHASE 2  The augmented LLM                       Weeks 4–6   → a tool-using, retrieval-grounded assistant
@@ -193,17 +204,17 @@ PHASE 3  Workflows &amp; agents                      Weeks 7–9   → patterned
 PHASE 4  Orchestration &amp; multi-agent             Weeks 10–11 → an orchestrator-worker system
 PHASE 5  Reliability: evals, observability,      Weeks 12–14 → an evaluated, traced, hardened system
          safety, production
-PHASE 6  Practice &amp; capstone                     Weeks 15–17 → coding-agent craft → Atlas OS
+PHASE 6  Practice &amp; capstone                     Weeks 15–17 → coding-agent craft → final capstone
 </code></pre></div>
-<p><strong>The one principle that governs all six phases</strong> (every credible source agreed on this — it was the single point with <em>zero</em> dissent): <strong>start with the simplest thing that could work, and add agentic complexity only when it demonstrably improves outcomes.</strong> Anthropic: "find the simplest solution possible, and only increasing complexity when needed." For many problems, "optimizing single LLM calls with retrieval and in-context examples is usually enough." Internalize this now; it will save you from 80% of the field's mistakes. (<a href="https://www.anthropic.com/engineering/building-effective-agents">Building Effective Agents</a>)</p>
+<p><strong>The one principle that governs all six phases</strong> is the point that nearly every credible source agrees on, with almost no dissent: <strong>start with the simplest thing that could work, and add agentic complexity only when it clearly improves the result.</strong> As one widely cited engineering guide puts it, find the simplest solution possible and only increase complexity when needed. For many problems, a single well-crafted model call (optionally with some retrieved information and a few examples) is already enough. Internalize this now. It will save you from most of the mistakes people make in this field. (See the reading shelf in <a href="resources.html">Resources</a> for the primary sources behind this principle.)</p>
 <hr />
-<h2>Assessment model (how you know you're learning)</h2>
-<p>Two instruments run the whole way through:</p>
+<h2>How you know you are learning (assessment)</h2>
+<p>Two simple checks run through the whole course:</p>
 <ol>
-<li><strong>The capstone, built incrementally.</strong> Every lab is a component of the final orchestration system. If your labs work and compose, you're learning.</li>
-<li><strong>An eval portfolio.</strong> From Phase 2 onward you keep a growing set of evals (test cases + graders) for your own work. By the end you should be able to say, with numbers, how reliable each component is. <em>In this field, "it works" without an eval is just a vibe.</em></li>
+<li><strong>The capstone, built a piece at a time.</strong> Every lab is one component of the final system. If your labs work and fit together, you are learning. If they do not, you have found exactly what to revisit.</li>
+<li><strong>An eval portfolio.</strong> An <strong>eval</strong> (short for evaluation) is a test for an AI system: a set of example inputs plus a way to grade whether the output was good. Starting in Phase 2, you keep a growing collection of evals for your own work. By the end you should be able to say, with actual numbers, how reliable each part of your system is. In this field, saying "it works" without an eval is just a guess.</li>
 </ol>
-<p><strong>Capstone exit bar (the real diploma):</strong> ship an agent-orchestration system that (a) decomposes a non-trivial task across specialized workers, (b) uses tools via MCP, (c) manages context across long horizons, (d) has an eval suite with reported pass rates, (e) is traced/observable, (f) defends against the lethal trifecta, and (g) has documented cost/latency per task. Publishable as a build-in-public series.</p><div class="lessonnav"><a class="ln home" href="index.html"><b>&#9632; All modules</b></a><a class="ln next" href="modules/module-00-baseline-skills-and-the-right-mental-mod.html"><span class="dir">Start &#8594;</span><b>00 &middot; Baseline skills and the right mental model</b></a></div></article></main></div><footer class="site"><div class="wrap"><div class="logo">AI Nativity<span style="color:var(--teal)">.</span></div>
+<p><strong>The exit bar (your real proof of skill):</strong> ship a small agent system that (a) breaks a non-trivial task into steps handled by specialized workers, (b) uses external tools, ideally through <strong>MCP</strong> (the Model Context Protocol, an open standard for connecting models to tools and data), (c) manages its context across long tasks, (d) has an eval suite with reported pass rates, (e) can be traced and observed (you can see what it did and why), (f) defends against the main security risks for agents, and (g) has documented cost and time-per-task. That is a portfolio piece you can show to anyone.</p><div class="lessonnav"><a class="ln home" href="index.html"><b>&#9632; All modules</b></a><a class="ln next" href="modules/module-00-baseline-skills-and-the-right-mental-mod.html"><span class="dir">Start &#8594;</span><b>00 &middot; Baseline skills and the right mental model</b></a></div></article></main></div><footer class="site"><div class="wrap"><div class="logo">AI Nativity<span style="color:var(--teal)">.</span></div>
 <div class="fnote">Documenting the birth into being AI-native, from first principles, with no hype. Built from a deep-research pass across primary sources (Anthropic engineering, Chip Huyen, the ReAct &amp; Reflexion papers, Simon Willison, Hamel Husain, Eugene Yan). Designed to be published through, not just read.</div></div></footer>
 <script>
 var p=document.getElementById('progress');

@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="en"><head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Module 2: Prompt engineering fundamentals | Agentic Engineering</title>
+<title>Module 2: Prompt engineering fundamentals (vendor-neutral) | Agentic Engineering</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@500;600;700;800&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
@@ -104,7 +104,7 @@ footer.site .logo{font-size:20px}footer.site .fnote{max-width:46em;font-size:13.
 <button id="menuBtn">&#9776;</button></div></nav><header class="hero"><span class="blob t"></span><span class="blob c"></span><div class="wrap">
 <span class="eyebrow">&#10022; Module 2 &middot; Phase 1</span>
 <h1>Prompt engineering fundamentals</h1>
-<p class="lead">Reliably get good behavior from a single call. This is a *skill inside the job*, not the job.</p>
+<p class="lead">Learn to reliably get good behavior out of a single model call. This is a real skill, but keep it in proportion: it is one skill inside the larger job, not the whole job.</p>
 <div class="chips"><span class="chip">Phase 1 &middot; <b>Foundations</b></span><span class="chip">Weeks 1–3</span><span class="chip">&#128296; Hands-on lab</span></div></div></header><div class="layout"><aside id="side"><button id="tocClose" class="toc-close">&times;</button><div class="toc-card"><nav class="toc">
 <div class="toc-title">Start</div><a href="../orientation.html">Orientation &amp; how to use this</a>
 <div class="toc-title">Phase 0 &middot; Orientation &amp; prerequisites</div>
@@ -131,17 +131,44 @@ footer.site .logo{font-size:20px}footer.site .fnote{max-width:46em;font-size:13.
 <a href="../modules/module-15-production-hardening.html"><b style="color:var(--teal);font-family:Poppins">15</b>&nbsp; Production hardening</a>
 <div class="toc-title">Phase 6 &middot; Practice &amp; capstone</div>
 <a href="../modules/module-16-working-with-coding-agents.html"><b style="color:var(--teal);font-family:Poppins">16</b>&nbsp; Working with coding agents</a>
-<a href="../modules/module-17-build-atlas-os.html"><b style="color:var(--teal);font-family:Poppins">17</b>&nbsp; Build &quot;Atlas OS&quot;</a>
+<a href="../modules/module-17-capstone-orchestration-platform.html"><b style="color:var(--teal);font-family:Poppins">17</b>&nbsp; Capstone: orchestration platform</a>
 <div class="toc-title">Reference</div><a href="../resources.html">Reading shelf &amp; decision rules</a>
-</nav></div></aside><main><article><blockquote class="cl-goal"><p><strong>🎯 Objective:</strong> Reliably get good behavior from a single call. This is a <em>skill inside the job</em>, not the job.</p></blockquote>
-<p><strong>Key concepts (vendor-neutral):</strong> clear/direct/specific instructions; few-shot examples (show, don't only tell); chain-of-thought ("think step by step") for reasoning tasks; role/system prompts; output formatting and structured outputs; iterating against examples rather than vibes.</p>
-<p><strong>Claude layer:</strong> Anthropic's <a href="https://platform.claude.com/docs/en/build-with-claude/prompt-engineering/claude-prompting-best-practices">prompting best practices</a> — Claude responds well to <strong>XML tags</strong> (<code>&lt;instructions&gt;</code>, <code>&lt;context&gt;</code>, <code>&lt;examples&gt;</code>, <code>&lt;thinking&gt;</code>/<code>&lt;answer&gt;</code>) to disambiguate mixed content, and to explicit multishot examples. Learn <strong>extended/adaptive thinking</strong> for hard reasoning, and <strong>structured outputs</strong> for machine-readable results.</p>
-<div class="labbox"><p><strong>Lab 2:</strong> Take a real task (e.g., "extract structured fields from a messy invoice/email"). Write a v1 prompt, build a 15-example test set with expected outputs, and iterate the prompt until it passes. <strong>Keep that test set — it's the seed of your eval portfolio.</strong></p></div>
-<blockquote class="cl-ok"><p><strong>✅ Best practices:</strong> version your prompts in git; change one variable at a time; let examples carry the load.</p></blockquote>
-<blockquote class="cl-no"><p><strong>⛔ Pitfalls:</strong> "prompt-and-pray" (no test set); over-instructing into brittleness; treating prompt engineering as the whole discipline.</p></blockquote>
-<blockquote class="cl-tip"><p><strong>🏁 Milestone:</strong> A prompt that passes a held-out example set you didn't tune on.</p></blockquote>
-<blockquote class="cl-key"><p><strong>✎ Publish this:</strong> "Prompt engineering isn't dead — it just got demoted. Here's where it actually fits."</p></blockquote>
-<div class="resbox"><p><strong>&#128218; Resources</strong> <a href="https://platform.claude.com/docs/en/build-with-claude/prompt-engineering/claude-prompting-best-practices">Claude prompting best practices</a></p></div><div class="lessonnav"><a class="ln" href="module-01-how-llms-work.html"><span class="dir">&#8592; Previous</span><b>01 &middot; How LLMs work (exactly enough, no more)</b></a><a class="ln home" href="../index.html"><b>&#9632; All modules</b></a><a class="ln next" href="module-03-context-engineering-i.html"><span class="dir">Next &#8594;</span><b>03 &middot; Context engineering I</b></a></div></article></main></div><footer class="site"><div class="wrap"><div class="logo">AI Nativity<span style="color:var(--teal)">.</span></div>
+</nav></div></aside><main><article><blockquote class="cl-goal"><p><strong>🎯 Objective:</strong> Reliably get good behavior out of a single model call. This is a genuine skill, but it sits inside the larger job of building a good workplace for the model. Treat it as a craft, not the whole discipline.</p></blockquote>
+<p>A <strong>prompt</strong> is simply the text you send to the model. <strong>Prompt engineering</strong> is the practice of shaping that text so the model does what you want, consistently, not just once by luck. The principles below are vendor-neutral, meaning they hold no matter which provider's model you use, because they come from how all of these models read and continue text.</p>
+
+<h3>The core techniques</h3>
+<p>Most reliable prompting comes down to a small set of moves. You will combine them, not pick just one.</p>
+<ul>
+<li><strong>Be clear, direct, and specific.</strong> The model cannot read your mind and will fill any gap with a guess. Say exactly what you want, in what format, for whom, and what to avoid. "Summarize this in three bullet points for a busy manager, no jargon" beats "summarize this."</li>
+<li><strong>Few-shot examples (show, do not only tell).</strong> A <strong>few-shot</strong> prompt includes a few worked examples of input and the desired output, so the model can copy the pattern. ("Zero-shot" means no examples; "few-shot" means a handful.) Examples are often the single most effective way to lock in tone and format, especially for tasks like classification, extraction, or translation. (<a href="https://www.k2view.com/blog/prompt-engineering-techniques/">prompt engineering techniques overview</a>)</li>
+<li><strong>Chain-of-thought for reasoning tasks.</strong> <strong>Chain-of-thought (CoT)</strong> means asking the model to work through its steps before giving a final answer, for example by adding "think step by step." This helps on math, logic, and multi-step decisions because it gives the model room to reason instead of jumping straight to a guess. Note that some newer "reasoning" models already do this internally, so you may not need to ask. (<a href="https://www.meta-intelligence.tech/en/insight-prompt-engineering">chain-of-thought, ReAct and few-shot guide</a>)</li>
+<li><strong>Role and system prompts.</strong> A <strong>system prompt</strong> is a separate, higher-priority instruction that sets the model's role and standing rules for the whole conversation, such as "You are a careful financial analyst. Never invent numbers." It frames everything the user then says.</li>
+<li><strong>Clear structure for mixed content.</strong> When a prompt contains several different things at once (instructions, reference text, examples), wrap each part in clearly labeled sections so the model does not confuse them. Many practitioners use lightweight tags such as <code>&lt;instructions&gt;</code>, <code>&lt;context&gt;</code>, and <code>&lt;examples&gt;</code>, or plain headings. The point is unambiguous boundaries, and this technique works across providers.</li>
+<li><strong>Output formatting and structured outputs.</strong> If your code will read the answer, ask for a strict, machine-readable format such as JSON, and describe the exact fields. A <strong>structured output</strong> is a response that follows a fixed schema (a defined shape) so your program can parse it reliably instead of scraping free text.</li>
+<li><strong>Iterate against examples, not vibes.</strong> Do not judge a prompt by reading one nice answer. Collect real example inputs with the outputs you expect, and tune the prompt until it passes them.</li>
+</ul>
+<p>A useful reality check on the field: prompting has matured from a bag of tricks into a measurable practice, and even simple, low-effort techniques like zero-shot chain-of-thought remain widely used precisely because they are cheap and reliable. The fancier methods (tree-of-thought, graph-of-thought, and so on) exist for genuinely hard branching problems, but you will get most of your wins from the basics above. (<a href="https://codesignal.com/blog/prompt-engineering-best-practices-2025/">prompt engineering best practices</a>)</p>
+
+<h3>When the task is hard: more reasoning room</h3>
+<p>For difficult problems, give the model more room to reason before it commits. Two vendor-neutral levers help. First, explicit chain-of-thought, as above. Second, many providers now offer a "thinking" or "reasoning" mode where the model spends extra internal effort (and extra tokens) on hard questions; turn it on for genuinely complex tasks and leave it off for simple ones, since it costs more and adds latency (the wait time for a response). The durable principle is the same whatever the feature is called: match the amount of reasoning effort to the difficulty of the task.</p>
+
+<div class="labbox"><p><strong>Lab 2:</strong> Pick a real task, for example "extract structured fields (date, amount, vendor) from a messy invoice or email." Write a first version (v1) of your prompt. Then build a small test set of about 15 example inputs, each paired with the output you expect. Run your prompt against all 15, count how many it gets right, and improve the prompt until it passes. Change only one thing at a time so you can tell what helped. <strong>Keep that test set. It is the seed of your evaluation portfolio</strong> (your growing collection of tests, which later modules build on).</p></div>
+<blockquote class="cl-ok"><p><strong>✅ Best practices:</strong></p>
+<ul>
+<li>Version your prompts in Git, the same way you version code.</li>
+<li>Change one variable at a time so you can attribute any change in quality to a specific edit.</li>
+<li>Let examples carry the load. A good example often replaces a paragraph of instructions.</li>
+<li>Ask for structured output whenever a program will consume the result.</li>
+</ul></blockquote>
+<blockquote class="cl-no"><p><strong>⛔ Pitfalls:</strong></p>
+<ul>
+<li>"Prompt and pray": shipping a prompt with no test set, then being surprised when it fails on new inputs.</li>
+<li>Over-instructing until the prompt is so rigid it breaks on anything slightly unexpected.</li>
+<li>Treating prompt engineering as the entire discipline. It is one part of building the model's workplace.</li>
+</ul></blockquote>
+<blockquote class="cl-tip"><p><strong>🏁 Milestone:</strong> You have a prompt that passes a held-out example set, meaning examples you did not look at while tuning. Passing tests you tuned on proves little; passing fresh ones shows the prompt actually generalizes.</p></blockquote>
+<blockquote class="cl-key"><p><strong>✎ Publish this:</strong> Write a short post titled "Prompt engineering is not dead, it just got demoted." Explain where prompting genuinely matters, where it stops being enough, and show one before-and-after prompt with the test numbers that prove the improvement.</p></blockquote>
+<div class="resbox"><p><strong>&#128218; Resources</strong> <a href="https://www.k2view.com/blog/prompt-engineering-techniques/">Prompt engineering techniques (overview)</a> · <a href="https://codesignal.com/blog/prompt-engineering-best-practices-2025/">Prompt engineering best practices</a> · <a href="https://www.meta-intelligence.tech/en/insight-prompt-engineering">Chain-of-thought, ReAct and few-shot guide</a></p></div><div class="lessonnav"><a class="ln" href="module-01-how-llms-work.html"><span class="dir">&#8592; Previous</span><b>01 &middot; How LLMs work (exactly enough, no more)</b></a><a class="ln home" href="../index.html"><b>&#9632; All modules</b></a><a class="ln next" href="module-03-context-engineering-i.html"><span class="dir">Next &#8594;</span><b>03 &middot; Context engineering I</b></a></div></article></main></div><footer class="site"><div class="wrap"><div class="logo">AI Nativity<span style="color:var(--teal)">.</span></div>
 <div class="fnote">Documenting the birth into being AI-native, from first principles, with no hype. Built from a deep-research pass across primary sources (Anthropic engineering, Chip Huyen, the ReAct &amp; Reflexion papers, Simon Willison, Hamel Husain, Eugene Yan). Designed to be published through, not just read.</div></div></footer>
 <script>
 var p=document.getElementById('progress');

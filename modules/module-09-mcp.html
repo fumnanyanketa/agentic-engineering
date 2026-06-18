@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="en"><head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Module 9: MCP | Agentic Engineering</title>
+<title>Module 9: MCP (Model Context Protocol) | Agentic Engineering</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@500;600;700;800&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
@@ -104,7 +104,7 @@ footer.site .logo{font-size:20px}footer.site .fnote{max-width:46em;font-size:13.
 <button id="menuBtn">&#9776;</button></div></nav><header class="hero"><span class="blob t"></span><span class="blob c"></span><div class="wrap">
 <span class="eyebrow">&#10022; Module 9 &middot; Phase 3</span>
 <h1>MCP: standardizing the agent&#x27;s connection to the world</h1>
-<p class="lead">Understand and use the Model Context Protocol — the open standard for connecting agents to tools, data, and prompts.</p>
+<p class="lead">Understand and use the Model Context Protocol, the open, vendor-neutral standard for connecting agents to tools, data, and prompts.</p>
 <div class="chips"><span class="chip">Phase 3 &middot; <b>Workflows &amp; agents</b></span><span class="chip">Weeks 7–9</span><span class="chip">&#128296; Hands-on lab</span></div></div></header><div class="layout"><aside id="side"><button id="tocClose" class="toc-close">&times;</button><div class="toc-card"><nav class="toc">
 <div class="toc-title">Start</div><a href="../orientation.html">Orientation &amp; how to use this</a>
 <div class="toc-title">Phase 0 &middot; Orientation &amp; prerequisites</div>
@@ -131,22 +131,59 @@ footer.site .logo{font-size:20px}footer.site .fnote{max-width:46em;font-size:13.
 <a href="../modules/module-15-production-hardening.html"><b style="color:var(--teal);font-family:Poppins">15</b>&nbsp; Production hardening</a>
 <div class="toc-title">Phase 6 &middot; Practice &amp; capstone</div>
 <a href="../modules/module-16-working-with-coding-agents.html"><b style="color:var(--teal);font-family:Poppins">16</b>&nbsp; Working with coding agents</a>
-<a href="../modules/module-17-build-atlas-os.html"><b style="color:var(--teal);font-family:Poppins">17</b>&nbsp; Build &quot;Atlas OS&quot;</a>
+<a href="../modules/module-17-capstone-orchestration-platform.html"><b style="color:var(--teal);font-family:Poppins">17</b>&nbsp; Capstone: orchestration platform</a>
 <div class="toc-title">Reference</div><a href="../resources.html">Reading shelf &amp; decision rules</a>
-</nav></div></aside><main><article><blockquote class="cl-goal"><p><strong>🎯 Objective:</strong> Understand and use the <strong>Model Context Protocol</strong> — the open standard for connecting agents to tools, data, and prompts.</p></blockquote>
-<p><strong>Key concepts (precise facts):</strong>
-- <strong>What it is</strong> — an open standard for "secure, two-way connections between data sources and AI-powered tools," created at Anthropic by <strong>David Soria Parra and Justin Spahr-Summers</strong>, announced <strong>November 25, 2024</strong>. Often analogized as "the USB-C port for AI applications." (<a href="https://www.anthropic.com/news/model-context-protocol">Anthropic announcement</a> · <a href="https://modelcontextprotocol.io/docs/getting-started/intro">MCP docs</a>)
-- <strong>Why it matters</strong> — it turns the <strong>N×M integration problem</strong> (every app × every data source = a custom integration) into <strong>N+M</strong>: build one MCP server, every MCP client can use it.
-- <strong>Architecture</strong> — client-server over <strong>JSON-RPC 2.0</strong>. A host app (Claude Desktop, Cursor, an IDE) embeds an MCP <strong>client</strong> that holds a connection to a <strong>server</strong> exposing capabilities.
-- <strong>Server primitives</strong> — <strong>Tools</strong> (executable functions the model invokes), <strong>Resources</strong> (structured data to read into context), <strong>Prompts</strong> (reusable templates/workflows). (The spec also defines client features like sampling/elicitation/roots — but "three primitives" refers to <em>server</em> features.)
-- <strong>Governance / adoption</strong> — adopted by OpenAI (Mar 2025) and Google DeepMind (Apr 2025); in <strong>December 2025</strong> Anthropic donated MCP to the <strong>Agentic AI Foundation (AAIF)</strong> under the Linux Foundation. So: frame it as an <em>industry</em> standard now stewarded by a foundation, not "Anthropic's protocol." (<a href="https://en.wikipedia.org/wiki/Model_Context_Protocol">Wikipedia: MCP</a> · <a href="https://www.pento.ai/blog/a-year-of-mcp-2025-review">a year of MCP</a>)</p>
-<p><strong>Claude layer:</strong> Connect your agent to an existing MCP server (e.g., filesystem, GitHub, Postgres), then <strong>write your own MCP server</strong> wrapping the retrieval tool you built in Module 5. The Claude Agent SDK and Claude Code both speak MCP natively.</p>
-<div class="labbox"><p><strong>Lab 9:</strong> (a) Connect your agent to 2 pre-built MCP servers. (b) Author a minimal MCP server exposing one tool + one resource, and call it from your agent. You now understand both sides of the protocol.</p></div>
-<blockquote class="cl-ok"><p><strong>✅ Best practices:</strong> prefer MCP for reusable integrations; keep server tools well-described and namespaced (Module 4 rules apply); treat tool descriptions as untrusted-input surface (see Module 14 — tool poisoning).</p></blockquote>
-<blockquote class="cl-no"><p><strong>⛔ Pitfalls:</strong> reinventing bespoke integrations MCP already standardizes; trusting third-party MCP servers blindly (their tool descriptions enter your model's context).</p></blockquote>
-<blockquote class="cl-tip"><p><strong>🏁 Milestone:</strong> Your agent uses external capabilities through MCP, and you've shipped a working MCP server.</p></blockquote>
-<blockquote class="cl-key"><p><strong>✎ Publish this:</strong> "MCP explained without the hype: what it is, why N×M→N+M matters, and how I built my first server."</p></blockquote>
-<div class="resbox"><p><strong>&#128218; Resources</strong> <a href="https://modelcontextprotocol.io/docs/getting-started/intro">MCP intro docs</a> · <a href="https://www.anthropic.com/news/model-context-protocol">Anthropic: Introducing MCP</a></p></div><div class="lessonnav"><a class="ln" href="module-08-autonomous-agents.html"><span class="dir">&#8592; Previous</span><b>08 &middot; Autonomous agents</b></a><a class="ln home" href="../index.html"><b>&#9632; All modules</b></a><a class="ln next" href="module-10-multi-agent-systems-orchestration.html"><span class="dir">Next &#8594;</span><b>10 &middot; Multi-agent systems &amp; orchestration (with the real debate)</b></a></div></article></main></div><footer class="site"><div class="wrap"><div class="logo">AI Nativity<span style="color:var(--teal)">.</span></div>
+</nav></div></aside><main><article><blockquote class="cl-goal"><p><strong>🎯 Objective:</strong> Understand and use the <strong>Model Context Protocol</strong> (MCP), the open, vendor-neutral standard for connecting agents to tools, data, and prompts, and ship a small server of your own.</p></blockquote>
+<p>By now you can give an LLM (Large Language Model, the kind of AI that powers chat assistants) tools, retrieval, and memory. The next problem is practical: every time you want to connect a model to a new tool or data source, you have to write custom plumbing. MCP fixes that by defining one shared way to make those connections, so the work is reusable across tools and across platforms.</p>
+
+<h3>What MCP is</h3>
+<p><strong>MCP</strong> stands for <strong>Model Context Protocol</strong>. A <strong>protocol</strong> is simply an agreed set of rules for how two programs talk to each other (much like a shared language). MCP is an open standard for secure, two-way connections between AI applications and the tools and data they need. A common analogy is that MCP is "the USB-C port for AI applications": just as USB-C lets any compatible device plug into any compatible port, MCP lets any compatible AI app plug into any compatible tool or data source. (<a href="https://modelcontextprotocol.io/docs/getting-started/intro">MCP docs</a>)</p>
+<p>MCP was first announced in November 2024, but it is no longer one company's project. It has been adopted across the industry, and in December 2025 it was donated to the <strong>Agentic AI Foundation</strong>, a vendor-neutral body under the Linux Foundation, so it is now governed as a shared community standard. Treat it the way you would treat any open web standard: a common protocol that many vendors implement, not a single product. (<a href="https://www.linuxfoundation.org/press/linux-foundation-announces-the-formation-of-the-agentic-ai-foundation">Linux Foundation: forming the Agentic AI Foundation</a>)</p>
+
+<h3>Why it matters: the N times M problem</h3>
+<p>Imagine you have <em>N</em> different AI applications and <em>M</em> different tools or data sources you want them to use. Without a shared standard, you might have to build a custom connector for every pairing, which is <em>N</em> times <em>M</em> separate integrations. That number explodes quickly: 10 apps and 10 tools would mean 100 connectors to build and maintain.</p>
+<p>MCP turns that into an <em>N plus M</em> problem instead. Each application learns to speak MCP once, and each tool is wrapped as an MCP server once. After that, any MCP application can use any MCP server with no extra glue code. Build one server, and every MCP client can use it. That is the core payoff of the standard.</p>
+
+<h3>How MCP is put together</h3>
+<p>MCP follows a <strong>client-server</strong> design, a common pattern where one program (the client) requests things and another (the server) provides them. The pieces are:</p>
+<ul>
+<li>A <strong>host</strong> is the AI application you actually use. Neutral examples include desktop chat apps, code editors, and integrated development environments (an <strong>IDE</strong> is the software a programmer writes code in).</li>
+<li>Inside the host runs an MCP <strong>client</strong>, which holds an open connection to a server.</li>
+<li>An MCP <strong>server</strong> is a small program that exposes capabilities (such as access to your files or a database) in the MCP format.</li>
+</ul>
+<p>The two sides talk using <strong>JSON-RPC 2.0</strong>. That is just a standard, lightweight format for sending requests and getting replies, where the messages are written in JSON (a simple, human-readable way to structure data). You do not need to memorize the format; you only need to know that it is the agreed wire format both sides use.</p>
+
+<h3>The three server primitives</h3>
+<p>An MCP server can offer three kinds of capability, often called its <strong>primitives</strong> (the basic building blocks):</p>
+<ul>
+<li><strong>Tools:</strong> functions the model can call to take an action, such as "send an email" or "run a query." These are the executable abilities.</li>
+<li><strong>Resources:</strong> structured data the model can read into its context, such as a file's contents or a record from a database.</li>
+<li><strong>Prompts:</strong> reusable prompt templates or canned workflows that a user or app can pull in on demand.</li>
+</ul>
+<p>The protocol also defines some capabilities on the client side, but when people say "the three primitives," they mean these three <em>server</em> features. (<a href="https://en.wikipedia.org/wiki/Model_Context_Protocol">Wikipedia: Model Context Protocol</a>)</p>
+
+<h3>Putting MCP to work, vendor-neutrally</h3>
+<p>Because MCP is a shared standard, your servers and clients work across many platforms rather than locking you to one. A practical first project is to connect your agent to an existing server (common examples wrap a filesystem, a code-hosting service, or a database), and then to write your own server that wraps the retrieval tool you built in Module 5. Most modern agent platforms and coding agents now speak MCP, so a server you write once can be reused widely. (<a href="https://www.pento.ai/blog/a-year-of-mcp-2025-review">a year of MCP: a review of adoption</a>)</p>
+
+<div class="labbox"><p><strong>Lab 9:</strong> Two parts. First, connect your agent to two pre-built MCP servers (pick any two, such as a filesystem server and a database server) and call them from your agent. Second, write a minimal MCP server of your own that exposes one tool and one resource, then call it from your agent. By the end you will understand both sides of the protocol: using servers and building them.</p></div>
+<blockquote class="cl-ok"><p><strong>✅ Best practices:</strong></p>
+<ul>
+<li>Prefer MCP whenever an integration is reusable, so you build it once instead of repeatedly.</li>
+<li>Give every server tool a clear description and a sensible name, applying the same naming rules from Module 4.</li>
+<li>Treat tool descriptions from any server as untrusted input, because that text enters your model's context. See Module 14 on tool poisoning.</li>
+<li>Lean on the shared standard: write servers that any compliant client can use, rather than tying them to one app.</li>
+</ul>
+</blockquote>
+<blockquote class="cl-no"><p><strong>⛔ Pitfalls:</strong></p>
+<ul>
+<li>Rebuilding bespoke, one-off integrations for things MCP already standardizes.</li>
+<li>Trusting third-party MCP servers blindly. Their tool descriptions flow straight into your model's context, so a malicious one can try to manipulate your agent.</li>
+<li>Assuming MCP belongs to a single vendor. It is an open standard stewarded by a foundation, so build to the spec, not to one product.</li>
+</ul>
+</blockquote>
+<blockquote class="cl-tip"><p><strong>🏁 Milestone:</strong> Your agent uses external capabilities through MCP, and you have shipped a working MCP server that another MCP client could reuse.</p></blockquote>
+<blockquote class="cl-key"><p><strong>✎ Publish this:</strong> Write a short article titled "MCP explained without the hype: what it is, why turning N times M into N plus M matters, and how I built my first server." Keep it plain and concrete, and show the small server you wrote in the lab.</p></blockquote>
+<div class="resbox"><p><strong>&#128218; Resources</strong> <a href="https://modelcontextprotocol.io/docs/getting-started/intro">MCP intro docs</a> · <a href="https://en.wikipedia.org/wiki/Model_Context_Protocol">Wikipedia: Model Context Protocol</a> · <a href="https://www.linuxfoundation.org/press/linux-foundation-announces-the-formation-of-the-agentic-ai-foundation">Agentic AI Foundation announcement</a></p></div><div class="lessonnav"><a class="ln" href="module-08-autonomous-agents.html"><span class="dir">&#8592; Previous</span><b>08 &middot; Autonomous agents</b></a><a class="ln home" href="../index.html"><b>&#9632; All modules</b></a><a class="ln next" href="module-10-multi-agent-systems-orchestration.html"><span class="dir">Next &#8594;</span><b>10 &middot; Multi-agent systems &amp; orchestration (with the real debate)</b></a></div></article></main></div><footer class="site"><div class="wrap"><div class="logo">AI Nativity<span style="color:var(--teal)">.</span></div>
 <div class="fnote">Documenting the birth into being AI-native, from first principles, with no hype. Built from a deep-research pass across primary sources (Anthropic engineering, Chip Huyen, the ReAct &amp; Reflexion papers, Simon Willison, Hamel Husain, Eugene Yan). Designed to be published through, not just read.</div></div></footer>
 <script>
 var p=document.getElementById('progress');
