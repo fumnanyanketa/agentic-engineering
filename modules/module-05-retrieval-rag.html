@@ -1,0 +1,160 @@
+<!doctype html>
+<html lang="en"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Module 5: Retrieval &amp; RAG | Agentic Engineering</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@500;600;700;800&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{--navy:#0a1a2f;--navy-2:#0f243d;--navy-3:#15314f;--teal:#18c4a0;--teal-d:#0fa385;--teal-soft:#e4f8f2;--coral:#f24d63;--coral-d:#d83a50;--ink:#152230;--muted:#5f6c7b;--line:#e9eef2;--bg:#fff;--soft:#f4fbf9;--code-bg:#21252b;--max:820px;--k:#2f8fb3;--k-bg:#e8f4f9;--tip:#c4881f;--tip-bg:#fdf4e3;--ok:#1f9d6b;--ok-bg:#e6f6ef;--no:#e0533f;--no-bg:#fdecea;--goal:#7b54c9;--goal-bg:#f1ebfb;--shadow:0 10px 30px rgba(13,30,52,.08);--shadow-sm:0 4px 14px rgba(13,30,52,.07)}
+*{box-sizing:border-box}html{scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,sans-serif;line-height:1.72;font-size:17px;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+#progress{position:fixed;top:0;left:0;height:4px;width:0;background:linear-gradient(90deg,var(--teal),var(--coral));z-index:200;transition:width .1s linear}
+a{color:var(--teal-d);text-decoration:none}a:hover{color:var(--coral)}
+h1,h2,h3{font-family:Poppins,sans-serif;color:var(--ink);letter-spacing:-.01em}
+.wrap{max-width:1200px;margin:0 auto;padding:0 28px}
+.topbar{background:var(--navy);color:#cdd8e4;font-size:13.5px}
+.topbar .wrap{display:flex;justify-content:space-between;align-items:center;height:42px;gap:18px}
+.topbar b{color:#fff;font-weight:600}
+nav.bar{background:var(--navy-2);position:sticky;top:0;z-index:120;box-shadow:0 2px 20px rgba(0,0,0,.25)}
+nav.bar .wrap{display:flex;align-items:center;height:64px;gap:22px}
+.logo{font-family:Poppins;font-weight:800;font-size:21px;color:#fff;letter-spacing:.02em;text-decoration:none}
+a.logo:hover{color:var(--teal)}.logo .dot{color:var(--teal)}
+.navlinks{display:flex;gap:22px;margin-left:auto}
+.navlinks a{color:#dde6ef;font-weight:500;font-size:15px}.navlinks a:hover{color:var(--teal)}
+#menuBtn{display:none;background:none;border:1.5px solid rgba(255,255,255,.3);color:#fff;border-radius:10px;padding:7px 11px;cursor:pointer;font-size:16px}
+.hero{position:relative;background:radial-gradient(120% 120% at 80% 0%,var(--navy-3),var(--navy) 60%);color:#eaf1f8;overflow:hidden}
+.hero::before{content:"";position:absolute;inset:0;background-image:radial-gradient(rgba(255,255,255,.12) 1.3px,transparent 1.3px);background-size:22px 22px;opacity:.22;mask:radial-gradient(70% 70% at 30% 20%,#000,transparent)}
+.blob{position:absolute;border-radius:50%;filter:blur(10px);opacity:.5;z-index:0}
+.blob.t{width:230px;height:230px;background:rgba(24,196,160,.30);top:-60px;right:8%}
+.blob.c{width:160px;height:160px;background:rgba(242,77,99,.26);bottom:-40px;left:40%}
+.hero .wrap{position:relative;z-index:2;padding:64px 28px 74px}
+.eyebrow{display:inline-flex;align-items:center;gap:8px;color:var(--teal);font-weight:600;font-size:13.5px;letter-spacing:.05em;text-transform:uppercase;margin-bottom:16px}
+.hero h1{font-size:46px;line-height:1.1;font-weight:800;margin:0 0 18px;color:#fff;max-width:18em}
+.hero .lead{font-size:18px;color:#b9c6d6;max-width:42em;margin:0 0 24px}
+.chips{display:flex;gap:10px;flex-wrap:wrap}
+.chip{display:inline-flex;align-items:center;gap:7px;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.12);color:#dce6f0;padding:8px 14px;border-radius:999px;font-size:13.5px;font-weight:500}
+.chip b{color:#fff}
+.layout{display:grid;grid-template-columns:280px minmax(0,1fr);gap:46px;max-width:1200px;margin:0 auto;padding:0 28px}
+aside{position:sticky;top:80px;align-self:start;max-height:calc(100vh - 96px);overflow-y:auto;padding:26px 0}
+.toc-card{background:var(--soft);border:1px solid var(--line);border-radius:18px;padding:18px}
+.toc-close{display:none;position:absolute;top:10px;right:12px;width:34px;height:34px;border:none;background:var(--navy-2);color:#fff;border-radius:50%;font-size:20px;cursor:pointer}
+.toc-title{font-family:Poppins;font-size:11.5px;text-transform:uppercase;letter-spacing:.1em;color:var(--teal-d);margin:14px 0 6px;font-weight:700}
+.toc-title:first-child{margin-top:0}
+.toc a{display:block;color:var(--muted);font-size:14px;padding:6px 11px;border-radius:8px;border-left:2px solid transparent;line-height:1.4}
+.toc a:hover{color:var(--ink);background:#fff}
+.toc a.active{color:var(--teal-d);background:#fff;border-left-color:var(--teal);font-weight:600}
+main{padding:50px 0 110px;min-width:0}
+article{max-width:var(--max)}
+article h2{font-size:29px;margin:54px 0 16px;font-weight:700}
+article h2::before{content:"\2726";color:var(--teal);font-size:18px;margin-right:10px;vertical-align:2px}
+article h3{font-size:20px;margin:32px 0 10px;font-weight:600}
+article h4{font-family:Poppins,sans-serif;font-size:17px;margin:30px 0 8px;font-weight:600;color:var(--teal-d);padding-bottom:7px;border-bottom:1px solid var(--line)}
+article p,article li{font-size:16.5px}
+article ul,article ol{padding-left:24px}article li{margin:7px 0}
+article strong{font-weight:700;color:#0f1b28}
+hr{border:none;height:1px;background:var(--line);margin:40px 0}
+table{border-collapse:separate;border-spacing:0;width:100%;margin:24px 0;font-size:15px;border:1px solid var(--line);border-radius:14px;overflow:hidden;display:block;overflow-x:auto}
+th,td{padding:12px 15px;text-align:left;vertical-align:top;border-bottom:1px solid var(--line)}
+th{background:var(--navy-2);color:#eaf1f8;font-family:Poppins;font-weight:600;font-size:14px}
+tr:last-child td{border-bottom:none}tbody tr:nth-child(even){background:var(--soft)}
+code{font-family:"JetBrains Mono",ui-monospace,Menlo,monospace;font-size:.86em;background:var(--teal-soft);color:#0c6a55;padding:.13em .42em;border-radius:6px}
+.codeblock{position:relative;background:var(--code-bg);border-radius:14px;margin:22px 0;overflow:hidden;box-shadow:var(--shadow-sm)}
+.codeblock pre{margin:0;background:transparent}
+pre{background:var(--code-bg);border-radius:14px;overflow:hidden}
+pre>code{display:block;padding:42px 18px 18px;overflow-x:auto;background:none;color:#dfe6ee;font-size:13.5px;line-height:1.7;border-radius:0}
+.code-bar{position:absolute;top:0;left:0;right:0;height:34px;display:flex;align-items:center;gap:7px;padding:0 15px;background:rgba(255,255,255,.05);border-bottom:1px solid rgba(255,255,255,.07);z-index:2}
+.code-bar .dot{width:11px;height:11px;border-radius:50%}.dot.r{background:#ff5f57}.dot.y{background:#febc2e}.dot.g{background:#28c840}
+blockquote{margin:22px 0;padding:15px 20px;border-radius:14px;background:var(--soft);border:1px solid var(--line);border-left:5px solid var(--teal)}
+blockquote p{margin:7px 0}blockquote p:first-child{margin-top:0}blockquote p:last-child{margin-bottom:0}
+blockquote.cl-key{background:var(--k-bg);border-left-color:var(--k);border-color:transparent}
+blockquote.cl-tip{background:var(--tip-bg);border-left-color:var(--tip);border-color:transparent}
+blockquote.cl-ok{background:var(--ok-bg);border-left-color:var(--ok);border-color:transparent}
+blockquote.cl-no{background:var(--no-bg);border-left-color:var(--no);border-color:transparent}
+blockquote.cl-goal{background:var(--goal-bg);border-left-color:var(--goal);border-color:transparent}
+.labbox{background:linear-gradient(115deg,var(--navy),var(--navy-3));color:#dfeaf4;border-radius:18px;padding:24px;margin:26px 0;box-shadow:0 16px 40px rgba(10,26,47,.28);position:relative;overflow:hidden}
+.labbox::after{content:"";position:absolute;width:150px;height:150px;border-radius:50%;background:rgba(24,196,160,.22);filter:blur(12px);top:-50px;right:-30px}
+.labbox::before{content:"\1F6E0  HANDS-ON LAB";display:block;font-family:Poppins;font-size:11.5px;font-weight:700;letter-spacing:.14em;color:var(--teal);margin-bottom:8px}
+.labbox p{margin:0;position:relative;z-index:1}.labbox strong{color:#fff}.labbox a{color:var(--teal)}
+.resbox{background:var(--soft);border:1px solid var(--line);border-radius:14px;padding:14px 18px;margin:22px 0}
+.resbox p{margin:0;font-size:15px}.resbox strong{display:block;font-family:Poppins;font-size:11.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--teal-d);margin-bottom:5px}
+.lessonnav{display:flex;gap:14px;align-items:stretch;margin:64px 0 0;flex-wrap:wrap}
+.lessonnav .ln{flex:1;min-width:200px;display:flex;flex-direction:column;gap:3px;border:1px solid var(--line);border-radius:14px;padding:16px 18px;color:var(--muted);transition:.15s;background:#fff}
+.lessonnav .ln:hover{border-color:var(--teal);box-shadow:var(--shadow-sm);transform:translateY(-1px)}
+.lessonnav .ln .dir{font-size:13px;font-weight:600;color:var(--teal-d)}
+.lessonnav .ln b{color:var(--ink);font-family:Poppins;font-size:15px}
+.lessonnav .ln.next{text-align:right}
+.lessonnav .ln.home{flex:0 0 auto;justify-content:center;align-items:center;text-align:center;background:var(--soft)}
+.lessonnav .ln.home b{color:var(--teal-d)}
+footer.site{background:var(--navy);color:#aebccb;margin-top:0}
+footer.site .wrap{padding:44px 28px;display:flex;justify-content:space-between;gap:26px;flex-wrap:wrap;align-items:center}
+footer.site .logo{font-size:20px}footer.site .fnote{max-width:46em;font-size:13.5px;line-height:1.7}
+@media(max-width:920px){.topbar{display:none}.navlinks{display:none}#menuBtn{display:inline-flex;margin-left:auto}
+ .hero h1{font-size:32px}.hero .wrap{padding:42px 20px 52px}.wrap{padding:0 20px}
+ .layout{grid-template-columns:1fr;gap:0}
+ aside{position:fixed;top:0;left:0;width:86vw;max-width:330px;height:100vh;background:#fff;z-index:130;transform:translateX(-100%);transition:.25s;box-shadow:var(--shadow);padding:60px 22px 22px;max-height:none}
+ aside.open{transform:none}.toc-close{display:block}
+ main{padding:34px 0 80px}body{font-size:16px}article h2{font-size:24px}}
+</style></head>
+<body>
+<div id="progress"></div>
+<div class="topbar"><div class="wrap"><div>&#10024; <b>Agentic Engineering</b> &middot; from zero to agent orchestrator</div><div class="right">An AI Nativity curriculum</div></div></div>
+<nav class="bar"><div class="wrap"><a class="logo" href="../index.html">Agentic Engineering<span class="dot">.</span></a>
+<div class="navlinks"><a href="../index.html">All modules</a><a href="../orientation.html">Orientation</a><a href="../resources.html">Resources</a></div>
+<button id="menuBtn">&#9776;</button></div></nav><header class="hero"><span class="blob t"></span><span class="blob c"></span><div class="wrap">
+<span class="eyebrow">&#10022; Module 5 &middot; Phase 2</span>
+<h1>Retrieval &amp; RAG</h1>
+<p class="lead">Ground the model in information it wasn&#x27;t trained on — your data, fresh data — without retraining.</p>
+<div class="chips"><span class="chip">Phase 2 &middot; <b>The augmented LLM</b></span><span class="chip">Weeks 4–6</span><span class="chip">&#128296; Hands-on lab</span></div></div></header><div class="layout"><aside id="side"><button id="tocClose" class="toc-close">&times;</button><div class="toc-card"><nav class="toc">
+<div class="toc-title">Start</div><a href="../orientation.html">Orientation &amp; how to use this</a>
+<div class="toc-title">Phase 0 &middot; Orientation &amp; prerequisites</div>
+<a href="../modules/module-00-baseline-skills-and-the-right-mental-mod.html"><b style="color:var(--teal);font-family:Poppins">00</b>&nbsp; Baseline skills and the right mental model</a>
+<div class="toc-title">Phase 1 &middot; Foundations</div>
+<a href="../modules/module-01-how-llms-work.html"><b style="color:var(--teal);font-family:Poppins">01</b>&nbsp; How LLMs work (exactly enough, no more)</a>
+<a href="../modules/module-02-prompt-engineering-fundamentals.html"><b style="color:var(--teal);font-family:Poppins">02</b>&nbsp; Prompt engineering fundamentals</a>
+<a href="../modules/module-03-context-engineering-i.html"><b style="color:var(--teal);font-family:Poppins">03</b>&nbsp; Context engineering I</a>
+<div class="toc-title">Phase 2 &middot; The augmented LLM</div>
+<a href="../modules/module-04-tool-use-function-calling.html"><b style="color:var(--teal);font-family:Poppins">04</b>&nbsp; Tool use / function calling</a>
+<a href="../modules/module-05-retrieval-rag.html" class="active"><b style="color:var(--teal);font-family:Poppins">05</b>&nbsp; Retrieval &amp; RAG</a>
+<a href="../modules/module-06-memory-context-management-at-scale.html"><b style="color:var(--teal);font-family:Poppins">06</b>&nbsp; Memory &amp; context management at scale</a>
+<div class="toc-title">Phase 3 &middot; Workflows &amp; agents</div>
+<a href="../modules/module-07-workflows.html"><b style="color:var(--teal);font-family:Poppins">07</b>&nbsp; Workflows</a>
+<a href="../modules/module-08-autonomous-agents.html"><b style="color:var(--teal);font-family:Poppins">08</b>&nbsp; Autonomous agents</a>
+<a href="../modules/module-09-mcp.html"><b style="color:var(--teal);font-family:Poppins">09</b>&nbsp; MCP</a>
+<div class="toc-title">Phase 4 &middot; Orchestration &amp; multi-agent</div>
+<a href="../modules/module-10-multi-agent-systems-orchestration.html"><b style="color:var(--teal);font-family:Poppins">10</b>&nbsp; Multi-agent systems &amp; orchestration (with the real debate)</a>
+<a href="../modules/module-11-the-agentic-engineer-s-toolkit.html"><b style="color:var(--teal);font-family:Poppins">11</b>&nbsp; The agentic engineer&#x27;s toolkit (frameworks, with eyes open)</a>
+<div class="toc-title">Phase 5 &middot; Reliability</div>
+<a href="../modules/module-12-evaluation.html"><b style="color:var(--teal);font-family:Poppins">12</b>&nbsp; Evaluation</a>
+<a href="../modules/module-13-observability-tracing.html"><b style="color:var(--teal);font-family:Poppins">13</b>&nbsp; Observability &amp; tracing</a>
+<a href="../modules/module-14-safety-guardrails-security.html"><b style="color:var(--teal);font-family:Poppins">14</b>&nbsp; Safety, guardrails &amp; security</a>
+<a href="../modules/module-15-production-hardening.html"><b style="color:var(--teal);font-family:Poppins">15</b>&nbsp; Production hardening</a>
+<div class="toc-title">Phase 6 &middot; Practice &amp; capstone</div>
+<a href="../modules/module-16-working-with-coding-agents.html"><b style="color:var(--teal);font-family:Poppins">16</b>&nbsp; Working with coding agents</a>
+<a href="../modules/module-17-build-atlas-os.html"><b style="color:var(--teal);font-family:Poppins">17</b>&nbsp; Build &quot;Atlas OS&quot;</a>
+<div class="toc-title">Reference</div><a href="../resources.html">Reading shelf &amp; decision rules</a>
+</nav></div></aside><main><article><blockquote class="cl-goal"><p><strong>🎯 Objective:</strong> Ground the model in information it wasn't trained on — your data, fresh data — without retraining.</p></blockquote>
+<p><strong>Key concepts (vendor-neutral):</strong>
+- <strong>Why RAG</strong> — new documents are usable immediately; no retraining. The default for "the model needs to know <em>your</em> stuff."
+- <strong>Mechanics</strong> — embeddings, vector stores, chunking, top-k retrieval, <strong>re-ranking</strong>.
+- <strong>Hybrid search</strong> — combine semantic (vector) with lexical (BM25); often "the biggest step-change improvement" because BM25 catches exact matches (error codes, product IDs, names) that embeddings miss. <strong>Reciprocal Rank Fusion (RRF)</strong> is the sane default fusion method. (<a href="https://www.stackai.com/insights/retrieval-augmented-generation-(rag)-best-practices-for-enterprise-ai-chunking-embeddings-reranking-and-hybrid-search-optimization">hybrid search best practices</a>)
+- <strong>RAG vs. long context vs. agentic retrieval</strong> — Huyen's unification: RAG is a <em>special case of the agent pattern</em> (the retriever is just a tool). And her "Context Expansion Law": data grows faster than context windows, so <strong>retrieval doesn't go away</strong> no matter how big context gets. (<a href="https://codingbrewery.com/2025/08/03/ai-engineering-by-chip-huyen-chapter-7-rag-and-agents/">Huyen Ch.7 notes</a>)
+- <strong>Just-in-time / agentic retrieval</strong> — instead of pre-stuffing everything, let the agent hold lightweight references (file paths, queries, links) and pull data at runtime ("progressive disclosure"). (<a href="https://www.anthropic.com/engineering/effective-context-engineering-for-ai-agents">Anthropic</a>)</p>
+<p><strong>Claude layer:</strong> Build retrieval as a <strong>tool</strong> the model calls (this sets you up for MCP in Module 9). Use prompt caching for stable retrieved context.</p>
+<div class="labbox"><p><strong>Lab 5:</strong> Build a RAG pipeline over a corpus you care about (your own notes, docs, the AI Nativity archive). Start with naive top-k vector search, measure retrieval quality, then add BM25 + RRF hybrid and a re-ranker. Record the quality lift. Then refactor retrieval into a <em>tool</em> the model calls on demand.</p></div>
+<blockquote class="cl-ok"><p><strong>✅ Best practices:</strong> measure retrieval separately from generation (most "RAG is bad" problems are retrieval problems); hybrid by default; chunk thoughtfully.</p></blockquote>
+<blockquote class="cl-no"><p><strong>⛔ Pitfalls:</strong> believing "RAG is dead" marketing (what's dying is <em>naive single-vector top-k</em>, not retrieval); evaluating end-to-end only and never isolating the retriever; pre-loading everything and inducing context rot.</p></blockquote>
+<blockquote class="cl-tip"><p><strong>🏁 Milestone:</strong> A retrieval system with measured precision improvement from hybrid search, exposed as a tool.</p></blockquote>
+<blockquote class="cl-key"><p><strong>✎ Publish this:</strong> "RAG isn't dead. Naive RAG is. Here's the difference, with numbers."</p></blockquote>
+<div class="resbox"><p><strong>&#128218; Resources</strong> <a href="https://codingbrewery.com/2025/08/03/ai-engineering-by-chip-huyen-chapter-7-rag-and-agents/">Huyen Ch.7: RAG &amp; Agents</a> · <a href="https://www.llamaindex.ai/blog/rag-is-dead-long-live-agentic-retrieval">Agentic retrieval</a> <em>(vendor framing — read critically)</em> · <a href="https://techbytes.app/posts/hybrid-rag-search-bm25-embeddings-deep-dive-2026/">Hybrid search</a></p></div><div class="lessonnav"><a class="ln" href="module-04-tool-use-function-calling.html"><span class="dir">&#8592; Previous</span><b>04 &middot; Tool use / function calling</b></a><a class="ln home" href="../index.html"><b>&#9632; All modules</b></a><a class="ln next" href="module-06-memory-context-management-at-scale.html"><span class="dir">Next &#8594;</span><b>06 &middot; Memory &amp; context management at scale</b></a></div></article></main></div><footer class="site"><div class="wrap"><div class="logo">AI Nativity<span style="color:var(--teal)">.</span></div>
+<div class="fnote">Documenting the birth into being AI-native, from first principles, with no hype. Built from a deep-research pass across primary sources (Anthropic engineering, Chip Huyen, the ReAct &amp; Reflexion papers, Simon Willison, Hamel Husain, Eugene Yan). Designed to be published through, not just read.</div></div></footer>
+<script>
+var p=document.getElementById('progress');
+addEventListener('scroll',function(){var h=document.documentElement;var sc=h.scrollTop/(h.scrollHeight-h.clientHeight);p.style.width=(sc*100)+'%';});
+var mb=document.getElementById('menuBtn'),sb=document.getElementById('side');
+if(mb){mb.onclick=function(){sb.classList.toggle('open');};}
+var cc=document.getElementById('tocClose');if(cc){cc.onclick=function(){sb.classList.remove('open');};}
+document.querySelectorAll('aside a').forEach(function(a){a.addEventListener('click',function(){if(sb)sb.classList.remove('open');});});
+document.querySelectorAll('.codeblock').forEach(function(b){var btn=document.createElement('button');btn.textContent='Copy';btn.style.cssText='position:absolute;top:5px;right:9px;z-index:3;background:rgba(255,255,255,.08);color:#dfe6ee;border:1px solid rgba(255,255,255,.14);border-radius:8px;font-size:12px;padding:4px 11px;cursor:pointer';btn.onclick=function(){var c=b.querySelector('code');navigator.clipboard.writeText(c.innerText);btn.textContent='Copied';setTimeout(function(){btn.textContent='Copy';},1200);};b.appendChild(btn);});
+</script>
+</body></html>
