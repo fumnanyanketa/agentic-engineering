@@ -1,101 +1,93 @@
 # Repository Status Report
 
-_Deep-dive generated 2026-06-22. Findings are based on reading the actual files in the repo, not branch names or commit messages._
+_Deep-dive regenerated 2026-06-22 using a server-authoritative branch diagnostic. Findings are based on reading the actual files, not branch/commit names._
 
-## TL;DR
+## Correction note (vs. the previous STATUS.md)
 
-This repo is **not software** in the usual sense. It is a **self-paced online course on "Agentic Engineering"**, delivered as a set of **hand-styled static HTML pages** designed to be published via GitHub Pages. There is no application, no backend, no build step, no tests, and no source code to compile — just 22 HTML files and one GitHub Actions workflow. The course content itself is **substantively complete and polished** (~39,000 words of real prose across 18 module pages plus orientation/resources). The "incompleteness" here is almost entirely **project hygiene** (no README, no license), not missing content.
+An earlier version of this file (committed on branch `claude/pensive-cray-j58i2u`) stated the feature branch was **"0 ahead / 0 behind — identical to main."** That was true at the moment the branch was *read*, but became stale the instant STATUS.md was committed onto it. The accurate, current picture: the feature branch is **1 commit ahead of `main`**, and that one commit is STATUS.md itself. Nothing else changed. This version also adds an explicit server-authoritative branch count, which the previous version did not show.
 
 ---
 
-## 1. Branch inventory
+## Step 1 — Branch diagnostic (server is the source of truth)
 
-| Branch | Last commit (UTC) | vs `main` | What's actually in it |
+```
+git ls-remote --heads origin   ->   2 branches (AUTHORITATIVE)
+git branch -r (locally visible) ->  2 branches  (matches)
+```
+
+**There are exactly 2 branches on the server. No hidden, sparse, or orphan branches.**
+
+| # | Branch | Head | Notes |
 |---|---|---|---|
-| `main` (default) | 2026-06-18 20:18 | — | The full course: `index.html`, 18 module pages, `orientation.html`, `resources.html`, Pages deploy workflow. |
-| `claude/pensive-cray-j58i2u` | 2026-06-18 20:18 | **0 ahead / 0 behind** | Identical to `main` at commit `a79ca5d`. This is the working branch for this report; before STATUS.md it carried no unique work. |
+| 1 | `main` (default) | `a79ca5d` | The course. No STATUS.md. |
+| 2 | `claude/pensive-cray-j58i2u` | `4c7d359` | `main` + 1 commit adding this STATUS.md. Shares history with main (merge-base = `a79ca5d`), so **not** an orphan. |
 
-There are exactly **two branches (one local-tracked, two remote refs) and both point at the same commit** `a79ca5d`. No stale, abandoned, stranded, or unmerged feature branches exist. No tags, no other remotes.
-
-**Full history (3 commits, all 2026-06-18, single author "Claude"):**
-- `bcb1b4b` Publish Agentic Engineering HTML course via GitHub Pages
-- `92a9c76` Rewrite Module 1 in beginner-friendly language; remove em dashes
-- `a79ca5d` Rewrite course as vendor-neutral, beginner-friendly playbook
-
-The entire project was created and rewritten within a ~2-hour window on a single day. Nothing has changed since 2026-06-18.
+`git rev-list --left-right --count main...feature` = `0  1` → feature is **1 ahead / 0 behind**. The only file differing between the two branches is `STATUS.md`.
 
 ---
 
-## 2. What this project actually is
+## Step 2/3 — Per-branch deep-dive
 
-An educational website titled **"Agentic Engineering — From Zero to Agent Orchestrator,"** branded **"AI Nativity."** It is a structured, vendor-neutral curriculum that teaches how to design, evaluate, and operate production LLM-agent systems. Read from the files, the structure is:
+### Branch `main` (`a79ca5d`, last commit 2026-06-18 20:18 UTC)
+- **Full history is only 3 commits, all on 2026-06-18**, single author "Claude", inside a ~2-hour window. Nothing has changed since.
+  - `bcb1b4b` Publish Agentic Engineering HTML course via GitHub Pages
+  - `92a9c76` Rewrite Module 1 in beginner-friendly language; remove em dashes
+  - `a79ca5d` Rewrite course as vendor-neutral, beginner-friendly playbook
+- **Contents (read, not inferred):** 22 tracked files = 20 course HTML pages + 1 landing page region + 1 GitHub Pages workflow. Specifically: `index.html`, `orientation.html`, `resources.html`, `modules/module-00…17` (18 module pages), and `.github/workflows/pages.yml`. **The only non-HTML file in the entire repo is the Pages workflow.**
 
-- **7 phases (Phase 0–6), 18 modules (00–17), each ending in a hands-on lab**, building toward a capstone "agent orchestration platform."
-- Topics actually covered (verified by reading the pages): how LLMs work, prompt engineering, context engineering, tool use / function calling, retrieval & RAG, memory/context management, the five workflow patterns, autonomous agent loops, MCP, multi-agent orchestration, framework trade-offs, evaluation, observability/tracing, safety & guardrails (prompt injection, the "lethal trifecta"), production hardening, working with coding agents, and a capstone.
-- Content style is genuinely beginner-friendly: every jargon term is defined inline, with "Objective / Best practices / Pitfalls / Milestone / Publish this" callouts and citations to primary sources (Karpathy, Simon Willison, Chip Huyen, Anthropic engineering, ReAct/Reflexion papers, Hamel Husain, Eugene Yan).
+### Branch `claude/pensive-cray-j58i2u` (`4c7d359`, this report's branch)
+- Identical to `main` plus a single commit adding `STATUS.md`. **No unique project work** lives here — it is purely the status report. Not stale, not stranded; it exists to carry this document. Once reviewed, it can be merged to `main` or discarded with no loss of project code.
 
-It is content-first: the footer notes it was "built from a deep-research pass across primary sources" and "designed to be published through, not just read."
-
----
-
-## 3. Built vs. stubbed — roughly **90% complete (as a content site)**
-
-**Genuinely built (real, finished content):**
-- All 18 module pages contain real, complete prose (1,200–2,600 words each; ~39k words total). None are stubs or placeholders.
-- `index.html` — full landing page with all 18 modules linked and described.
-- `orientation.html` (~2,200 words) and `resources.html` (~2,000 words) — real content.
-- Each module includes a hands-on lab box, table of contents, prev/next navigation, mobile menu, and reading-progress bar (vanilla JS, no dependencies).
-- `.github/workflows/pages.yml` — a valid, standard GitHub Pages deploy workflow triggered on push to `main`.
-- **Internal link integrity: clean.** Every local `href` resolves to an existing file — no broken links found.
-- **No placeholder/TODO/lorem/"coming soon" markers** anywhere (the single "placeholder" hit is legitimate prose about PII masking).
-
-**Not present / thin:**
-- **No `README.md`** — a visitor to the GitHub repo gets no explanation of what this is or how to use/deploy it.
-- **No `LICENSE`** — for a course meant to be published and followed by others, this is a real gap (default = all rights reserved, which discourages reuse).
-- **No labs scaffolding.** The 18 "hands-on labs" are described in prose only; there is no starter code, repo, or solution for any of them — including the capstone, which is specified in detail but ships zero code.
-- No custom domain config (`CNAME`), no `.nojekyll`, no favicon/OG images/social preview.
-- ~16KB of nearly-identical inline CSS is copy-pasted into every module page (maintenance smell, not a defect).
-
-**Why "complete as a content site" but not "complete as a course":** the teaching material is done; the *practice* half of a "hands-on" curriculum (actual lab repos/code) does not exist.
+**No stale, abandoned, redundant, or stranded feature branches exist. No second/separate project hiding in another branch.**
 
 ---
 
-## 4. What's left, and the single biggest blocker
+## Step 4 — Assessment
 
-Remaining work, in plain terms:
-1. Add a `README.md` (what this is, who it's for, how to run/deploy locally).
-2. Add a `LICENSE` (the content is explicitly meant to be shared).
-3. Confirm GitHub Pages is actually enabled and the site renders at its URL.
-4. Optionally provide starter/solution code for the labs and capstone.
-5. Optionally factor the shared CSS into one stylesheet.
+### 1. What this project actually is
+A self-paced **course website**, titled **"Agentic Engineering — From Zero to Agent Orchestrator,"** branded **"AI Nativity."** It is **not application software** — there is no backend, no build step, no tests, no dependencies, and (aside from small inline vanilla-JS for nav/progress bar) no real source code. It is hand-written static HTML.
 
-**Single biggest blocker:** **a decision about scope/intent.** Is this a *reading* curriculum (in which case it's essentially done and just needs README + LICENSE + Pages verification), or a *hands-on* one (in which case the largest piece — lab and capstone code for 18 modules — is entirely unbuilt)? Everything downstream depends on that call. There is no technical blocker; the work is unblocked the moment the goal is set.
+The curriculum (verified by reading the pages) is a vendor-neutral path through production LLM-agent engineering: **7 phases, 18 modules (00–17), each ending in a hands-on lab**, building toward a capstone "agent orchestration platform." Topics actually present: how LLMs work, prompt & context engineering, tool use/function calling, retrieval & RAG, memory/context management, the five workflow patterns, autonomous agent loops, MCP, multi-agent orchestration, framework trade-offs, evaluation, observability/tracing, safety & guardrails (prompt injection, the "lethal trifecta"), production hardening, working with coding agents, and the capstone. Prose is genuinely beginner-friendly (every term defined inline) with citations to primary sources (Karpathy, Simon Willison, Chip Huyen, Anthropic engineering, ReAct/Reflexion, Hamel Husain, Eugene Yan).
 
----
+### 2. Built vs. stubbed — roughly **90% complete as a content site**
+**Genuinely built:**
+- All 18 module pages contain real, finished prose (~39,000 words total across the site; no module is a stub).
+- `index.html`, `orientation.html` (~2.2k words), `resources.html` (~2.0k words) — all real content.
+- Per-page UX: table of contents, prev/next nav, mobile menu, reading-progress bar.
+- Valid GitHub Pages deploy workflow (`pages.yml`, triggers on push to `main`).
+- **Internal link integrity is clean** (every local `href` resolves; re-verified). **No TODO/lorem/placeholder/"coming soon" markers** anywhere.
 
-## 5. Quick wins (nearly done)
+**Missing / thin:**
+- **No `README.md`** — a visitor to the repo gets zero explanation or deploy instructions.
+- **No `LICENSE`** — yet the content is explicitly meant to be shared/followed (default "all rights reserved" discourages reuse).
+- **No lab code.** All 18 "hands-on labs" and the detailed capstone are described in prose only — **zero starter code, solutions, or repos ship**. The *practice* half of a "hands-on" course does not exist.
+- No `.nojekyll`, favicon, OG/social image, or custom domain.
+- ~16KB of near-identical inline CSS is duplicated into every module page (maintenance smell, not a defect).
 
-- **Add a `README.md`** — 15 minutes; immediately makes the repo legible to anyone who lands on it.
-- **Add a `LICENSE`** (e.g. CC-BY for content, MIT for any code) — 5 minutes; unblocks the stated goal of others following the build.
-- **Verify the Pages deploy** — the workflow already exists; just confirm Pages is enabled in repo settings and the URL is live.
-- **Add `.nojekyll` + a favicon** — trivial polish that prevents Jekyll surprises and improves the published look.
+### 3. What's left, and the single biggest blocker
+Remaining: README, LICENSE, verify Pages is actually live, optionally build lab/capstone code, optionally de-duplicate CSS.
 
----
+**Single biggest blocker: a scope decision, not a technical one.** Is this a *reading* curriculum (then it's essentially done — just needs README + LICENSE + Pages verification) or a *hands-on* one (then the largest piece — lab/capstone code for 18 modules — is entirely unbuilt)? Everything downstream hinges on that call. There is no technical blocker.
 
-## 6. Blunt recommendation: **KEEP and FINISH (lightweight)**
+### 4. Quick wins
+- Add `README.md` (~15 min) — makes the repo legible immediately.
+- Add `LICENSE` (~5 min) — unblocks the stated "others can follow this" goal.
+- Verify GitHub Pages is enabled and the URL renders (workflow already exists).
+- Add `.nojekyll` + favicon — trivial polish for the published site.
 
-This is a coherent, high-quality, finished piece of writing — not abandoned scaffolding and not something to discard. It does **not** need to be merged into another project or archived. The honest gap is that it presents itself as "hands-on" with 18 labs and a capstone, yet ships no code for any of them, and it lacks the basic repo furniture (README/LICENSE) to be usable by others.
+### 5. Blunt recommendation: **KEEP & FINISH (lightweight); then MERGE this branch to `main`**
+The writing is coherent and high quality — not abandoned scaffolding, not something to discard or archive, and there is no second project to split out. The honest gap is the **mismatch between its "hands-on, 18 labs + capstone" framing and the total absence of lab code**, plus missing README/LICENSE.
 
-Recommendation: **finish the cheap, high-leverage hygiene now** (README, LICENSE, verify Pages) and ship it as a reading curriculum. Treat the lab/capstone code as a clearly-scoped, optional **follow-on** project rather than pretending it's almost there — it isn't started. If no one intends to build the labs or maintain the content against a fast-moving field, then publish it as-is, mark it as a point-in-time reference, and leave it; do not let it rot half-described as interactive.
+Do the cheap, high-leverage hygiene now (README, LICENSE, verify Pages) and ship it as a **reading curriculum**. Treat lab/capstone code as a clearly-scoped, **optional follow-on** rather than pretending it's nearly there — it is not started. If nobody intends to build the labs or maintain the content against a fast-moving field, publish as-is, label it a point-in-time reference, and stop — don't leave it half-described as interactive. The `claude/pensive-cray-j58i2u` branch carries only this report and should be merged to `main` (or closed) so STATUS.md lives on the default branch.
 
 ---
 
 ## Next actions
 
-- [ ] Decide scope: **reading curriculum (ship now)** vs **hands-on curriculum (commit to building lab/capstone code)** — this unblocks everything else.
-- [ ] Add `README.md` (what it is, audience, how to view/deploy, link to the live Pages URL).
-- [ ] Add a `LICENSE` (content license such as CC-BY; separate code license if labs get built).
-- [ ] Verify GitHub Pages is enabled and the deployed site renders correctly end-to-end.
-- [ ] Add `.nojekyll` and a favicon/OG image for a clean published presentation.
-- [ ] (If hands-on) Create starter + solution repos for the labs, beginning with the Module 17 capstone spec.
-- [ ] (Maintenance) Extract the duplicated inline CSS into one shared stylesheet to ease future edits.
+- [ ] **Decide scope:** reading curriculum (ship now) vs hands-on (commit to building lab/capstone code). Unblocks everything else.
+- [ ] Add `README.md` (what it is, audience, how to view/deploy, live Pages URL).
+- [ ] Add a `LICENSE` (e.g. CC-BY for content; separate code license if labs get built).
+- [ ] Verify GitHub Pages is enabled and the deployed site renders end-to-end.
+- [ ] Merge `claude/pensive-cray-j58i2u` into `main` so STATUS.md lives on the default branch (or close the branch).
+- [ ] Add `.nojekyll` + favicon/OG image for a clean published presentation.
+- [ ] (If hands-on) Build starter + solution repos for the labs, beginning with the Module 17 capstone spec; (maintenance) extract duplicated inline CSS into one shared stylesheet.
