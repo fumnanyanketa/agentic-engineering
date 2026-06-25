@@ -2,7 +2,6 @@
 
 > **Course:** Agentic Engineering, a model-agnostic self-paced path *(working title)*
 > **Unit 2 of 11:** Learn to talk to a model so it does what you want, and learn to give it the right information in the smallest high-signal form, then write your first versioned system prompt for an AtlasOS agent
-> **Principle (vendor-neutral):** Agentic Engineering Module 2 (Prompt engineering fundamentals) and Module 3 (Context engineering I)
 > **The how, across models:** Claude (Anthropic), Gemini (Google), GPT (OpenAI), current practice verified June 2026
 > **AtlasOS build:** your `prompts/` library, with the first real system prompt for Scout (the research agent), committed and tested
 > **Estimated time:** 90 to 120 minutes
@@ -413,7 +412,3 @@ PROMPTS ARE ARTIFACTS
 
 - **Next, Unit 3 (Picking the right model and the thinking lever):** now that you can write a prompt, you learn to choose which model runs it and how hard it should think, judged with real tests, "cost per successful outcome" rather than cost per token. Scout's prompt is what you will route.
 - **Throughout:** the `prompts/` library you started here grows with the fleet. Every agent in AtlasOS (Atlas, Cortex, Warden, and the rest) gets its own versioned system prompt, and the context-engineering habits from this unit (smallest high-signal context, caching the stable parts) underpin every one of them.
-
----
-
-*Unit 2 of the combined path. Fuses the vendor-neutral principles of Agentic Engineering Modules 2 and 3 with current, model-agnostic practice across Claude (Anthropic), Gemini (Google), and GPT (OpenAI). Tool commands, model ids, and API field names change quickly; verify against current documentation.*

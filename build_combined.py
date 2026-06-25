@@ -69,6 +69,19 @@ TEMPLATE = TEMPLATE.replace("<body>", '<body class="{{BODYCLASS}}">', 1)
 TEMPLATE = TEMPLATE.replace(">All lessons</a>", ">All units</a>")
 TEMPLATE = TEMPLATE.replace('<a href="#capstone">Capstone</a>', '<a href="{{BUILD_HREF}}">The Build</a>')
 TEMPLATE = TEMPLATE.replace('href="#capstone" style="width:100%', 'href="{{BUILD_HREF}}" style="width:100%')
+# Footer credits the AI Nativity brand (the curriculum is "Agentic Engineering"; the
+# publisher is AI Nativity). The footer brand links to the AI Nativity home.
+_UNIT_FOOTER = (
+    '<footer class="site"><div class="wrap">'
+    '<a class="logo" href="https://ainativity.substack.com" target="_blank" rel="noopener">'
+    'AI Nativity<span class="dot">.</span></a>'
+    '<span class="fnote">An AI Nativity agentic-engineering curriculum: durable principles, '
+    'the how across Claude, Gemini, and OpenAI tooling, and one AtlasOS component built each unit. '
+    'Built from a deep-research pass across primary sources; commands, code, and model ids age fast, '
+    'so verify against current docs. &copy; 2026 AI Nativity.</span>'
+    '</div></footer>'
+)
+TEMPLATE = re.sub(r'<footer class="site">.*?</footer>', lambda m: _UNIT_FOOTER, TEMPLATE, flags=re.S)
 
 # Extra CSS for the unit outline sidebar and the step indicator.
 EXTRA_CSS = r'''
@@ -396,9 +409,9 @@ footer{{background:var(--navy);color:#aebccb;text-align:center;padding:40px 26px
   <div class="intro">Work top to bottom. Each unit is split into short pages, one per part, so you can feel the progress: read a part, click Next, keep going. Every unit ends in one component of AtlasOS.</div>
   <div class="lessons">{cards}</div>
 </div>
-<footer><div class="logo">{COURSE_NAME}<span class="d">.</span></div>
-<p>A model-agnostic, self-paced course. You build one platform, AtlasOS, one component at a time. Commands and model ids move fast; verify against current docs.</p>
-<p style="margin-top:14px;font-size:13px;opacity:.85">Appendix: the original vendor-neutral <a href="../reference-modules.html" style="color:#18c4a0">module deep-dives</a> (the principles reference behind these units).</p></footer>
+<footer><div class="logo">AI Nativity<span class="d">.</span></div>
+<p>An AI Nativity agentic-engineering curriculum. You build one platform, AtlasOS, one component at a time. Built from a deep-research pass across primary sources; commands and model ids age fast, so verify against current docs.</p>
+<p style="margin-top:12px;font-size:13px;opacity:.8">&copy; 2026 AI Nativity &middot; <a href="https://ainativity.substack.com" style="color:#18c4a0">ainativity.substack.com</a></p></footer>
 </body></html>'''
     (COMBINED / "index.html").write_text(page)
     print(f"wrote {COMBINED / 'index.html'}")

@@ -2,7 +2,6 @@
 
 > **Course:** Agentic Engineering, a model-agnostic self-paced path *(working title)*
 > **Unit 7 of 11:** Decide honestly when many cooperating agents beat one, build the orchestrator-and-subagents (lead-and-workers) pattern, choose correctly between a tool, a skill, and a subagent, and use a framework with your eyes open
-> **Principle (vendor-neutral):** Agentic Engineering Modules 10 and 11, Multi-agent systems and orchestration, and the agentic engineer's toolkit
 > **The how, across agents:** subagents in Claude Code (Anthropic), Gemini CLI (Google), Codex CLI (OpenAI); the orchestration pattern is identical regardless of model, current practice verified June 2026
 > **AtlasOS build:** the orchestrator fleet, Atlas dispatching 2 to 3 specialized subagents (Scout plus a writer and a reviewer) for one real outcome
 > **Estimated time:** 90 to 120 minutes (read plus the build)
@@ -326,7 +325,3 @@ FRAMEWORKS
 
 - **Next, Unit 8 (Evaluation and review):** the reviewer subagent you built here grows into a real eval gate. You learn to grade a fleet's output honestly and hill-climb its design with evals, the only trustworthy way to know a decomposition helped.
 - **Throughout:** Atlas is now a real orchestrator with a fleet, the spine of AtlasOS. Every later unit either adds a worker, hardens the orchestration, or deploys it, but the judgment from this unit (make every agent earn its seat) governs all of it.
-
----
-
-*Unit 7 of the combined path. Fuses the vendor-neutral judgment of Agentic Engineering Modules 10 and 11 (the multi-agent debate and the framework question) with current, model-agnostic practice for subagents across Claude Code, Gemini CLI, and Codex CLI. Tool commands, filenames, and model ids change quickly; verify against each tool's current documentation.*

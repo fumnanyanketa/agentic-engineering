@@ -2,7 +2,6 @@
 
 > **Course:** Agentic Engineering, a model-agnostic self-paced path *(working title)*
 > **Unit 0 of 11:** Install the one mental model that the whole course rests on (you engineer the environment, not the model), learn exactly enough about how LLMs work to fix their behaviour, and make your first measured model call across Claude, Gemini, and GPT
-> **Principle (vendor-neutral):** Agentic Engineering Module 0 (Baseline skills and the right mental model) and Module 1 (How LLMs work)
 > **The how, across models:** Claude (Anthropic), Gemini (Google), GPT (OpenAI), current practice verified June 2026
 > **AtlasOS build:** your launchpad (a first measured model call in Python) plus the AtlasOS charter
 > **Estimated time:** 90 to 120 minutes
@@ -466,7 +465,3 @@ FIRST MEASURED CALL (Python)
 - **Soon, Unit 2 (Prompting and context engineering):** the "good workplace" idea from Part 1 becomes concrete craft, clear instructions on the desk and the right reference material in the finite context window.
 - **Soon, Unit 3 (Model and reasoning levers):** the "pick the cheapest model that clears the bar" discipline from Part 3 becomes a rigorous "cost per successful outcome" method.
 - **Throughout:** every later unit adds one named component to AtlasOS, the platform whose charter you just wrote. This unit is the launchpad; the rest is the flight.
-
----
-
-*Unit 0 of the combined path. Fuses the vendor-neutral mental model and LLM fundamentals of Agentic Engineering Modules 0 and 1 with current, model-agnostic practice (a first measured call across Claude, Gemini, and GPT). Tool commands and model ids change quickly; verify against current documentation.*

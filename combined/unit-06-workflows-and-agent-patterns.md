@@ -2,7 +2,6 @@
 
 > **Course:** Agentic Engineering, a model-agnostic self-paced path *(working title)*
 > **Unit 6 of 11:** Learn the difference between a workflow (fixed code paths you design) and an agent (the model decides the next step), the five named workflow patterns, and the autonomous agent loop, then make a plan trustworthy by giving it a verify step
-> **Principle (vendor-neutral):** Agentic Engineering Modules 07 (workflows) and 08 (autonomous agents)
 > **The how, across tools/models:** pattern shapes shown as pseudocode and diagrams that work the same with Claude (Anthropic), Gemini (Google), or GPT (OpenAI); plus a scheduled routine you can build in any coding agent
 > **AtlasOS build:** Atlas v0, the orchestrator, a small routine that runs one real task end to end with a verify step
 > **Estimated time:** 90 to 120 minutes (read plus the build)
@@ -437,7 +436,3 @@ TRUSTWORTHY PLANS
 - **Builds on Unit 5 (retrieval, memory, state):** the compaction, scratchpad, and sub-agent isolation moves from Unit 5 become first-class steps inside these patterns, and an agent's message history is the free memory inside the loop.
 - **Next, Unit 7 (multi-agent orchestration):** the orchestrator-workers pattern here is the seed of true multi-agent systems. Unit 7 teaches when many agents genuinely beat one, and when a single agent wins.
 - **Toward the north-star:** Atlas v0 is the orchestrator at the centre of AtlasOS. Every later agent (Scout, Forge, Pulse, Herald, Warden) is a worker Atlas dispatches, and the verify step you built here is the seed of Warden, the verification gatekeeper.
-
----
-
-*Unit 6 of the combined path. Fuses the vendor-neutral principles of Agentic Engineering Modules 07 and 08 with current, model-agnostic practice (the five patterns and the agent loop work with Claude, Gemini, or GPT). Pattern shapes are shown as pseudocode and diagrams rather than provider-locked APIs; tool commands and model ids change quickly, so verify against current documentation.*

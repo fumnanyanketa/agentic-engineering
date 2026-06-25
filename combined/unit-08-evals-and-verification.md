@@ -2,7 +2,6 @@
 
 > **Course:** Agentic Engineering, a model-agnostic self-paced path *(working title)*
 > **Unit 8 of 11:** Build a graded eval suite so you can measure quality instead of guessing it, then let an agent run unsupervised because the evals gate its work
-> **Principle (vendor-neutral):** Agentic Engineering Module 12, Evaluation (how you know it actually works)
 > **The how, across models:** Claude (Anthropic), Gemini (Google), GPT (OpenAI); run the same suite against any of them
 > **AtlasOS build:** `evals/` (Warden): Warden's first graded suite for the Scout agent
 > **Estimated time:** 90 to 120 minutes
@@ -385,7 +384,3 @@ EVALS GATE AUTONOMY
 - **Back to Unit 2 (Scout's prompt):** the tiny harness you wrote there grows up here into Warden's real graded suite.
 - **Next, Unit 9 (and beyond):** with the gate in place, Atlas can run agents unsupervised and on a schedule, because nothing ships past Warden without passing. Later units wire these evals into the self-improving prompt loop, so Scout's instructions optimize themselves against the score.
 - **Throughout:** every new capability any agent gains earns a new case in this suite. Warden grows with the fleet, and a deliberately hard case always rides along.
-
----
-
-*Unit 8 of the combined path. Fuses the vendor-neutral discipline of Agentic Engineering Module 12 with current, model-agnostic practice (evals and LLM-as-judge across Claude, Gemini, and GPT). Eval methods are provider-neutral; model ids and API details change quickly, so verify against current documentation.*
