@@ -216,7 +216,7 @@ h1,h2{{font-family:Poppins,sans-serif;letter-spacing:-.01em}}
 .stats{{display:flex;gap:34px;justify-content:center;flex-wrap:wrap;margin-top:30px}}
 .stat .n{{font-family:Poppins;font-weight:800;font-size:30px;color:#fff}}
 .stat .l{{color:#9fb0c2;font-size:13.5px}}
-main{{padding:128px 0 200px}}
+.content{{max-width:1000px;margin:0 auto;padding:128px 26px 200px}}
 .intro{{text-align:center;max-width:44em;margin:0 auto 64px;color:var(--muted)}}
 .lessons{{display:grid;gap:10px;margin-top:8px}}
 .lesson{{display:flex;align-items:center;gap:16px;padding:16px 18px;border:1px solid var(--line);border-radius:14px;transition:.15s;background:#fff;box-shadow:var(--shadow)}}
@@ -243,10 +243,10 @@ footer{{background:var(--navy);color:#aebccb;text-align:center;padding:40px 26px
     </div>
   </div>
 </header>
-<main class="wrap">
+<div class="content">
   <div class="intro">Work top to bottom. Each unit states one principle, shows how to apply it with your chosen coding agent (and how the others do it), and ends in one component of AtlasOS.</div>
   <div class="lessons">{cards}</div>
-</main>
+</div>
 <footer><div class="logo">{COURSE_NAME}<span class="d">.</span></div>
 <p>A model-agnostic, self-paced course. You build one platform, AtlasOS, one component at a time. Commands and model ids move fast; verify against current docs.</p></footer>
 </body></html>'''
