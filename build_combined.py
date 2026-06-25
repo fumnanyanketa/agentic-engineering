@@ -16,6 +16,7 @@ Writes combined/<unit-stem>/NN-slug.html for every page, plus combined/index.htm
 import html
 import pathlib
 import re
+import shutil
 
 import build_lessons_html as bl
 
@@ -277,9 +278,13 @@ def unit_meta(md_path):
 def main():
     unit_files = sorted(COMBINED.glob("unit-*.md"), key=lambda p: p.name)
 
-    # Remove stale flat per-unit HTML from the old single-page build.
-    for old in COMBINED.glob("unit-*.html"):
-        old.unlink()
+    # Remove stale output from previous builds: flat per-unit HTML and any
+    # existing per-unit page folders (whose page slugs change as titles change).
+    for old in COMBINED.glob("unit-*"):
+        if old.is_dir():
+            shutil.rmtree(old)
+        elif old.suffix == ".html":
+            old.unlink()
 
     # First pass: build the page model for every unit.
     units = []

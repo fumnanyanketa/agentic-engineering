@@ -4,7 +4,7 @@
 > **Unit 8 of 11:** Build a graded eval suite so you can measure quality instead of guessing it, then let an agent run unsupervised because the evals gate its work
 > **Principle (vendor-neutral):** Agentic Engineering Module 12, Evaluation (how you know it actually works)
 > **The how, across models:** Claude (Anthropic), Gemini (Google), GPT (OpenAI); run the same suite against any of them
-> **AtlasOS build:** `evals/` (Warden) — Warden's first graded suite for the Scout agent
+> **AtlasOS build:** `evals/` (Warden): Warden's first graded suite for the Scout agent
 > **Estimated time:** 90 to 120 minutes
 
 ---

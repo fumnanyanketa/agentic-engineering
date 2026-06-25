@@ -236,7 +236,7 @@ footer.site .fnote{max-width:46em;font-size:13.5px;line-height:1.7}
   <div class="navlinks">
     <a href="../index.html">All units</a>
     <a href="#overview">Overview</a>
-    <a href="06-the-build.html">The Build</a>
+    <a href="10-the-build.html">The Build</a>
   </div>
   <div class="nav-cta">
     <a class="btn btn-primary" href="#start">Start the lesson &#8594;</a>
@@ -251,14 +251,14 @@ footer.site .fnote{max-width:46em;font-size:13.5px;line-height:1.7}
     <div>
       <span class="eyebrow">&#10022; Unit 5</span>
       <h1>Retrieval, Memory and <span class="accent">State</span></h1>
-      <p class="lead">A model only knows what it learned by its training cutoff and only holds a single context window in mind at once, so this unit gives you the two ways out of that box: **retrieval** (fetch the right facts at the right moment and place them in the prompt) and **memory** (a durable store outside the window that survives across runs), plus the loop that turns memory into a learning curve: distilling past runs and team feedback into better instructions over time.</p>
+      <p class="lead">A model only knows what it learned during training and forgets everything the moment a run ends, so this unit teaches the two fixes that change that: **retrieval** (fetch the right private or fresh text and paste it into the prompt, so the model can answer from knowledge it was never trained on) and **memory** (write what matters to durable storage outside the context window, so an agent remembers across runs and can even distill its own past into better instructions).</p>
       <div class="hero-actions">
         <a class="btn btn-primary" href="#start">Start the lesson &#8594;</a>
         
       </div>
       <div class="chips">
         <span class="chip">&#127908; <b>Unit 5 of 11</b></span>
-        <span class="chip">&#9201; <b>Step 1 of 7</b></span>
+        <span class="chip">&#9201; <b>Step 1 of 11</b></span>
         <span class="chip">&#128296; <b>Hands-on capstone</b></span>
       </div>
     </div>
@@ -275,7 +275,7 @@ footer.site .fnote{max-width:46em;font-size:13.5px;line-height:1.7}
           <li><span class="ic">&#128296;</span><span>A hands-on capstone you build step by step</span></li>
           <li><span class="ic">&#127919;</span><span>Optional practice drills to reinforce each skill</span></li>
         </ul>
-        <a class="btn btn-coral" href="06-the-build.html" style="width:100%;justify-content:center">Jump to the project</a>
+        <a class="btn btn-coral" href="10-the-build.html" style="width:100%;justify-content:center">Jump to the project</a>
       </div>
     </div>
   </div>
@@ -289,73 +289,83 @@ footer.site .fnote{max-width:46em;font-size:13.5px;line-height:1.7}
 <ul class="unit-toc">
 <li class="active"><a href="00-overview.html">Overview</a>
 </li>
-<li class=""><a href="01-retrieval-and-rag.html">Part 1 &middot; Retrieval and RAG</a>
+<li class=""><a href="01-why-a-model-needs-retrieval-at-all.html">Part 1 &middot; Why a model needs retrieval at all</a>
 </li>
-<li class=""><a href="02-memory-versus-the-context-window.html">Part 2 &middot; Memory versus the context window</a>
+<li class=""><a href="02-the-moving-parts.html">Part 2 &middot; The moving parts</a>
 </li>
-<li class=""><a href="03-durable-memory-the-claude-way.html">Part 3 &middot; Durable memory the Claude way</a>
+<li class=""><a href="03-naive-search-is-not-enough.html">Part 3 &middot; Naive search is not enough</a>
 </li>
-<li class=""><a href="04-learning-from-your-team.html">Part 4 &middot; Learning from your team</a>
+<li class=""><a href="04-retrieval-is-just-a-tool-the-model-can-call.html">Part 4 &middot; Retrieval is just a tool the model can call</a>
 </li>
-<li class=""><a href="05-recap.html">Recap</a>
+<li class=""><a href="05-measure-the-retriever-by-itself.html">Part 5 &middot; Measure the retriever by itself</a>
 </li>
-<li class=""><a href="06-the-build.html">The Build</a>
+<li class=""><a href="06-short-term-vs-long-term-memory-and-surviving-a-l.html">Part 6 &middot; Short-term vs long-term memory, and surviving a long task</a>
+</li>
+<li class=""><a href="07-memory-across-runs-and-the-dreaming-self-improve.html">Part 7 &middot; Memory across runs, and the &quot;dreaming&quot; self-improvement loop</a>
+</li>
+<li class=""><a href="08-learning-a-teams-standards.html">Part 8 &middot; Learning a team&#x27;s standards</a>
+</li>
+<li class=""><a href="09-recap.html">Recap</a>
+</li>
+<li class=""><a href="10-the-build.html">The Build</a>
 </li>
 </ul>
   </div></aside>
   <main id="start">
     <article>
-      <div class="stepline"><span class="steptxt">Step 1 of 7</span><span class="stepdots"><i class="cur"></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i></span></div><hr />
+      <div class="stepline"><span class="steptxt">Step 1 of 11</span><span class="stepdots"><i class="cur"></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i></span></div><hr />
 <h2 id="in-one-sentence">In one sentence</h2>
-<p>A model only knows what it learned by its training cutoff and only holds a single context window in mind at once, so this unit gives you the two ways out of that box: <strong>retrieval</strong> (fetch the right facts at the right moment and place them in the prompt) and <strong>memory</strong> (a durable store outside the window that survives across runs), plus the loop that turns memory into a learning curve: distilling past runs and team feedback into better instructions over time.</p>
+<p>A model only knows what it learned during training and forgets everything the moment a run ends, so this unit teaches the two fixes that change that: <strong>retrieval</strong> (fetch the right private or fresh text and paste it into the prompt, so the model can answer from knowledge it was never trained on) and <strong>memory</strong> (write what matters to durable storage outside the context window, so an agent remembers across runs and can even distill its own past into better instructions).</p>
 <blockquote>
-<p>🎯 <strong>Where this unit is heading.</strong> The payoff is a <strong>Build</strong>: <strong>Cortex v0</strong>, the shared memory for your AtlasOS fleet. You give an agent (<strong>Scout</strong>) a memory store it reads and writes across separate runs, a retrieval tool over a knowledge base, a background "dreaming" job that distills past runs into cleaner memory, and a feedback loop that learns your team's taste through pull requests. Set it up once and Scout stops starting cold. Jump to <strong>"The Build"</strong> to see the finish line.</p>
+<p>🎯 <strong>Where this unit is heading.</strong> The payoff is a <strong>Build</strong> that gives the Scout agent (the researcher you built tools for in Unit 4) a real memory. You will create the <code>memory/</code> folder, give Scout a simple persistent store it reads at the start of every run and appends to at the end, and prove it remembers across two separate runs. Then you will sketch a minimal "dreaming" step: a small background pass that reads Scout's recent runs and distills them into one improved instruction. This is <strong>Cortex v0</strong>, the shared memory of AtlasOS. Jump to <strong>"The Build"</strong> to see the finish line, then come back.</p>
 </blockquote>
 <h2 id="first-principles-companion">First-principles companion</h2>
 <blockquote>
-<p>💡 <strong>The durable ideas behind this unit.</strong> The Claude-specific framing is recent; the concepts are not. For the timeless versions:</p>
+<p>💡 <strong>The durable ideas behind this unit.</strong> The tools are recent and change often; the craft does not. If you want the timeless versions (optional, read them any time):</p>
 <ul>
-<li><strong><a href="https://arxiv.org/abs/2005.11401">Retrieval-Augmented Generation for Knowledge-Intensive NLP Tasks</a></strong> (paper). The seminal account of combining a model's built-in knowledge with an external, retrievable store, the foundation of retrieval-based long-term memory.</li>
+<li><strong><a href="https://arxiv.org/abs/2005.11401">Retrieval-Augmented Generation for Knowledge-Intensive NLP Tasks</a></strong> (paper). The seminal paper on combining a model's built-in knowledge with an external, retrievable store. The foundation of RAG.</li>
 <li><strong><a href="https://lilianweng.github.io/posts/2023-06-23-agent/">LLM Powered Autonomous Agents (Lilian Weng)</a></strong> (essay). Its memory section is the durable articulation of short-term (in-context) versus long-term (external store) memory and retrieval.</li>
-<li><strong><a href="https://arxiv.org/abs/2304.03442">Generative Agents: Interactive Simulacra of Human Behavior</a></strong> (paper). Its memory-stream plus "reflection" architecture (periodically synthesising raw experience into consolidated memories) is the seminal analogue of "dreaming."</li>
+<li><strong><a href="https://arxiv.org/abs/2304.03442">Generative Agents: Interactive Simulacra of Human Behavior</a></strong> (paper). Its memory-stream plus "reflection" architecture (periodically synthesizing raw experiences into consolidated memories) is the seminal analogue of "dreaming."</li>
+<li><strong><a href="https://www.anthropic.com/engineering/effective-context-engineering-for-ai-agents">Effective context engineering for AI agents (Anthropic)</a></strong> (essay). Just-in-time retrieval, compaction, and the external scratchpad, the practical patterns behind this unit.</li>
 </ul>
 </blockquote>
 <h2 id="a-few-plain-language-basics-first">A few plain-language basics first</h2>
+<p>New terms, in plain words. You do not need to memorise these; each is explained again the moment it matters.</p>
 <ul>
-<li><strong>Training cutoff:</strong> the date a model's training data ends. It knows nothing after that, and nothing about your private documents, ever.</li>
-<li><strong>RAG (Retrieval-Augmented Generation):</strong> before the model answers, you <em>retrieve</em> relevant text from your own sources and paste it into the prompt so the model <em>generates</em> using it. No retraining.</li>
-<li><strong>Chunk:</strong> a small passage (a few paragraphs) you split a document into, big enough to stand alone, small enough to be specific.</li>
-<li><strong>Embedding:</strong> a list of numbers that captures the meaning of a piece of text. Similar meanings get similar numbers. A <strong>vector</strong> is just that list.</li>
-<li><strong>Context window:</strong> how much text (in tokens) the model holds in mind at once. It is short-term memory, and it runs out.</li>
-<li><strong>Memory store:</strong> a persistent, file-system-like place an agent reads from and writes to, so knowledge survives after a run ends.</li>
-<li><strong>Dreaming:</strong> a background job that reviews past run transcripts plus an existing memory store and produces a cleaned-up, enriched copy.</li>
+<li><strong>Training cutoff:</strong> the date a model's training data ends. The model knows nothing that happened after it, and it never saw your private documents at all.</li>
+<li><strong>Retrieval:</strong> fetching relevant pieces of text from your own sources at the moment a question comes in, so you can place them into the prompt.</li>
+<li><strong>RAG (Retrieval-Augmented Generation):</strong> the pattern where you <em>retrieve</em> relevant text first and the model <em>generates</em> its answer using that text. No retraining required.</li>
+<li><strong>Embedding:</strong> a list of numbers that captures the <em>meaning</em> of a piece of text. Texts with similar meaning get similar numbers, even when they use different words.</li>
+<li><strong>Vector:</strong> that list of numbers. A <strong>vector store</strong> (or vector database) is a database built to find the vectors closest in meaning to a query.</li>
+<li><strong>Chunk:</strong> one passage of a document, a few paragraphs, big enough to make sense alone but small enough to be specific. You split documents into chunks before embedding them.</li>
+<li><strong>Context window:</strong> the model's short-term working memory, the largest amount of text (counted in <strong>tokens</strong>, the small chunks of text models read) it can look at in one request. It is finite and it gets wiped between runs.</li>
+<li><strong>Short-term vs long-term memory:</strong> short-term is the live context window. Long-term is information saved <em>outside</em> the window in a file or database, so it survives after the window is cleared.</li>
+<li><strong>Session / run:</strong> one execution of an agent, usually one task or conversation. By default a run is <strong>ephemeral</strong>: it disappears when it ends and remembers nothing.</li>
+<li><strong>Dreaming:</strong> a background pass that reviews past runs and an existing memory store, then produces a cleaned-up, enriched, better-organised version of that memory.</li>
 </ul>
-<p>You do not need to memorise these. Each returns the first time it matters.</p>
 <h2 id="why-this-unit-matters">Why this unit matters</h2>
-<p>Units 0 to 4 gave you a capable reasoner, a sharp prompt, the right model, and tools to act with. But the reasoner is still trapped in two ways: it does not know <em>your</em> stuff (anything past its training cutoff or private to you), and it forgets everything the moment a run ends. Both limits are about getting the right information in front of the model and keeping it there.</p>
+<p>So far your agent can plan, act, verify (Unit 1), be prompted well (Unit 2), pick its model and effort (Unit 3), and call tools (Unit 4). But it is still an amnesiac that only knows what it was trained on. Two limits remain, and both are about <em>knowledge over time</em>: it cannot see your private or fresh data, and it forgets everything between runs. Retrieval fixes the first. Memory fixes the second.</p>
 <blockquote>
-<p>🔑 <strong>The two escapes, in one line.</strong> Retrieval brings the right <em>external facts</em> into a single run; memory carries the right <em>learned state</em> across many runs. Together they turn a stateless reasoner into one that knows your world and gets better the more it works in it.</p>
+<p>🔑 <strong>Fresh knowledge comes from retrieval, not retraining.</strong> When the model needs <em>your</em> stuff or <em>today's</em> facts, you do not retrain it. You fetch the right text and put it in the prompt. And when it needs to remember across runs, you do not rely on a bigger window; you write to durable storage. Both are context engineering, not model surgery.</p>
 </blockquote>
-<p>Get this layer right and your agents stop repeating mistakes, stop re-learning the same facts, and start handing knowledge to each other. Get it wrong and every run is an island that begins cold.</p>
 <h2 id="learning-objectives">Learning objectives</h2>
 <p>By the end of this unit you will be able to:</p>
 <ol>
-<li>Build a basic RAG pipeline (chunk, embed, store, retrieve top-k) and explain each moving part in plain terms.</li>
-<li>Improve retrieval with hybrid search (semantic plus BM25, fused with RRF) and a re-ranker, and measure the retriever <em>separately</em> from generation.</li>
-<li>Distinguish short-term memory (the context window) from long-term memory (a durable external store), and manage the window with compaction and a scratchpad.</li>
-<li>Create a Claude memory store, attach it to sessions with scopes and a steering prompt, and watch an agent read and write across separate runs.</li>
-<li>Run a "dreaming" job that fact-checks, enriches and deduplicates memory non-destructively, and explain why it runs out of band.</li>
-<li>Design a low-friction feedback loop that teaches an agent your team's taste through principles and PR-gated self-improvement.</li>
+<li>Explain RAG in plain terms and name the moving parts: chunking, embeddings, a vector store, top-k retrieval, and re-ranking.</li>
+<li>Explain embeddings and vector search without jargon, and know that Claude, Gemini, and OpenAI all provide embeddings while the vector store stays independent of model choice.</li>
+<li>Use hybrid search (semantic plus keyword) and measure the retriever by itself, because most "RAG is bad" complaints are retrieval problems in disguise.</li>
+<li>Tell short-term from long-term memory, and use compaction and an external scratchpad to keep an agent coherent past a single window.</li>
+<li>Give an agent a persistent memory store it reads at the start and appends to at the end, and sketch a "dreaming" loop that distills past runs into better instructions.</li>
 </ol>
 <h2 id="prerequisites">Prerequisites</h2>
 <ul>
-<li><strong>From this course:</strong> Unit 4 (tools and function calling), because retrieval is best built <em>as a tool the model calls</em>. Units 1 to 3 for prompting and context habits.</li>
-<li><strong>Skills that matter:</strong> reading and running Python, basic file I/O, git and pull requests, and comfort in a terminal.</li>
-<li><strong>Skills you can defer:</strong> training your own embedding models, the internals of vector indexes. You consume these as components.</li>
+<li>Units 1 to 4 finished: a working agent, the <code>atlasos</code> repo, and the Scout agent with its tool layer in <code>atlas/tools/</code> (Unit 4).</li>
+<li>Comfort running commands in a terminal and editing files in your editor.</li>
+<li>No machine-learning background needed. Every concept is built up from plain words.</li>
 </ul>
 <hr />
     </article>
-    <nav class="lessonnav"><a class="ln prev" href="../unit-04-tools-and-mcp/06-the-build.html"><span class="dir">&#8592; Previous</span><b>Unit 4: Tools, Function-Calling and MCP</b></a><a class="ln home" href="../index.html"><b>All units</b></a><a class="ln next" href="01-retrieval-and-rag.html"><span class="dir">Next &#8594;</span><b>Retrieval and RAG</b></a></nav>
+    <nav class="lessonnav"><a class="ln prev" href="../unit-04-tools-and-mcp/08-the-build.html"><span class="dir">&#8592; Previous</span><b>Unit 4: Tools, Function-Calling and MCP</b></a><a class="ln home" href="../index.html"><b>All units</b></a><a class="ln next" href="01-why-a-model-needs-retrieval-at-all.html"><span class="dir">Next &#8594;</span><b>Why a model needs retrieval at all</b></a></nav>
   </main>
 </div>
 

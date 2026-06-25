@@ -289,13 +289,13 @@ footer.site .fnote{max-width:46em;font-size:13.5px;line-height:1.7}
 <ul class="unit-toc">
 <li class="done"><a href="00-overview.html">Overview</a>
 </li>
-<li class="done"><a href="01-the-mental-model.html">Part 1 &middot; The mental model</a>
+<li class="done"><a href="01-the-one-mental-model.html">Part 1 &middot; The one mental model</a>
 </li>
-<li class="done"><a href="02-how-llms-work-exactly-enough.html">Part 2 &middot; How LLMs work, exactly enough</a>
+<li class="done"><a href="02-how-an-llm-works-exactly-enough.html">Part 2 &middot; How an LLM works, exactly enough</a>
 </li>
-<li class="done"><a href="03-where-capability-is-going.html">Part 3 &middot; Where capability is going</a>
+<li class="done"><a href="03-the-same-picture-across-claude-gemini-and-gpt.html">Part 3 &middot; The same picture across Claude, Gemini, and GPT</a>
 </li>
-<li class="done"><a href="04-the-craft-ahead-and-what-you-are-building.html">Part 4 &middot; The craft ahead, and what you are building</a>
+<li class="done"><a href="04-where-capability-is-going.html">Part 4 &middot; Where capability is going</a>
 </li>
 <li class="active"><a href="05-recap.html">Recap</a>
 </li>
@@ -307,23 +307,24 @@ footer.site .fnote{max-width:46em;font-size:13.5px;line-height:1.7}
     <article>
       <div class="stepline"><span class="steptxt">Step 6 of 7</span><span class="stepdots"><i class="done"></i><i class="done"></i><i class="done"></i><i class="done"></i><i class="done"></i><i class="cur"></i><i class=""></i></span></div><h2 id="key-takeaways">Key takeaways</h2>
 <ol>
-<li><strong>Engineer the environment, not the model.</strong> Instructions, context, tools, validation: that is the whole craft.</li>
-<li><strong>Know the machine exactly enough.</strong> Tokens, next-token prediction, attention, context windows, sampling. Enough to engineer around, no more.</li>
-<li><strong>Capability is exponential, adoption is linear.</strong> Build <em>ahead</em> of the model; the gap is your opportunity.</li>
-<li><strong>Three gains, four habits.</strong> Planning, error recovery, long-horizon coherence; build for next model, unsaturated evals, thin scaffolding, close the loop.</li>
-<li><strong>Measure from day one.</strong> Tokens, cost, latency, quality. Prompts are versioned artifacts.</li>
+<li><strong>One mental model rules them all:</strong> you engineer the environment, not the model. Prompting, tools, memory, and evals are all facets of building the model a good workplace.</li>
+<li><strong>An LLM predicts the next token, over and over.</strong> That single fact explains confident wrong answers, the finite context window, and the training cutoff.</li>
+<li><strong>Tokens are the unit of everything:</strong> cost, the memory limit, and speed. Watch them from day one.</li>
+<li><strong>The picture is the same across Claude, Gemini, and GPT.</strong> Only the labels and prices differ; hold model ids loosely and verify in current docs.</li>
+<li><strong>Capability is exponential, adoption is linear.</strong> Build thin scaffolding for the next model, and treat verification as the scarce skill.</li>
 </ol>
 <h2 id="common-pitfalls">Common pitfalls</h2>
 <ul>
-<li>❌ Treating the model as a program that obeys instructions, instead of a reasoner you design an environment for.</li>
-<li>❌ Adding more instructions to fix a failure that actually needs a different model, a tool, or better context.</li>
-<li>❌ Dumping everything into a huge context window and assuming bigger is better (context rot).</li>
-<li>❌ Anthropomorphising: assuming the model "knows" or "thinks" rather than predicts.</li>
-<li>❌ Optimising for today's model and freezing your design so the next jump passes you by.</li>
+<li>❌ Treating the model as a deterministic program that should answer identically every time, then being surprised when it does not.</li>
+<li>❌ Anthropomorphising the model: assuming it "knows" it is unsure. It does not; it predicts plausible text, including plausible nonsense past its cutoff.</li>
+<li>❌ Ignoring token counts until a surprise bill or a context-limit error arrives.</li>
+<li>❌ Reaching reflexively for the biggest, most expensive model instead of measuring whether a cheaper one clears your bar.</li>
+<li>❌ Hard-coding a model id from this page into a permanent script; names change, so verify against current docs.</li>
+<li>❌ Pasting an API key directly into your code, which leaks it the moment the file is shared. Use an environment variable.</li>
 </ul>
 <hr />
     </article>
-    <nav class="lessonnav"><a class="ln prev" href="04-the-craft-ahead-and-what-you-are-building.html"><span class="dir">&#8592; Previous</span><b>The craft ahead, and what you are building</b></a><a class="ln home" href="../index.html"><b>All units</b></a><a class="ln next" href="06-the-build.html"><span class="dir">Next &#8594;</span><b>The Build</b></a></nav>
+    <nav class="lessonnav"><a class="ln prev" href="04-where-capability-is-going.html"><span class="dir">&#8592; Previous</span><b>Where capability is going</b></a><a class="ln home" href="../index.html"><b>All units</b></a><a class="ln next" href="06-the-build.html"><span class="dir">Next &#8594;</span><b>The Build</b></a></nav>
   </main>
 </div>
 

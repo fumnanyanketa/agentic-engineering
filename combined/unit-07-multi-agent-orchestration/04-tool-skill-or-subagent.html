@@ -251,7 +251,7 @@ footer.site .fnote{max-width:46em;font-size:13.5px;line-height:1.7}
     <div>
       <span class="eyebrow">&#10022; Unit 7 &middot; Part 4</span>
       <h1>Tool, skill, or <span class="accent">subagent?</span></h1>
-      <p class="lead">Here is the decision you make when one agent grows too big, which is just as important as the multi-agent question. An agent that gets capability &quot;bolted on&quot; over time (a 400-line system prompt, a dozen overlapping tools, tangled subagents) starts to regress in the very areas it used to be great at. The fix is not more instructions. It is moving each job to the right primitive.</p>
+      <p class="lead">A subagent is the heaviest way to add a capability. Before you spawn one, ask whether a tool or a skill does the job, because those are cheaper and simpler. This is the decision that keeps a fleet from sprawling.</p>
       <div class="hero-actions">
         <a class="btn btn-primary" href="#start">Start the lesson &#8594;</a>
         
@@ -289,11 +289,11 @@ footer.site .fnote{max-width:46em;font-size:13.5px;line-height:1.7}
 <ul class="unit-toc">
 <li class="done"><a href="00-overview.html">Overview</a>
 </li>
-<li class="done"><a href="01-when-multi-agent-helps-and-when-it-hurts.html">Part 1 &middot; When multi-agent helps and when it hurts</a>
+<li class="done"><a href="01-the-honest-debate.html">Part 1 &middot; The honest debate</a>
 </li>
 <li class="done"><a href="02-the-cost-reality.html">Part 2 &middot; The cost reality</a>
 </li>
-<li class="done"><a href="03-how-to-build-orchestrator-worker-and-how-atlas-d.html">Part 3 &middot; How to build orchestrator-worker, and how Atlas does it</a>
+<li class="done"><a href="03-the-orchestrator-worker-pattern.html">Part 3 &middot; The orchestrator-worker pattern</a>
 </li>
 <li class="active"><a href="04-tool-skill-or-subagent.html">Part 4 &middot; Tool, skill, or subagent?</a>
 </li>
@@ -307,39 +307,63 @@ footer.site .fnote{max-width:46em;font-size:13.5px;line-height:1.7}
   </div></aside>
   <main id="start">
     <article>
-      <div class="stepline"><span class="steptxt">Step 5 of 8</span><span class="stepdots"><i class="done"></i><i class="done"></i><i class="done"></i><i class="done"></i><i class="cur"></i><i class=""></i><i class=""></i><i class=""></i></span></div><p>Here is the decision you make when <em>one</em> agent grows too big, which is just as important as the multi-agent question. An agent that gets capability "bolted on" over time (a 400-line system prompt, a dozen overlapping tools, tangled subagents) starts to <strong>regress</strong> in the very areas it used to be great at. The fix is not more instructions. It is moving each job to the right primitive.</p>
+      <div class="stepline"><span class="steptxt">Step 5 of 8</span><span class="stepdots"><i class="done"></i><i class="done"></i><i class="done"></i><i class="done"></i><i class="cur"></i><i class=""></i><i class=""></i><i class=""></i></span></div><p>A subagent is the <em>heaviest</em> way to add a capability. Before you spawn one, ask whether a <strong>tool</strong> or a <strong>skill</strong> does the job, because those are cheaper and simpler. This is the decision that keeps a fleet from sprawling.</p>
+<p>The common, painful pattern: you ship an agent that works great, then bolt on a capability, then another. Soon the system prompt is hundreds of lines, you have a dozen overlapping tools and tangled subagents, and the agent <strong>regresses</strong> (gets worse) in the very areas it was good at. The fix is not more instructions. It is knowing which <strong>primitive</strong> (basic building block) fits each job.</p>
+<div class="codehilite"><pre><span></span><code>PICK THE RIGHT PRIMITIVE
+  TOOL       -&gt; the agent is doing work it should OFFLOAD to code.
+               (esp. code execution for data: let it write a script over a
+                CSV instead of reading the whole file into context.)
+  SKILL      -&gt; standing knowledge the agent needs SOMETIMES, not always.
+               Load it on demand (progressive disclosure). Keep the system
+               prompt for only what the agent needs regardless of the task.
+  SUBAGENT   -&gt; ONLY to parallelize (throw a lot of agent at a breadth-first
+               problem) OR to get a FRESH, context-free mind (e.g. a reviewer
+               who did not write the code).
+</code></pre></div>
+
+<blockquote>
+<p>🔑 <strong>The system-prompt rule.</strong> Keep in the system prompt only what the agent needs <em>regardless of the task</em>. Everything situational becomes a <strong>skill</strong>, loaded when the task calls for it. This was the root cause of a real bug in the source workshop: two policies buried in a 400-line prompt contradicted each other, and the agent hallucinated a wrong number. The fix was not a better model; it was moving each policy into its own skill so they could not collide. Fix the context, not the model.</p>
+</blockquote>
+<p><strong>Tools: start with human-like primitives.</strong> Give the agent the same primitives a human has at a desk: <strong>code execution</strong> (a bash tool to write and run a quick script), <strong>file-system navigation</strong> (read and write files), and <strong>web search</strong>. Add a custom tool only when these genuinely fall short, and reach for an MCP server (a shared, governed tool standard) <em>last</em>, only when many clients need the same governed tools. People who "run towards MCP first" end up with chaotic, overlapping servers.</p>
+<div class="codehilite"><pre><span></span><code>TOOLS: ORDER OF PREFERENCE
+  1. Human-like primitives  -&gt; code exec, file system, web search  (start here)
+  2. Custom local tools     -&gt; standalone tools only your agent uses
+  3. MCP servers            -&gt; only when many clients need the same governed tools
+</code></pre></div>
+
+<p><strong>Subagents: keep only the ones that earn it.</strong> Two cases justify one: <strong>parallelize</strong> a breadth-first problem (deep research, broad search, codebase exploration), or get a <strong>fresh mind</strong> with no prior context (a reviewer should not be the agent that wrote the code). And note the frontier trend: as models get smarter, teams are <em>folding capability back into the orchestrator</em> because it can now hold more at once. "You just don't need as many subagents." Before adding one, ask whether the lead can simply handle it now.</p>
 <table>
 <thead>
 <tr>
-<th>Primitive</th>
-<th>Reach for it when...</th>
-<th>Why</th>
+<th>Reach for a...</th>
+<th>When</th>
+<th>AtlasOS example</th>
 </tr>
 </thead>
 <tbody>
 <tr>
 <td><strong>Tool</strong></td>
-<td>The model is doing work it should offload, especially data work.</td>
-<td>A bash tool to write and run a script over a CSV beats reading the whole file into context. One workshop task dropped from over 200,000 tokens to a fraction by swapping special tools for code execution.</td>
+<td>the agent should offload mechanical work to code</td>
+<td>Scout runs a script over a CSV instead of reading it in</td>
 </tr>
 <tr>
 <td><strong>Skill</strong></td>
-<td>Claude needs the info <em>sometimes</em>, not always.</td>
-<td>Load it on demand (<strong>progressive disclosure</strong>). Keep the system prompt for "only what Claude needs regardless of task." Separated skills also stop policies contradicting each other.</td>
+<td>the agent needs know-how only sometimes</td>
+<td>a "report format" skill the writer loads only when drafting</td>
 </tr>
 <tr>
 <td><strong>Subagent</strong></td>
-<td>You want to parallelize (throw a lot of Claude at it) <em>or</em> you need a fresh, context-free mind (the reviewer should not be the writer).</td>
-<td>These are the only two cases that earn the communication and logging overhead.</td>
+<td>you need parallelism or a fresh mind</td>
+<td>a reviewer with no draft-writing context checks the writer's work</td>
 </tr>
 </tbody>
 </table>
 <blockquote>
-<p>🔑 <strong>Start tools with human-like primitives.</strong> Give the agent the same primitives a human has at work: a file system, a browser/web search, and the ability to write and run code. Add custom tools only when these fall short, and reach for MCP last (only when many clients need the same governed tools). On managed agents these primitives come built in.</p>
-<p>💡 <strong>A worked example.</strong> An overgrown inventory agent shrank from a ~400-line prompt and 12 tools (three were hidden subagent wrappers) to a ~15-line prompt, 3 primitive tools (bash, read, write), business logic moved into skills, and exactly <strong>one</strong> justified subagent (forecasting, kept isolated so the main conversation cannot distort it). The eval score climbed from ~83% to ~92%, and tokens, cost, and latency all dropped. You only knew because you measured: <strong>hill-climb on evals, changing one thing at a time.</strong></p>
+<p>💡 <strong>Measure every change against an eval.</strong> The only honest way to know a decomposition helped is to <strong>hill-climb</strong>: get a baseline score, change <em>one</em> thing, re-run your eval, keep what helps, repeat. Change three things at once and the score tells you nothing about which one did the work. (This is exactly the discipline from your evals work, applied to fleet design.)</p>
 </blockquote>
+<hr />
     </article>
-    <nav class="lessonnav"><a class="ln prev" href="03-how-to-build-orchestrator-worker-and-how-atlas-d.html"><span class="dir">&#8592; Previous</span><b>How to build orchestrator-worker, and how Atlas does it</b></a><a class="ln home" href="../index.html"><b>All units</b></a><a class="ln next" href="05-frameworks-with-eyes-open.html"><span class="dir">Next &#8594;</span><b>Frameworks, with eyes open</b></a></nav>
+    <nav class="lessonnav"><a class="ln prev" href="03-the-orchestrator-worker-pattern.html"><span class="dir">&#8592; Previous</span><b>The orchestrator-worker pattern</b></a><a class="ln home" href="../index.html"><b>All units</b></a><a class="ln next" href="05-frameworks-with-eyes-open.html"><span class="dir">Next &#8594;</span><b>Frameworks, with eyes open</b></a></nav>
   </main>
 </div>
 

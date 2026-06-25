@@ -151,21 +151,21 @@ Here is the durable, model-agnostic fact: **all three major providers expose fun
 The three tool definitions, side by side, so you can see they are the same idea wearing three labels:
 
 ```text
-# CLAUDE (Anthropic) — tools: [ ... ]
+# CLAUDE (Anthropic): tools: [ ... ]
 { "name": "get_weather",
   "description": "Get current weather for a city.",
   "input_schema": { "type": "object",
     "properties": { "city": { "type": "string" } },
     "required": ["city"] } }
 
-# GEMINI (Google) — tools: [{ functionDeclarations: [ ... ] }]
+# GEMINI (Google): tools: [{ functionDeclarations: [ ... ] }]
 { "name": "get_weather",
   "description": "Get current weather for a city.",
   "parameters": { "type": "object",
     "properties": { "city": { "type": "string" } },
     "required": ["city"] } }
 
-# GPT (OpenAI) — tools: [{ type: "function", function: { ... } }]
+# GPT (OpenAI): tools: [{ type: "function", function: { ... } }]
 { "type": "function",
   "function": {
     "name": "get_weather",
@@ -259,15 +259,15 @@ The two ways to connect, in every tool:
 Concretely, to add a filesystem MCP server (one that lets the agent read and write files in a folder you choose) to each agent:
 
 ```text
-# CLAUDE CODE — add a local (stdio) server, scoped to this project:
+# CLAUDE CODE: add a local (stdio) server, scoped to this project:
 claude mcp add filesystem -- npx -y @modelcontextprotocol/server-filesystem ~/atlasos
 #   then inside Claude Code, run:  /mcp     (lists servers + their tools)
 
-# GEMINI CLI — add a server, then inspect it:
+# GEMINI CLI: add a server, then inspect it:
 gemini mcp add filesystem npx -y @modelcontextprotocol/server-filesystem ~/atlasos
 #   then inside Gemini CLI, run:  /mcp
 
-# CODEX CLI — add a server (or edit ~/.codex/config.toml directly):
+# CODEX CLI: add a server (or edit ~/.codex/config.toml directly):
 codex mcp add filesystem -- npx -y @modelcontextprotocol/server-filesystem ~/atlasos
 #   then inside Codex CLI, run:  /mcp
 ```

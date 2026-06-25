@@ -236,7 +236,7 @@ footer.site .fnote{max-width:46em;font-size:13.5px;line-height:1.7}
   <div class="navlinks">
     <a href="../index.html">All units</a>
     <a href="#overview">Overview</a>
-    <a href="06-the-build.html">The Build</a>
+    <a href="07-the-build.html">The Build</a>
   </div>
   <div class="nav-cta">
     <a class="btn btn-primary" href="#start">Start the lesson &#8594;</a>
@@ -251,14 +251,14 @@ footer.site .fnote{max-width:46em;font-size:13.5px;line-height:1.7}
     <div>
       <span class="eyebrow">&#10022; Unit 3</span>
       <h1>Model and Reasoning <span class="accent">Levers</span></h1>
-      <p class="lead">Picking a model and how hard it should think is a measurement problem, not a vibes problem: you build a small private eval, run your real task across model tiers and effort levels, and then choose the option that is cheapest *per successful outcome* (not cheapest per token), using thinking, effort, prompt caching, and context engineering as the dials that move you along that cost-versus-quality curve, or shift the whole curve.</p>
+      <p class="lead">Every model provider gives you two big dials, *how capable a model* and *how hard it thinks*, and this unit teaches you to set both by measurement: you will learn to pick the smallest model tier that still passes the task, to turn reasoning up only when the task actually needs it, to spend for the cheapest *successful outcome* rather than the cheapest token, and to wire those choices into a tiny routing policy where a cheap model does the work and an expensive one advises only when the stakes are high.</p>
       <div class="hero-actions">
         <a class="btn btn-primary" href="#start">Start the lesson &#8594;</a>
         
       </div>
       <div class="chips">
         <span class="chip">&#127908; <b>Unit 3 of 11</b></span>
-        <span class="chip">&#9201; <b>Step 1 of 7</b></span>
+        <span class="chip">&#9201; <b>Step 1 of 8</b></span>
         <span class="chip">&#128296; <b>Hands-on capstone</b></span>
       </div>
     </div>
@@ -275,7 +275,7 @@ footer.site .fnote{max-width:46em;font-size:13.5px;line-height:1.7}
           <li><span class="ic">&#128296;</span><span>A hands-on capstone you build step by step</span></li>
           <li><span class="ic">&#127919;</span><span>Optional practice drills to reinforce each skill</span></li>
         </ul>
-        <a class="btn btn-coral" href="06-the-build.html" style="width:100%;justify-content:center">Jump to the project</a>
+        <a class="btn btn-coral" href="07-the-build.html" style="width:100%;justify-content:center">Jump to the project</a>
       </div>
     </div>
   </div>
@@ -289,71 +289,74 @@ footer.site .fnote{max-width:46em;font-size:13.5px;line-height:1.7}
 <ul class="unit-toc">
 <li class="active"><a href="00-overview.html">Overview</a>
 </li>
-<li class=""><a href="01-pick-on-your-own-eval-not-a-benchmark.html">Part 1 &middot; Pick on your own eval, not a benchmark</a>
+<li class=""><a href="01-three-tiers-and-the-instinct-that-costs-you-mone.html">Part 1 &middot; Three tiers, and the instinct that costs you money</a>
 </li>
 <li class=""><a href="02-cost-per-successful-outcome.html">Part 2 &middot; Cost per successful outcome</a>
 </li>
-<li class=""><a href="03-the-reasoning-lever.html">Part 3 &middot; The reasoning lever</a>
+<li class=""><a href="03-the-reasoning-lever-and-why-an-onoff-switch-is-t.html">Part 3 &middot; The reasoning lever, and why an on/off switch is the wrong tool</a>
 </li>
-<li class=""><a href="04-the-curve-shifting-levers.html">Part 4 &middot; The curve-shifting levers</a>
+<li class=""><a href="04-how-to-choose-an-effort-level.html">Part 4 &middot; How to choose an effort level</a>
 </li>
-<li class=""><a href="05-recap.html">Recap</a>
+<li class=""><a href="05-the-advisor-strategy.html">Part 5 &middot; The advisor strategy</a>
 </li>
-<li class=""><a href="06-the-build.html">The Build</a>
+<li class=""><a href="06-recap.html">Recap</a>
+</li>
+<li class=""><a href="07-the-build.html">The Build</a>
 </li>
 </ul>
   </div></aside>
   <main id="start">
     <article>
-      <div class="stepline"><span class="steptxt">Step 1 of 7</span><span class="stepdots"><i class="cur"></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i></span></div><hr />
+      <div class="stepline"><span class="steptxt">Step 1 of 8</span><span class="stepdots"><i class="cur"></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i></span></div><hr />
 <h2 id="in-one-sentence">In one sentence</h2>
-<p>Picking a model and how hard it should think is a measurement problem, not a vibes problem: you build a small private eval, run your real task across model tiers and effort levels, and then choose the option that is cheapest <em>per successful outcome</em> (not cheapest per token), using thinking, effort, prompt caching, and context engineering as the dials that move you along that cost-versus-quality curve, or shift the whole curve.</p>
+<p>Every model provider gives you two big dials, <em>how capable a model</em> and <em>how hard it thinks</em>, and this unit teaches you to set both by measurement: you will learn to pick the smallest model tier that still passes the task, to turn reasoning up only when the task actually needs it, to spend for the cheapest <em>successful outcome</em> rather than the cheapest token, and to wire those choices into a tiny routing policy where a cheap model does the work and an expensive one advises only when the stakes are high.</p>
 <blockquote>
-<p>🎯 <strong>Where this unit is heading.</strong> The payoff is a <strong>Build</strong>: the <strong>AtlasOS routing policy</strong>, a small piece of code that decides which model tier runs each step and how much reasoning effort to spend, measured as cost per successful outcome. You will encode the <strong>advisor strategy</strong> (cheap models execute, the expensive model advises only when needed) and commit the policy plus a benchmark table to your repo. Jump to <strong>"The Build"</strong> to see the finish line.</p>
+<p>🎯 <strong>Where this unit is heading.</strong> The payoff is a <strong>Build</strong>: a small, explicit <strong>routing policy</strong> inside AtlasOS's <code>orchestrator/</code>. It is a short function that maps a task type to a model tier and a reasoning-effort level, encoding the rule "cheap model executes, expensive model advises when needed." You will test it on two contrasting tasks (one trivial, one hard) and record the cost and latency of each. Jump to <strong>"The Build"</strong> to see the finish line, then come back and we will get you there.</p>
 </blockquote>
 <h2 id="first-principles-companion">First-principles companion</h2>
 <blockquote>
-<p>💡 <strong>The durable ideas behind this unit.</strong> The Claude-specific framing is recent; the concepts are not. For the timeless versions:</p>
+<p>💡 <strong>The durable ideas behind this unit.</strong> The model names and flags change every few months; the underlying ideas do not. If you want the timeless versions (optional, read any time):</p>
 <ul>
-<li><strong><a href="https://platform.claude.com/docs/en/about-claude/models/choosing-a-model">Choosing the right model</a></strong> (docs). The tool-agnostic decision framework: pick on your own evals, weigh capability against speed and cost, and tune effort before switching models.</li>
-<li><strong><a href="https://arxiv.org/abs/2201.11903">Chain-of-Thought Prompting Elicits Reasoning in LLMs</a></strong> (paper). The seminal demonstration that intermediate reasoning steps, the "thinking" the effort dial controls, substantially improve accuracy on hard tasks.</li>
+<li><strong><a href="https://platform.claude.com/docs/en/about-claude/models/choosing-a-model">Choosing the right model (Anthropic docs)</a></strong> (docs). The tool-agnostic decision framework: pick on your own evals, weigh capability against speed and cost, and tune effort before switching models.</li>
+<li><strong><a href="https://arxiv.org/abs/2201.11903">Chain-of-Thought Prompting Elicits Reasoning in LLMs</a></strong> (paper). The seminal result that intermediate reasoning steps, the "thinking" the effort dial controls, substantially raise accuracy on hard tasks.</li>
 </ul>
 </blockquote>
 <h2 id="a-few-plain-language-basics-first">A few plain-language basics first</h2>
+<p>New terms, in plain words. You do not need to memorise these; each is explained again the moment it matters.</p>
 <ul>
-<li><strong>Model tier:</strong> one size in a model family. Anthropic offers <strong>Haiku</strong> (small, fast, cheap), <strong>Sonnet</strong> (a balance), and <strong>Opus</strong> (the most capable). Bigger usually means smarter but slower and pricier.</li>
-<li><strong>Eval (evaluation):</strong> a small set of your own test cases you run a model against to measure whether it works. The single most important idea in this unit.</li>
-<li><strong>Latency:</strong> how long the model takes to respond, in seconds. Lower is faster.</li>
-<li><strong>Test time compute:</strong> work the model does <em>while answering</em> you (as opposed to training time, when the model was built). More of it means more intelligence on hard tasks.</li>
-<li><strong>Thinking:</strong> a private scratchpad where Claude reasons before it acts. <strong>Adaptive thinking</strong> lets the model decide <em>when</em> and <em>how much</em> to think.</li>
-<li><strong>Effort:</strong> a dial from <strong>low</strong> to <strong>max</strong> for how hard Claude works overall, across thinking, tool calls, and text.</li>
-<li><strong>Prompt caching:</strong> reusing the pre-processed, repeated start of your prompt instead of paying to read it again. Roughly a 90% discount on the cached part.</li>
+<li><strong>Model:</strong> one specific version of an AI, for example a "small" one or a "frontier" one. Every major provider ships a <em>family</em> of models at different sizes. Bigger usually means smarter but slower and more expensive.</li>
+<li><strong>Model tier:</strong> the size class of a model. We use three tiers throughout: <strong>small</strong> (fast, cheap, for easy work), <strong>mid</strong> (a balance), and <strong>frontier</strong> (the most capable, slowest, priciest). Each provider has its own names for these.</li>
+<li><strong>Token:</strong> the unit a model reads and writes in, roughly three quarters of a word. You are billed per token, so more tokens means more cost and more time.</li>
+<li><strong>Latency:</strong> how long you wait for a response, measured in seconds. Lower is faster.</li>
+<li><strong>Reasoning (or thinking):</strong> a private scratchpad where the model works through a problem step by step <em>before</em> it answers. More reasoning costs more tokens and time, and on hard problems it raises accuracy.</li>
+<li><strong>Reasoning effort:</strong> a dial (low to high) that controls how much the model reasons. Each provider exposes its own version of this dial.</li>
+<li><strong>Eval (evaluation):</strong> a small set of your own test cases with known right answers, used to <em>measure</em> whether a model and setting actually work for your task. This is how you replace guessing with data. (You build a real one in Unit 8.)</li>
+<li><strong>Cost per successful outcome:</strong> the total money spent to get a <em>correct, usable</em> result, including retries and failures, not the price of a single token. This is the metric that matters.</li>
+<li><strong>The advisor strategy:</strong> a pattern where a cheap model does the bulk of the work and calls in an expensive model only for the hard or risky parts. You get most of the quality for a fraction of the cost.</li>
 </ul>
-<p>You do not need to memorise these. Each returns the first time it matters.</p>
 <h2 id="why-this-unit-matters">Why this unit matters</h2>
-<p>Every time a new model ships, the internet fills with hot takes that tell you nothing you actually need: is this model better <em>for your use case</em>, and how hard should it think? Public benchmarks point you in a rough direction, but your real workload almost never looks like a benchmark. And the instinct to reach for the biggest model on the highest effort everywhere is a costly mistake that quietly burns your budget without buying quality.</p>
+<p>In Unit 1 you learned to drive an agent, and in Unit 2 to talk to it well. But the moment your agent runs more than once or for more than one person, two new pressures arrive: it has to be <em>cheap enough</em> to keep running and <em>fast enough</em> to be usable. Agents are token-hungry because they loop, re-reading context turn after turn, so a careless model choice can quietly cost you ten times what it should. The good news: the same two dials that control cost (which model, how hard it thinks) also control quality, and once you measure instead of guess, you can usually cut cost and latency <em>without</em> losing quality.</p>
 <blockquote>
-<p>🔑 <strong>The whole unit in one line.</strong> The right model is not the one that is cheapest per token. It is the one that is cheapest <em>per successful outcome</em>, and you find it by measuring your real task across tiers and effort levels, not by guessing.</p>
+<p>🔑 <strong>Cost per successful outcome, not cost per token.</strong> The right model is not the one with the lowest sticker price per token. It is the one that gets the job done correctly for the least total spend, even if its per-token price is higher, because a smarter model often finishes in fewer turns and fewer retries.</p>
 </blockquote>
-<p>Get this right and you can extract far more capability from the same spend, and decide for yourself where to sit on the trade-off between intelligence, speed, and cost. Get it wrong and you either overpay for power you do not need or ship a cheap model that fails silently.</p>
 <h2 id="learning-objectives">Learning objectives</h2>
 <p>By the end of this unit you will be able to:</p>
 <ol>
-<li>Explain why a small, private eval beats any public benchmark for choosing a model.</li>
-<li>Compare options on <strong>cost per successful outcome</strong>, not cost per token, and understand why a smarter model can finish cheaper.</li>
-<li>Use the four levers (<strong>thinking</strong>, <strong>effort</strong>, <strong>prompt caching</strong>, <strong>context engineering</strong>) to move along the cost-quality curve, or shift it.</li>
-<li>Choose an <strong>effort level</strong> for a task, knowing that turning thinking off deletes a capability and that extra high is the safe default.</li>
-<li>Decide between a bigger model at low effort and a smaller model at high effort, and encode that as a routing policy.</li>
+<li>Place any provider's models into three tiers (small, mid, frontier) and right-size a task to the smallest tier that still passes.</li>
+<li>Explain why "cost per successful outcome" beats "cost per token," and compute it for a task.</li>
+<li>Use the reasoning/thinking lever across Claude, Gemini, and GPT, and pick an effort level deliberately instead of by vibes.</li>
+<li>Apply the advisor strategy: a cheap model executes, an expensive model advises only when needed.</li>
+<li>Write a small, explicit routing policy that maps task types to a tier and an effort level, and measure its cost and latency.</li>
 </ol>
 <h2 id="prerequisites">Prerequisites</h2>
 <ul>
-<li><strong>From this course:</strong> Unit 0 (tokens, model tiers, the cost-and-latency mental model) and Unit 2 (prompting and context engineering as levers).</li>
-<li><strong>Skills that matter:</strong> sending a message to Claude and reading the reply, plus reading token usage off the response. (You set up the measured environment in Unit 0.)</li>
-<li><strong>Skills you can defer:</strong> building a full eval harness with graded suites. You build the smallest real version here; Unit 8 deepens it.</li>
+<li>Units 1 and 2 finished: a working agent, your <code>atlasos</code> repo cloned locally, and comfort with the plan, act, verify loop.</li>
+<li>An API key for at least one provider (Anthropic, Google, or OpenAI), the same account you set up in Unit 1. The Build uses one provider; the ideas transfer to all three.</li>
+<li>No prior knowledge of pricing or reasoning models. We define everything as we go.</li>
 </ul>
 <hr />
     </article>
-    <nav class="lessonnav"><a class="ln prev" href="../unit-02-prompting-and-context/06-the-build.html"><span class="dir">&#8592; Previous</span><b>Unit 2: Prompting and Context Engineering</b></a><a class="ln home" href="../index.html"><b>All units</b></a><a class="ln next" href="01-pick-on-your-own-eval-not-a-benchmark.html"><span class="dir">Next &#8594;</span><b>Pick on your own eval, not a benchmark</b></a></nav>
+    <nav class="lessonnav"><a class="ln prev" href="../unit-02-prompting-and-context/08-the-build.html"><span class="dir">&#8592; Previous</span><b>Unit 2: Prompting and Context Engineering</b></a><a class="ln home" href="../index.html"><b>All units</b></a><a class="ln next" href="01-three-tiers-and-the-instinct-that-costs-you-mone.html"><span class="dir">Next &#8594;</span><b>Three tiers, and the instinct that costs you money</b></a></nav>
   </main>
 </div>
 

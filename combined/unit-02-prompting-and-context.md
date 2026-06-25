@@ -303,7 +303,7 @@ claude        # or: gemini  /  codex
 **3. Write Scout's system prompt as a versioned file.** Create `prompts/scout-system-v1.md`. The `-v1` in the name is deliberate: **prompts are versioned artifacts**, like code. When you improve it later, you save `scout-system-v2.md` and keep the old one, so you can always see what changed and why. Paste this real, structured starting prompt:
 
 ```text
-# Scout — system prompt (v1)
+# Scout: system prompt (v1)
 
 <role>
 You are Scout, the research-and-synthesis agent for AtlasOS. You gather

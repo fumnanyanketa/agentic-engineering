@@ -251,7 +251,7 @@ footer.site .fnote{max-width:46em;font-size:13.5px;line-height:1.7}
     <div>
       <span class="eyebrow">&#10022; Unit 7</span>
       <h1>The <span class="accent">Build</span></h1>
-      <p class="lead">An Atlas orchestrator that takes one high-level outcome (for example &quot;produce a competitive-intel brief on three rival products&quot;), decomposes it, dispatches Scout plus one second agent (each in its own context), and synthesizes their summaries into one answer, committed to AtlasOS with a written fleet decision record and an honest single-agent comparison.</p>
+      <p class="lead">In your AtlasOS repo, you extend Atlas (the orchestrator) to dispatch 2 to 3 specialized subagents for one real outcome: Scout researches, a writer drafts, and a reviewer (a Warden-style fresh mind) checks the draft against the research. Atlas synthesizes the result. Alongside it you commit a short &quot;tool vs skill vs subagent&quot; decision record, and a single-agent baseline you compare against on quality, time, and cost.</p>
       <div class="hero-actions">
         <a class="btn btn-primary" href="#start">Start the lesson &#8594;</a>
         
@@ -289,11 +289,11 @@ footer.site .fnote{max-width:46em;font-size:13.5px;line-height:1.7}
 <ul class="unit-toc">
 <li class="done"><a href="00-overview.html">Overview</a>
 </li>
-<li class="done"><a href="01-when-multi-agent-helps-and-when-it-hurts.html">Part 1 &middot; When multi-agent helps and when it hurts</a>
+<li class="done"><a href="01-the-honest-debate.html">Part 1 &middot; The honest debate</a>
 </li>
 <li class="done"><a href="02-the-cost-reality.html">Part 2 &middot; The cost reality</a>
 </li>
-<li class="done"><a href="03-how-to-build-orchestrator-worker-and-how-atlas-d.html">Part 3 &middot; How to build orchestrator-worker, and how Atlas does it</a>
+<li class="done"><a href="03-the-orchestrator-worker-pattern.html">Part 3 &middot; The orchestrator-worker pattern</a>
 </li>
 <li class="done"><a href="04-tool-skill-or-subagent.html">Part 4 &middot; Tool, skill, or subagent?</a>
 </li>
@@ -304,7 +304,7 @@ footer.site .fnote{max-width:46em;font-size:13.5px;line-height:1.7}
 <li class="active"><a href="07-the-build.html">The Build</a>
 <ul class="u-sub">
 <li><a href="#what-you-will-build">What you will build</a></li>
-<li><a href="#milestones-in-order-each-stands-alone">Milestones (in order, each stands alone)</a></li>
+<li><a href="#milestones-in-order-each-fully-explained">Milestones (in order, each fully explained)</a></li>
 <li><a href="#how-you-will-know-you-are-done">How you will know you are done</a></li>
 </ul>
 </li>
@@ -312,74 +312,79 @@ footer.site .fnote{max-width:46em;font-size:13.5px;line-height:1.7}
   </div></aside>
   <main id="start">
     <article>
-      <div class="stepline"><span class="steptxt">Step 8 of 8</span><span class="stepdots"><i class="done"></i><i class="done"></i><i class="done"></i><i class="done"></i><i class="done"></i><i class="done"></i><i class="done"></i><i class="cur"></i></span></div><h2 id="capstone" class="capstone-h">🛠️ The Build: Atlas at fleet scale</h2>
+      <div class="stepline"><span class="steptxt">Step 8 of 8</span><span class="stepdots"><i class="done"></i><i class="done"></i><i class="done"></i><i class="done"></i><i class="done"></i><i class="done"></i><i class="done"></i><i class="cur"></i></span></div><h2 id="capstone" class="capstone-h">🛠️ The Build: the orchestrator fleet (Atlas plus subagents)</h2>
 <blockquote>
-<p>The hands-on payoff. Until now Atlas dispatched one agent, Scout. Here you turn Atlas into a real orchestrator of a small fleet: it decomposes an outcome, dispatches Scout plus one more specialized agent, and synthesizes the result. You make every tool-vs-skill-vs-subagent call deliberately, document it for the fleet, and prove on your own numbers whether multi-agent actually won. This fuses the orchestrator-worker pattern (principles), the decomposition decision (Lesson 16), and the hill-climbing discipline (Lesson 19). It builds the <code>orchestrator/</code> and <code>agents/</code> components in your roadmap.</p>
+<p>The hands-on payoff. You turn Atlas from a solo agent into a small, justified fleet, and you prove the fleet beats one agent on a task where a fresh mind genuinely helps.</p>
 </blockquote>
 <h3 id="what-you-will-build">What you will build</h3>
-<p>An Atlas orchestrator that takes one high-level outcome (for example "produce a competitive-intel brief on three rival products"), decomposes it, dispatches <strong>Scout plus one second agent</strong> (each in its own context), and synthesizes their summaries into one answer, committed to AtlasOS with a written fleet decision record and an honest single-agent comparison.</p>
-<h3 id="milestones-in-order-each-stands-alone">Milestones (in order, each stands alone)</h3>
-<ol>
-<li><strong>Pick the second agent and justify it.</strong> Choose one more specialist whose work is genuinely independent of Scout's (for example <strong>Herald</strong> drafting the brief from Scout's findings, or a second Scout-style researcher covering a separate product). In two sentences, state why this is breadth-first, parallelizable work and not write-heavy, dependent work. If you cannot make that case, the honest move is to keep it single-agent, and you say so.</li>
-<li><strong>Make Atlas the orchestrator.</strong> Have Atlas decompose the outcome into independent subtasks and dispatch one worker per subtask, each in its own context, each given enough shared context to avoid clashing decisions. Use the native callable-agents capability so each subagent logs as cleanly as Atlas. Have each worker return a short distilled summary, and have Atlas synthesize.</li>
-<li><strong>Make the decompose decision and document it for the fleet.</strong> For each capability in the run, write down whether it is a <strong>tool</strong>, a <strong>skill</strong>, or a <strong>subagent</strong>, and why. Keep the system prompt to "only what Atlas always needs"; push situational logic into skills; keep only subagents that parallelize or need a fresh mind. Save this as a short <code>orchestrator/FLEET-DECISIONS.md</code> the whole fleet can follow.</li>
-<li><strong>Run the single-agent baseline.</strong> Build the exact same task as one linear agent (Scout doing everything in one context, compressing history if it overflows). Run both versions.</li>
-<li><strong>Compare on three numbers and decide.</strong> Record <strong>quality, latency, and token cost</strong> for multi-agent vs single-agent. Write one paragraph: which would you ship for this task, and why, using your own numbers and the 4x/15x framing. Honesty includes "single-agent won here."</li>
-<li><strong>Stretch.</strong> Add the guardrails note: list two tasks in your AtlasOS roadmap where you would deliberately <em>not</em> go multi-agent, and why. Then try folding the second agent's job back into Atlas (the frontier "fewer subagents" move) and check whether the orchestrator can now just handle it.</li>
-</ol>
+<p>In your AtlasOS repo, you extend <strong>Atlas</strong> (the orchestrator) to dispatch <strong>2 to 3 specialized subagents</strong> for one real outcome: <strong>Scout</strong> researches, a <strong>writer</strong> drafts, and a <strong>reviewer</strong> (a Warden-style fresh mind) checks the draft against the research. Atlas synthesizes the result. Alongside it you commit a short <strong>"tool vs skill vs subagent" decision record</strong>, and a single-agent baseline you compare against on quality, time, and cost.</p>
+<h3 id="milestones-in-order-each-fully-explained">Milestones (in order, each fully explained)</h3>
+<p><strong>1. Pick one real outcome.</strong> Choose something genuinely breadth-first plus quality-checked, where a fresh reviewer matters. Good example: <em>"Produce a one-page competitive brief on three named tools, with claims checked against sources."</em> Research is parallelizable; review needs a context-free mind. Write the outcome in one sentence at the top of a new file <code>agents/fleet/README.md</code>.</p>
+<p><strong>2. Build the single-agent baseline first.</strong> Before any fleet, ask your coding agent (Claude Code / Gemini CLI / Codex CLI) to do the whole task as <strong>one</strong> agent in one session. Save the output, the wall-clock time, and (if your tool shows it) the token count. This is your honest comparison point. Do not skip it: the fleet has to <em>beat</em> this to justify itself.</p>
+<p><strong>3. Define the three subagents.</strong> Create one definition file per worker in your tool's agents folder (<code>.claude/agents/</code>, <code>.gemini/agents/</code>, or via Codex <code>/agent</code>). Keep each role tight:
+   - <strong>Scout</strong> (research): "Gather facts on the three tools from the web and our <code>memory/</code> store. Return a short, sourced summary, not a transcript."
+   - <strong>Writer</strong> (draft): "Given Scout's summary, write the one-page brief in our report format." (Put the format in a <strong>skill</strong>, loaded on demand, not in the prompt.)
+   - <strong>Reviewer</strong> (fresh mind): "You did NOT write this draft. Check every claim against Scout's sources, flag anything unsupported, and return a pass/fail with fixes." This is the subagent that earns its seat: a reviewer must not be the writer.</p>
+<p><strong>4. Pass full shared context to each worker.</strong> In each definition, give the worker enough of the task's shared context to avoid the conflicting-decisions trap: the outcome sentence, the three tool names, the agreed format. A one-line instruction is how fleets produce mismatched pieces.</p>
+<p><strong>5. Make Atlas decompose and synthesize.</strong> Update Atlas's instructions so it: (a) decomposes the outcome into research, draft, review; (b) dispatches Scout, then the writer, then the reviewer, each in its own context; (c) loops the writer once if the reviewer fails it; (d) synthesizes the final one-page brief. Run it and watch the subagents fire in your tool's log or task view.</p>
+<p><strong>6. Write the decision record.</strong> In <code>agents/fleet/DECISIONS.md</code>, document one choice for each primitive, in one or two sentences each:
+   - a <strong>tool</strong> you used (e.g. web search / code execution for Scout, instead of pasting data into context);
+   - a <strong>skill</strong> you used (the report format, loaded only when drafting);
+   - a <strong>subagent</strong> you used and <em>why it earns its seat</em> (the reviewer needs a fresh mind; or research is parallelizable). Note one capability you deliberately <em>kept in the orchestrator</em> rather than spawning a subagent for, and why.</p>
+<p><strong>7. Compare fleet vs baseline.</strong> Put the fleet's output, time, and cost next to Milestone 2's in <code>agents/fleet/README.md</code>. Answer in writing: did the fleet produce something one agent could not do as well (e.g. caught an unsupported claim the solo agent shipped)? Was the extra cost worth it for this outcome? Be honest if the answer is "not this time."</p>
+<p><strong>8. Commit it.</strong> Run the git heartbeat from Unit 1:</p>
+<div class="codehilite"><pre><span></span><code>git add -A
+git commit -m &quot;Add Atlas orchestrator fleet: Scout, writer, reviewer&quot;
+git push
+</code></pre></div>
+
 <h3 id="how-you-will-know-you-are-done">How you will know you are done</h3>
 <ul>
-<li>✅ Atlas dispatches at least two specialized agents in isolated context and synthesizes their summaries into one coherent answer.</li>
-<li>✅ Subagents log cleanly (native callable agents), with no opaque tool wrappers.</li>
-<li>✅ <code>FLEET-DECISIONS.md</code> records each tool/skill/subagent choice with a reason.</li>
-<li>✅ You have a single-agent baseline and a numbers-backed paragraph on which you would ship and why.</li>
-<li>✅ You can name at least one case where you chose <em>not</em> to go multi-agent, with the reason.</li>
-<li>✅ The fleet orchestration is committed to your AtlasOS repo.</li>
+<li>✅ Atlas dispatches 2 to 3 named subagents, each running in its own context, and synthesizes one result.</li>
+<li>✅ The <strong>reviewer</strong> is a genuinely fresh mind (it did not write the draft) and actually flagged at least one thing.</li>
+<li>✅ <code>agents/fleet/DECISIONS.md</code> documents one tool, one skill, and one subagent choice, each justified, plus one capability kept in the orchestrator on purpose.</li>
+<li>✅ You ran a single-agent baseline and compared it on quality, time, and cost, with a written verdict on whether the fleet earned its keep.</li>
+<li>✅ The fleet completed a task one agent could not do as well alone (or you can show, with numbers, that for this task one agent was the right call).</li>
 </ul>
 <blockquote>
-<p>💡 If your multi-agent version did not beat the baseline on cost-adjusted quality, that is not a failure of the build, it is the lesson. Commit the comparison anyway; it is the most honest artifact in the unit.</p>
+<p>💡 <strong>If the fleet lost to the baseline, that is a real result, not a failure.</strong> You just learned this task was a single agent's job, and you have the numbers to prove it. That judgment is the whole point of the unit.</p>
 </blockquote>
 <hr />
 <h2 id="cheat-sheet">Cheat sheet</h2>
-<div class="codehilite"><pre><span></span><code>SHOULD YOU GO MULTI-AGENT?
-  READ-heavy + parallelizable + high-value  -&gt; yes (research, broad search)
-  WRITE-heavy + dependent (state changes)   -&gt; no  (editing code; one linear agent)
-  the two famous opposing posts agree on THIS line
+<div class="codehilite"><pre><span></span><code>ONE AGENT OR MANY?
+  read-heavy + parallelizable + high-value  -&gt; multi-agent may win
+  write-heavy + dependent (editing code)    -&gt; single agent wins
+  default to ONE; make the second agent earn its seat
 
-THE COST REALITY (hold both numbers)
-  ~4x tokens  = single agent vs chat
-  ~15x tokens = multi-agent vs chat
-  optimise COST PER SUCCESSFUL OUTCOME, not cost per token
-  always compare against the single-agent baseline
+COST REALITY (read BOTH numbers)
+  chat ~1x  | single agent ~4x  | multi-agent ~15x tokens
+  optimise COST PER SUCCESSFUL OUTCOME; always build the single-agent baseline
 
-ORCHESTRATOR-WORKER
-  lead DECOMPOSES -&gt; workers run in OWN context (give shared context) -&gt;
-  workers return SHORT summaries -&gt; lead SYNTHESIZES
-  use native callable agents (clean logging) · watch communication breakdowns
-  frontier trend: FEWER subagents as models improve
+ORCHESTRATOR-WORKER PATTERN (model-neutral)
+  lead DECOMPOSES -&gt; workers run in OWN context -&gt; return SHORT summaries
+  -&gt; lead SYNTHESIZES.  Give workers FULL shared context (avoid clashing decisions).
+  Claude Code: .claude/agents/  | Gemini CLI: .gemini/agents/  | Codex: /agent, threads
 
-PICK THE PRIMITIVE
-  TOOL      -&gt; offload work the model is doing (esp. code exec over data)
-  SKILL     -&gt; info needed SOMETIMES; load on demand (progressive disclosure)
-  SUBAGENT  -&gt; only to PARALLELIZE or get a FRESH, context-free mind
-  tools order: Claude primitives -&gt; custom local -&gt; MCP (last)
+TOOL vs SKILL vs SUBAGENT
+  TOOL      -&gt; offload mechanical work to code (esp. data via code execution)
+  SKILL     -&gt; situational know-how, loaded on demand (system prompt = always-needed only)
+  SUBAGENT  -&gt; ONLY to parallelize OR for a fresh, context-free mind
+  tools order: primitives (code/file/web) -&gt; custom -&gt; MCP (last)
 
-FRAMEWORKS, EYES OPEN
-  learn the raw loop first · pick by problem shape, not popularity
-  keep prompts + traces visible · beware lock-in and vendor comparisons
+FRAMEWORKS
+  learn the raw loop first -&gt; adopt by problem shape -&gt; keep prompts + traces visible
+  watch for: hidden prompts, lock-in, vendor comparison posts
 </code></pre></div>
 
 <h2 id="how-this-connects-to-the-rest-of-the-course">How this connects to the rest of the course</h2>
 <ul>
-<li><strong>Earlier, Unit 4 (Tools and MCP):</strong> the primitives and MCP order-of-preference you now decompose onto.</li>
-<li><strong>Earlier, Unit 6 (Workflows and agent patterns):</strong> the single-agent loop multi-agent is measured against.</li>
-<li><strong>Companion, Unit 8 (Evals and verification):</strong> the hill-climbing harness and Warden graders that make every decompose decision measurable, not guessed.</li>
-<li><strong>Next, Unit 9 (Production):</strong> you deploy this fleet on real infrastructure, where the cost multiplier and clean per-agent logging stop being theory.</li>
+<li><strong>Next, Unit 8 (Evaluation and review):</strong> the reviewer subagent you built here grows into a real eval gate. You learn to grade a fleet's output honestly and hill-climb its design with evals, the only trustworthy way to know a decomposition helped.</li>
+<li><strong>Throughout:</strong> Atlas is now a real orchestrator with a fleet, the spine of AtlasOS. Every later unit either adds a worker, hardens the orchestration, or deploys it, but the judgment from this unit (make every agent earn its seat) governs all of it.</li>
 </ul>
 <hr />
-<p><em>Unit 7 of the combined path. Fuses the vendor-neutral principles of Agentic Engineering Modules 10-11 with the Claude-specific implementation of Building with Claude Lessons 16 and 19. Token multipliers, eval scores, and architecture details are drawn from the source write-ups; adapt model ids and SDK details to the current docs.</em></p>
+<p><em>Unit 7 of the combined path. Fuses the vendor-neutral judgment of Agentic Engineering Modules 10 and 11 (the multi-agent debate and the framework question) with current, model-agnostic practice for subagents across Claude Code, Gemini CLI, and Codex CLI. Tool commands, filenames, and model ids change quickly; verify against each tool's current documentation.</em></p>
     </article>
-    <nav class="lessonnav"><a class="ln prev" href="06-recap.html"><span class="dir">&#8592; Previous</span><b>Recap</b></a><a class="ln home" href="../index.html"><b>All units</b></a></nav>
+    <nav class="lessonnav"><a class="ln prev" href="06-recap.html"><span class="dir">&#8592; Previous</span><b>Recap</b></a><a class="ln home" href="../index.html"><b>All units</b></a><a class="ln next" href="../unit-08-evals-and-verification/00-overview.html"><span class="dir">Next &#8594;</span><b>Unit 8: Evals and Verification</b></a></nav>
   </main>
 </div>
 

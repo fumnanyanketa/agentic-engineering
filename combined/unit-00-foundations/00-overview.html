@@ -251,7 +251,7 @@ footer.site .fnote{max-width:46em;font-size:13.5px;line-height:1.7}
     <div>
       <span class="eyebrow">&#10022; Unit 0</span>
       <h1>Foundations and the Mental <span class="accent">Model</span></h1>
-      <p class="lead">You are not programming the model, you are engineering the environment around a capable but fallible reasoner so it can succeed, and this unit gives you the three things that make that possible: the right mental model (design the workplace, not the brain), exactly enough of how LLMs actually work (tokens, prediction, context, sampling), and a clear picture of where capability is going (an exponential you build *ahead* of, not behind).</p>
+      <p class="lead">This unit hands you the single idea the rest of the course leans on (your job is to build a good workplace for a capable but fallible helper, not to program the model line by line), gives you a simple but correct picture of what an LLM is actually doing under the hood (it predicts the next chunk of text, over and over), and then proves it with your own hands: you install Python, send your first model call, watch the reply stream in, read the token counts, check a structured answer, and run a tiny experiment, finishing by writing the charter for AtlasOS, the platform you build across the rest of the course.</p>
       <div class="hero-actions">
         <a class="btn btn-primary" href="#start">Start the lesson &#8594;</a>
         
@@ -289,13 +289,13 @@ footer.site .fnote{max-width:46em;font-size:13.5px;line-height:1.7}
 <ul class="unit-toc">
 <li class="active"><a href="00-overview.html">Overview</a>
 </li>
-<li class=""><a href="01-the-mental-model.html">Part 1 &middot; The mental model</a>
+<li class=""><a href="01-the-one-mental-model.html">Part 1 &middot; The one mental model</a>
 </li>
-<li class=""><a href="02-how-llms-work-exactly-enough.html">Part 2 &middot; How LLMs work, exactly enough</a>
+<li class=""><a href="02-how-an-llm-works-exactly-enough.html">Part 2 &middot; How an LLM works, exactly enough</a>
 </li>
-<li class=""><a href="03-where-capability-is-going.html">Part 3 &middot; Where capability is going</a>
+<li class=""><a href="03-the-same-picture-across-claude-gemini-and-gpt.html">Part 3 &middot; The same picture across Claude, Gemini, and GPT</a>
 </li>
-<li class=""><a href="04-the-craft-ahead-and-what-you-are-building.html">Part 4 &middot; The craft ahead, and what you are building</a>
+<li class=""><a href="04-where-capability-is-going.html">Part 4 &middot; Where capability is going</a>
 </li>
 <li class=""><a href="05-recap.html">Recap</a>
 </li>
@@ -307,52 +307,58 @@ footer.site .fnote{max-width:46em;font-size:13.5px;line-height:1.7}
     <article>
       <div class="stepline"><span class="steptxt">Step 1 of 7</span><span class="stepdots"><i class="cur"></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i></span></div><hr />
 <h2 id="in-one-sentence">In one sentence</h2>
-<p>You are not programming the model, you are engineering the environment around a capable but fallible reasoner so it can succeed, and this unit gives you the three things that make that possible: the right mental model (design the workplace, not the brain), exactly enough of how LLMs actually work (tokens, prediction, context, sampling), and a clear picture of where capability is going (an exponential you build <em>ahead</em> of, not behind).</p>
+<p>This unit hands you the single idea the rest of the course leans on (your job is to build a good workplace for a capable but fallible helper, not to program the model line by line), gives you a simple but correct picture of what an LLM is actually doing under the hood (it predicts the next chunk of text, over and over), and then proves it with your own hands: you install Python, send your first model call, watch the reply stream in, read the token counts, check a structured answer, and run a tiny experiment, finishing by writing the charter for AtlasOS, the platform you build across the rest of the course.</p>
 <blockquote>
-<p>🎯 <strong>Where this unit is heading.</strong> The payoff is a <strong>Build</strong> that doubles as your launchpad: a working, authenticated environment that makes its first measured model call, streams the response, counts tokens, validates structured output, and runs a tiny temperature-and-model experiment, all committed to your AtlasOS repo. Set it up once here and you never fight setup again. Jump to <strong>"The Build"</strong> to see the finish line.</p>
+<p>🎯 <strong>Where this unit is heading.</strong> The payoff is a <strong>Build</strong> with two parts. First, a hand-held <em>first measured model call</em>: install Python, install one provider's SDK, set an API key, and run a small script that streams a reply, prints how many tokens it used, validates a small JSON answer, and runs a tiny temperature experiment. Second, you write the <strong>AtlasOS charter</strong>, a short document that says what you are building. Unit 0 comes before Unit 1 on purpose, so we keep setup light here (just enough for a first Python call). The full coding-agent workstation (editor, the coding agent, git and GitHub) is set up in Unit 1. Jump to <strong>"The Build"</strong> to see the finish line, then come back.</p>
 </blockquote>
 <h2 id="first-principles-companion">First-principles companion</h2>
 <blockquote>
-<p>💡 <strong>The durable ideas behind this unit.</strong> The Claude-specific framing is recent; the concepts are not. For the timeless versions:</p>
+<p>💡 <strong>The durable ideas behind this unit.</strong> The tools and model names change every few months; these ideas do not. All optional, read any time:</p>
 <ul>
-<li><strong><a href="https://arxiv.org/abs/2001.08361">Scaling Laws for Neural Language Models</a></strong> (paper). Why capability rises predictably as you scale model, data, and compute, the engine under "build for the next model."</li>
-<li><strong><a href="https://arxiv.org/abs/2206.07682">Emergent Abilities of Large Language Models</a></strong> (paper). Why a model jumps from "can't" to "can" across a generation, the first-principles account of the capability curve.</li>
-<li><strong><a href="https://en.wikipedia.org/wiki/Bitter_lesson">The Bitter Lesson</a></strong> (essay). General methods that leverage computation beat hand-built scaffolding over time, the basis for keeping your scaffolding thin.</li>
+<li><strong><a href="https://codingscape.com/blog/andrej-karpathys-deep-dive-into-llms-video">Andrej Karpathy, Intro to LLMs</a></strong> (talk). A clear, ground-up walk through what a large language model is and how it is trained.</li>
+<li><strong><a href="https://karpathy.ai/zero-to-hero.html">Karpathy, Neural Networks: Zero to Hero</a></strong> (course). Build the pieces (tokens, attention, training) yourself, from scratch, if you ever want the deep version.</li>
+<li><strong><a href="https://simonwillison.net/2025/Mar/11/using-llms-for-code/">Simon Willison, How I use LLMs to help me write code</a></strong> (essay). The practitioner's grounding: LLMs are "fancy autocomplete," do not anthropomorphise them, and always remember the training cutoff.</li>
+<li><strong><a href="https://arxiv.org/abs/2001.08361">Scaling Laws for Neural Language Models</a></strong> and <strong><a href="https://arxiv.org/abs/2206.07682">Emergent Abilities of Large Language Models</a></strong> (papers). Why capability keeps rising predictably as models scale, and why a model can jump from "cannot do a task" to "can do it" in one generation.</li>
 </ul>
 </blockquote>
 <h2 id="a-few-plain-language-basics-first">A few plain-language basics first</h2>
+<p>New terms, in plain words. You do not need to memorise these; each is explained again the moment it matters.</p>
 <ul>
-<li><strong>LLM (Large Language Model):</strong> the kind of AI that reads and writes text. Claude is one. Treat it as a very capable, fallible text reasoner, not a program.</li>
-<li><strong>Token:</strong> the unit a model reads and writes in (roughly three quarters of a word). You are billed per token, so more tokens means slower and pricier.</li>
-<li><strong>Context window:</strong> how much text (in tokens) the model can hold in mind at once. Bigger is not always better; quality can degrade as it fills (<strong>context rot</strong>).</li>
-<li><strong>Inference vs training:</strong> <em>training</em> builds the model (not your job here); <em>inference</em> is using it (your whole job here).</li>
-<li><strong>Agent:</strong> an AI that takes a series of actions toward a goal (reading files, running code, fixing errors), not just answering once.</li>
-<li><strong>Scaffolding (or harness):</strong> everything around the model: prompts, tools, loops, environment. The model is the engine; the scaffolding is the rest of the car.</li>
+<li><strong>LLM (Large Language Model):</strong> the kind of AI that powers chat assistants and writes text one small chunk at a time. "Large" means it learned from an enormous amount of text. Claude, Gemini, and GPT are all LLMs.</li>
+<li><strong>Model:</strong> one specific version of an LLM, for example "Claude Opus" or "Gemini Flash." Different models differ in strength, speed, and price.</li>
+<li><strong>Agent:</strong> an LLM that has been given the ability to take actions in a loop (call tools, read the result, decide what to do next) instead of answering once. The whole course builds toward agents; this unit is the foundation under them.</li>
+<li><strong>Token:</strong> a small chunk of text, usually a piece of a word, like "cat", "ing", or " the". Models read and write in tokens, and tokens are how usage, cost, and memory limits are all measured.</li>
+<li><strong>API (Application Programming Interface):</strong> a way for your code to talk to a remote service. You send a request, you get a response. You reach every model provider through an API.</li>
+<li><strong>API key:</strong> a secret, password-like string that authorises your requests and bills them to your account. Treat it like a password; never paste it into code you might share.</li>
+<li><strong>SDK (Software Development Kit):</strong> a small code library you install so your program can call a provider in a few lines instead of building the web request by hand.</li>
+<li><strong>Environment variable:</strong> a value your terminal holds in memory (for example <code>ANTHROPIC_API_KEY</code>) that programs can read without the secret being written into your code.</li>
+<li><strong>Streaming:</strong> receiving the reply token by token as it is generated, instead of waiting for the whole thing at the end.</li>
+<li><strong>Inference:</strong> using a finished model to get an answer. Every time you send a prompt and get a reply, that is inference. (Contrast with <em>training</em>, when the model is being built.)</li>
 </ul>
-<p>You do not need to memorise these. Each returns the first time it matters.</p>
 <h2 id="why-this-unit-matters">Why this unit matters</h2>
-<p>Most people meet LLMs as a chat box and form the wrong mental model: that you "tell the AI what to do" and it obeys, like a program. That model fails the moment you try to build something real. The professional frame is different and it is the foundation of everything else in this course:</p>
+<p>Everything later in this course (prompting, tools, retrieval, evals, agents) is one facet of a single job: setting up a good workplace for a capable but forgetful helper. If you install that one idea now, the rest of the course stops feeling like a pile of unrelated tricks and starts feeling like variations on one theme. And you cannot engineer that workplace well if you have a wrong picture of what the helper actually is, so we spend a little time getting the mental model right and proving it with a real, measured call.</p>
 <blockquote>
-<p>🔑 <strong>The whole craft in one line.</strong> You are not programming the model. You are engineering its context and environment so that a capable but fallible reasoner can succeed. Prompting, context engineering, tools, memory, and evals are all just ways of designing that environment.</p>
+<p>🔑 <strong>You are not programming the model. You are engineering its context and its environment so that a capable but fallible reasoner can succeed.</strong> Hold this sentence. It is the through-line of the entire course.</p>
 </blockquote>
-<p>Get this frame right and the rest of the course is a set of techniques for the same goal. Get it wrong and you will spend months fighting the model instead of designing for it.</p>
 <h2 id="learning-objectives">Learning objectives</h2>
 <p>By the end of this unit you will be able to:</p>
 <ol>
-<li>State and apply the core mental model: engineer the environment, not the model.</li>
-<li>Explain, <em>exactly enough</em>, how an LLM works: tokens, next-token prediction, attention, the training stages, context windows, and sampling controls.</li>
-<li>Describe where capability is going (capability exponential vs adoption linear) and the three concrete gains driving it (planning, error recovery, long-horizon coherence).</li>
-<li>Apply the four habits for riding the curve: build for the next model, keep evals unsaturated, shrink scaffolding, and close the agent loop.</li>
-<li>Stand up a working, measured environment and make your first instrumented model call.</li>
+<li>State, in your own words, the "give the model a good workplace" mental model, and explain why it reframes almost every later topic.</li>
+<li>Explain, to a smart non-engineer, what a token is, what next-token prediction means, why context is finite, and what temperature does.</li>
+<li>Describe how a model is built (pretraining, fine-tuning, RLHF) just well enough to reason about its limits, including the training cutoff.</li>
+<li>Explain why capability is on an exponential while adoption is on a line, and what "build for the next model" means in practice.</li>
+<li>Make a first, measured model call in Python against Claude, Gemini, or GPT: stream a reply, read token counts, validate a small structured output, and run a tiny temperature or model experiment.</li>
+<li>Write the AtlasOS charter that anchors every later Build.</li>
 </ol>
 <h2 id="prerequisites">Prerequisites</h2>
 <ul>
-<li><strong>Skills that matter:</strong> comfortable reading/running Python, basic async/await, HTTP/REST and streaming, and git. (A short refresher list is in the Build.)</li>
-<li><strong>Skills you can defer:</strong> model training, GPU kernels, backprop calculus. You build <em>on top of</em> foundation models, not reimplement them.</li>
+<li><strong>What you need:</strong> a computer (Windows, macOS, or Linux), an internet connection, and the ability to read a short Python script and roughly follow it. That is genuinely it.</li>
+<li><strong>What you do NOT need:</strong> a coding-agent setup, an editor, or git. Those arrive in Unit 1. For this unit you only need Python and one provider account, both set up together in The Build.</li>
+<li><strong>One honest note:</strong> you will use a terminal in The Build. If you have never used one, that is fine; we explain every command and you cannot break anything by typing one wrong.</li>
 </ul>
 <hr />
     </article>
-    <nav class="lessonnav"><a class="ln home" href="../index.html"><b>All units</b></a><a class="ln next" href="01-the-mental-model.html"><span class="dir">Next &#8594;</span><b>The mental model</b></a></nav>
+    <nav class="lessonnav"><a class="ln home" href="../index.html"><b>All units</b></a><a class="ln next" href="01-the-one-mental-model.html"><span class="dir">Next &#8594;</span><b>The one mental model</b></a></nav>
   </main>
 </div>
 

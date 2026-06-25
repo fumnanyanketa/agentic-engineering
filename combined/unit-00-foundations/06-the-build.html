@@ -251,7 +251,7 @@ footer.site .fnote{max-width:46em;font-size:13.5px;line-height:1.7}
     <div>
       <span class="eyebrow">&#10022; Unit 0</span>
       <h1>The <span class="accent">Build</span></h1>
-      <p class="lead">A working environment proven by three artifacts: a green tool check, a first instrumented model call (streamed, token-counted, schema-validated), and a small experiment table comparing temperatures and models.</p>
+      <p class="lead">Two artifacts. First, a working Python script (firstcall.py) that authenticates to one provider, streams a reply to your screen, prints the token usage, validates a small JSON output, and runs a tiny temperature or model experiment. Second, a short written document, atlas/CHARTER.md, that states what AtlasOS is and what &quot;done&quot; looks like.</p>
       <div class="hero-actions">
         <a class="btn btn-primary" href="#start">Start the lesson &#8594;</a>
         
@@ -289,20 +289,20 @@ footer.site .fnote{max-width:46em;font-size:13.5px;line-height:1.7}
 <ul class="unit-toc">
 <li class="done"><a href="00-overview.html">Overview</a>
 </li>
-<li class="done"><a href="01-the-mental-model.html">Part 1 &middot; The mental model</a>
+<li class="done"><a href="01-the-one-mental-model.html">Part 1 &middot; The one mental model</a>
 </li>
-<li class="done"><a href="02-how-llms-work-exactly-enough.html">Part 2 &middot; How LLMs work, exactly enough</a>
+<li class="done"><a href="02-how-an-llm-works-exactly-enough.html">Part 2 &middot; How an LLM works, exactly enough</a>
 </li>
-<li class="done"><a href="03-where-capability-is-going.html">Part 3 &middot; Where capability is going</a>
+<li class="done"><a href="03-the-same-picture-across-claude-gemini-and-gpt.html">Part 3 &middot; The same picture across Claude, Gemini, and GPT</a>
 </li>
-<li class="done"><a href="04-the-craft-ahead-and-what-you-are-building.html">Part 4 &middot; The craft ahead, and what you are building</a>
+<li class="done"><a href="04-where-capability-is-going.html">Part 4 &middot; Where capability is going</a>
 </li>
 <li class="done"><a href="05-recap.html">Recap</a>
 </li>
 <li class="active"><a href="06-the-build.html">The Build</a>
 <ul class="u-sub">
 <li><a href="#what-you-will-build">What you will build</a></li>
-<li><a href="#milestones-in-order-each-stands-alone">Milestones (in order, each stands alone)</a></li>
+<li><a href="#milestones-in-order-each-fully-explained">Milestones (in order, each fully explained)</a></li>
 <li><a href="#how-you-will-know-you-are-done">How you will know you are done</a></li>
 </ul>
 </li>
@@ -310,59 +310,242 @@ footer.site .fnote{max-width:46em;font-size:13.5px;line-height:1.7}
   </div></aside>
   <main id="start">
     <article>
-      <div class="stepline"><span class="steptxt">Step 7 of 7</span><span class="stepdots"><i class="done"></i><i class="done"></i><i class="done"></i><i class="done"></i><i class="done"></i><i class="done"></i><i class="cur"></i></span></div><h2 id="capstone" class="capstone-h">🛠️ The Build: your workstation and first measured baseline</h2>
+      <div class="stepline"><span class="steptxt">Step 7 of 7</span><span class="stepdots"><i class="done"></i><i class="done"></i><i class="done"></i><i class="done"></i><i class="done"></i><i class="done"></i><i class="cur"></i></span></div><h2 id="capstone" class="capstone-h">🛠️ The Build: your launchpad (a first measured model call) and the AtlasOS charter</h2>
 <blockquote>
-<p>The hands-on payoff. This fuses the two foundation labs (an authenticated, instrumented first call, and a temperature/model experiment) with the AtlasOS pre-flight, so you finish with a working environment <em>and</em> a real feel for the machine, all committed.</p>
+<p>The hands-on payoff. By the end you will have made your first real model call in Python, watched it stream, measured its tokens, checked a structured answer, run a tiny experiment, and written the charter for AtlasOS, the platform you build a piece of in every later unit.</p>
 </blockquote>
 <h3 id="what-you-will-build">What you will build</h3>
-<p>A working environment proven by three artifacts: a green tool check, a first <strong>instrumented</strong> model call (streamed, token-counted, schema-validated), and a small experiment table comparing temperatures and models.</p>
-<h3 id="milestones-in-order-each-stands-alone">Milestones (in order, each stands alone)</h3>
-<ol>
-<li><strong>Green tool check.</strong> Python 3.10+, git, and the Claude CLI all report a version. Create a virtual environment; store your API key in an environment variable or git-ignored <code>.env</code>. <em>(Full setup detail lives in the AtlasOS pre-flight reference.)</em></li>
-<li><strong>First instrumented call.</strong> Install the SDK, send a prompt, <strong>stream</strong> the response, and print the <strong>token counts</strong> from the usage field. Seeing tokens makes cost and context budgeting concrete from day one.</li>
-<li><strong>Validate structured output.</strong> Ask for JSON and validate it against a small <strong>Pydantic</strong> schema. This is the "treat outputs as contracts" habit in miniature.</li>
-<li><strong>Run the temperature-and-model experiment.</strong> Send the same prompt at temperatures 0, 0.7, and 1.0 (a few runs each), then across a small, a mid, and a frontier model. Record <strong>quality, latency, and cost</strong> in a short table. Write two sentences on what you noticed.</li>
-<li><strong>Commit it to AtlasOS.</strong> Put the scripts and the experiment table in your repo and commit. This is the first artifact of your north-star build.</li>
-<li><strong>Stretch.</strong> Add a token-cost estimate per model; try the same prompt with and without a system message and note the difference.</li>
-</ol>
+<p>Two artifacts. First, a working Python script (<code>first_call.py</code>) that authenticates to one provider, streams a reply to your screen, prints the token usage, validates a small JSON output, and runs a tiny temperature or model experiment. Second, a short written document, <code>atlas/CHARTER.md</code>, that states what AtlasOS is and what "done" looks like.</p>
+<blockquote>
+<p>💡 <strong>Keep setup light here.</strong> You only install what a first Python call needs: Python, one SDK, and an API key. The full coding-agent workstation (VS Code, the coding agent, git and GitHub) is set up in <strong>Unit 1</strong>, so do not worry about any of that yet. When you see a grey box below, that is something you type into your terminal and press Enter. Lines starting with <code>#</code> are comments, not commands.</p>
+</blockquote>
+<h3 id="milestones-in-order-each-fully-explained">Milestones (in order, each fully explained)</h3>
+<p><strong>1. Install Python (3.10 or newer).</strong>
+   - Go to <strong><a href="https://www.python.org/downloads">https://www.python.org/downloads</a></strong> and download the installer for your system (macOS or Windows). On Linux, Python is usually present, or install it with your package manager (for example <code>sudo apt install python3 python3-pip</code> on Debian/Ubuntu).
+   - On Windows, during install tick <strong>"Add Python to PATH"</strong> so your terminal can find it.
+   - Open a terminal (on Windows, "Terminal" or "PowerShell"; on macOS, "Terminal"; on Linux, your usual one) and prove it worked:</p>
+<div class="codehilite"><pre><span></span><code># Ask Python and its installer, pip, to report their versions.
+python3 --version
+pip3 --version
+
+# What you&#39;ll see (your numbers may differ, that&#39;s fine):
+Python 3.12.4
+pip 24.0
+</code></pre></div>
+
+<p>If you see two version numbers, you are set. (On Windows, you may need to type <code>python</code> and <code>pip</code> instead of <code>python3</code> and <code>pip3</code>.)</p>
+<p><strong>2. Make a tidy project folder and install one provider's SDK.</strong> Pick the provider whose account you have or are happy to create. You only need one.</p>
+<div class="codehilite"><pre><span></span><code># Make a folder for this unit&#39;s work and move into it.
+mkdir atlas-launchpad
+cd atlas-launchpad
+
+# Install the SDK for your chosen provider (pick ONE line):
+pip3 install anthropic         # Claude (Anthropic)
+pip3 install google-genai      # Gemini (Google)
+pip3 install openai            # GPT (OpenAI)
+
+# We&#39;ll also use Pydantic to check structured output later:
+pip3 install pydantic
+</code></pre></div>
+
+<p><strong>3. Get an API key and set it as an environment variable.</strong> Create a key in your provider's console, add a little billing credit, and store the key in your terminal session. Never paste a key into your code.</p>
+<div class="codehilite"><pre><span></span><code># Claude:  get a key at https://console.anthropic.com
+export ANTHROPIC_API_KEY=&quot;sk-ant-...your key...&quot;
+
+# Gemini:  get a key at https://aistudio.google.com
+export GEMINI_API_KEY=&quot;...your key...&quot;
+
+# GPT:     get a key at https://platform.openai.com
+export OPENAI_API_KEY=&quot;sk-...your key...&quot;
+</code></pre></div>
+
+<p>(On Windows PowerShell, use <code>setx NAME "value"</code> and then open a new terminal, or <code>$env:NAME="value"</code> for the current session.)</p>
+<p><strong>4. Write <code>first_call.py</code> and stream your first reply.</strong> Create a file called <code>first_call.py</code> in your folder, paste the version for your provider, and run it with <code>python3 first_call.py</code>. Each version sends the same prompt, streams the reply to your screen as it arrives, and then prints the token usage. <strong>Model ids change often, so the ones below are placeholders: verify the current id in your provider's docs and swap it in.</strong></p>
+<div class="codehilite"><pre><span></span><code># --- Claude (Anthropic) ---
+import os
+from anthropic import Anthropic
+
+client = Anthropic()  # reads ANTHROPIC_API_KEY from the environment
+
+with client.messages.stream(
+    model=&quot;claude-haiku-4-5&quot;,          # cheapest tier; verify current id in docs
+    max_tokens=300,
+    messages=[{&quot;role&quot;: &quot;user&quot;, &quot;content&quot;: &quot;In two sentences, what is an AI agent?&quot;}],
+) as stream:
+    for text in stream.text_stream:    # tokens arrive as they&#39;re generated
+        print(text, end=&quot;&quot;, flush=True)
+    final = stream.get_final_message()
+
+print(&quot;\n\n--- usage ---&quot;)
+print(&quot;input tokens: &quot;, final.usage.input_tokens)
+print(&quot;output tokens:&quot;, final.usage.output_tokens)
+</code></pre></div>
+
+<div class="codehilite"><pre><span></span><code># --- Gemini (Google) ---
+import os
+from google import genai
+
+client = genai.Client()  # reads GEMINI_API_KEY from the environment
+
+stream = client.models.generate_content_stream(
+    model=&quot;gemini-flash-latest&quot;,       # a fast tier; verify current id in docs
+    contents=&quot;In two sentences, what is an AI agent?&quot;,
+)
+final = None
+for chunk in stream:                   # tokens arrive as they&#39;re generated
+    print(chunk.text, end=&quot;&quot;, flush=True)
+    final = chunk
+
+print(&quot;\n\n--- usage ---&quot;)
+print(&quot;usage metadata:&quot;, final.usage_metadata)  # includes prompt + output token counts
+</code></pre></div>
+
+<div class="codehilite"><pre><span></span><code># --- GPT (OpenAI) ---
+import os
+from openai import OpenAI
+
+client = OpenAI()  # reads OPENAI_API_KEY from the environment
+
+stream = client.responses.create(
+    model=&quot;gpt-5-mini&quot;,                # a small tier; verify current id in docs
+    input=&quot;In two sentences, what is an AI agent?&quot;,
+    stream=True,
+)
+for event in stream:                   # tokens arrive as they&#39;re generated
+    if event.type == &quot;response.output_text.delta&quot;:
+        print(event.delta, end=&quot;&quot;, flush=True)
+    if event.type == &quot;response.completed&quot;:
+        print(&quot;\n\n--- usage ---&quot;)
+        print(&quot;usage:&quot;, event.response.usage)  # prompt + output token counts
+</code></pre></div>
+
+<p>Seeing words appear one chunk at a time, followed by token counts, means your key, billing, and SDK all work, and you have <em>felt</em> both next-token prediction and the token-as-unit idea from Part 2.</p>
+<p><strong>5. Validate a small structured (JSON) output.</strong> Models can return free text, but for real systems you usually want a checked, machine-readable shape. Ask for JSON and validate it with Pydantic, so a wrong shape is rejected instead of silently breaking your program later. Add this to a second file, <code>structured.py</code>, adapting the client line to your provider:</p>
+<div class="codehilite"><pre><span></span><code>import json
+from pydantic import BaseModel
+
+# The shape we demand back. If the model returns the wrong shape, this fails loudly.
+class Capital(BaseModel):
+    country: str
+    capital: str
+    population_millions: float
+
+prompt = (
+    &quot;Return ONLY JSON, no prose, with keys &quot;
+    &quot;country, capital, population_millions for France.&quot;
+)
+
+# --- get raw text from your provider (one example: Claude) ---
+from anthropic import Anthropic
+client = Anthropic()
+msg = client.messages.create(
+    model=&quot;claude-haiku-4-5&quot;,           # verify current id in docs
+    max_tokens=200,
+    messages=[{&quot;role&quot;: &quot;user&quot;, &quot;content&quot;: prompt}],
+)
+raw = msg.content[0].text
+
+# Validate. If the JSON is malformed or the shape is wrong, this raises an error.
+data = Capital.model_validate(json.loads(raw))
+print(&quot;validated:&quot;, data)
+</code></pre></div>
+
+<p>If it prints a validated object, you have proven the full loop: authenticate, call, and get a <em>checked</em> structured result. (Gemini and OpenAI expose first-class structured-output options too; the durable idea is the same across all three: you describe the shape you want and validate what comes back.)</p>
+<p><strong>6. Run a tiny temperature or model experiment.</strong> Now feel a trade-off from Part 2 with your own eyes. Send the <em>same</em> creative prompt (for example, "Give me a one-line name for a coffee shop") three times at temperature 0 and three times at a higher temperature like 1.0, and notice how much more the answers vary at the higher setting. If your chosen model does not expose temperature, run the <em>same</em> prompt on a small model and a larger model instead, and note the difference in answer quality, speed, and (from the usage counts) cost.</p>
+<div class="codehilite"><pre><span></span><code># Sketch (Claude shown; adapt the client + temperature field to your provider):
+for temp in (0.0, 1.0):
+    print(f&quot;\n=== temperature {temp} ===&quot;)
+    for _ in range(3):
+        msg = client.messages.create(
+            model=&quot;claude-haiku-4-5&quot;,   # verify current id in docs
+            max_tokens=30,
+            temperature=temp,
+            messages=[{&quot;role&quot;: &quot;user&quot;,
+                       &quot;content&quot;: &quot;Give me a one-line name for a coffee shop.&quot;}],
+        )
+        print(&quot;-&quot;, msg.content[0].text.strip())
+</code></pre></div>
+
+<p>Low temperature should give you nearly the same answer each time; high temperature should give you variety. That is the dial from Part 2, made real.</p>
+<p><strong>7. Write the AtlasOS charter.</strong> This is the throughline of the whole course. Make a folder named <code>atlas</code> and inside it a file <code>CHARTER.md</code>. Using the AtlasOS company brief as your source of truth, write a short charter (half a page is plenty) that answers: what is AtlasOS, who is it for, and what does "done enough to be proud of" look like. Here is a starter you can adapt:</p>
+<div class="codehilite"><pre><span></span><code># AtlasOS Charter
+
+## What it is
+AtlasOS is a self-improving operating system of cooperating AI agents that runs
+knowledge work end to end. You hand it an outcome; a fleet of specialised agents
+plans, executes, verifies itself, remembers, and improves over time, with a human
+in the loop for the decisions that matter.
+
+## The fleet (named roles I will build, one per unit)
+- Atlas  - the orchestrator: decompose a goal, dispatch agents, escalate to me.
+- Scout  - research and synthesis.    - Forge  - the builder (writes/ships code).
+- Pulse  - analytics.    - Herald - comms and reporting.    - Cortex - shared memory.
+- Warden - review, safety, and evals (nothing ships past it).
+
+## Design principles
+- Build for the NEXT model: keep scaffolding thin; trim guardrails as models improve.
+- Verification is the bottleneck: Warden (evals) is a first-class citizen, not an afterthought.
+- Outcomes over tasks: own a result over time, not &quot;do this one thing once.&quot;
+- Cost per successful outcome, not cost per token.
+
+## Definition of done (the hero outcome)
+I can give Atlas a high-level outcome and the fleet executes it end to end, every
+output is graded by Warden, the system remembers across runs (Cortex), it runs on
+real infrastructure, and at least one flagship use case works for real.
+</code></pre></div>
+
+<p><strong>8. Stretch (optional).</strong> Re-run <code>first_call.py</code> with a much larger <code>max_tokens</code> and a much smaller one, and watch the reply length and the output-token count change together. Or install a second provider's SDK and run the same prompt against it, comparing the answers and the token counts side by side. That is your first taste of being model-agnostic.</p>
 <h3 id="how-you-will-know-you-are-done">How you will know you are done</h3>
 <ul>
-<li>✅ <code>python3</code>, <code>git</code>, and <code>claude</code> all report a version.</li>
-<li>✅ Your first call streams a reply and prints real token counts.</li>
-<li>✅ JSON output validates against your Pydantic schema.</li>
-<li>✅ Your experiment table shows quality/latency/cost across temperatures and models.</li>
-<li>✅ It is committed to your AtlasOS repo.</li>
+<li>✅ <code>python3 --version</code> and <code>pip3 --version</code> both print version numbers.</li>
+<li>✅ <code>first_call.py</code> streams a reply to your screen and then prints input and output token counts.</li>
+<li>✅ <code>structured.py</code> prints a validated object (and raises a clear error if you deliberately break the JSON).</li>
+<li>✅ You ran the temperature (or model) experiment and can describe, in one sentence, the trade-off you saw.</li>
+<li>✅ <code>atlas/CHARTER.md</code> exists and says what AtlasOS is, who it is for, and what "done" looks like.</li>
 </ul>
 <blockquote>
-<p>💡 If any milestone felt shaky, that is your signal for which refresher (Python, async, git, HTTP/streaming) to spend an evening on before Unit 1.</p>
+<p>💡 <strong>If any step felt shaky, that is normal and useful.</strong> Note which one. The most common snags are a key not set in the current terminal (re-run the <code>export</code> line), an out-of-date model id (verify it in the provider docs), or <code>python3</code> vs <code>python</code> on Windows (try the other one). Reaching for help should be about going deeper, not decoding confusion: the steps here are meant to be complete.</p>
 </blockquote>
 <hr />
 <h2 id="cheat-sheet">Cheat sheet</h2>
-<div class="codehilite"><pre><span></span><code>THE MENTAL MODEL
+<div class="codehilite"><pre><span></span><code>THE ONE MENTAL MODEL
   You engineer the ENVIRONMENT, not the model.
-  Workplace = instructions + context + tools + validation.
+  prompting / context / tools / memory / evals  = facets of &quot;build a good workplace&quot;
 
-THE MACHINE (exactly enough)
-  tokens -&gt; next-token prediction -&gt; attention -&gt; (pretrain/finetune/RLHF)
-  context window (watch for rot) · temperature &amp; top-p (consistency vs diversity)
-  fancy autocomplete · training builds / inference uses · knowledge has a cutoff
+HOW AN LLM WORKS (exactly enough)
+  token .......... small chunk of text; the unit of cost, memory, and speed
+  prediction ..... it predicts the NEXT token, over and over (that&#39;s all)
+  attention ...... it weighs which earlier words matter for the next one
+  built by ....... pretraining -&gt; fine-tuning -&gt; RLHF ; then INFERENCE when you use it
+  cutoff ......... it knows nothing after its training date (it will still guess)
+  context window . finite short-term memory in tokens ; too much -&gt; &quot;context rot&quot;
+  temperature .... low = steady/repetitive ; high = varied  (low != correct)
+
+SAME PICTURE, THREE PROVIDERS (hold ids loosely; verify in docs)
+  Claude (Anthropic) : console.anthropic.com  | Haiku -&gt; Sonnet -&gt; Opus
+  Gemini (Google)    : aistudio.google.com    | Flash -&gt; Pro
+  GPT    (OpenAI)    : platform.openai.com     | mini -&gt; flagship
 
 WHERE IT&#39;S GOING
-  capability = exponential ; adoption = linear ; close the gap
-  three gains: planning · error recovery · long-horizon coherence
-  four habits: build for next model · unsaturated evals · thin scaffolding · close the loop
+  capability = exponential (planning, error recovery, long-horizon coherence)
+  adoption   = linear ; closing the gap is your job ; build for the NEXT model
+  verification is the scarce skill
 
-DAY-ONE HABITS
-  measure tokens/cost/latency · prompts are versioned artifacts · pick the cheapest capable model
+FIRST MEASURED CALL (Python)
+  python3 --version ; pip3 install &lt;sdk&gt; pydantic
+  export &lt;PROVIDER&gt;_API_KEY=&quot;...&quot;   (never put the key in code)
+  stream the reply -&gt; read usage.tokens -&gt; validate JSON -&gt; tiny temp/model experiment
 </code></pre></div>
 
 <h2 id="how-this-connects-to-the-rest-of-the-course">How this connects to the rest of the course</h2>
 <ul>
-<li><strong>Next, Unit 1 (The coding-agent workflow):</strong> you set up Claude Code as the environment you build everything else <em>with</em>. Your measured baseline from this unit is the first thing it helps you extend.</li>
-<li><strong>Throughout:</strong> every later unit is one more layer of the environment you started designing here, and one more AtlasOS component.</li>
+<li><strong>Next, Unit 1 (The coding-agent workflow):</strong> you set up the full workstation (editor, a coding agent, git and GitHub) and learn the plan, act, verify loop, the autonomy gained from the three capability gains you met in Part 4. That is where the heavy one-time setup lives; this unit deliberately kept it light.</li>
+<li><strong>Soon, Unit 2 (Prompting and context engineering):</strong> the "good workplace" idea from Part 1 becomes concrete craft, clear instructions on the desk and the right reference material in the finite context window.</li>
+<li><strong>Soon, Unit 3 (Model and reasoning levers):</strong> the "pick the cheapest model that clears the bar" discipline from Part 3 becomes a rigorous "cost per successful outcome" method.</li>
+<li><strong>Throughout:</strong> every later unit adds one named component to AtlasOS, the platform whose charter you just wrote. This unit is the launchpad; the rest is the flight.</li>
 </ul>
 <hr />
-<p><em>Unit 0 of the combined path. Fuses the vendor-neutral principles of Agentic Engineering Modules 00–01 with the Claude-specific implementation of Building with Claude (pre-flight and the Foundations module). Adapt model ids and SDK details to the current docs.</em></p>
+<p><em>Unit 0 of the combined path. Fuses the vendor-neutral mental model and LLM fundamentals of Agentic Engineering Modules 0 and 1 with current, model-agnostic practice (a first measured call across Claude, Gemini, and GPT). Tool commands and model ids change quickly; verify against current documentation.</em></p>
     </article>
     <nav class="lessonnav"><a class="ln prev" href="05-recap.html"><span class="dir">&#8592; Previous</span><b>Recap</b></a><a class="ln home" href="../index.html"><b>All units</b></a><a class="ln next" href="../unit-01-coding-agent-workflow/00-overview.html"><span class="dir">Next &#8594;</span><b>Unit 1: The Coding-Agent Workflow</b></a></nav>
   </main>

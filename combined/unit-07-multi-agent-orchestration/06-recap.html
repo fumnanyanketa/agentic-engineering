@@ -289,11 +289,11 @@ footer.site .fnote{max-width:46em;font-size:13.5px;line-height:1.7}
 <ul class="unit-toc">
 <li class="done"><a href="00-overview.html">Overview</a>
 </li>
-<li class="done"><a href="01-when-multi-agent-helps-and-when-it-hurts.html">Part 1 &middot; When multi-agent helps and when it hurts</a>
+<li class="done"><a href="01-the-honest-debate.html">Part 1 &middot; The honest debate</a>
 </li>
 <li class="done"><a href="02-the-cost-reality.html">Part 2 &middot; The cost reality</a>
 </li>
-<li class="done"><a href="03-how-to-build-orchestrator-worker-and-how-atlas-d.html">Part 3 &middot; How to build orchestrator-worker, and how Atlas does it</a>
+<li class="done"><a href="03-the-orchestrator-worker-pattern.html">Part 3 &middot; The orchestrator-worker pattern</a>
 </li>
 <li class="done"><a href="04-tool-skill-or-subagent.html">Part 4 &middot; Tool, skill, or subagent?</a>
 </li>
@@ -309,22 +309,21 @@ footer.site .fnote{max-width:46em;font-size:13.5px;line-height:1.7}
     <article>
       <div class="stepline"><span class="steptxt">Step 7 of 8</span><span class="stepdots"><i class="done"></i><i class="done"></i><i class="done"></i><i class="done"></i><i class="done"></i><i class="done"></i><i class="cur"></i><i class=""></i></span></div><h2 id="key-takeaways">Key takeaways</h2>
 <ol>
-<li><strong>Multi-agent is a tool, not a default.</strong> Reach for it only when work is read-heavy, parallelizable, and high-value.</li>
-<li><strong>The real boundary is read-heavy/parallelizable vs write-heavy/dependent.</strong> The two famous opposing posts agree on exactly this line.</li>
-<li><strong>Hold quality and cost together.</strong> Roughly 4x tokens for one agent, 15x for multi-agent. Optimise cost per successful outcome.</li>
-<li><strong>Decompose deliberately.</strong> Tool for offloaded work, skill for sometimes-needed info, subagent only to parallelize or get a fresh mind.</li>
-<li><strong>Start tools with human-like primitives;</strong> reach for MCP last. Prefer folding work back into the orchestrator as models improve.</li>
-<li><strong>Learn the loop before the framework,</strong> and keep prompts and traces visible whatever you choose.</li>
+<li><strong>One agent is the default; a fleet must earn it.</strong> Multi-agent wins for read-heavy, parallelizable, high-value work. Single-agent wins for write-heavy, dependent work like editing code.</li>
+<li><strong>Read both numbers, always.</strong> Multi-agent can cost ~15 times a chat. A quality gain only matters next to its cost multiplier: optimise cost per successful outcome.</li>
+<li><strong>The orchestrator-worker pattern is model-neutral.</strong> Lead decomposes, workers run in fresh contexts and return short summaries, lead synthesizes. Claude Code, Gemini CLI, and Codex CLI all ship it; only the filenames and flags differ.</li>
+<li><strong>Tool &lt; skill &lt; subagent in weight.</strong> Offload mechanical work to a tool, move situational know-how to a skill, and spawn a subagent <em>only</em> for parallelism or a fresh mind.</li>
+<li><strong>Learn the loop before the framework.</strong> Adopt one deliberately, by problem shape, and keep every prompt and trace visible.</li>
 </ol>
 <h2 id="common-pitfalls">Common pitfalls</h2>
 <ul>
-<li>❌ Using multi-agent by default because it sounds sophisticated.</li>
-<li>❌ Quoting a quality gain while ignoring the roughly 15x cost multiplier.</li>
-<li>❌ Parallelizing dependent work and getting outputs that do not fit together.</li>
-<li>❌ Giving workers a one-line instruction instead of full shared context (the conflicting-decisions trap).</li>
-<li>❌ Fixing a degraded agent by adding more instructions, more tools, or more subagents.</li>
-<li>❌ Hiding subagents inside tool wrappers, losing observability and inviting communication breakdowns.</li>
-<li>❌ Adopting a framework before you understand the loop it hides.</li>
+<li>❌ Using multi-agent by default because it "sounds sophisticated."</li>
+<li>❌ Quoting a quality gain while ignoring the roughly 15-times cost multiplier.</li>
+<li>❌ Parallelizing dependent work, then getting outputs that do not fit together.</li>
+<li>❌ Giving a worker a one-line instruction instead of full shared context (the conflicting-decisions trap).</li>
+<li>❌ Fixing a degraded agent by adding more instructions, tools, or subagents instead of decomposing.</li>
+<li>❌ Reaching for MCP, or a subagent, first, when a primitive tool or a skill would do.</li>
+<li>❌ Adopting a heavy framework before you understand the loop it hides.</li>
 </ul>
 <hr />
     </article>

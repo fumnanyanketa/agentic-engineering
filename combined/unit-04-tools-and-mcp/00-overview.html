@@ -236,7 +236,7 @@ footer.site .fnote{max-width:46em;font-size:13.5px;line-height:1.7}
   <div class="navlinks">
     <a href="../index.html">All units</a>
     <a href="#overview">Overview</a>
-    <a href="06-the-build.html">The Build</a>
+    <a href="08-the-build.html">The Build</a>
   </div>
   <div class="nav-cta">
     <a class="btn btn-primary" href="#start">Start the lesson &#8594;</a>
@@ -251,14 +251,14 @@ footer.site .fnote{max-width:46em;font-size:13.5px;line-height:1.7}
     <div>
       <span class="eyebrow">&#10022; Unit 4</span>
       <h1>Tools, Function-Calling and <span class="accent">MCP</span></h1>
-      <p class="lead">A plain model can only produce text, so this unit gives it hands: you learn the tool-use loop (the model asks for an action by name, your code runs it, the result goes back), you learn to design tools so the model uses them reliably (clear descriptions, consolidated actions, errors returned not hidden), you connect to the outside world once and reuse it everywhere through MCP (the open standard that turns N times M custom connectors into N plus M), and you keep a growing tool catalog usable with tool search.</p>
+      <p class="lead">A bare language model can only produce text, and this unit gives it hands: you will learn the one universal pattern that lets any model (Claude, Gemini, or GPT) call your code (you describe a tool as a JSON schema, the model returns a structured request, you run it and hand back the result, the model continues), you will see that exact shape side by side across all three providers, and then you will learn MCP, the open standard that lets you plug a whole toolbox into any agent once instead of rewiring it for every tool, finishing by building the `tools/` layer of AtlasOS with a real tool and a real MCP server wired into your coding agent.</p>
       <div class="hero-actions">
         <a class="btn btn-primary" href="#start">Start the lesson &#8594;</a>
         
       </div>
       <div class="chips">
         <span class="chip">&#127908; <b>Unit 4 of 11</b></span>
-        <span class="chip">&#9201; <b>Step 1 of 7</b></span>
+        <span class="chip">&#9201; <b>Step 1 of 9</b></span>
         <span class="chip">&#128296; <b>Hands-on capstone</b></span>
       </div>
     </div>
@@ -275,7 +275,7 @@ footer.site .fnote{max-width:46em;font-size:13.5px;line-height:1.7}
           <li><span class="ic">&#128296;</span><span>A hands-on capstone you build step by step</span></li>
           <li><span class="ic">&#127919;</span><span>Optional practice drills to reinforce each skill</span></li>
         </ul>
-        <a class="btn btn-coral" href="06-the-build.html" style="width:100%;justify-content:center">Jump to the project</a>
+        <a class="btn btn-coral" href="08-the-build.html" style="width:100%;justify-content:center">Jump to the project</a>
       </div>
     </div>
   </div>
@@ -289,72 +289,81 @@ footer.site .fnote{max-width:46em;font-size:13.5px;line-height:1.7}
 <ul class="unit-toc">
 <li class="active"><a href="00-overview.html">Overview</a>
 </li>
-<li class=""><a href="01-the-tool-use-loop.html">Part 1 &middot; the tool-use loop</a>
+<li class=""><a href="01-what-a-tool-actually-is.html">Part 1 &middot; What a tool actually is</a>
 </li>
-<li class=""><a href="02-tool-design.html">Part 2 &middot; tool design</a>
+<li class=""><a href="02-the-tool-use-loop-step-by-step.html">Part 2 &middot; The tool-use loop, step by step</a>
 </li>
-<li class=""><a href="03-mcp.html">Part 3 &middot; MCP</a>
+<li class=""><a href="03-the-same-shape-across-claude-gemini-and-gpt.html">Part 3 &middot; The same shape across Claude, Gemini, and GPT</a>
 </li>
-<li class=""><a href="04-keeping-a-growing-catalog-usable.html">Part 4 &middot; keeping a growing catalog usable</a>
+<li class=""><a href="04-designing-tools-the-model-uses-reliably.html">Part 4 &middot; Designing tools the model uses reliably</a>
 </li>
-<li class=""><a href="05-recap.html">Recap</a>
+<li class=""><a href="05-mcp-one-standard-instead-of-n-times-m-wiring.html">Part 5 &middot; MCP, one standard instead of N times M wiring</a>
 </li>
-<li class=""><a href="06-the-build.html">The Build</a>
+<li class=""><a href="06-adding-an-mcp-server-to-your-coding-agent.html">Part 6 &middot; Adding an MCP server to your coding agent</a>
+</li>
+<li class=""><a href="07-recap.html">Recap</a>
+</li>
+<li class=""><a href="08-the-build.html">The Build</a>
 </li>
 </ul>
   </div></aside>
   <main id="start">
     <article>
-      <div class="stepline"><span class="steptxt">Step 1 of 7</span><span class="stepdots"><i class="cur"></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i></span></div><hr />
+      <div class="stepline"><span class="steptxt">Step 1 of 9</span><span class="stepdots"><i class="cur"></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i></span></div><hr />
 <h2 id="in-one-sentence">In one sentence</h2>
-<p>A plain model can only produce text, so this unit gives it hands: you learn the tool-use loop (the model asks for an action by name, your code runs it, the result goes back), you learn to design tools so the model uses them reliably (clear descriptions, consolidated actions, errors returned not hidden), you connect to the outside world once and reuse it everywhere through MCP (the open standard that turns N times M custom connectors into N plus M), and you keep a growing tool catalog usable with tool search.</p>
+<p>A bare language model can only produce text, and this unit gives it hands: you will learn the one universal pattern that lets any model (Claude, Gemini, or GPT) call your code (you describe a tool as a JSON schema, the model returns a structured request, you run it and hand back the result, the model continues), you will see that exact shape side by side across all three providers, and then you will learn MCP, the open standard that lets you plug a whole toolbox into any agent once instead of rewiring it for every tool, finishing by building the <code>tools/</code> layer of AtlasOS with a real tool and a real MCP server wired into your coding agent.</p>
 <blockquote>
-<p>🎯 <strong>Where this unit is heading.</strong> The payoff is a <strong>Build</strong>: the AtlasOS tool / MCP layer. You give Scout (the research agent) real tools behind clean function schemas, connect at least one MCP server so an integration is built once and reused, and add tool search so the catalog can grow without drowning the context window. You finish with a committed tool layer, clear schemas, and one MCP integration. Jump to <strong>"The Build"</strong> to see the finish line.</p>
+<p>🎯 <strong>Where this unit is heading.</strong> The payoff is a <strong>Build</strong> where you create the <code>tools/</code> folder in your AtlasOS repo, hand-write one real tool (a small file-search tool) as a JSON-schema function, run the full tool-use loop yourself so you watch the model actually call it, and then connect one MCP server to your coding agent (Claude Code, Gemini CLI, or Codex CLI) and confirm the agent invokes it. Jump to <strong>"The Build"</strong> to see the finish line, then come back and we will get you there.</p>
 </blockquote>
 <h2 id="first-principles-companion">First-principles companion</h2>
 <blockquote>
-<p>💡 <strong>The durable ideas behind this unit.</strong> The Claude-specific framing is recent; the concepts are not. For the timeless versions:</p>
+<p>💡 <strong>The durable ideas behind this unit.</strong> The APIs and CLIs are recent and change often; the underlying ideas do not. If you want the timeless versions (optional, read them any time):</p>
 <ul>
-<li><strong><a href="https://arxiv.org/abs/2302.04761">Toolformer: Language Models Can Teach Themselves to Use Tools</a></strong> (paper). The seminal account of why and how a language model calls external tools and APIs, the root of everything in this unit.</li>
-<li><strong><a href="https://platform.claude.com/docs/en/agents-and-tools/tool-use/overview">Tool use with Claude (Anthropic docs)</a></strong> (docs). The tool-agnostic explanation of the loop: the model decides, your app executes, the result returns.</li>
-<li><strong><a href="https://modelcontextprotocol.io/docs/getting-started/intro">Model Context Protocol intro</a></strong> (docs). MCP as an open, vendor-neutral standard ("the USB-C port for AI applications"), now stewarded by a foundation, not one company.</li>
+<li><strong><a href="https://platform.claude.com/docs/en/agents-and-tools/tool-use/overview">Tool use with Claude (Anthropic docs)</a></strong> (docs). The tool-agnostic explanation of the function-calling / agentic loop: the model decides, your app executes, the result returns.</li>
+<li><strong><a href="https://arxiv.org/abs/2302.04761">Toolformer: Language Models Can Teach Themselves to Use Tools</a></strong> (paper). The seminal paper on why and how language models call external tools and APIs.</li>
+<li><strong><a href="https://www.anthropic.com/engineering/writing-tools-for-agents">Writing tools for agents (Anthropic)</a></strong> (essay). The durable rules of good tool design (consolidate, namespace, return high-signal output) that hold across every provider.</li>
+<li><strong><a href="https://modelcontextprotocol.io/docs/getting-started/intro">Model Context Protocol: intro docs</a></strong> (docs). The vendor-neutral standard for connecting agents to tools and data, from the source.</li>
 </ul>
 </blockquote>
 <h2 id="a-few-plain-language-basics-first">A few plain-language basics first</h2>
+<p>New terms, in plain words. You do not need to memorise these; each is explained again the moment it matters.</p>
 <ul>
-<li><strong>Tool (also function calling):</strong> a named action you let the model take (search the web, query a database, send an email, run code). "Function calling" is the older programming phrase; "tool use" is the newer one most teams prefer. Same idea.</li>
-<li><strong>Schema:</strong> a precise description of the shape of some data. A tool's input schema lists the inputs it needs and their types, usually written in <strong>JSON Schema</strong> (a standard text format for structured data).</li>
-<li><strong>Tool call:</strong> the model's structured request to run a tool. The model only <em>asks</em>; it never runs anything itself.</li>
-<li><strong>Tool result:</strong> what your code sends back after running the tool, attached to the same conversation, so the model can continue.</li>
-<li><strong>MCP (Model Context Protocol):</strong> an open standard for connecting AI apps to tools and data, so you build a connector once and any compliant app can reuse it.</li>
-<li><strong>MCP server / client / host:</strong> the <strong>host</strong> is the AI app you use; the <strong>client</strong> lives inside it and holds a connection to a <strong>server</strong>, a small program that exposes tools and data in the MCP format.</li>
+<li><strong>Tool (also called a function):</strong> a small piece of your code the model is allowed to run, for example "search files" or "get the weather." The two names mean the same thing; we say "tool."</li>
+<li><strong>Function calling / tool use:</strong> the mechanism by which a model asks to run one of your tools. It does not run anything itself; it returns a structured request and waits for you.</li>
+<li><strong>JSON:</strong> JavaScript Object Notation, a simple text format for structured data, written with <code>{ }</code> for objects and <code>"key": value</code> pairs. You have seen it even if you did not know the name.</li>
+<li><strong>JSON Schema:</strong> a precise, machine-readable description of the <em>shape</em> of some data: which fields exist, their types, and which are required. You describe each tool's inputs with one.</li>
+<li><strong>Tool definition:</strong> the bundle you hand the model for each tool: a <strong>name</strong>, a plain-English <strong>description</strong>, and an <strong>input schema</strong>.</li>
+<li><strong>Tool call:</strong> the structured request the model returns, naming a tool and the arguments to run it with.</li>
+<li><strong>Tool result:</strong> what you send back to the model after running the tool, attached to the same conversation, so the model can continue.</li>
+<li><strong>The tool-use loop:</strong> send tools plus the user message, get a tool call, run it, return the result, repeat until the model answers. This is the heartbeat of every agent.</li>
+<li><strong>MCP (Model Context Protocol):</strong> an open, vendor-neutral standard for connecting tools and data to <em>any</em> agent, so you build an integration once and every compatible agent can use it.</li>
+<li><strong>MCP server:</strong> a small program that exposes tools (and data) in the MCP format. <strong>MCP client / host:</strong> the agent or app that connects to it.</li>
+<li><strong>Coding agent:</strong> the terminal tool you set up in Unit 1 (Claude Code, Gemini CLI, or Codex CLI). It is itself an MCP client, so you can plug MCP servers straight into it.</li>
 </ul>
-<p>You do not need to memorise these. Each returns the first time it matters.</p>
 <h2 id="why-this-unit-matters">Why this unit matters</h2>
-<p>In Unit 0 you met the four parts of the workplace you design for the model: instructions, context, tools, and validation. This is the tools unit, and it is where an LLM stops being a clever text box and starts changing the world. A model on its own cannot look up today's weather, read a file, or add two large numbers with guaranteed accuracy. Tools fix that.</p>
+<p>Everything you build from here on, every AtlasOS agent, depends on this one capability. A model that can only talk is a clever parrot. A model that can call tools can search, read files, query a database, send a message, run code: it can act. Function calling is the single mechanism underneath all of it, and MCP is how you stop rewriting the same plumbing for every new tool.</p>
 <blockquote>
-<p>🔑 <strong>Your agent is not dumb, your tools are.</strong> Beginners assume a weak agent means a weak model. Far more often the tools are the problem. The model can only be as good as the menu you hand it. Anthropic's engineering team reported spending more time tuning the tools than the prompt for one of their coding agents.</p>
+<p>🔑 <strong>The model decides <em>what</em>; your code decides <em>how</em>.</strong> The model never runs anything. It reads your tool menu, picks one, and asks for it by name with arguments. Your code runs the real action and returns the result. This turn-taking is the entire idea, and it is identical across every provider.</p>
 </blockquote>
-<p>Get tool design right and even a modest model acts reliably. Get it wrong and the strongest model in the world picks the wrong action, floods its own context with noise, and stalls. And once you have more than a handful of tools, you need a way to connect them once (MCP) and to keep them usable as the list grows (tool search). Those are the two scaling moves this unit adds on top of the basic loop.</p>
 <h2 id="learning-objectives">Learning objectives</h2>
 <p>By the end of this unit you will be able to:</p>
 <ol>
-<li>Walk through the tool-use loop step by step and explain who decides <em>what</em> (the model) versus <em>how</em> (your code).</li>
-<li>Write a tool as three things (name, description, JSON Schema) and apply the design rules: consolidate, namespace, return high-signal output, name fields for the model.</li>
-<li>Return errors as recoverable tool results so the model self-corrects, and treat every tool input as untrusted.</li>
-<li>Explain MCP, the N times M to N plus M payoff, the client/server/host pieces, and the three server primitives (tools, resources, prompts).</li>
-<li>Use tool search to keep a large tool catalog from flooding the context window.</li>
-<li>Give a Claude agent real tools and at least one MCP server, committed to AtlasOS.</li>
+<li>Explain the tool-use loop step by step, and why a tool is just a name, a description, and a JSON schema.</li>
+<li>Write a tool definition and recognise the same shape in Claude, Gemini, and GPT requests.</li>
+<li>Design tools the model uses reliably (good names, clear descriptions, trimmed output, errors as results).</li>
+<li>Explain what MCP is, the N times M problem it solves, and its client/server/host parts and three primitives.</li>
+<li>Add an MCP server to a coding agent in Claude Code, Gemini CLI, and Codex CLI, and verify the agent invokes it.</li>
+<li>Build the AtlasOS <code>tools/</code> layer: one real hand-written tool plus one connected MCP server.</li>
 </ol>
 <h2 id="prerequisites">Prerequisites</h2>
 <ul>
-<li><strong>From this course:</strong> Unit 0 (the four-part workplace; tokens and the context window) and Unit 2 (prompting and context engineering; tool search was previewed there).</li>
-<li><strong>Skills that matter:</strong> reading and running Python, calling an HTTP API, and reading JSON. You will write small functions and one schema.</li>
-<li><strong>Skills you can defer:</strong> building production MCP servers and deep security hardening. You wire up one server here; safety in depth is its own later topic.</li>
+<li><strong>Unit 1 finished:</strong> you have a workstation (VS Code, terminal, Node.js, git), a coding agent installed and signed in, and the <code>atlasos</code> repository cloned to your computer. We build directly on that.</li>
+<li><strong>Helpful, not required:</strong> Unit 2 (prompting) and Unit 3 (context engineering). Tool descriptions are prompts, so good prompting habits carry straight over.</li>
+<li><strong>What you do NOT need:</strong> prior experience with APIs or JSON. We define every term and show every line.</li>
 </ul>
 <hr />
     </article>
-    <nav class="lessonnav"><a class="ln prev" href="../unit-03-model-and-reasoning-levers/06-the-build.html"><span class="dir">&#8592; Previous</span><b>Unit 3: Model and Reasoning Levers</b></a><a class="ln home" href="../index.html"><b>All units</b></a><a class="ln next" href="01-the-tool-use-loop.html"><span class="dir">Next &#8594;</span><b>the tool-use loop</b></a></nav>
+    <nav class="lessonnav"><a class="ln prev" href="../unit-03-model-and-reasoning-levers/07-the-build.html"><span class="dir">&#8592; Previous</span><b>Unit 3: Model and Reasoning Levers</b></a><a class="ln home" href="../index.html"><b>All units</b></a><a class="ln next" href="01-what-a-tool-actually-is.html"><span class="dir">Next &#8594;</span><b>What a tool actually is</b></a></nav>
   </main>
 </div>
 

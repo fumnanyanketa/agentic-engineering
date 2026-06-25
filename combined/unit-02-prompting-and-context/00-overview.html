@@ -236,7 +236,7 @@ footer.site .fnote{max-width:46em;font-size:13.5px;line-height:1.7}
   <div class="navlinks">
     <a href="../index.html">All units</a>
     <a href="#overview">Overview</a>
-    <a href="06-the-build.html">The Build</a>
+    <a href="08-the-build.html">The Build</a>
   </div>
   <div class="nav-cta">
     <a class="btn btn-primary" href="#start">Start the lesson &#8594;</a>
@@ -251,14 +251,14 @@ footer.site .fnote{max-width:46em;font-size:13.5px;line-height:1.7}
     <div>
       <span class="eyebrow">&#10022; Unit 2</span>
       <h1>Prompting and Context <span class="accent">Engineering</span></h1>
-      <p class="lead">Prompting is a debugging skill, not a writing skill, and it lives inside the bigger discipline of context engineering: you shape the words you send (clear instructions, structure, examples, output contracts), you curate the smallest set of high-signal tokens the model sees while it works, and you reach for the right lever (a tool, a stronger model, more thinking, a multi-step loop) instead of piling on more instructions, all measured against a small eval rather than vibes.</p>
+      <p class="lead">A **prompt** is the text you send a model, and a model is only as good as what you put in front of it, so this unit teaches you the two linked crafts that decide whether you get a useful answer or a confident mess: writing clear, structured, example-backed instructions (prompting), and curating the smallest high-signal set of information the model sees while it works (context engineering), shown the same way across Claude, Gemini, and GPT, and finished by writing a real, versioned system prompt for your first AtlasOS agent.</p>
       <div class="hero-actions">
         <a class="btn btn-primary" href="#start">Start the lesson &#8594;</a>
         
       </div>
       <div class="chips">
         <span class="chip">&#127908; <b>Unit 2 of 11</b></span>
-        <span class="chip">&#9201; <b>Step 1 of 7</b></span>
+        <span class="chip">&#9201; <b>Step 1 of 9</b></span>
         <span class="chip">&#128296; <b>Hands-on capstone</b></span>
       </div>
     </div>
@@ -275,7 +275,7 @@ footer.site .fnote{max-width:46em;font-size:13.5px;line-height:1.7}
           <li><span class="ic">&#128296;</span><span>A hands-on capstone you build step by step</span></li>
           <li><span class="ic">&#127919;</span><span>Optional practice drills to reinforce each skill</span></li>
         </ul>
-        <a class="btn btn-coral" href="06-the-build.html" style="width:100%;justify-content:center">Jump to the project</a>
+        <a class="btn btn-coral" href="08-the-build.html" style="width:100%;justify-content:center">Jump to the project</a>
       </div>
     </div>
   </div>
@@ -289,72 +289,80 @@ footer.site .fnote{max-width:46em;font-size:13.5px;line-height:1.7}
 <ul class="unit-toc">
 <li class="active"><a href="00-overview.html">Overview</a>
 </li>
-<li class=""><a href="01-prompting-is-a-debugging-skill.html">Part 1 &middot; Prompting is a debugging skill</a>
+<li class=""><a href="01-what-makes-a-prompt-work.html">Part 1 &middot; What makes a prompt work</a>
 </li>
-<li class=""><a href="02-the-debugging-loop-and-choosing-the-right-fix.html">Part 2 &middot; The debugging loop, and choosing the right fix</a>
+<li class=""><a href="02-structure-and-output-with-a-worked-before-and-af.html">Part 2 &middot; Structure and output, with a worked before-and-after</a>
 </li>
-<li class=""><a href="03-context-engineering.html">Part 3 &middot; Context engineering</a>
+<li class=""><a href="03-the-same-moves-across-claude-gemini-and-gpt.html">Part 3 &middot; The same moves across Claude, Gemini, and GPT</a>
 </li>
-<li class=""><a href="04-prompt-caching-and-the-advisor-strategy.html">Part 4 &middot; Prompt caching and the advisor strategy</a>
+<li class=""><a href="04-from-prompting-to-context-engineering.html">Part 4 &middot; From prompting to context engineering</a>
 </li>
-<li class=""><a href="05-recap.html">Recap</a>
+<li class=""><a href="05-context-rot-and-why-bigger-is-not-a-free-lunch.html">Part 5 &middot; Context rot, and why bigger is not a free lunch</a>
 </li>
-<li class=""><a href="06-the-build.html">The Build</a>
+<li class=""><a href="06-prompt-caching.html">Part 6 &middot; Prompt caching</a>
+</li>
+<li class=""><a href="07-recap.html">Recap</a>
+</li>
+<li class=""><a href="08-the-build.html">The Build</a>
 </li>
 </ul>
   </div></aside>
   <main id="start">
     <article>
-      <div class="stepline"><span class="steptxt">Step 1 of 7</span><span class="stepdots"><i class="cur"></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i></span></div><hr />
+      <div class="stepline"><span class="steptxt">Step 1 of 9</span><span class="stepdots"><i class="cur"></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i></span></div><hr />
 <h2 id="in-one-sentence">In one sentence</h2>
-<p>Prompting is a debugging skill, not a writing skill, and it lives inside the bigger discipline of context engineering: you shape the words you send (clear instructions, structure, examples, output contracts), you curate the smallest set of high-signal tokens the model sees while it works, and you reach for the right lever (a tool, a stronger model, more thinking, a multi-step loop) instead of piling on more instructions, all measured against a small eval rather than vibes.</p>
+<p>A <strong>prompt</strong> is the text you send a model, and a model is only as good as what you put in front of it, so this unit teaches you the two linked crafts that decide whether you get a useful answer or a confident mess: writing clear, structured, example-backed instructions (prompting), and curating the smallest high-signal set of information the model sees while it works (context engineering), shown the same way across Claude, Gemini, and GPT, and finished by writing a real, versioned system prompt for your first AtlasOS agent.</p>
 <blockquote>
-<p>🎯 <strong>Where this unit is heading.</strong> The payoff is a <strong>Build</strong>: the first real, versioned artifact in the AtlasOS <strong>prompt library</strong>. You will author a system prompt for <strong>Scout</strong> (the research agent), tune it eval-driven from broken to passing, apply prompt caching and context engineering so it stays cheap and on-track, and commit it as a reusable, versioned file your whole fleet can reuse. Jump to <strong>"The Build"</strong> to see the finish line.</p>
+<p>🎯 <strong>Where this unit is heading.</strong> The payoff is a <strong>Build</strong> where you create a <code>prompts/</code> folder in the <code>atlasos</code> repo you made in Unit 1, write a real, versioned <strong>system prompt</strong> for <strong>Scout</strong> (the research-and-synthesis agent), give it a worked <strong>few-shot example</strong> and a strict <strong>output contract</strong>, test it against a couple of inputs, and commit it to git as a real artifact. Jump to <strong>"The Build"</strong> to see the finish line, then come back and we will get you there.</p>
 </blockquote>
 <h2 id="first-principles-companion">First-principles companion</h2>
 <blockquote>
-<p>💡 <strong>The durable ideas behind this unit.</strong> The Claude-specific framing is recent; the concepts are not. For the timeless versions:</p>
+<p>💡 <strong>The durable ideas behind this unit.</strong> The tools change monthly; these do not. Optional, read them any time:</p>
 <ul>
-<li><strong><a href="https://arxiv.org/abs/2005.14165">Language Models are Few-Shot Learners (GPT-3)</a></strong> (paper). The seminal account of why in-context prompting and worked examples work at all.</li>
-<li><strong><a href="https://www.anthropic.com/engineering/effective-context-engineering-for-ai-agents">Effective context engineering for AI agents</a></strong> (essay). The principle-level treatment of "find the smallest set of high-signal tokens," covering curation and compaction as concepts, not buttons.</li>
-<li><strong><a href="https://simonwillison.net/2025/Mar/11/using-llms-for-code/">Using LLMs to write code</a></strong> (Simon Willison). A working engineer arriving independently at the same conclusion: most of the craft is managing the model's context.</li>
+<li><strong><a href="https://platform.claude.com/docs/en/build-with-claude/prompt-engineering/overview">Prompt engineering overview (Anthropic docs)</a></strong> (docs). The durable method: define success and tests first, structure the prompt, and recognise when a different lever (a tool, a stronger model) is the real fix rather than more instructions.</li>
+<li><strong><a href="https://arxiv.org/abs/2005.14165">Language Models are Few-Shot Learners (GPT-3)</a></strong> (paper). The seminal paper establishing why in-context prompting and examples work at all.</li>
+<li><strong><a href="https://www.anthropic.com/engineering/effective-context-engineering-for-ai-agents">Effective context engineering for AI agents (Anthropic)</a></strong> (essay). The principle-level case for "find the smallest set of high-signal tokens," covering curation and compaction as ideas, not buttons.</li>
+<li><strong><a href="https://platform.claude.com/docs/en/build-with-claude/prompt-caching">Prompt caching (Anthropic docs)</a></strong> (docs). How caching works and where its large cost saving comes from, from first principles.</li>
 </ul>
 </blockquote>
 <h2 id="a-few-plain-language-basics-first">A few plain-language basics first</h2>
+<p>New terms, in plain words. You do not need to memorise these; each is explained again the moment it matters.</p>
 <ul>
-<li><strong>Prompt:</strong> the text you send the model. <strong>Prompt engineering</strong> is shaping that text so the model does what you want consistently, not once by luck.</li>
+<li><strong>Model:</strong> the AI itself, one specific version of it (for example Claude's Sonnet, Google's Gemini, OpenAI's GPT). Different models have different strengths, speeds, and prices.</li>
+<li><strong>Prompt:</strong> the text you send the model. <strong>Prompt engineering</strong> is shaping that text so the model does what you want, consistently, not just once by luck.</li>
+<li><strong>Token:</strong> the unit a model reads and writes in, roughly three quarters of a word. You are billed per token, so "more tokens" means "more cost and more wait."</li>
+<li><strong>Context window:</strong> the maximum amount of text (in tokens) a model can hold in mind at once for a single request. Today's largest windows are very big (hundreds of thousands to a million tokens), but, as you will see, big does not mean you should fill it.</li>
+<li><strong>Context:</strong> everything the model can see in one request: the system prompt, your message, any reference documents, examples, past conversation, and the results of any tools it used.</li>
+<li><strong>Context engineering:</strong> deciding what goes into that limited space and what stays out, so the model sees the <em>best</em> set of information, not the <em>most</em>.</li>
 <li><strong>System prompt:</strong> a separate, higher-priority instruction that sets the model's role and standing rules for the whole conversation. It frames everything the user then says.</li>
-<li><strong>Context:</strong> the full set of text the model can see in one request (system prompt, user message, reference docs, examples, past turns, tool results), measured in tokens. <strong>Context engineering</strong> is deciding what goes in that finite space and what stays out.</li>
-<li><strong>Eval (evaluation):</strong> a small set of test cases (an input plus the answer you expect) that you run a prompt against to measure whether it actually works. The single most important habit in this unit.</li>
-<li><strong>Tool:</strong> a small function the model can choose to run (do exact maths, look something up). Its <strong>schema</strong> is the written description of what it does and what inputs it takes.</li>
-<li><strong>Prompt caching:</strong> reusing the already-processed stable prefix of your context so it is not reprocessed on every request. An economy tool, not an intelligence one.</li>
+<li><strong>Few-shot:</strong> a prompt that includes a few worked examples of input and the desired output, so the model copies the pattern. ("Zero-shot" means no examples.)</li>
+<li><strong>Structured output:</strong> a response that follows a fixed shape (for example JSON, a common machine-readable text format) so your program can read it reliably instead of scraping free text.</li>
+<li><strong>Latency:</strong> how long the model takes to respond. Lower is faster.</li>
+<li><strong>Prompt caching:</strong> a provider feature that saves the processed version of a stable chunk of your prompt and reuses it, so you do not pay to reprocess it every request.</li>
 </ul>
-<p>You do not need to memorise these. Each returns the first time it matters.</p>
 <h2 id="why-this-unit-matters">Why this unit matters</h2>
-<p>Most people meet prompting as a writing exercise: craft one clever paragraph, admire one nice answer, ship it. That fails the moment the work gets real. In real jobs you inherit a prompt several people have edited, that mixes rules, tone, and old fixes, and that suddenly works <em>worse</em> after a model upgrade. The professional frame is different and it is the hinge of this whole course:</p>
+<p>In Unit 1 you learned to <em>drive</em> a coding agent. The single biggest lever on what you get back is how you talk to the model and what you put in front of it. Most "the AI is not good enough" complaints are really "the prompt was vague" or "the model was buried in irrelevant text." This unit fixes both, and the skills carry to every model and every later unit, because every agent you build is, underneath, a prompt plus a carefully chosen context.</p>
 <blockquote>
-<p>🔑 <strong>The reframe in one line.</strong> Prompt engineering controls <em>how the model communicates</em> (phrasing, instructions). Context engineering controls <em>what the model knows</em> (the information available to it). Prompting is now best understood as one part of the bigger task: curating everything the model can see while it works.</p>
+<p>🔑 <strong>Best, not most.</strong> Context is a finite resource. The model has a fixed window and, just as importantly, a limited "attention budget": its focus spreads thinner as you add text. The goal is always the smallest set of high-signal tokens that still gets the job done, not the largest pile you can fit.</p>
 </blockquote>
-<p>Get this right and prompting becomes a calm, measurable debugging loop. Get it wrong and you will "prompt and pray," piling rules on a prompt with no test set and being surprised when it breaks on the next input or the next model.</p>
 <h2 id="learning-objectives">Learning objectives</h2>
 <p>By the end of this unit you will be able to:</p>
 <ol>
-<li>Apply the core prompting moves: clear and specific instructions, few-shot examples, structure with tags, and machine-readable output contracts.</li>
-<li>Build a small eval with the three case types every prompt needs (control, edge, capability/handoff), and tune a prompt one change at a time against it.</li>
-<li>Diagnose <em>why</em> a prompt fails and pick the right lever (remove an old patch, add a tool, stronger model or more thinking, a multi-step loop) instead of adding instructions.</li>
-<li>Explain context engineering and context rot, and aim for the smallest set of high-signal tokens that still does the job.</li>
-<li>Apply prompt caching and the platform context-engineering techniques (tool search, programmatic tool calling, compaction) to keep an agent cheap, fast, and on-track.</li>
-<li>Treat a system prompt as a versioned software artifact, committed and reusable.</li>
+<li>Write a clear, specific, well-structured prompt using the core techniques (clear instructions, structure, examples, roles, output formatting).</li>
+<li>Use a <strong>system prompt</strong>, <strong>few-shot examples</strong>, and <strong>structured output</strong> the same way across Claude, Gemini, and GPT, and recognise the small differences.</li>
+<li>Explain context engineering, the difference between it and prompting, and what <strong>context rot</strong> is.</li>
+<li>Budget a context window, keep every token earning its place, and use <strong>prompt caching</strong> to cut cost and latency on repeated calls.</li>
+<li>Treat prompts as versioned artifacts: write one, test it, and commit it to git.</li>
 </ol>
 <h2 id="prerequisites">Prerequisites</h2>
 <ul>
-<li><strong>From Unit 0:</strong> the mental model (engineer the environment, not the model), tokens, context window, context rot, and sampling controls.</li>
-<li><strong>From Unit 1:</strong> a working Claude Code loop and your AtlasOS repo, where this unit's artifact lands.</li>
-<li><strong>Skills that matter:</strong> sending a message to Claude and reading the reply; comfortable reading and running Python; git.</li>
+<li><strong>From Unit 1:</strong> a working workstation (editor, terminal, git), the <code>atlasos</code> repository cloned to your computer, and one coding agent installed and signed in.</li>
+<li><strong>What you do NOT need:</strong> any machine-learning background, or to have written a prompt before. We start from the first principle.</li>
+<li><strong>One honest note:</strong> you will write prompts in plain text. There is no special syntax to learn. The skill is in clarity and judgment, not in memorising a format.</li>
 </ul>
 <hr />
     </article>
-    <nav class="lessonnav"><a class="ln prev" href="../unit-01-coding-agent-workflow/08-the-build.html"><span class="dir">&#8592; Previous</span><b>Unit 1: The Coding-Agent Workflow</b></a><a class="ln home" href="../index.html"><b>All units</b></a><a class="ln next" href="01-prompting-is-a-debugging-skill.html"><span class="dir">Next &#8594;</span><b>Prompting is a debugging skill</b></a></nav>
+    <nav class="lessonnav"><a class="ln prev" href="../unit-01-coding-agent-workflow/08-the-build.html"><span class="dir">&#8592; Previous</span><b>Unit 1: The Coding-Agent Workflow</b></a><a class="ln home" href="../index.html"><b>All units</b></a><a class="ln next" href="01-what-makes-a-prompt-work.html"><span class="dir">Next &#8594;</span><b>What makes a prompt work</b></a></nav>
   </main>
 </div>
 
