@@ -213,9 +213,16 @@ footer.site .fnote{max-width:46em;font-size:13.5px;line-height:1.7}
 .stepdots i{width:9px;height:9px;border-radius:50%;background:var(--line);display:block}
 .stepdots i.done{background:var(--teal)}
 .stepdots i.cur{background:var(--coral);box-shadow:0 0 0 4px var(--coral-soft)}
+/* Compact hero for part / recap / build pages (full hero only on the Overview). */
+.compact .hero .wrap{grid-template-columns:1fr;padding:34px 28px 40px;gap:0}
+.compact .hero h1{font-size:31px;margin-bottom:12px}
+.compact .hero .lead{font-size:16px;margin-bottom:16px;max-width:48em}
+.compact .hero-card,.compact .float-badge,.compact .hero-actions{display:none}
+.compact .hero .blob{opacity:.28}
+.compact .hero::before{opacity:.16}
 </style>
 </head>
-<body>
+<body class="compact">
 <div id="progress"></div>
 
 <div class="topbar"><div class="wrap">
@@ -238,8 +245,8 @@ footer.site .fnote{max-width:46em;font-size:13.5px;line-height:1.7}
 
 <header class="hero">
   <span class="blob t"></span><span class="blob c"></span>
-  <svg class="squiggle" style="top:120px;left:46%;" width="90" height="26" viewBox="0 0 90 26" fill="none"><path d="M2 13c8-14 16 14 24 0s16 14 24 0 16 14 24 0" stroke="#18c4a0" stroke-width="4" stroke-linecap="round"/></svg>
-  <svg class="squiggle" style="bottom:60px;right:40%;" width="70" height="22" viewBox="0 0 90 26" fill="none"><path d="M2 13c8-14 16 14 24 0s16 14 24 0 16 14 24 0" stroke="#f24d63" stroke-width="4" stroke-linecap="round"/></svg>
+  
+  
   <div class="wrap" id="overview">
     <div>
       <span class="eyebrow">&#10022; Unit 4 &middot; Part 2</span>

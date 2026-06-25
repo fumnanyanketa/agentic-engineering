@@ -60,6 +60,10 @@ TEMPLATE = TEMPLATE.replace(
     "<li><span class=\"ic\">&#128221;</span><span>The how across Claude Code, Gemini CLI, and Codex CLI</span></li>",
 )
 TEMPLATE = TEMPLATE.replace("<span>Hands-on capstone</span>", "<span>One AtlasOS build per unit</span>")
+# Remove the decorative squiggle SVGs from the hero (both teal and coral).
+TEMPLATE = re.sub(r'<svg class="squiggle".*?</svg>', "", TEMPLATE, flags=re.S)
+# Body gets a class so part/recap/build pages can use a compact hero.
+TEMPLATE = TEMPLATE.replace("<body>", '<body class="{{BODYCLASS}}">', 1)
 # Multi-page nav tweaks: "All lessons" -> "All units"; Capstone link -> this unit's Build page.
 TEMPLATE = TEMPLATE.replace(">All lessons</a>", ">All units</a>")
 TEMPLATE = TEMPLATE.replace('<a href="#capstone">Capstone</a>', '<a href="{{BUILD_HREF}}">The Build</a>')
@@ -83,6 +87,13 @@ EXTRA_CSS = r'''
 .stepdots i{width:9px;height:9px;border-radius:50%;background:var(--line);display:block}
 .stepdots i.done{background:var(--teal)}
 .stepdots i.cur{background:var(--coral);box-shadow:0 0 0 4px var(--coral-soft)}
+/* Compact hero for part / recap / build pages (full hero only on the Overview). */
+.compact .hero .wrap{grid-template-columns:1fr;padding:34px 28px 40px;gap:0}
+.compact .hero h1{font-size:31px;margin-bottom:12px}
+.compact .hero .lead{font-size:16px;margin-bottom:16px;max-width:48em}
+.compact .hero-card,.compact .float-badge,.compact .hero-actions{display:none}
+.compact .hero .blob{opacity:.28}
+.compact .hero::before{opacity:.16}
 '''
 TEMPLATE = TEMPLATE.replace("</style>", EXTRA_CSS + "</style>", 1)
 
@@ -234,6 +245,7 @@ def render_page(page, pages, cur_idx, unit_title, unit_num, build_href, home, pr
     title_full = f"Unit {unit_num}: {unit_title} &middot; {page['hero_title']}"
     return (TEMPLATE
             .replace("{{TITLE}}", html.escape(re.sub("&middot;", "·", title_full)))
+            .replace("{{BODYCLASS}}", "" if page["kind"] == "overview" else "compact")
             .replace("{{EYEBROW}}", page["hero_eyebrow"])
             .replace("{{HERO_TITLE}}", accent_title(page["hero_title"]))
             .replace("{{LEAD}}", html.escape(page["lead"]))
