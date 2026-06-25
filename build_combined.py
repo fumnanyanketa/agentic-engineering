@@ -65,6 +65,8 @@ TEMPLATE = TEMPLATE.replace("<span>Hands-on capstone</span>", "<span>One AtlasOS
 TEMPLATE = re.sub(r'<svg class="squiggle".*?</svg>', "", TEMPLATE, flags=re.S)
 # Body gets a class so part/recap/build pages can use a compact hero.
 TEMPLATE = TEMPLATE.replace("<body>", '<body class="{{BODYCLASS}}">', 1)
+# Remove the top "Welcome to ..." strip from every page.
+TEMPLATE = re.sub(r'<div class="topbar">.*?</div></div>', "", TEMPLATE, count=1, flags=re.S)
 # Multi-page nav tweaks: "All lessons" -> "All units"; Capstone link -> this unit's Build page.
 TEMPLATE = TEMPLATE.replace(">All lessons</a>", ">All units</a>")
 TEMPLATE = TEMPLATE.replace('<a href="#capstone">Capstone</a>', '<a href="{{BUILD_HREF}}">The Build</a>')
@@ -212,6 +214,9 @@ def render_body(md_text):
     # Style the Build heading as the capstone banner with a stable id.
     body_html = re.sub(r'<h2 id="[^"]*"(>\s*(?:\U0001F6E0️?\s*)?The Build)',
                        r'<h2 id="capstone" class="capstone-h"\1', body_html)
+    # External links open in a new tab so readers are not pulled out of the course.
+    body_html = re.sub(r'<a href="(https?://[^"]+)"',
+                       r'<a href="\1" target="_blank" rel="noopener noreferrer"', body_html)
     h3s = re.findall(r'<h3 id="([^"]+)">(.*?)</h3>', body_html, re.S)
     h3s = [(hid, re.sub(r"<[^>]+>", "", txt).strip()) for hid, txt in h3s]
     return body_html, h3s

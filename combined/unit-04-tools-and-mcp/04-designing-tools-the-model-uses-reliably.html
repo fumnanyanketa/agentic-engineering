@@ -225,10 +225,7 @@ footer.site .fnote{max-width:46em;font-size:13.5px;line-height:1.7}
 <body class="compact">
 <div id="progress"></div>
 
-<div class="topbar"><div class="wrap">
-  <div>&#10024; Welcome to <b>Agentic Engineering</b> &middot; a self-paced course</div>
-  <div class="right"><span>Model-agnostic &middot; self-paced</span></div>
-</div></div>
+
 
 <nav class="bar"><div class="wrap">
   <button class="btn btn-outline" id="menuBtn" style="padding:8px 14px">&#9776;</button>
@@ -309,7 +306,7 @@ footer.site .fnote{max-width:46em;font-size:13.5px;line-height:1.7}
   </div></aside>
   <main id="start">
     <article>
-      <div class="stepline"><span class="steptxt">Step 5 of 9</span><span class="stepdots"><i class="done"></i><i class="done"></i><i class="done"></i><i class="done"></i><i class="cur"></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i></span></div><p>Beginners assume a weak agent means a weak model. Far more often, the tools are the problem. The model can only be as good as the menu you hand it. Anthropic's engineering team reported spending more time tuning the tools than the prompt for one of their coding agents, and recommends making tools <strong>poka-yoke</strong>, a manufacturing term meaning "mistake-proof": shape the inputs so the easy path is the correct path. (<a href="https://www.anthropic.com/engineering/building-effective-agents">Building Effective Agents</a>)</p>
+      <div class="stepline"><span class="steptxt">Step 5 of 9</span><span class="stepdots"><i class="done"></i><i class="done"></i><i class="done"></i><i class="done"></i><i class="cur"></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i></span></div><p>Beginners assume a weak agent means a weak model. Far more often, the tools are the problem. The model can only be as good as the menu you hand it. Anthropic's engineering team reported spending more time tuning the tools than the prompt for one of their coding agents, and recommends making tools <strong>poka-yoke</strong>, a manufacturing term meaning "mistake-proof": shape the inputs so the easy path is the correct path. (<a href="https://www.anthropic.com/engineering/building-effective-agents" target="_blank" rel="noopener noreferrer">Building Effective Agents</a>)</p>
 <p>A few durable rules of thumb hold across every provider:</p>
 <ul>
 <li><strong>Consolidate, do not mirror your database.</strong> One well-named <code>schedule_meeting</code> tool beats three thin tools (<code>list_users</code>, <code>list_calendars</code>, <code>create_event</code>) that force the model to orchestrate them by hand. More tools is not better. Each extra tool is one more thing the model can pick wrongly.</li>
@@ -319,7 +316,7 @@ footer.site .fnote{max-width:46em;font-size:13.5px;line-height:1.7}
 </ul>
 <p>There is a real cost lever here too, the one Puneet Shah demonstrates on the Claude platform: when an agent has tens or hundreds of tools, loading every tool's schema into context fills the window before the work even starts. <strong>Tool search</strong> keeps the definitions out of context until the model asks for one (Lovable cut token use 10% this way <em>and</em> performance improved). And <strong>programmatic tool calling</strong> has the model write a small script to trim a tool's result down to just the relevant part before it ever reaches the context window. Both are the same lesson: keep the tool menu and the tool output lean.</p>
 <blockquote>
-<p>❌ <strong>One security note to plant early (full treatment in a later unit).</strong> A tool is a door into your systems. Treat every input the model sends to a tool as untrusted, and validate and limit it <em>at the tool itself</em>, never relying on the prompt alone. Prompt injection (tricking the model into misusing a tool) is a leading risk, so enforce limits in code. (<a href="https://zylos.ai/research/2026-04-07-tool-use-function-calling-standards-benchmarks">Zylos Research, tool use standards and benchmarks</a>)</p>
+<p>❌ <strong>One security note to plant early (full treatment in a later unit).</strong> A tool is a door into your systems. Treat every input the model sends to a tool as untrusted, and validate and limit it <em>at the tool itself</em>, never relying on the prompt alone. Prompt injection (tricking the model into misusing a tool) is a leading risk, so enforce limits in code. (<a href="https://zylos.ai/research/2026-04-07-tool-use-function-calling-standards-benchmarks" target="_blank" rel="noopener noreferrer">Zylos Research, tool use standards and benchmarks</a>)</p>
 </blockquote>
 <hr />
     </article>

@@ -225,10 +225,7 @@ footer.site .fnote{max-width:46em;font-size:13.5px;line-height:1.7}
 <body class="compact">
 <div id="progress"></div>
 
-<div class="topbar"><div class="wrap">
-  <div>&#10024; Welcome to <b>Agentic Engineering</b> &middot; a self-paced course</div>
-  <div class="right"><span>Model-agnostic &middot; self-paced</span></div>
-</div></div>
+
 
 <nav class="bar"><div class="wrap">
   <button class="btn btn-outline" id="menuBtn" style="padding:8px 14px">&#9776;</button>
@@ -310,8 +307,8 @@ footer.site .fnote{max-width:46em;font-size:13.5px;line-height:1.7}
   <main id="start">
     <article>
       <div class="stepline"><span class="steptxt">Step 6 of 9</span><span class="stepdots"><i class="done"></i><i class="done"></i><i class="done"></i><i class="done"></i><i class="done"></i><i class="cur"></i><i class=""></i><i class=""></i><i class=""></i></span></div><p>You can now hand any model a tool. The next problem is practical: every time you want to connect a model to a new tool or data source (a database, your issue tracker, a docs site), you write custom plumbing. Do that across many apps and many tools and the wiring explodes.</p>
-<p><strong>MCP</strong> stands for <strong>Model Context Protocol</strong>. A <strong>protocol</strong> is just an agreed set of rules for how two programs talk, like a shared language. MCP is an open standard for secure, two-way connections between AI applications and the tools and data they need. The common analogy: MCP is "the USB-C port for AI applications." Just as USB-C lets any compatible device plug into any compatible port, MCP lets any compatible agent plug into any compatible tool. (<a href="https://modelcontextprotocol.io/docs/getting-started/intro">MCP docs</a>)</p>
-<p>It is no longer one company's project. Announced in November 2024, it has been adopted across the industry and, in December 2025, was donated to the <strong>Agentic AI Foundation</strong>, a vendor-neutral body under the Linux Foundation. Treat it like any open web standard: a common protocol many vendors implement, not a single product. (<a href="https://www.linuxfoundation.org/press/linux-foundation-announces-the-formation-of-the-agentic-ai-foundation">Linux Foundation: forming the Agentic AI Foundation</a>)</p>
+<p><strong>MCP</strong> stands for <strong>Model Context Protocol</strong>. A <strong>protocol</strong> is just an agreed set of rules for how two programs talk, like a shared language. MCP is an open standard for secure, two-way connections between AI applications and the tools and data they need. The common analogy: MCP is "the USB-C port for AI applications." Just as USB-C lets any compatible device plug into any compatible port, MCP lets any compatible agent plug into any compatible tool. (<a href="https://modelcontextprotocol.io/docs/getting-started/intro" target="_blank" rel="noopener noreferrer">MCP docs</a>)</p>
+<p>It is no longer one company's project. Announced in November 2024, it has been adopted across the industry and, in December 2025, was donated to the <strong>Agentic AI Foundation</strong>, a vendor-neutral body under the Linux Foundation. Treat it like any open web standard: a common protocol many vendors implement, not a single product. (<a href="https://www.linuxfoundation.org/press/linux-foundation-announces-the-formation-of-the-agentic-ai-foundation" target="_blank" rel="noopener noreferrer">Linux Foundation: forming the Agentic AI Foundation</a>)</p>
 <p><strong>The N times M problem.</strong> Suppose you have <em>N</em> AI applications and <em>M</em> tools. Without a standard, you build a custom connector for every pairing: <em>N times M</em> integrations. 10 apps and 10 tools is 100 connectors.</p>
 <div class="codehilite"><pre><span></span><code>   WITHOUT MCP (N x M):              WITH MCP (N + M):
    app1 ─┬─ tool1                    app1 ─┐         ┌─ tool1

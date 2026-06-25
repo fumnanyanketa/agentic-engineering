@@ -225,10 +225,7 @@ footer.site .fnote{max-width:46em;font-size:13.5px;line-height:1.7}
 <body class="compact">
 <div id="progress"></div>
 
-<div class="topbar"><div class="wrap">
-  <div>&#10024; Welcome to <b>Agentic Engineering</b> &middot; a self-paced course</div>
-  <div class="right"><span>Model-agnostic &middot; self-paced</span></div>
-</div></div>
+
 
 <nav class="bar"><div class="wrap">
   <button class="btn btn-outline" id="menuBtn" style="padding:8px 14px">&#9776;</button>
@@ -323,7 +320,7 @@ footer.site .fnote{max-width:46em;font-size:13.5px;line-height:1.7}
 <h3 id="step-1-install-your-editor-vs-code">Step 1: Install your editor (VS Code)</h3>
 <p>You can use any editor you like, and once you are comfortable you are welcome to switch. <strong>For this course we standardise on Visual Studio Code (VS Code)</strong> because it is free, runs on every system, has a built-in terminal, and every coding agent has a VS Code add-on. Picking one shared tool means every instruction in this course matches what is on your screen.</p>
 <ol>
-<li>Open your web browser and go to <strong><a href="https://code.visualstudio.com">https://code.visualstudio.com</a></strong>.</li>
+<li>Open your web browser and go to <strong><a href="https://code.visualstudio.com" target="_blank" rel="noopener noreferrer">https://code.visualstudio.com</a></strong>.</li>
 <li>Click the big blue <strong>Download</strong> button. The site detects your operating system automatically.</li>
 <li>Open the downloaded file and follow the installer:
    - <strong>Windows:</strong> run the <code>.exe</code>, accept the agreement, and importantly tick the box <strong>"Add to PATH"</strong> if offered (it lets the terminal find VS Code).
@@ -343,7 +340,7 @@ footer.site .fnote{max-width:46em;font-size:13.5px;line-height:1.7}
 <h3 id="step-3-install-nodejs-this-also-installs-npm">Step 3: Install Node.js (this also installs npm)</h3>
 <p>Two of our three agents are installed with <strong>npm</strong>, which comes bundled with <strong>Node.js</strong>. Installing Node.js gives you both.</p>
 <ol>
-<li>Go to <strong><a href="https://nodejs.org">https://nodejs.org</a></strong>.</li>
+<li>Go to <strong><a href="https://nodejs.org" target="_blank" rel="noopener noreferrer">https://nodejs.org</a></strong>.</li>
 <li>Download the version labelled <strong>LTS</strong> (Long Term Support, the stable one). Avoid "Current".</li>
 <li>Run the installer and accept the defaults (just keep clicking Next / Continue).</li>
 <li><strong>Close and reopen your terminal</strong> (so it notices the new tool), then prove it worked:</li>
@@ -361,7 +358,7 @@ v22.14.0
 <h3 id="step-4-install-git">Step 4: Install git</h3>
 <p><strong>Git</strong> tracks your project's history, and the agents use it constantly.</p>
 <ol>
-<li>Go to <strong><a href="https://git-scm.com/downloads">https://git-scm.com/downloads</a></strong> and download the version for your system.
+<li>Go to <strong><a href="https://git-scm.com/downloads" target="_blank" rel="noopener noreferrer">https://git-scm.com/downloads</a></strong> and download the version for your system.
    - <strong>macOS shortcut:</strong> you can instead type <code>git --version</code> in the terminal; macOS offers to install it for you.
    - <strong>Linux:</strong> <code>sudo apt install git</code> (Debian/Ubuntu) or your distro's equivalent.</li>
 <li>Run the installer and accept the defaults.</li>
@@ -383,11 +380,11 @@ git config --global user.email &quot;you@example.com&quot;
 <h3 id="step-5-create-your-accounts">Step 5: Create your accounts</h3>
 <p>You need two free accounts. Create the first now; create the second based on which agent you pick in Part 2.</p>
 <ol>
-<li><strong>GitHub</strong> (stores your projects online): go to <strong><a href="https://github.com">https://github.com</a></strong> and click <strong>Sign up</strong>. Pick a username you are happy to keep, verify your email, and you are in.</li>
+<li><strong>GitHub</strong> (stores your projects online): go to <strong><a href="https://github.com" target="_blank" rel="noopener noreferrer">https://github.com</a></strong> and click <strong>Sign up</strong>. Pick a username you are happy to keep, verify your email, and you are in.</li>
 <li><strong>Your agent's account</strong> (pick one in Part 2):
-   - <strong>Claude Code:</strong> a paid Anthropic plan (Pro, Max, Team, or Enterprise) at <strong><a href="https://claude.ai">https://claude.ai</a></strong>, or an API key from <strong><a href="https://console.anthropic.com">https://console.anthropic.com</a></strong>.
-   - <strong>Gemini CLI:</strong> a free Google account works to start, or an API key from <strong><a href="https://aistudio.google.com">https://aistudio.google.com</a></strong>.
-   - <strong>Codex CLI:</strong> a paid ChatGPT plan (Plus, Pro, or higher) at <strong><a href="https://chatgpt.com">https://chatgpt.com</a></strong>, or an OpenAI API key from <strong><a href="https://platform.openai.com">https://platform.openai.com</a></strong>.</li>
+   - <strong>Claude Code:</strong> a paid Anthropic plan (Pro, Max, Team, or Enterprise) at <strong><a href="https://claude.ai" target="_blank" rel="noopener noreferrer">https://claude.ai</a></strong>, or an API key from <strong><a href="https://console.anthropic.com" target="_blank" rel="noopener noreferrer">https://console.anthropic.com</a></strong>.
+   - <strong>Gemini CLI:</strong> a free Google account works to start, or an API key from <strong><a href="https://aistudio.google.com" target="_blank" rel="noopener noreferrer">https://aistudio.google.com</a></strong>.
+   - <strong>Codex CLI:</strong> a paid ChatGPT plan (Plus, Pro, or higher) at <strong><a href="https://chatgpt.com" target="_blank" rel="noopener noreferrer">https://chatgpt.com</a></strong>, or an OpenAI API key from <strong><a href="https://platform.openai.com" target="_blank" rel="noopener noreferrer">https://platform.openai.com</a></strong>.</li>
 </ol>
 <blockquote>
 <p>✅ <strong>Checkpoint.</strong> Before moving on, you should have: VS Code open, a working terminal, <code>node --version</code> and <code>git --version</code> both printing numbers, and a GitHub account. If all four are true, the hardest part of the whole course is behind you.</p>
