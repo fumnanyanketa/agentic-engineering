@@ -397,7 +397,8 @@ footer{{background:var(--navy);color:#aebccb;text-align:center;padding:40px 26px
   <div class="lessons">{cards}</div>
 </div>
 <footer><div class="logo">{COURSE_NAME}<span class="d">.</span></div>
-<p>A model-agnostic, self-paced course. You build one platform, AtlasOS, one component at a time. Commands and model ids move fast; verify against current docs.</p></footer>
+<p>A model-agnostic, self-paced course. You build one platform, AtlasOS, one component at a time. Commands and model ids move fast; verify against current docs.</p>
+<p style="margin-top:14px;font-size:13px;opacity:.85">Appendix: the original vendor-neutral <a href="../reference-modules.html" style="color:#18c4a0">module deep-dives</a> (the principles reference behind these units).</p></footer>
 </body></html>'''
     (COMBINED / "index.html").write_text(page)
     print(f"wrote {COMBINED / 'index.html'}")
