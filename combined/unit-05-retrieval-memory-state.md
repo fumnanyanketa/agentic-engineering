@@ -2,7 +2,6 @@
 
 > **Course:** Agentic Engineering, a model-agnostic self-paced path *(working title)*
 > **Unit 5 of 11:** Give an agent fresh, private knowledge it can fetch on demand (retrieval and RAG), then give it a memory that survives across runs and a loop that distills past runs into better instructions
-> **Principle (vendor-neutral):** Agentic Engineering Module 5 (Retrieval and RAG) and Module 6 (Memory and context management at scale)
 > **The how, across models:** embeddings and vector search are provider-neutral; Claude (Anthropic), Gemini (Google), and GPT (OpenAI) all offer embeddings and memory features, and vector stores are independent of model choice; current practice verified June 2026
 > **AtlasOS build:** `memory/`, the shared memory called **Cortex**, plus a minimal "dreaming" step
 > **Estimated time:** 2 to 3 hours
@@ -365,7 +364,3 @@ FUZZY-TASK LEARNING (no unit test)
 - **Next, Unit 6 (Evaluation and observability):** you measured the retriever by itself in this unit; next you build the harness that grades every agent's output (Warden), so quality is measured, not hoped, and you can tell whether a dreamed instruction actually helped.
 - **Later, Unit 7 (Multi-agent orchestration):** Cortex becomes shared memory for the whole fleet, with read-only org knowledge and read-write task stores, and dreaming reconciles lessons across many agents, not just Scout.
 - **Throughout:** every AtlasOS agent reads and writes Cortex. Scout is the first to remember; the rest reuse the same store, the same read-at-start / write-at-end pattern, and the same self-improvement loop.
-
----
-
-*Unit 5 of the combined path. Fuses the vendor-neutral principles of Agentic Engineering Modules 5 and 6 (retrieval and RAG; memory and context management at scale) with current, model-agnostic practice (embeddings and memory across Claude, Gemini, and OpenAI; provider-independent vector stores). Embedding model ids, memory features, and tool APIs change quickly; verify against current documentation.*

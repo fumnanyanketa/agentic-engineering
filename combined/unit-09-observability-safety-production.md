@@ -2,7 +2,6 @@
 
 > **Course:** Agentic Engineering, a model-agnostic self-paced path *(working title)*
 > **Unit 9 of 11:** See what your agent actually did (logs, traces, cost), defend it from the attacks that get systems pulled, harden it so it survives failures, then deploy it to a real cloud so it keeps running when you close your laptop
-> **Principle (vendor-neutral):** Agentic Engineering Modules 13 (Observability and tracing), 14 (Safety, guardrails and security), and 15 (Production hardening)
 > **The how, across tools/models:** OpenTelemetry-style tracing across Claude, Gemini, and GPT; one cloud taught end to end (Google Cloud), with AWS and Azure/Foundry as equivalent reference paths
 > **AtlasOS build:** `deploy/` + `ops/`, your agent running on real infrastructure, observable, guarded, and resilient
 > **Estimated time:** 2 to 3 hours
@@ -393,7 +392,3 @@ DEPLOY (survive closing your laptop)
 - **Earlier (evals):** the pass-rate measure you built is the proof you lean on here, so cost and latency wins never quietly trade away quality.
 - **Next, Unit 10:** with Scout deployed, observable, and guarded, you turn from building one production agent to running the fleet, the operating model for a founder plus agents.
 - **Throughout:** `ops/` and `deploy/` are now part of AtlasOS for good. Every later agent inherits the same tracing, guardrails, resilience, and deploy path you built once here.
-
----
-
-*Unit 9 of the combined path. Fuses the vendor-neutral principles of Agentic Engineering Modules 13, 14, and 15 (observability, safety, production hardening) with current, model-agnostic practice across Claude, Gemini, and GPT, and one cloud deploy taught end to end (Google Cloud) with AWS and Azure/Foundry as equivalent reference paths. Tool commands, model ids, and cloud product names change quickly; verify against current documentation.*

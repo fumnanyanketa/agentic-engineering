@@ -2,7 +2,6 @@
 
 > **Course:** Agentic Engineering, a model-agnostic self-paced path *(working title)*
 > **Unit 3 of 11:** Choose the right model and the right amount of reasoning for each job by measuring, not guessing, so you spend for the cheapest *successful outcome* instead of the cheapest token
-> **Principle (vendor-neutral):** Agentic Engineering Module 15, Production hardening (cost, latency, reliability) and right-sizing the model
 > **The how, across models:** Claude (Anthropic) extended/adaptive thinking, Gemini (Google) thinking, GPT (OpenAI) reasoning effort, current practice verified June 2026
 > **AtlasOS build:** the `orchestrator/` model-routing policy (Atlas chooses tier and effort per task; cheap executes, expensive advises)
 > **Estimated time:** 90 to 120 minutes (read plus the build)
@@ -408,7 +407,3 @@ ROUTING POLICY (one place to decide)
 - **Next, Unit 4 (Tools and MCP):** you give your agent real tools to act in the world. Routing decides *which model* runs each tool-using step, so the two fit together directly.
 - **Later, Unit 8 (Evals):** you build Warden, the harness that grades outputs. That is what lets you right-size tiers and effort by measurement instead of by rule of thumb, and re-check quality every time you cut cost.
 - **Throughout:** this routing policy is the first real piece of Atlas, the AtlasOS orchestrator. Every agent you add later (Scout, Forge, Pulse) routes its model calls through a decision like the one you just wrote.
-
----
-
-*Unit 3 of the combined path. Fuses the vendor-neutral principle of Agentic Engineering Module 15 (right-sizing the model, cost per successful outcome) with current, model-agnostic practice for the reasoning/thinking lever across Claude, Gemini, and GPT. Model ids and effort flags change quickly; verify against each provider's current documentation.*

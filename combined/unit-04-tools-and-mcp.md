@@ -2,7 +2,6 @@
 
 > **Course:** Agentic Engineering, a model-agnostic self-paced path *(working title)*
 > **Unit 4 of 11:** Teach a model to actually *do* things: describe a tool as a JSON schema, let the model ask to call it, run it, and return the result, then plug whole toolboxes into your coding agent with one standard, MCP
-> **Principle (vendor-neutral):** Agentic Engineering Module 4 (Tool use / function calling) and Module 9 (MCP)
 > **The how, across tools/models:** function calling across Claude (Anthropic), Gemini (Google), and GPT (OpenAI); MCP across Claude Code, Gemini CLI, and Codex CLI, current practice verified June 2026
 > **AtlasOS build:** your `tools/` layer, one real hand-written tool the model can call, plus one MCP server connected to your coding agent
 > **Estimated time:** 90 to 120 minutes
@@ -408,7 +407,3 @@ ADD AN MCP SERVER TO YOUR AGENT, then /mcp to confirm
 
 - **Next, Unit 5 (Retrieval and RAG):** the most useful tool you can give a model is one that fetches the right facts. You will build retrieval on top of the tool-use loop you just learned, and wrap it as an MCP server so any AtlasOS agent can reuse it.
 - **Throughout:** every AtlasOS agent, Scout researching, Forge building, Warden checking, acts through tools defined exactly the way you did here, and shares them through MCP. This unit is the hands the whole fleet uses.
-
----
-
-*Unit 4 of the combined path. Fuses the vendor-neutral principles of Agentic Engineering Modules 4 and 9 with current, model-agnostic practice (function calling across Claude, Gemini, and GPT; MCP across Claude Code, Gemini CLI, and Codex CLI). Tool field names, model ids, and CLI flags change quickly; verify against current documentation.*

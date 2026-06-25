@@ -2,7 +2,6 @@
 
 > **Course:** Agentic Engineering, a model-agnostic self-paced path *(working title)*
 > **Unit 10 of 11:** Assemble every component from Units 1 to 9 into AtlasOS v1, then ship ONE flagship vertical (Pulse, an agentic analytics harness) against a real data source, and set up how a solo founder plus an agent fleet actually operates
-> **Principle (vendor-neutral):** Agentic Engineering Module 17, Capstone: build an enterprise agent orchestration platform
 > **The how, across tools/models:** model-agnostic by design (works with whichever agent and model you chose: Claude, Gemini, or GPT); illustrated with the analytics, trading, compliance, legal, and product case studies, plus the leadership operating model
 > **AtlasOS build:** AtlasOS v1, the whole platform wired together, with Pulse as the proven flagship vertical
 > **Estimated time:** 3 to 5 hours (this is the finale; most of it is integration and one real vertical)
@@ -349,7 +348,3 @@ SHIP IT
 - **Back to Unit 1:** the workstation and `atlasos` repo you created on day one is now the home of a shipped platform. The plan, act, verify loop you learned then is exactly how you drove this capstone.
 - **Every unit before this:** prompting, model choice, tools and MCP, memory, evals, the orchestrator, deployment, and ops were each one component. This unit made them cooperate. Nothing you built was a throwaway.
 - **Next, Unit 11 (where you go from here):** with AtlasOS v1 shipped, the final unit is about what comes after, keeping evals harder than the model, building for the *next* model, and growing the platform or pointing it at a new vertical. You finish this course with a real platform and the durable skills that outlast any single model.
-
----
-
-*Unit 10 of the combined path. Fuses the vendor-neutral discipline of Agentic Engineering Module 17 (integration and the capstone exit bar) with current, model-agnostic practice from the industry case studies (analytics, trading, compliance, legal, product) and the leadership operating model. Built model-agnostically: the capstone works whichever model or agent you chose. Tool commands and model ids change quickly; verify against current documentation.*

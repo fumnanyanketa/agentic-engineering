@@ -2,7 +2,6 @@
 
 > **Course:** Agentic Engineering, a model-agnostic self-paced path *(working title)*
 > **Unit 1 of 11:** Set up a real workstation, then learn to drive a coding agent (Claude Code, Gemini CLI, or Codex CLI) through a plan, act, verify loop, the tool you build everything else with
-> **Principle (vendor-neutral):** Agentic Engineering Module 16, Working with coding agents
 > **The how, across agents:** Claude Code (Anthropic), Gemini CLI (Google), Codex CLI (OpenAI), current practice verified June 2026
 > **AtlasOS build:** your workstation and your first repository, the launchpad for the whole fleet
 > **Estimated time:** 2 to 3 hours (most of it is one-time setup you never repeat)
@@ -450,7 +449,3 @@ THE GIT HEARTBEAT (save + upload your work)
 
 - **Next, Unit 2 (Prompting and context engineering):** now that you can drive an agent, you learn to *talk to it well*, the difference between a vague request and one that lands. You will practise right inside your new `atlasos` project.
 - **Throughout:** every later unit adds one more piece to AtlasOS, and you build all of them with the workstation and agent you set up here. This unit is the tool; the rest is what you make with it.
-
----
-
-*Unit 1 of the combined path. Fuses the vendor-neutral discipline of Agentic Engineering Module 16 with current, verified, beginner-level setup for three coding agents (Claude Code, Gemini CLI, Codex CLI). Tool commands and model ids change quickly; verify against each tool's current documentation.*
