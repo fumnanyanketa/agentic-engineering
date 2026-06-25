@@ -46,8 +46,8 @@ TEMPLATE = TEMPLATE.replace(
     "Code snippets are illustrative reconstructions of the approaches shown. "
     "Adapt them to the current SDK.",
     "A self-paced, model-agnostic course: durable agentic-engineering principles, "
-    "the how across Claude Code, Gemini CLI, and Codex CLI, and one AtlasOS build per unit. "
-    "Commands and model ids move fast; verify against the current docs.",
+    "the how across Claude Code, Gemini CLI, and Codex CLI, and one component of AtlasOS "
+    "built each unit. Commands and model ids move fast; verify against the current docs.",
 )
 # Remove the per-lesson "Watch the talk" play button (two spots: nav-cta area is
 # absent here, but the hero has it). A combined unit has no single source talk.
@@ -235,7 +235,7 @@ footer{{background:var(--navy);color:#aebccb;text-align:center;padding:40px 26px
   <div class="in wrap">
     <span class="eyebrow">&#10022; Model-agnostic &middot; self-paced</span>
     <h1>{COURSE_NAME}<span class="a">.</span></h1>
-    <p>One merged path: the durable principles of agentic engineering, the how across Claude Code, Gemini CLI, and Codex CLI, and one build per unit toward a north-star agent platform, AtlasOS.</p>
+    <p>Learn the durable principles of agentic engineering, see how to apply each one with Claude Code, Gemini CLI, or Codex CLI, and build one component of a north-star agent platform, AtlasOS, in every unit.</p>
     <div class="stats">
       <div class="stat"><div class="n">{n}</div><div class="l">units</div></div>
       <div class="stat"><div class="n">3</div><div class="l">coding agents</div></div>
@@ -248,7 +248,7 @@ footer{{background:var(--navy);color:#aebccb;text-align:center;padding:40px 26px
   <div class="lessons">{cards}</div>
 </main>
 <footer><div class="logo">{COURSE_NAME}<span class="d">.</span></div>
-<p>A model-agnostic merge of the Agentic Engineering and Building with Claude courses. Commands and model ids move fast; verify against current docs.</p></footer>
+<p>A model-agnostic, self-paced course. You build one platform, AtlasOS, one component at a time. Commands and model ids move fast; verify against current docs.</p></footer>
 </body></html>'''
     out = COMBINED / "index.html"
     out.write_text(page)
