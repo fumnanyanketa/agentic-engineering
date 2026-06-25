@@ -176,7 +176,7 @@ The trick that punches above its weight: for each field, add three small annotat
 A capstone needs a finish line you can point at. Yours is written in your company brief, and AtlasOS v1 is "done enough to be proud of" when all of these are true. This is the exit bar, restated as *your* outcome:
 
 ```text
-ATLASOS v1 — DEFINITION OF DONE  (from atlas/00-company-brief.md)
+ATLASOS v1 - DEFINITION OF DONE  (from atlas/00-company-brief.md)
   [ ] You give Atlas a high-level OUTCOME (e.g. "produce this week's
       business review" or "keep our competitive intel current") and
       the fleet executes it END TO END.
@@ -196,7 +196,7 @@ Notice the unit of work: not "do this one task once," but "own this outcome over
 
 ---
 
-## Part 6: Appendix — applied gallery (optional)
+## Part 6: Appendix, applied gallery (optional)
 
 Off the required path. You build Pulse for your capstone; these four other verticals are real, shipped systems whose lessons you can borrow now or later. One short paragraph each; nothing here is deleted, just optional.
 
@@ -210,7 +210,7 @@ Off the required path. You build Pulse for your capstone; these four other verti
 
 ---
 
-## Part 7: Appendix — the operating model (optional)
+## Part 7: Appendix, the operating model (optional)
 
 Off the required path. AtlasOS is a one-founder-plus-fleet venture, so "how does it run day to day" deserves a written answer. These are the durable moves from the leadership lessons, condensed.
 
