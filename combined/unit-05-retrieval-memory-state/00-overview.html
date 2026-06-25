@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Unit 5: Retrieval, Memory and State | Agentic Engineering</title>
+<title>Unit 5: Retrieval, Memory and State · Retrieval, Memory and State | Agentic Engineering</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@500;600;700;800&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
@@ -196,6 +196,23 @@ footer.site .fnote{max-width:46em;font-size:13.5px;line-height:1.7}
   .hero-actions{flex-direction:column;align-items:stretch}
   .hero-actions .play{justify-content:center}
 }
+
+.unit-toc{list-style:none;margin:0;padding:0}
+.unit-toc>li{margin:0 0 3px}
+.unit-toc>li>a{display:block;color:var(--muted);font-size:13.5px;padding:8px 12px;border-radius:9px;font-weight:600;line-height:1.35}
+.unit-toc>li>a:hover{background:#fff;color:var(--ink)}
+.unit-toc>li.active>a{background:#fff;color:var(--teal-d);box-shadow:var(--shadow-sm)}
+.unit-toc>li.done>a{color:#93a1b0}
+.unit-toc .u-sub{list-style:none;margin:3px 0 8px;padding:0 0 0 10px;border-left:2px solid var(--line)}
+.unit-toc .u-sub a{display:block;color:var(--muted);font-size:12.5px;padding:4px 10px;border-radius:6px}
+.unit-toc .u-sub a:hover{color:var(--ink);background:#fff}
+.unit-toc .u-sub a.active{color:var(--teal-d);font-weight:600}
+.stepline{display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin:0 0 26px;padding:0 0 18px;border-bottom:1px solid var(--line)}
+.stepline .steptxt{font-family:Poppins,sans-serif;font-size:13px;font-weight:700;letter-spacing:.04em;text-transform:uppercase;color:var(--teal-d)}
+.stepdots{display:flex;gap:6px;align-items:center}
+.stepdots i{width:9px;height:9px;border-radius:50%;background:var(--line);display:block}
+.stepdots i.done{background:var(--teal)}
+.stepdots i.cur{background:var(--coral);box-shadow:0 0 0 4px var(--coral-soft)}
 </style>
 </head>
 <body>
@@ -203,16 +220,16 @@ footer.site .fnote{max-width:46em;font-size:13.5px;line-height:1.7}
 
 <div class="topbar"><div class="wrap">
   <div>&#10024; Welcome to <b>Agentic Engineering</b> &middot; a self-paced course</div>
-  <div class="right"><span>Model-agnostic &middot; from zero to agent orchestrator</span></div>
+  <div class="right"><span>Model-agnostic &middot; self-paced</span></div>
 </div></div>
 
 <nav class="bar"><div class="wrap">
   <button class="btn btn-outline" id="menuBtn" style="padding:8px 14px">&#9776;</button>
-  <a class="logo" href="index.html">Agentic Engineering<span class="dot">.</span></a>
+  <a class="logo" href="../index.html">Agentic Engineering<span class="dot">.</span></a>
   <div class="navlinks">
-    <a href="index.html">All lessons</a>
+    <a href="../index.html">All units</a>
     <a href="#overview">Overview</a>
-    <a href="#capstone">Capstone</a>
+    <a href="06-the-build.html">The Build</a>
   </div>
   <div class="nav-cta">
     <a class="btn btn-primary" href="#start">Start the lesson &#8594;</a>
@@ -233,8 +250,8 @@ footer.site .fnote{max-width:46em;font-size:13.5px;line-height:1.7}
         
       </div>
       <div class="chips">
-        <span class="chip">&#127908; <b>Model-agnostic</b></span>
-        <span class="chip">&#9201; <b>90 to 120 minutes</b></span>
+        <span class="chip">&#127908; <b>Unit 5 of 11</b></span>
+        <span class="chip">&#9201; <b>Step 1 of 7</b></span>
         <span class="chip">&#128296; <b>Hands-on capstone</b></span>
       </div>
     </div>
@@ -251,7 +268,7 @@ footer.site .fnote{max-width:46em;font-size:13.5px;line-height:1.7}
           <li><span class="ic">&#128296;</span><span>A hands-on capstone you build step by step</span></li>
           <li><span class="ic">&#127919;</span><span>Optional practice drills to reinforce each skill</span></li>
         </ul>
-        <a class="btn btn-coral" href="#capstone" style="width:100%;justify-content:center">Jump to the project</a>
+        <a class="btn btn-coral" href="06-the-build.html" style="width:100%;justify-content:center">Jump to the project</a>
       </div>
     </div>
   </div>
@@ -261,43 +278,27 @@ footer.site .fnote{max-width:46em;font-size:13.5px;line-height:1.7}
   <aside id="sidebar"><div class="toc-card">
     <button class="toc-close" id="tocClose" aria-label="Close menu">&times;</button>
     <p class="toc-title">On this page</p>
-    <div class="toc">
-<ul>
-<li><a href="#in-one-sentence">In one sentence</a></li>
-<li><a href="#first-principles-companion">First-principles companion</a></li>
-<li><a href="#a-few-plain-language-basics-first">A few plain-language basics first</a></li>
-<li><a href="#why-this-unit-matters">Why this unit matters</a></li>
-<li><a href="#learning-objectives">Learning objectives</a></li>
-<li><a href="#prerequisites">Prerequisites</a></li>
-<li><a href="#part-1-retrieval-and-rag-the-right-facts-at-the-right-moment">Part 1: Retrieval and RAG (the right facts at the right moment)</a><ul>
-<li><a href="#why-naive-search-is-not-enough-hybrid-search">Why naive search is not enough: hybrid search</a></li>
-<li><a href="#retrieval-is-just-a-tool">Retrieval is just a tool</a></li>
-</ul>
+    <p class="toc-title">Unit 5 &middot; Retrieval, Memory and State</p>
+<ul class="unit-toc">
+<li class="active"><a href="00-overview.html">Overview</a>
 </li>
-<li><a href="#part-2-memory-versus-the-context-window">Part 2: Memory versus the context window</a></li>
-<li><a href="#part-3-durable-memory-the-claude-way-stores-scopes-dreaming">Part 3: Durable memory the Claude way (stores, scopes, dreaming)</a><ul>
-<li><a href="#multi-agent-memory-needs-real-structure">Multi-agent memory needs real structure</a></li>
-<li><a href="#dreaming-keeping-memory-healthy-as-it-grows">Dreaming: keeping memory healthy as it grows</a></li>
-</ul>
+<li class=""><a href="01-retrieval-and-rag.html">Part 1 &middot; Retrieval and RAG</a>
 </li>
-<li><a href="#part-4-learning-from-your-team-principles-not-rules">Part 4: Learning from your team (principles, not rules)</a></li>
-<li><a href="#key-takeaways">Key takeaways</a></li>
-<li><a href="#common-pitfalls">Common pitfalls</a></li>
-<li><a href="#capstone" class="toc-capstone">🛠️ The Build: Cortex memory</a><ul>
-<li><a href="#what-you-will-build">What you will build</a></li>
-<li><a href="#milestones-in-order-each-stands-alone">Milestones (in order, each stands alone)</a></li>
-<li><a href="#how-you-will-know-you-are-done">How you will know you are done</a></li>
-</ul>
+<li class=""><a href="02-memory-versus-the-context-window.html">Part 2 &middot; Memory versus the context window</a>
 </li>
-<li><a href="#cheat-sheet">Cheat sheet</a></li>
-<li><a href="#how-this-connects-to-the-rest-of-the-course">How this connects to the rest of the course</a></li>
+<li class=""><a href="03-durable-memory-the-claude-way.html">Part 3 &middot; Durable memory the Claude way</a>
+</li>
+<li class=""><a href="04-learning-from-your-team.html">Part 4 &middot; Learning from your team</a>
+</li>
+<li class=""><a href="05-recap.html">Recap</a>
+</li>
+<li class=""><a href="06-the-build.html">The Build</a>
+</li>
 </ul>
-</div>
-
   </div></aside>
   <main id="start">
     <article>
-      <hr />
+      <div class="stepline"><span class="steptxt">Step 1 of 7</span><span class="stepdots"><i class="cur"></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i></span></div><hr />
 <h2 id="in-one-sentence">In one sentence</h2>
 <p>A model only knows what it learned by its training cutoff and only holds a single context window in mind at once, so this unit gives you the two ways out of that box: <strong>retrieval</strong> (fetch the right facts at the right moment and place them in the prompt) and <strong>memory</strong> (a durable store outside the window that survives across runs), plus the loop that turns memory into a learning curve: distilling past runs and team feedback into better instructions over time.</p>
 <blockquote>
@@ -346,201 +347,13 @@ footer.site .fnote{max-width:46em;font-size:13.5px;line-height:1.7}
 <li><strong>Skills you can defer:</strong> training your own embedding models, the internals of vector indexes. You consume these as components.</li>
 </ul>
 <hr />
-<h2 id="part-1-retrieval-and-rag-the-right-facts-at-the-right-moment">Part 1: Retrieval and RAG (the right facts at the right moment)</h2>
-<p>A model finishes training on a fixed snapshot and learns nothing after that. <strong>RAG</strong> is the standard answer to "the model needs to know <em>my</em> stuff": retrieve relevant text from your own sources and paste it in before the model answers. It is cheaper, faster and more current than retraining, and it lets you cite exactly where an answer came from. When a new document appears, it is usable the moment you add it to your store.</p>
-<p>The moving parts of a basic pipeline:</p>
-<ul>
-<li><strong>Chunking.</strong> Split documents into passages. A chunk should be big enough to make sense on its own but small enough to be specific.</li>
-<li><strong>Embeddings.</strong> A small helper model turns each chunk into a vector (a list of numbers capturing its meaning). Similar meanings land close together even with different words.</li>
-<li><strong>Vector store.</strong> A database built to find the vectors closest in meaning to a query (FAISS, pgvector, Qdrant are neutral options, not a required platform).</li>
-<li><strong>Top-k retrieval.</strong> Embed the question, ask the store for the closest chunks, keep the best handful (the "k").</li>
-<li><strong>Re-ranking.</strong> A slower, more careful model that looks at the question and each candidate chunk together and reorders by true relevance. Run it only on the handful of candidates so it stays cheap.</li>
-</ul>
-<blockquote>
-<p>❌ <strong>The most common mistake in RAG:</strong> judging the whole system end to end, concluding "RAG is bad," when the real problem is retrieval. If the right chunk never made it into the prompt, no model can answer well. Measure the retriever by itself: for test questions, check whether the correct chunks appear (roughly <strong>recall</strong>) and how high they rank (roughly <strong>precision</strong>). Most "RAG is bad" complaints are retrieval problems in disguise.</p>
-</blockquote>
-<h3 id="why-naive-search-is-not-enough-hybrid-search">Why naive search is not enough: hybrid search</h3>
-<p>Embedding search is great at meaning but weak at exact matches. Search for an error code like <code>ERR_0x4F2</code> or a product ID like <code>SKU-99812</code> and embeddings often miss, because the meaning of a random code is not captured by numbers. Old-fashioned keyword search handles those perfectly.</p>
-<p>The fix is <strong>hybrid search</strong>: run both. Combine <strong>semantic search</strong> (embeddings) with <strong>lexical search</strong> (classic keyword matching, the standard method is <strong>BM25</strong>). BM25 catches the exact strings embeddings fluff; embeddings catch the paraphrases keywords miss. To merge the two ranked lists, the sane default is <strong>Reciprocal Rank Fusion (RRF)</strong>, which combines results by their <em>positions</em> in each list rather than raw scores (sidestepping the headache that BM25 and embedding scores live on different scales).</p>
-<blockquote>
-<p>✅ <strong>The robust default stack.</strong> Gather a broad candidate set with hybrid search plus RRF, run a re-ranker on the top results, then hand the best few to the model. Practitioners report hybrid search is often the single biggest jump in retrieval quality, and re-ranking on top of it is a large, cheap gain.</p>
-</blockquote>
-<h3 id="retrieval-is-just-a-tool">Retrieval is just a tool</h3>
-<p>"Context windows keep getting bigger, so can I skip retrieval and paste everything in?" Mostly no. The data you might want to search grows far faster than windows do, and pasting too much hurts quality and cost (Part 2). The clean way to see retrieval, building straight on Unit 4, is that <strong>retrieval is just a tool the model can call</strong>. Give the model a <code>search_docs</code> tool and let it pull information when it decides it needs to. This is <strong>agentic</strong> or <strong>just-in-time</strong> retrieval, and a useful pattern is <strong>progressive disclosure</strong>: the agent holds lightweight pointers (file paths, links, short queries) and fetches full text only at the moment it is needed.</p>
-<hr />
-<h2 id="part-2-memory-versus-the-context-window">Part 2: Memory versus the context window</h2>
-<p>Recall from Unit 0 that the <strong>context window</strong> is the model's short-term working memory: the largest amount of text it can look at in one request. For a quick chat that is plenty. But an agent calling tools, reading files and trying things over hundreds of steps produces far more text than any window holds. When it fills up, older content is dropped, and a naive agent simply forgets what it was doing.</p>
-<blockquote>
-<p>🔑 <strong>Separate two kinds of memory.</strong> <strong>Short-term memory</strong> is the live context window: the current conversation and working facts, fast but small and temporary. <strong>Long-term memory</strong> is information saved <em>outside</em> the window in durable storage (a file or database) so it survives after the window is cleared. A bigger window is <em>not</em> the same as long-term memory: it is still short-term, still finite, and still wiped between sessions. Long-horizon coherence comes from how you manage memory, not from window size.</p>
-</blockquote>
-<p>Three techniques keep an agent coherent across a window that is too small:</p>
-<ul>
-<li><strong>Compaction: summarise and restart.</strong> As the conversation nears the limit, pause, ask the model to summarise what happened (decisions made, current goal, open problems, key facts), then start a fresh window seeded with that summary instead of the full history. Like clearing a cluttered desk onto one clean page and binning the rest.</li>
-<li><strong>Structured note-taking: an external scratchpad.</strong> Let the agent keep notes in a file outside the window, a scratchpad it reads and writes at any time: progress, intermediate results, a running checklist. It reloads those notes after a compaction or in a later session. This is how long-running agent demos stay on track across thousands of steps and many resets.</li>
-<li><strong>Sub-agent isolation.</strong> Hand a big self-contained sub-task to a separate sub-agent in its own clean window. It does the messy work in isolation and returns only a short, distilled summary (often one or two thousand tokens). The main window stays uncluttered because the mess lived and died elsewhere.</li>
-</ul>
-<blockquote>
-<p>💡 <strong>Treat context as a budget.</strong> Every token spent is a token unavailable for reasoning. Keep a mental ledger of what is in the window and why. Research that makes this explicit finds agents which neither over-compress (erasing critical evidence) nor under-compress (overflowing the limit) perform best. Persist what is worth keeping, drop the noise, isolate large sub-tasks.</p>
-</blockquote>
-<p>Many frameworks now offer compaction, sessions and sub-agents built in, so you will not always hand-write this in production. Even so, build a manual compaction loop and a manual scratchpad <em>once</em> yourself. Understanding what the framework does under the hood is what lets you debug it when it misbehaves.</p>
-<hr />
-<h2 id="part-3-durable-memory-the-claude-way-stores-scopes-dreaming">Part 3: Durable memory the Claude way (stores, scopes, dreaming)</h2>
-<p>The principle layer says "save state outside the window." The Claude platform makes that a first-class primitive: a <strong>memory store</strong> is a persistent, file-system-like store you attach as a resource to the sessions you create, so agents read and write across runs.</p>
-<p>Two design choices make it powerful:</p>
-<ul>
-<li><strong>It is mounted as a real file system.</strong> The store appears to the model as ordinary files and folders, so the model uses tools it already knows: <strong>bash</strong> to explore, <strong>grep</strong> to find keywords, plain file reads. The design principle, the same one behind skills, is to <strong>"let it cook"</strong>: get out of the model's way and let it use the strong file-system skills it already has, rather than inventing a new interface.</li>
-<li><strong>You decide the boundaries.</strong> Create as many stores as you like and scope them however you want: one per user, one per workspace, one per organisation.</li>
-</ul>
-<p>Attaching a store to a session, with two parameters worth knowing:</p>
-<div class="codehilite"><pre><span></span><code>cma<span class="w"> </span>sessions<span class="w"> </span>create<span class="w"> </span><span class="se">\</span>
-<span class="w">  </span>--agent-id<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$AGENT_ID</span><span class="s2">&quot;</span><span class="w"> </span><span class="se">\</span>
-<span class="w">  </span>--environment-id<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$ENV_ID</span><span class="s2">&quot;</span><span class="w"> </span><span class="se">\</span>
-<span class="w">  </span>--memory-store-id<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$MEMORY_STORE_ID</span><span class="s2">&quot;</span><span class="w"> </span><span class="se">\</span>
-<span class="w">  </span>--memory-prompt<span class="w"> </span><span class="s2">&quot;Save key facts, links, and follow-ups for future sessions.&quot;</span><span class="w"> </span><span class="se">\</span>
-<span class="w">  </span>--memory-access<span class="w"> </span><span class="s2">&quot;read_write&quot;</span>
-</code></pre></div>
-
-<p>A <strong>memory prompt</strong> steers what the agent reads and writes (for example "always remember risk tolerance and target dates"). <strong>Access</strong> defaults to <code>read_write</code>; set <code>read_only</code> when a store should be a stable source of truth a session must not edit.</p>
-<blockquote>
-<p>✅ <strong>Let it read before it writes.</strong> A well-behaved memory agent checks the store first ("do I already know this?") before answering or saving. The shared store is what lets a swarm of agents build on each other's work instead of starting cold.</p>
-</blockquote>
-<h3 id="multi-agent-memory-needs-real-structure">Multi-agent memory needs real structure</h3>
-<p>A single agent with a file system is the easy case. Production means many agents in the same environment at once, which raises requirements:</p>
-<ul>
-<li><strong>Scopes form a hierarchy.</strong> A stable, <strong>read-only</strong> org-wide layer everyone reads (policies, runbooks) plus narrower <strong>read-write</strong> stores agents freely update. That hierarchy is what lets memory scale.</li>
-<li><strong>Optimistic concurrency control.</strong> When several agents write at once, one could overwrite another (<strong>clobbering</strong>). The system assumes conflicts are rare and detects them at write time, so an agent does not silently destroy another's update, while keeping everyone productive.</li>
-<li><strong>Versioning, attribution, and a standalone API.</strong> Version control gives an audit trail you can <strong>diff</strong>; attribution shows which agent wrote what; a standalone CRUD API (plus exports and redactions) lets teams manage memory from outside the agent loop.</li>
-</ul>
-<h3 id="dreaming-keeping-memory-healthy-as-it-grows">Dreaming: keeping memory healthy as it grows</h3>
-<p>Memory solves one problem and creates another. Agents writing notes as they work is <strong>locally optimal</strong> but <strong>globally messy</strong>: they dump information, repeat the same mistakes independently, and leave duplicates and stale facts. A single agent cannot see patterns spread across many sessions.</p>
-<blockquote>
-<p>🔑 <strong>Dreaming is the global feedback loop.</strong> A <strong>dream</strong> is an <strong>asynchronous</strong>, <strong>out-of-band</strong> batch job (it runs in the background, decoupled from the agent loop) that reads an input memory store plus a batch of past session transcripts and produces a verified, better-organised snapshot. It <strong>fact-checks</strong>, <strong>enriches</strong> (dates, identifiers, links), and <strong>organises, consolidates and deduplicates</strong> so the store does not grow unbounded.</p>
-</blockquote>
-<div class="codehilite"><pre><span></span><code>cma<span class="w"> </span>dreams<span class="w"> </span>create<span class="w"> </span><span class="se">\</span>
-<span class="w">  </span>--model<span class="w"> </span><span class="s2">&quot;claude-opus-4-7&quot;</span><span class="w"> </span><span class="se">\</span>
-<span class="w">  </span>--memory-store-id<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$INPUT_MEMORY_STORE_ID</span><span class="s2">&quot;</span><span class="w"> </span><span class="se">\</span>
-<span class="w">  </span>--session-ids<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$SESSION_1</span><span class="s2">,</span><span class="nv">$SESSION_2</span><span class="s2">,...,</span><span class="nv">$SESSION_N</span><span class="s2">&quot;</span><span class="w"> </span><span class="se">\</span>
-<span class="w">  </span>--instructions<span class="w"> </span><span class="s2">&quot;Backfill exact dates and identifiers. Keep a clear index.&quot;</span>
-</code></pre></div>
-
-<p>Three things make dreaming work in practice:</p>
-<ul>
-<li><strong>It is non-destructive.</strong> It never touches your input store. It <strong>clones</strong> the input into a separate <strong>output store</strong> and writes there, so every edit is safe. You attach the output to future sessions when happy, then retire the old store.</li>
-<li><strong>It is multi-agent and exhaustive by design.</strong> An <strong>orchestrator</strong> spawns one <strong>sub-agent per input session</strong> so nothing is missed, with the same observability as the rest of the platform. Dreaming is itself built on Claude Managed Agents: a feature for managed agents, built on managed agents.</li>
-<li><strong>It is test-time compute for memory.</strong> Just as a thinking model spends extra tokens to get a better answer, dreaming spends work up front to curate higher-quality memory, and every downstream agent benefits. Because most of the work reuses the same context, most tokens are <strong>cached</strong> (roughly a 95% cache hit rate).</li>
-</ul>
-<p>The payoff is concrete: partner teams reported large gains after adding memory and dreaming (one team saw a 97% drop in first-pass errors; another a six-times increase in completion rates on a benchmark after adding dreaming). Out of band matters because it works across cross-agent transcripts a single agent cannot see, keeps clean objectives (no trade-off between task quality and memory quality), and adds no latency on the hot path.</p>
-<hr />
-<h2 id="part-4-learning-from-your-team-principles-not-rules">Part 4: Learning from your team (principles, not rules)</h2>
-<p>Dreaming distills runs into better memory automatically. But some learning needs a <em>human's</em> taste, and for <strong>fuzzy</strong> tasks (writing a good reply, triaging by judgment) there is no quick pass/fail check. The usual way agents improve, a loop that keeps iterating against an external check (a test suite, a browser), does not fit: the real feedback is slow and complex. You inject judgment another way.</p>
-<blockquote>
-<p>🔑 <strong>Switch from rules to principles.</strong> Rules ("if X happens, do Y") sound robotic and shatter the moment something new appears. Principles tell the agent <em>how to reason</em>, so it handles new situations gracefully. The reframe: how would you explain this to a new teammate? Not a checklist, but how to <em>think</em>. Switching often shrinks the instruction file (one team's dropped to a fifth of its length) <em>and</em> improves the output.</p>
-<p>❌ <strong>The agent's bad instinct.</strong> Given feedback, an agent will write hyper-specific rules ("if a user has problem X, never mention pricing in the first line"). It works for that one case and generalises to nothing. The fix is to <strong>teach the agent how to learn</strong>: a skill that tells it to compare its output to the ideal, look at its current instructions, find the gap, and adjust a <em>principle</em>, never append a one-off rule.</p>
-</blockquote>
-<p>The third piece is the loop itself, and the hardest part of a feedback loop is the humans: if it takes extra effort or breaks their normal process, they will not do it. Design for the <strong>smallest team input for the biggest agent output</strong>, reusing what people already do:</p>
-<div class="codehilite"><pre><span></span><code>1. Agent monitors a stream and posts to a channel the team already watches:
-   &quot;Item X. Suggested action: REPLY / LIKE / SKIP. Reasoning: ... Draft: ...&quot;
-2. The team adds an EMOJI REACTION for what they actually did, maybe a NOTE.
-3. Daily, the agent compares what it SUGGESTED vs what the team DID, draws takeaways.
-4. It opens a PULL REQUEST adjusting the relevant PRINCIPLE, with a short explanation.
-5. A human does a ~60-second PR review and merges if it looks good.
-</code></pre></div>
-
-<blockquote>
-<p>✅ <strong>Route self-improvement through pull requests.</strong> Because the instructions live in a git repo, daily learning arrives as a reviewable PR (a few English-line changes with context). The PR gate keeps humans in control so the agent does not "change its instructions willy-nilly" and drift into a weird direction it keeps doubling down on. Giving the agent a name and a little personality also gets people to engage and give better feedback.</p>
-<p>💡 <strong>The one thing to remember.</strong> Design the <strong>feedback loop</strong>, not the perfect prompt. A "just good" prompt plus a great loop beats a perfect prompt with no loop, because the loop is what lets the agent keep improving as situations change.</p>
-</blockquote>
-<hr />
-<h2 id="key-takeaways">Key takeaways</h2>
-<ol>
-<li><strong>Retrieval brings external facts into a run; memory carries learned state across runs.</strong> Two escapes from a stateless model.</li>
-<li><strong>Measure the retriever separately.</strong> Most "RAG is bad" failures are retrieval failures. Hybrid search plus RRF plus a re-ranker is the robust default.</li>
-<li><strong>A bigger window is not memory.</strong> Manage the window as a budget with compaction, a scratchpad, and sub-agent isolation; persist what matters outside it.</li>
-<li><strong>Memory is a real file system.</strong> Let the model use bash, grep and file reads. You set the scopes (read-only org layer, read-write task stores).</li>
-<li><strong>Dreaming makes memory globally optimal.</strong> A non-destructive, out-of-band, multi-agent job that fact-checks, enriches and deduplicates. Test-time compute for memory.</li>
-<li><strong>For fuzzy tasks, design the loop.</strong> Principles over rules, teach the agent to learn, smallest human input, PR-gated self-improvement.</li>
-</ol>
-<h2 id="common-pitfalls">Common pitfalls</h2>
-<ul>
-<li>❌ Only ever testing the full RAG system end to end and never isolating the retriever.</li>
-<li>❌ Relying on embeddings alone for exact codes, IDs and names (use hybrid search).</li>
-<li>❌ Confusing a long context window with true long-horizon memory.</li>
-<li>❌ Letting message history grow until the window overflows; or over-compressing and erasing the one detail you later need.</li>
-<li>❌ Expecting an agent to "just remember" without attaching a memory store, or letting a store grow forever with no dreaming.</li>
-<li>❌ Giving every session read-write access to an org-wide store that should be read-only, or ignoring concurrency so parallel agents clobber each other.</li>
-<li>❌ Trying to perfect the initial prompt instead of designing how the agent improves; letting it learn by appending brittle one-off rules.</li>
-</ul>
-<hr />
-<h2 id="capstone" class="capstone-h">🛠️ The Build: Cortex memory</h2>
-<blockquote>
-<p>The hands-on payoff. This fuses the RAG lab, the memory-and-dreaming lessons, and the learn-from-your-team loop into <strong>Cortex v0</strong>, the shared memory for AtlasOS. You give <strong>Scout</strong> (your research agent) durable memory and the ability to improve across runs, all committed to your repo under <code>memory/</code>.</p>
-</blockquote>
-<h3 id="what-you-will-build">What you will build</h3>
-<p><strong>Cortex v0</strong>: a knowledge store Scout retrieves over, a memory store it reads and writes across separate runs, a dreaming job that distills past runs into cleaner memory non-destructively, and a PR-gated feedback loop that teaches Scout your team's standards. Proven by a before/after pair (forgetting versus recall) and a measurable retrieval and memory lift.</p>
-<h3 id="milestones-in-order-each-stands-alone">Milestones (in order, each stands alone)</h3>
-<ol>
-<li><strong>Retrieval over a knowledge base.</strong> Build a small RAG pipeline over a corpus Scout should know (your notes, project docs). Start with naive top-k vector search and measure retrieval quality on a handful of test questions. Then add BM25 plus RRF hybrid search and a re-ranker, and record the improvement in numbers. Expose it as a <code>search_docs</code> tool Scout calls on demand.</li>
-<li><strong>Prove the base case.</strong> Run Scout with no memory: tell it a fact in one session, ask a <em>fresh</em> session about it, confirm it forgot. Save both transcripts as your "before" proof. (Always test recall in a new session, or you are testing the conversation, not the memory.)</li>
-<li><strong>Give Scout memory.</strong> Create a memory store (<code>cortex-memory</code>), attach it with a steering memory prompt and <code>read_write</code> access. Tell it a fact, watch it write to a file; open a new session on the same store and confirm it greps the fact back. This is the heart of Cortex.</li>
-<li><strong>Scopes and audit.</strong> Add a second <strong>read-only</strong> store for stable org knowledge (Atlas charter, conventions) and attach both, proving Scout can read policy but not edit it. Make a couple of edits and use version history to diff and attribute them.</li>
-<li><strong>Dream.</strong> Run several Scout sessions to fill memory, then launch a dream over those transcripts with instructions ("backfill exact dates, build an index"). Watch the live token count, open the dream's own session to see its sub-agents, read the diff (index file, enriched facts), then run a fresh session on the output store and confirm it answers faster and richer.</li>
-<li><strong>Stretch: learn from the team.</strong> Have Scout post suggestions where you already look, signal the action you actually took with a one-word tag or reaction, and on a schedule open a <strong>pull request</strong> that adjusts a <em>principle</em> (not a brittle rule) in its instructions. Confirm it edits the right place and a ~60-second review merges it.</li>
-</ol>
-<h3 id="how-you-will-know-you-are-done">How you will know you are done</h3>
-<ul>
-<li>✅ Retrieval precision measurably improved after adding hybrid search and re-ranking, and <code>search_docs</code> is a tool Scout calls.</li>
-<li>✅ A before/after pair of transcripts shows forgetting, then recall, with a fresh session answering from what an earlier session stored.</li>
-<li>✅ Your read-only store cannot be modified by Scout, and you can diff and attribute changes to the task store.</li>
-<li>✅ A dream completes, produces a non-destructive output store with a readable diff, and a session on it gives a noticeably richer answer.</li>
-<li>✅ (Stretch) Scout's self-improvement arrives as a PR that edits a principle in the right place, reviewed and merged in about a minute.</li>
-<li>✅ Cortex v0 is committed under <code>memory/</code> in your AtlasOS repo.</li>
-</ul>
-<hr />
-<h2 id="cheat-sheet">Cheat sheet</h2>
-<div class="codehilite"><pre><span></span><code>RETRIEVAL (the right facts at the right moment)
-  chunk -&gt; embed -&gt; vector store -&gt; top-k -&gt; re-rank -&gt; paste into prompt
-  hybrid = semantic (embeddings) + lexical (BM25), fused with RRF
-  measure the RETRIEVER separately (recall/precision); most &quot;RAG is bad&quot; = retrieval
-  retrieval is just a TOOL the model calls (just-in-time, progressive disclosure)
-
-CONTEXT AS A BUDGET (short-term memory)
-  context window = short-term, finite, wiped between sessions
-  compaction (summarise + restart) · scratchpad file · sub-agent isolation
-  don&#39;t over-compress (lose evidence) or under-compress (overflow)
-
-DURABLE MEMORY (long-term, the Claude way)
-  memory store = real file system (bash, grep, file reads). &quot;Let it cook.&quot;
-  scopes: read-only org layer + read-write task stores -&gt; hierarchy
-  optimistic concurrency (no clobbering) · versioning + attribution + API
-
-DREAMING (test-time compute for memory)
-  async, OUT OF BAND, non-destructive: clones input -&gt; writes OUTPUT store
-  fact-check · enrich · organise · consolidate · deduplicate
-  multi-agent: orchestrator + one sub-agent per session; ~95% cached
-  makes memory GLOBALLY optimal; review the DIFF, then attach output
-
-LEARN FROM YOUR TEAM (fuzzy tasks, no external check)
-  principles, NOT rules (how to think; shrinks file, improves output)
-  teach it to learn: output vs ideal vs instructions -&gt; adjust a PRINCIPLE
-  smallest human input (emoji/tag) -&gt; PR-gated self-improvement (no drift)
-  design the LOOP, not the perfect prompt
-</code></pre></div>
-
-<h2 id="how-this-connects-to-the-rest-of-the-course">How this connects to the rest of the course</h2>
-<ul>
-<li><strong>Builds on Unit 4 (tools and MCP):</strong> retrieval and memory are both exposed as tools the model calls, and memory naturally connects to MCP as a data source.</li>
-<li><strong>Next, Unit 6 (workflows and agent patterns):</strong> the compaction, scratchpad and sub-agent-isolation techniques here become first-class moves in the workflow and orchestration patterns you assemble next, and dreaming's orchestrator-plus-sub-agents shape previews multi-agent work in Unit 7.</li>
-<li><strong>Toward the north-star:</strong> Cortex v0 is the shared memory of AtlasOS. Every later agent (Forge, Pulse, Herald, Warden) reads and writes through it, and the dreaming loop is what lets the fleet "dream" overnight and improve itself.</li>
-</ul>
-<hr />
-<p><em>Unit 5 of the combined path. Fuses the vendor-neutral principles of Agentic Engineering Modules 05-06 with the Claude-specific implementation of Building with Claude Lessons 17, 18 and 23. CLI commands are illustrative reconstructions; adapt model ids and SDK details to the current docs.</em></p>
     </article>
-    <nav class="lessonnav"><a class="ln prev" href="unit-04-tools-and-mcp.html"><span class="dir">&#8592; Previous</span><b>Unit 4: Tools, Function-Calling and MCP</b></a><a class="ln home" href="index.html"><b>All units</b></a><a class="ln next" href="unit-07-multi-agent-orchestration.html"><span class="dir">Next &#8594;</span><b>Unit 7: Multi-Agent Orchestration</b></a></nav>
+    <nav class="lessonnav"><a class="ln prev" href="../unit-04-tools-and-mcp/06-the-build.html"><span class="dir">&#8592; Previous</span><b>Unit 4: Tools, Function-Calling and MCP</b></a><a class="ln home" href="../index.html"><b>All units</b></a><a class="ln next" href="01-retrieval-and-rag.html"><span class="dir">Next &#8594;</span><b>Retrieval and RAG</b></a></nav>
   </main>
 </div>
 
 <footer class="site"><div class="wrap">
-  <a class="logo" href="index.html">Agentic Engineering<span class="dot">.</span></a>
+  <a class="logo" href="../index.html">Agentic Engineering<span class="dot">.</span></a>
   <span class="fnote">A self-paced, model-agnostic course: durable agentic-engineering principles, the how across Claude Code, Gemini CLI, and Codex CLI, and one component of AtlasOS built each unit. Commands and model ids move fast; verify against the current docs.</span>
 </div></footer>
 

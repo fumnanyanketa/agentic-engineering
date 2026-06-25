@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Unit 7: Multi-Agent Orchestration | Agentic Engineering</title>
+<title>Unit 7: Multi-Agent Orchestration · When multi-agent helps and when it hurts | Agentic Engineering</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@500;600;700;800&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
@@ -196,6 +196,23 @@ footer.site .fnote{max-width:46em;font-size:13.5px;line-height:1.7}
   .hero-actions{flex-direction:column;align-items:stretch}
   .hero-actions .play{justify-content:center}
 }
+
+.unit-toc{list-style:none;margin:0;padding:0}
+.unit-toc>li{margin:0 0 3px}
+.unit-toc>li>a{display:block;color:var(--muted);font-size:13.5px;padding:8px 12px;border-radius:9px;font-weight:600;line-height:1.35}
+.unit-toc>li>a:hover{background:#fff;color:var(--ink)}
+.unit-toc>li.active>a{background:#fff;color:var(--teal-d);box-shadow:var(--shadow-sm)}
+.unit-toc>li.done>a{color:#93a1b0}
+.unit-toc .u-sub{list-style:none;margin:3px 0 8px;padding:0 0 0 10px;border-left:2px solid var(--line)}
+.unit-toc .u-sub a{display:block;color:var(--muted);font-size:12.5px;padding:4px 10px;border-radius:6px}
+.unit-toc .u-sub a:hover{color:var(--ink);background:#fff}
+.unit-toc .u-sub a.active{color:var(--teal-d);font-weight:600}
+.stepline{display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin:0 0 26px;padding:0 0 18px;border-bottom:1px solid var(--line)}
+.stepline .steptxt{font-family:Poppins,sans-serif;font-size:13px;font-weight:700;letter-spacing:.04em;text-transform:uppercase;color:var(--teal-d)}
+.stepdots{display:flex;gap:6px;align-items:center}
+.stepdots i{width:9px;height:9px;border-radius:50%;background:var(--line);display:block}
+.stepdots i.done{background:var(--teal)}
+.stepdots i.cur{background:var(--coral);box-shadow:0 0 0 4px var(--coral-soft)}
 </style>
 </head>
 <body>
@@ -203,16 +220,16 @@ footer.site .fnote{max-width:46em;font-size:13.5px;line-height:1.7}
 
 <div class="topbar"><div class="wrap">
   <div>&#10024; Welcome to <b>Agentic Engineering</b> &middot; a self-paced course</div>
-  <div class="right"><span>Model-agnostic &middot; from zero to agent orchestrator</span></div>
+  <div class="right"><span>Model-agnostic &middot; self-paced</span></div>
 </div></div>
 
 <nav class="bar"><div class="wrap">
   <button class="btn btn-outline" id="menuBtn" style="padding:8px 14px">&#9776;</button>
-  <a class="logo" href="index.html">Agentic Engineering<span class="dot">.</span></a>
+  <a class="logo" href="../index.html">Agentic Engineering<span class="dot">.</span></a>
   <div class="navlinks">
-    <a href="index.html">All lessons</a>
+    <a href="../index.html">All units</a>
     <a href="#overview">Overview</a>
-    <a href="#capstone">Capstone</a>
+    <a href="07-the-build.html">The Build</a>
   </div>
   <div class="nav-cta">
     <a class="btn btn-primary" href="#start">Start the lesson &#8594;</a>
@@ -225,16 +242,16 @@ footer.site .fnote{max-width:46em;font-size:13.5px;line-height:1.7}
   <svg class="squiggle" style="bottom:60px;right:40%;" width="70" height="22" viewBox="0 0 90 26" fill="none"><path d="M2 13c8-14 16 14 24 0s16 14 24 0 16 14 24 0" stroke="#f24d63" stroke-width="4" stroke-linecap="round"/></svg>
   <div class="wrap" id="overview">
     <div>
-      <span class="eyebrow">&#10022; Unit 7</span>
-      <h1>Multi-Agent <span class="accent">Orchestration</span></h1>
-      <p class="lead">A multi-agent system (one lead agent splitting work among helper agents) is one of the most powerful and most over-used ideas in the field, so this unit teaches you both halves of the craft: when many agents genuinely beat one (read-heavy, parallelizable, high-value work) versus when one agent wins (write-heavy, dependent work), and the deliberate decomposition that follows (tool vs skill vs subagent), so that when you reach for a second agent you do it with reasons and numbers, not because it sounds sophisticated.</p>
+      <span class="eyebrow">&#10022; Unit 7 &middot; Part 1</span>
+      <h1>When multi-agent helps and when it <span class="accent">hurts</span></h1>
+      <p class="lead">Start with the disagreement, honestly. One AI lab built a research system in the orchestrator-worker shape: a strong model as the lead, several faster cheaper models as workers, each searching the web in parallel. On the lab&#x27;s own internal test it beat a single agent (same strong model alone) by about 90 percent. The reason given: workers run in parallel, so the system chases many independent leads at once. Their summary: multi-agent &quot;excels for breadth-first queries that pursue multiple independent directions simultaneously.&quot;</p>
       <div class="hero-actions">
         <a class="btn btn-primary" href="#start">Start the lesson &#8594;</a>
         
       </div>
       <div class="chips">
-        <span class="chip">&#127908; <b>Model-agnostic</b></span>
-        <span class="chip">&#9201; <b>90 to 120 minutes</b></span>
+        <span class="chip">&#127908; <b>Unit 7 of 11</b></span>
+        <span class="chip">&#9201; <b>Step 2 of 8</b></span>
         <span class="chip">&#128296; <b>Hands-on capstone</b></span>
       </div>
     </div>
@@ -251,7 +268,7 @@ footer.site .fnote{max-width:46em;font-size:13.5px;line-height:1.7}
           <li><span class="ic">&#128296;</span><span>A hands-on capstone you build step by step</span></li>
           <li><span class="ic">&#127919;</span><span>Optional practice drills to reinforce each skill</span></li>
         </ul>
-        <a class="btn btn-coral" href="#capstone" style="width:100%;justify-content:center">Jump to the project</a>
+        <a class="btn btn-coral" href="07-the-build.html" style="width:100%;justify-content:center">Jump to the project</a>
       </div>
     </div>
   </div>
@@ -261,86 +278,29 @@ footer.site .fnote{max-width:46em;font-size:13.5px;line-height:1.7}
   <aside id="sidebar"><div class="toc-card">
     <button class="toc-close" id="tocClose" aria-label="Close menu">&times;</button>
     <p class="toc-title">On this page</p>
-    <div class="toc">
-<ul>
-<li><a href="#in-one-sentence">In one sentence</a></li>
-<li><a href="#first-principles-companion">First-principles companion</a></li>
-<li><a href="#a-few-plain-language-basics-first">A few plain-language basics first</a></li>
-<li><a href="#why-this-unit-matters">Why this unit matters</a></li>
-<li><a href="#learning-objectives">Learning objectives</a></li>
-<li><a href="#prerequisites">Prerequisites</a></li>
-<li><a href="#part-1-when-multi-agent-helps-and-when-it-hurts-the-real-debate">Part 1: When multi-agent helps and when it hurts (the real debate)</a></li>
-<li><a href="#part-2-the-cost-reality-hold-both-numbers">Part 2: The cost reality (hold both numbers)</a></li>
-<li><a href="#part-3-how-to-build-orchestrator-worker-and-how-atlas-does-it">Part 3: How to build orchestrator-worker, and how Atlas does it</a></li>
-<li><a href="#part-4-tool-skill-or-subagent-decomposing-deliberately">Part 4: Tool, skill, or subagent? (decomposing deliberately)</a></li>
-<li><a href="#part-5-frameworks-with-eyes-open">Part 5: Frameworks, with eyes open</a></li>
-<li><a href="#key-takeaways">Key takeaways</a></li>
-<li><a href="#common-pitfalls">Common pitfalls</a></li>
-<li><a href="#capstone" class="toc-capstone">🛠️ The Build: Atlas at fleet scale</a><ul>
-<li><a href="#what-you-will-build">What you will build</a></li>
-<li><a href="#milestones-in-order-each-stands-alone">Milestones (in order, each stands alone)</a></li>
-<li><a href="#how-you-will-know-you-are-done">How you will know you are done</a></li>
-</ul>
+    <p class="toc-title">Unit 7 &middot; Multi-Agent Orchestration</p>
+<ul class="unit-toc">
+<li class="done"><a href="00-overview.html">Overview</a>
 </li>
-<li><a href="#cheat-sheet">Cheat sheet</a></li>
-<li><a href="#how-this-connects-to-the-rest-of-the-course">How this connects to the rest of the course</a></li>
+<li class="active"><a href="01-when-multi-agent-helps-and-when-it-hurts.html">Part 1 &middot; When multi-agent helps and when it hurts</a>
+</li>
+<li class=""><a href="02-the-cost-reality.html">Part 2 &middot; The cost reality</a>
+</li>
+<li class=""><a href="03-how-to-build-orchestrator-worker-and-how-atlas-d.html">Part 3 &middot; How to build orchestrator-worker, and how Atlas does it</a>
+</li>
+<li class=""><a href="04-tool-skill-or-subagent.html">Part 4 &middot; Tool, skill, or subagent?</a>
+</li>
+<li class=""><a href="05-frameworks-with-eyes-open.html">Part 5 &middot; Frameworks, with eyes open</a>
+</li>
+<li class=""><a href="06-recap.html">Recap</a>
+</li>
+<li class=""><a href="07-the-build.html">The Build</a>
+</li>
 </ul>
-</div>
-
   </div></aside>
   <main id="start">
     <article>
-      <hr />
-<h2 id="in-one-sentence">In one sentence</h2>
-<p>A multi-agent system (one lead agent splitting work among helper agents) is one of the most powerful and most over-used ideas in the field, so this unit teaches you both halves of the craft: when many agents genuinely beat one (read-heavy, parallelizable, high-value work) versus when one agent wins (write-heavy, dependent work), and the deliberate decomposition that follows (tool vs skill vs subagent), so that when you reach for a second agent you do it with reasons and numbers, not because it sounds sophisticated.</p>
-<blockquote>
-<p>🎯 <strong>Where this unit is heading.</strong> The payoff is a <strong>Build</strong> that takes Atlas, your orchestrator, from running one agent (Scout) to dispatching a small fleet: you add a second specialized agent, make the tool-vs-skill-vs-subagent decision deliberately and write it down for the fleet, then prove on your own numbers whether multi-agent actually beat the single-agent baseline. Honest guardrails about when <em>not</em> to go multi-agent are part of the deliverable. Jump to <strong>"The Build"</strong> to see the finish line.</p>
-</blockquote>
-<h2 id="first-principles-companion">First-principles companion</h2>
-<blockquote>
-<p>💡 <strong>The durable ideas behind this unit.</strong> The Claude-specific framing is recent; the orchestration ideas are not. For the timeless versions:</p>
-<ul>
-<li><strong><a href="https://www.anthropic.com/engineering/multi-agent-research-system">How we built our multi-agent research system (Anthropic)</a></strong> (essay). A first-principles treatment of orchestrator-vs-subagent decomposition: when to parallelize, the real cost of subagents, and the communication tradeoffs.</li>
-<li><strong><a href="https://www.anthropic.com/engineering/building-effective-agents">Building Effective Agents (Anthropic)</a></strong> (essay). The pattern catalogue (routing, orchestrator-workers, evaluator-optimizer) that frames every choice in this unit, and the case for starting without a framework.</li>
-<li><strong><a href="https://cognition.ai/blog/dont-build-multi-agents">Don't Build Multi-Agents (Cognition)</a></strong> (essay). The honest counter-case: why parallel agents are fragile, and the "share full context, not just messages" rule.</li>
-</ul>
-</blockquote>
-<h2 id="a-few-plain-language-basics-first">A few plain-language basics first</h2>
-<ul>
-<li><strong>Multi-agent system:</strong> more than one separate agent, each an LLM running in a loop with tools, splitting the work between them.</li>
-<li><strong>Orchestrator (lead):</strong> the main agent that reads the task, breaks it up, and dispatches the pieces. In your build this is <strong>Atlas</strong>.</li>
-<li><strong>Worker (subagent):</strong> a separate agent instance with its own context window that the lead hands one piece of work to, and that returns a short summary.</li>
-<li><strong>Orchestrator-worker pattern:</strong> the most common multi-agent shape: lead decomposes, workers run (often in parallel), lead synthesizes.</li>
-<li><strong>Breadth-first task:</strong> one where you look in many independent places at once (research), rather than following one chain of dependent steps.</li>
-<li><strong>Tool / skill / subagent:</strong> the three primitives you decompose into. A <strong>tool</strong> is code the agent runs; a <strong>skill</strong> is packaged info pulled in only when needed; a <strong>subagent</strong> is a separate Claude with its own context.</li>
-<li><strong>Framework:</strong> a ready-made library that writes the agent loop for you, instead of you wiring it by hand.</li>
-</ul>
-<p>You do not need to memorise these. Each returns the first time it matters.</p>
-<h2 id="why-this-unit-matters">Why this unit matters</h2>
-<p>Multi-agent is where good engineers most often over-build. The shape sounds impressive, the demos look magic, and so people reach for it by default. Two well-known engineering teams have publicly disagreed about whether you should, and the useful skill is not picking a winner but knowing where the line between them sits.</p>
-<blockquote>
-<p>🔑 <strong>The whole unit in one line.</strong> Multi-agent is a tool with a steep price tag, not a default. Reach for it only when the task is breadth-first, parallelizable, and high-value enough to justify the cost, and when you do build, decompose deliberately: the right primitive (tool, skill, or subagent) for each job, measured against evals.</p>
-</blockquote>
-<p>Get this right and you ship one excellent orchestrator plus the few agents that earn their place. Get it wrong and you ship five fragile demos whose outputs do not fit together and whose bill is fifteen times higher than it needed to be.</p>
-<h2 id="learning-objectives">Learning objectives</h2>
-<p>By the end of this unit you will be able to:</p>
-<ol>
-<li>State the real boundary between multi-agent and single-agent work (read-heavy/parallelizable versus write-heavy/dependent) and apply it to a task.</li>
-<li>Build the orchestrator-worker pattern: decompose, dispatch workers in isolated context, synthesize their summaries.</li>
-<li>Hold quality and cost together, reasoning about the rough 4x (single-agent) and 15x (multi-agent) token multipliers over plain chat.</li>
-<li>Decide deliberately between a <strong>tool</strong>, a <strong>skill</strong>, and a <strong>subagent</strong> when an agent outgrows its prompt, and document the decision for a fleet.</li>
-<li>Choose a framework (or none) by the shape of the problem, keeping prompts and traces visible.</li>
-<li>Extend Atlas to dispatch a second specialized agent and prove, on your own numbers, whether multi-agent beat the baseline.</li>
-</ol>
-<h2 id="prerequisites">Prerequisites</h2>
-<ul>
-<li><strong>From earlier units:</strong> a working agent (Scout) shipped on Claude Managed Agents, an eval suite you can hill-climb on (Unit 8 / Warden seeds), and comfort with tools and MCP (Unit 4).</li>
-<li><strong>Skills that matter:</strong> reading and running Python, editing a config file, and reading an agent's transcript of tool calls.</li>
-<li><strong>Skills you can defer:</strong> building your own orchestration framework. You learn the raw loop, then reach for a framework only when it earns its keep.</li>
-</ul>
-<hr />
-<h2 id="part-1-when-multi-agent-helps-and-when-it-hurts-the-real-debate">Part 1: When multi-agent helps and when it hurts (the real debate)</h2>
-<p>Start with the disagreement, honestly. One AI lab built a research system in the orchestrator-worker shape: a strong model as the lead, several faster cheaper models as workers, each searching the web in parallel. On the lab's own internal test it beat a single agent (same strong model alone) by about <strong>90 percent</strong>. The reason given: workers run in parallel, so the system chases many independent leads at once. Their summary: multi-agent "excels for breadth-first queries that pursue multiple independent directions simultaneously."</p>
+      <div class="stepline"><span class="steptxt">Step 2 of 8</span><span class="stepdots"><i class="done"></i><i class="cur"></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i></span></div><p>Start with the disagreement, honestly. One AI lab built a research system in the orchestrator-worker shape: a strong model as the lead, several faster cheaper models as workers, each searching the web in parallel. On the lab's own internal test it beat a single agent (same strong model alone) by about <strong>90 percent</strong>. The reason given: workers run in parallel, so the system chases many independent leads at once. Their summary: multi-agent "excels for breadth-first queries that pursue multiple independent directions simultaneously."</p>
 <p>Another team published the opposite case, titled "Don't Build Multi-Agents." Their argument: parallel setups are <strong>fragile</strong>, because workers running side by side cannot see each other's work. Each makes small decisions, and those decisions quietly conflict. Their example: ask two workers to build a simple game, and one builds a background in one art style while the other builds a character in a clashing one, because neither knew what the other was doing. From this they draw two rules:</p>
 <ul>
 <li><strong>Share full context, not just messages.</strong> If you use helpers, give them the whole history, not a one-line instruction. Most failures come from a worker missing context the others had.</li>
@@ -357,157 +317,13 @@ footer.site .fnote{max-width:46em;font-size:13.5px;line-height:1.7}
 <blockquote>
 <p>❌ <strong>A common mistake:</strong> reaching for multi-agent because it "sounds sophisticated," then parallelizing dependent work and getting outputs that do not fit together. The default recommendation of the skeptical team is blunt: "just use a single-threaded linear agent," and when its memory overflows, add one small model whose only job is to compress the history.</p>
 </blockquote>
-<h2 id="part-2-the-cost-reality-hold-both-numbers">Part 2: The cost reality (hold both numbers)</h2>
-<p>There is a price tag the headline numbers hide. An agent (one LLM in a loop with tools) already burns far more tokens than a plain chat, because the model re-reads its growing history on every step. A rough figure: a single agent uses on the order of <strong>4x</strong> the tokens of a chat, and a multi-agent system on the order of <strong>15x</strong>. A token is a small chunk of text you pay for, so 15x the tokens means roughly 15x the cost.</p>
-<p>That reframes the 90 percent number. It was measured on the team's <em>own internal</em> test, not an independent benchmark, and it came at that much higher cost. The same team is clear: multi-agent only pays off "where the value of the task is high enough" to justify the spend.</p>
-<blockquote>
-<p>🔑 <strong>Always hold the two numbers together: the quality gain and the cost multiplier.</strong> A 90 percent quality gain that costs 15x more is a good deal for a high-value research report and a terrible deal for a routine lookup. This is the AtlasOS principle in miniature: <strong>cost per successful outcome, not cost per token.</strong> Cheap models execute in parallel; the expensive lead advises and synthesizes.</p>
-<p>✅ <strong>Best practice:</strong> never quote a multi-agent quality win without measuring it against a single-agent baseline on cost, not just quality. The honest deliverable is the comparison, not the favorite.</p>
-</blockquote>
-<h2 id="part-3-how-to-build-orchestrator-worker-and-how-atlas-does-it">Part 3: How to build orchestrator-worker, and how Atlas does it</h2>
-<p>The pattern needs no special platform. In plain steps:</p>
-<ul>
-<li>The lead reads the task and <strong>decomposes</strong> it into smaller, independent subtasks.</li>
-<li>For each subtask, the lead starts a worker in its <strong>own separate context</strong>, so workers do not crowd each other's memory. Give each worker enough shared context to avoid the conflicting-decisions trap.</li>
-<li>Each worker does its subtask (often by searching or retrieving) and returns a <strong>short, distilled summary</strong>, not its full transcript.</li>
-<li>The lead collects the summaries and <strong>synthesizes</strong> them into one coherent answer.</li>
-</ul>
-<p>Any agent toolkit can express this, and you can write it yourself with a normal loop and direct model calls. On Claude, two practical refinements come from the implementation side. First, two failure modes to respect: <strong>communication breakdown</strong> between orchestrator and subagent (a lot gets lost in translation, like between two colleagues), and <strong>logging is hard</strong> (you must collect transcripts from multiple agents). Managed agents address both with a <strong>native callable-agents capability</strong>: managed subagents whose logging and observability are as good as the orchestrator's, instead of a subagent hidden inside an opaque tool wrapper.</p>
-<blockquote>
-<p>💡 <strong>The frontier trend: fewer subagents.</strong> As models get smarter, many teams are folding capability back into the main orchestrator, because it can now manage more information at once. "You just don't need as many subagents." Before adding one, ask whether the main agent can simply handle it now. This is the same thin-scaffolding instinct from Unit 0: let the model do more as it improves.</p>
-</blockquote>
-<h2 id="part-4-tool-skill-or-subagent-decomposing-deliberately">Part 4: Tool, skill, or subagent? (decomposing deliberately)</h2>
-<p>Here is the decision you make when <em>one</em> agent grows too big, which is just as important as the multi-agent question. An agent that gets capability "bolted on" over time (a 400-line system prompt, a dozen overlapping tools, tangled subagents) starts to <strong>regress</strong> in the very areas it used to be great at. The fix is not more instructions. It is moving each job to the right primitive.</p>
-<table>
-<thead>
-<tr>
-<th>Primitive</th>
-<th>Reach for it when...</th>
-<th>Why</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><strong>Tool</strong></td>
-<td>The model is doing work it should offload, especially data work.</td>
-<td>A bash tool to write and run a script over a CSV beats reading the whole file into context. One workshop task dropped from over 200,000 tokens to a fraction by swapping special tools for code execution.</td>
-</tr>
-<tr>
-<td><strong>Skill</strong></td>
-<td>Claude needs the info <em>sometimes</em>, not always.</td>
-<td>Load it on demand (<strong>progressive disclosure</strong>). Keep the system prompt for "only what Claude needs regardless of task." Separated skills also stop policies contradicting each other.</td>
-</tr>
-<tr>
-<td><strong>Subagent</strong></td>
-<td>You want to parallelize (throw a lot of Claude at it) <em>or</em> you need a fresh, context-free mind (the reviewer should not be the writer).</td>
-<td>These are the only two cases that earn the communication and logging overhead.</td>
-</tr>
-</tbody>
-</table>
-<blockquote>
-<p>🔑 <strong>Start tools with human-like primitives.</strong> Give the agent the same primitives a human has at work: a file system, a browser/web search, and the ability to write and run code. Add custom tools only when these fall short, and reach for MCP last (only when many clients need the same governed tools). On managed agents these primitives come built in.</p>
-<p>💡 <strong>A worked example.</strong> An overgrown inventory agent shrank from a ~400-line prompt and 12 tools (three were hidden subagent wrappers) to a ~15-line prompt, 3 primitive tools (bash, read, write), business logic moved into skills, and exactly <strong>one</strong> justified subagent (forecasting, kept isolated so the main conversation cannot distort it). The eval score climbed from ~83% to ~92%, and tokens, cost, and latency all dropped. You only knew because you measured: <strong>hill-climb on evals, changing one thing at a time.</strong></p>
-</blockquote>
-<h2 id="part-5-frameworks-with-eyes-open">Part 5: Frameworks, with eyes open</h2>
-<p>A <strong>framework</strong> is a library that writes the agent loop for you (the model thinks, calls a tool, reads the result, thinks again). Without one you write that loop yourself against a model's API. Both are valid; the question is order.</p>
-<p>A widely cited guide recommends <strong>starting without a framework</strong>: "many patterns can be implemented in a few lines of code," and frameworks "often create extra layers of abstraction that can obscure the underlying prompts and responses, making them harder to debug." A framework can hide the very things you most need to see when something breaks: the exact prompt sent and the exact response received.</p>
-<blockquote>
-<p>✅ <strong>How to choose, in one sentence.</strong> Learn the raw loop first; then, if your problem is complex enough that a framework's plumbing (retries, state, branching, human-approval steps, built-in tracing) clearly earns its keep, pick the one whose shape matches your problem, and keep the underlying prompts and traces visible no matter what you choose.</p>
-<p>❌ <strong>Pitfalls:</strong> adopting a heavy framework before you understand the loop it hides; framework <strong>lock-in</strong> that makes switching painful later; copying a trendy tool without asking whether it fits; and trusting comparison posts uncritically, since many are written by the tool's own vendor and features change fast.</p>
-</blockquote>
-<h2 id="key-takeaways">Key takeaways</h2>
-<ol>
-<li><strong>Multi-agent is a tool, not a default.</strong> Reach for it only when work is read-heavy, parallelizable, and high-value.</li>
-<li><strong>The real boundary is read-heavy/parallelizable vs write-heavy/dependent.</strong> The two famous opposing posts agree on exactly this line.</li>
-<li><strong>Hold quality and cost together.</strong> Roughly 4x tokens for one agent, 15x for multi-agent. Optimise cost per successful outcome.</li>
-<li><strong>Decompose deliberately.</strong> Tool for offloaded work, skill for sometimes-needed info, subagent only to parallelize or get a fresh mind.</li>
-<li><strong>Start tools with human-like primitives;</strong> reach for MCP last. Prefer folding work back into the orchestrator as models improve.</li>
-<li><strong>Learn the loop before the framework,</strong> and keep prompts and traces visible whatever you choose.</li>
-</ol>
-<h2 id="common-pitfalls">Common pitfalls</h2>
-<ul>
-<li>❌ Using multi-agent by default because it sounds sophisticated.</li>
-<li>❌ Quoting a quality gain while ignoring the roughly 15x cost multiplier.</li>
-<li>❌ Parallelizing dependent work and getting outputs that do not fit together.</li>
-<li>❌ Giving workers a one-line instruction instead of full shared context (the conflicting-decisions trap).</li>
-<li>❌ Fixing a degraded agent by adding more instructions, more tools, or more subagents.</li>
-<li>❌ Hiding subagents inside tool wrappers, losing observability and inviting communication breakdowns.</li>
-<li>❌ Adopting a framework before you understand the loop it hides.</li>
-</ul>
-<hr />
-<h2 id="capstone" class="capstone-h">🛠️ The Build: Atlas at fleet scale</h2>
-<blockquote>
-<p>The hands-on payoff. Until now Atlas dispatched one agent, Scout. Here you turn Atlas into a real orchestrator of a small fleet: it decomposes an outcome, dispatches Scout plus one more specialized agent, and synthesizes the result. You make every tool-vs-skill-vs-subagent call deliberately, document it for the fleet, and prove on your own numbers whether multi-agent actually won. This fuses the orchestrator-worker pattern (principles), the decomposition decision (Lesson 16), and the hill-climbing discipline (Lesson 19). It builds the <code>orchestrator/</code> and <code>agents/</code> components in your roadmap.</p>
-</blockquote>
-<h3 id="what-you-will-build">What you will build</h3>
-<p>An Atlas orchestrator that takes one high-level outcome (for example "produce a competitive-intel brief on three rival products"), decomposes it, dispatches <strong>Scout plus one second agent</strong> (each in its own context), and synthesizes their summaries into one answer, committed to AtlasOS with a written fleet decision record and an honest single-agent comparison.</p>
-<h3 id="milestones-in-order-each-stands-alone">Milestones (in order, each stands alone)</h3>
-<ol>
-<li><strong>Pick the second agent and justify it.</strong> Choose one more specialist whose work is genuinely independent of Scout's (for example <strong>Herald</strong> drafting the brief from Scout's findings, or a second Scout-style researcher covering a separate product). In two sentences, state why this is breadth-first, parallelizable work and not write-heavy, dependent work. If you cannot make that case, the honest move is to keep it single-agent, and you say so.</li>
-<li><strong>Make Atlas the orchestrator.</strong> Have Atlas decompose the outcome into independent subtasks and dispatch one worker per subtask, each in its own context, each given enough shared context to avoid clashing decisions. Use the native callable-agents capability so each subagent logs as cleanly as Atlas. Have each worker return a short distilled summary, and have Atlas synthesize.</li>
-<li><strong>Make the decompose decision and document it for the fleet.</strong> For each capability in the run, write down whether it is a <strong>tool</strong>, a <strong>skill</strong>, or a <strong>subagent</strong>, and why. Keep the system prompt to "only what Atlas always needs"; push situational logic into skills; keep only subagents that parallelize or need a fresh mind. Save this as a short <code>orchestrator/FLEET-DECISIONS.md</code> the whole fleet can follow.</li>
-<li><strong>Run the single-agent baseline.</strong> Build the exact same task as one linear agent (Scout doing everything in one context, compressing history if it overflows). Run both versions.</li>
-<li><strong>Compare on three numbers and decide.</strong> Record <strong>quality, latency, and token cost</strong> for multi-agent vs single-agent. Write one paragraph: which would you ship for this task, and why, using your own numbers and the 4x/15x framing. Honesty includes "single-agent won here."</li>
-<li><strong>Stretch.</strong> Add the guardrails note: list two tasks in your AtlasOS roadmap where you would deliberately <em>not</em> go multi-agent, and why. Then try folding the second agent's job back into Atlas (the frontier "fewer subagents" move) and check whether the orchestrator can now just handle it.</li>
-</ol>
-<h3 id="how-you-will-know-you-are-done">How you will know you are done</h3>
-<ul>
-<li>✅ Atlas dispatches at least two specialized agents in isolated context and synthesizes their summaries into one coherent answer.</li>
-<li>✅ Subagents log cleanly (native callable agents), with no opaque tool wrappers.</li>
-<li>✅ <code>FLEET-DECISIONS.md</code> records each tool/skill/subagent choice with a reason.</li>
-<li>✅ You have a single-agent baseline and a numbers-backed paragraph on which you would ship and why.</li>
-<li>✅ You can name at least one case where you chose <em>not</em> to go multi-agent, with the reason.</li>
-<li>✅ The fleet orchestration is committed to your AtlasOS repo.</li>
-</ul>
-<blockquote>
-<p>💡 If your multi-agent version did not beat the baseline on cost-adjusted quality, that is not a failure of the build, it is the lesson. Commit the comparison anyway; it is the most honest artifact in the unit.</p>
-</blockquote>
-<hr />
-<h2 id="cheat-sheet">Cheat sheet</h2>
-<div class="codehilite"><pre><span></span><code>SHOULD YOU GO MULTI-AGENT?
-  READ-heavy + parallelizable + high-value  -&gt; yes (research, broad search)
-  WRITE-heavy + dependent (state changes)   -&gt; no  (editing code; one linear agent)
-  the two famous opposing posts agree on THIS line
-
-THE COST REALITY (hold both numbers)
-  ~4x tokens  = single agent vs chat
-  ~15x tokens = multi-agent vs chat
-  optimise COST PER SUCCESSFUL OUTCOME, not cost per token
-  always compare against the single-agent baseline
-
-ORCHESTRATOR-WORKER
-  lead DECOMPOSES -&gt; workers run in OWN context (give shared context) -&gt;
-  workers return SHORT summaries -&gt; lead SYNTHESIZES
-  use native callable agents (clean logging) · watch communication breakdowns
-  frontier trend: FEWER subagents as models improve
-
-PICK THE PRIMITIVE
-  TOOL      -&gt; offload work the model is doing (esp. code exec over data)
-  SKILL     -&gt; info needed SOMETIMES; load on demand (progressive disclosure)
-  SUBAGENT  -&gt; only to PARALLELIZE or get a FRESH, context-free mind
-  tools order: Claude primitives -&gt; custom local -&gt; MCP (last)
-
-FRAMEWORKS, EYES OPEN
-  learn the raw loop first · pick by problem shape, not popularity
-  keep prompts + traces visible · beware lock-in and vendor comparisons
-</code></pre></div>
-
-<h2 id="how-this-connects-to-the-rest-of-the-course">How this connects to the rest of the course</h2>
-<ul>
-<li><strong>Earlier, Unit 4 (Tools and MCP):</strong> the primitives and MCP order-of-preference you now decompose onto.</li>
-<li><strong>Earlier, Unit 6 (Workflows and agent patterns):</strong> the single-agent loop multi-agent is measured against.</li>
-<li><strong>Companion, Unit 8 (Evals and verification):</strong> the hill-climbing harness and Warden graders that make every decompose decision measurable, not guessed.</li>
-<li><strong>Next, Unit 9 (Production):</strong> you deploy this fleet on real infrastructure, where the cost multiplier and clean per-agent logging stop being theory.</li>
-</ul>
-<hr />
-<p><em>Unit 7 of the combined path. Fuses the vendor-neutral principles of Agentic Engineering Modules 10-11 with the Claude-specific implementation of Building with Claude Lessons 16 and 19. Token multipliers, eval scores, and architecture details are drawn from the source write-ups; adapt model ids and SDK details to the current docs.</em></p>
     </article>
-    <nav class="lessonnav"><a class="ln prev" href="unit-05-retrieval-memory-state.html"><span class="dir">&#8592; Previous</span><b>Unit 5: Retrieval, Memory and State</b></a><a class="ln home" href="index.html"><b>All units</b></a></nav>
+    <nav class="lessonnav"><a class="ln prev" href="00-overview.html"><span class="dir">&#8592; Previous</span><b>Multi-Agent Orchestration</b></a><a class="ln home" href="../index.html"><b>All units</b></a><a class="ln next" href="02-the-cost-reality.html"><span class="dir">Next &#8594;</span><b>The cost reality</b></a></nav>
   </main>
 </div>
 
 <footer class="site"><div class="wrap">
-  <a class="logo" href="index.html">Agentic Engineering<span class="dot">.</span></a>
+  <a class="logo" href="../index.html">Agentic Engineering<span class="dot">.</span></a>
   <span class="fnote">A self-paced, model-agnostic course: durable agentic-engineering principles, the how across Claude Code, Gemini CLI, and Codex CLI, and one component of AtlasOS built each unit. Commands and model ids move fast; verify against the current docs.</span>
 </div></footer>
 

@@ -10,13 +10,12 @@
 body{margin:0;background:#fff;color:var(--ink);font-family:Inter,system-ui,sans-serif;line-height:1.7;-webkit-font-smoothing:antialiased;overflow-x:hidden}
 a{text-decoration:none;color:inherit}
 h1,h2{font-family:Poppins,sans-serif;letter-spacing:-.01em}
-.wrap{max-width:1000px;margin:0 auto;padding:0 26px}
-.hero{position:relative;background:radial-gradient(120% 120% at 80% 0%,var(--navy-3),var(--navy) 60%);color:#eaf1f8;overflow:hidden;text-align:center;padding:80px 0 90px}
+.hero{position:relative;background:radial-gradient(120% 120% at 80% 0%,var(--navy-3),var(--navy) 60%);color:#eaf1f8;overflow:hidden;text-align:center;padding:80px 26px 90px}
 .hero::before{content:"";position:absolute;inset:0;background-image:radial-gradient(rgba(255,255,255,.12) 1.3px,transparent 1.3px);background-size:22px 22px;opacity:.22;mask:radial-gradient(70% 70% at 50% 20%,#000,transparent)}
 .blob{position:absolute;border-radius:50%;filter:blur(10px);opacity:.5}
 .blob.t{width:240px;height:240px;background:rgba(24,196,160,.30);top:-70px;left:6%}
 .blob.c{width:170px;height:170px;background:rgba(242,77,99,.26);bottom:-50px;right:10%}
-.hero .in{position:relative;z-index:2}
+.hero .in{position:relative;z-index:2;max-width:760px;margin:0 auto}
 .eyebrow{display:inline-flex;gap:8px;color:var(--teal);font-weight:600;letter-spacing:.04em;text-transform:uppercase;font-size:14px;margin-bottom:16px}
 .hero h1{font-size:52px;line-height:1.08;margin:0 0 16px;color:#fff;font-weight:800}
 .hero h1 .a{color:var(--coral)}
@@ -32,15 +31,16 @@ h1,h2{font-family:Poppins,sans-serif;letter-spacing:-.01em}
 .lesson .num{font-family:Poppins;font-weight:800;color:var(--teal);font-size:20px;min-width:34px;text-align:center}
 .ltext{display:flex;flex-direction:column;flex:1;min-width:0}
 .lt{font-weight:600}
+.ls{color:var(--muted);font-size:13px}
 .arr{color:var(--teal);font-size:20px}
 footer{background:var(--navy);color:#aebccb;text-align:center;padding:40px 26px;font-size:14px}
 .logo{font-family:Poppins;font-weight:800;font-size:22px;color:#fff}
 .logo .d{color:var(--teal)}
-@media(max-width:700px){.hero h1{font-size:34px}.hero{padding:56px 0 64px}}
+@media(max-width:700px){.hero h1{font-size:34px}.hero{padding:56px 22px 64px}.content{padding:72px 22px 120px}}
 </style></head>
 <body>
 <header class="hero"><span class="blob t"></span><span class="blob c"></span>
-  <div class="in wrap">
+  <div class="in">
     <span class="eyebrow">&#10022; Model-agnostic &middot; self-paced</span>
     <h1>Agentic Engineering<span class="a">.</span></h1>
     <p>Learn the durable principles of agentic engineering, see how to apply each one with Claude Code, Gemini CLI, or Codex CLI, and build one component of a north-star agent platform, AtlasOS, in every unit.</p>
@@ -52,8 +52,8 @@ footer{background:var(--navy);color:#aebccb;text-align:center;padding:40px 26px;
   </div>
 </header>
 <div class="content">
-  <div class="intro">Work top to bottom. Each unit states one principle, shows how to apply it with your chosen coding agent (and how the others do it), and ends in one component of AtlasOS.</div>
-  <div class="lessons"><a class="lesson" href="unit-00-foundations.html"><span class="num">0</span><span class="ltext"><span class="lt">Foundations and the Mental Model</span></span><span class="arr">&#8594;</span></a><a class="lesson" href="unit-01-coding-agent-workflow.html"><span class="num">1</span><span class="ltext"><span class="lt">The Coding-Agent Workflow</span></span><span class="arr">&#8594;</span></a><a class="lesson" href="unit-02-prompting-and-context.html"><span class="num">2</span><span class="ltext"><span class="lt">Prompting and Context Engineering</span></span><span class="arr">&#8594;</span></a><a class="lesson" href="unit-03-model-and-reasoning-levers.html"><span class="num">3</span><span class="ltext"><span class="lt">Model and Reasoning Levers</span></span><span class="arr">&#8594;</span></a><a class="lesson" href="unit-04-tools-and-mcp.html"><span class="num">4</span><span class="ltext"><span class="lt">Tools, Function-Calling and MCP</span></span><span class="arr">&#8594;</span></a><a class="lesson" href="unit-05-retrieval-memory-state.html"><span class="num">5</span><span class="ltext"><span class="lt">Retrieval, Memory and State</span></span><span class="arr">&#8594;</span></a><a class="lesson" href="unit-07-multi-agent-orchestration.html"><span class="num">7</span><span class="ltext"><span class="lt">Multi-Agent Orchestration</span></span><span class="arr">&#8594;</span></a></div>
+  <div class="intro">Work top to bottom. Each unit is split into short pages, one per part, so you can feel the progress: read a part, click Next, keep going. Every unit ends in one component of AtlasOS.</div>
+  <div class="lessons"><a class="lesson" href="unit-00-foundations/00-overview.html"><span class="num">0</span><span class="ltext"><span class="lt">Foundations and the Mental Model</span><span class="ls">7 pages &middot; 4 parts</span></span><span class="arr">&#8594;</span></a><a class="lesson" href="unit-01-coding-agent-workflow/00-overview.html"><span class="num">1</span><span class="ltext"><span class="lt">The Coding-Agent Workflow</span><span class="ls">9 pages &middot; 6 parts</span></span><span class="arr">&#8594;</span></a><a class="lesson" href="unit-02-prompting-and-context/00-overview.html"><span class="num">2</span><span class="ltext"><span class="lt">Prompting and Context Engineering</span><span class="ls">7 pages &middot; 4 parts</span></span><span class="arr">&#8594;</span></a><a class="lesson" href="unit-03-model-and-reasoning-levers/00-overview.html"><span class="num">3</span><span class="ltext"><span class="lt">Model and Reasoning Levers</span><span class="ls">7 pages &middot; 4 parts</span></span><span class="arr">&#8594;</span></a><a class="lesson" href="unit-04-tools-and-mcp/00-overview.html"><span class="num">4</span><span class="ltext"><span class="lt">Tools, Function-Calling and MCP</span><span class="ls">7 pages &middot; 4 parts</span></span><span class="arr">&#8594;</span></a><a class="lesson" href="unit-05-retrieval-memory-state/00-overview.html"><span class="num">5</span><span class="ltext"><span class="lt">Retrieval, Memory and State</span><span class="ls">7 pages &middot; 4 parts</span></span><span class="arr">&#8594;</span></a><a class="lesson" href="unit-07-multi-agent-orchestration/00-overview.html"><span class="num">7</span><span class="ltext"><span class="lt">Multi-Agent Orchestration</span><span class="ls">8 pages &middot; 5 parts</span></span><span class="arr">&#8594;</span></a></div>
 </div>
 <footer><div class="logo">Agentic Engineering<span class="d">.</span></div>
 <p>A model-agnostic, self-paced course. You build one platform, AtlasOS, one component at a time. Commands and model ids move fast; verify against current docs.</p></footer>

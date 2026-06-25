@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Unit 2: Prompting and Context Engineering | Agentic Engineering</title>
+<title>Unit 2: Prompting and Context Engineering · Prompting and Context Engineering | Agentic Engineering</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@500;600;700;800&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
@@ -196,6 +196,23 @@ footer.site .fnote{max-width:46em;font-size:13.5px;line-height:1.7}
   .hero-actions{flex-direction:column;align-items:stretch}
   .hero-actions .play{justify-content:center}
 }
+
+.unit-toc{list-style:none;margin:0;padding:0}
+.unit-toc>li{margin:0 0 3px}
+.unit-toc>li>a{display:block;color:var(--muted);font-size:13.5px;padding:8px 12px;border-radius:9px;font-weight:600;line-height:1.35}
+.unit-toc>li>a:hover{background:#fff;color:var(--ink)}
+.unit-toc>li.active>a{background:#fff;color:var(--teal-d);box-shadow:var(--shadow-sm)}
+.unit-toc>li.done>a{color:#93a1b0}
+.unit-toc .u-sub{list-style:none;margin:3px 0 8px;padding:0 0 0 10px;border-left:2px solid var(--line)}
+.unit-toc .u-sub a{display:block;color:var(--muted);font-size:12.5px;padding:4px 10px;border-radius:6px}
+.unit-toc .u-sub a:hover{color:var(--ink);background:#fff}
+.unit-toc .u-sub a.active{color:var(--teal-d);font-weight:600}
+.stepline{display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin:0 0 26px;padding:0 0 18px;border-bottom:1px solid var(--line)}
+.stepline .steptxt{font-family:Poppins,sans-serif;font-size:13px;font-weight:700;letter-spacing:.04em;text-transform:uppercase;color:var(--teal-d)}
+.stepdots{display:flex;gap:6px;align-items:center}
+.stepdots i{width:9px;height:9px;border-radius:50%;background:var(--line);display:block}
+.stepdots i.done{background:var(--teal)}
+.stepdots i.cur{background:var(--coral);box-shadow:0 0 0 4px var(--coral-soft)}
 </style>
 </head>
 <body>
@@ -203,16 +220,16 @@ footer.site .fnote{max-width:46em;font-size:13.5px;line-height:1.7}
 
 <div class="topbar"><div class="wrap">
   <div>&#10024; Welcome to <b>Agentic Engineering</b> &middot; a self-paced course</div>
-  <div class="right"><span>Model-agnostic &middot; from zero to agent orchestrator</span></div>
+  <div class="right"><span>Model-agnostic &middot; self-paced</span></div>
 </div></div>
 
 <nav class="bar"><div class="wrap">
   <button class="btn btn-outline" id="menuBtn" style="padding:8px 14px">&#9776;</button>
-  <a class="logo" href="index.html">Agentic Engineering<span class="dot">.</span></a>
+  <a class="logo" href="../index.html">Agentic Engineering<span class="dot">.</span></a>
   <div class="navlinks">
-    <a href="index.html">All lessons</a>
+    <a href="../index.html">All units</a>
     <a href="#overview">Overview</a>
-    <a href="#capstone">Capstone</a>
+    <a href="06-the-build.html">The Build</a>
   </div>
   <div class="nav-cta">
     <a class="btn btn-primary" href="#start">Start the lesson &#8594;</a>
@@ -233,8 +250,8 @@ footer.site .fnote{max-width:46em;font-size:13.5px;line-height:1.7}
         
       </div>
       <div class="chips">
-        <span class="chip">&#127908; <b>Model-agnostic</b></span>
-        <span class="chip">&#9201; <b>90 to 120 minutes</b></span>
+        <span class="chip">&#127908; <b>Unit 2 of 11</b></span>
+        <span class="chip">&#9201; <b>Step 1 of 7</b></span>
         <span class="chip">&#128296; <b>Hands-on capstone</b></span>
       </div>
     </div>
@@ -251,7 +268,7 @@ footer.site .fnote{max-width:46em;font-size:13.5px;line-height:1.7}
           <li><span class="ic">&#128296;</span><span>A hands-on capstone you build step by step</span></li>
           <li><span class="ic">&#127919;</span><span>Optional practice drills to reinforce each skill</span></li>
         </ul>
-        <a class="btn btn-coral" href="#capstone" style="width:100%;justify-content:center">Jump to the project</a>
+        <a class="btn btn-coral" href="06-the-build.html" style="width:100%;justify-content:center">Jump to the project</a>
       </div>
     </div>
   </div>
@@ -261,35 +278,27 @@ footer.site .fnote{max-width:46em;font-size:13.5px;line-height:1.7}
   <aside id="sidebar"><div class="toc-card">
     <button class="toc-close" id="tocClose" aria-label="Close menu">&times;</button>
     <p class="toc-title">On this page</p>
-    <div class="toc">
-<ul>
-<li><a href="#in-one-sentence">In one sentence</a></li>
-<li><a href="#first-principles-companion">First-principles companion</a></li>
-<li><a href="#a-few-plain-language-basics-first">A few plain-language basics first</a></li>
-<li><a href="#why-this-unit-matters">Why this unit matters</a></li>
-<li><a href="#learning-objectives">Learning objectives</a></li>
-<li><a href="#prerequisites">Prerequisites</a></li>
-<li><a href="#part-1-prompting-is-a-debugging-skill-not-a-writing-one">Part 1: Prompting is a debugging skill (not a writing one)</a></li>
-<li><a href="#part-2-the-debugging-loop-and-choosing-the-right-fix">Part 2: The debugging loop, and choosing the right fix</a></li>
-<li><a href="#part-3-context-engineering-curate-do-not-stuff">Part 3: Context engineering (curate, do not stuff)</a></li>
-<li><a href="#part-4-prompt-caching-and-the-advisor-strategy-the-cheap-on-track-claude-way">Part 4: Prompt caching and the advisor strategy (the cheap, on-track Claude way)</a></li>
-<li><a href="#key-takeaways">Key takeaways</a></li>
-<li><a href="#common-pitfalls">Common pitfalls</a></li>
-<li><a href="#capstone" class="toc-capstone">🛠️ The Build: the AtlasOS prompt library</a><ul>
-<li><a href="#what-you-will-build">What you will build</a></li>
-<li><a href="#milestones-in-order-each-stands-alone">Milestones (in order, each stands alone)</a></li>
-<li><a href="#how-you-will-know-you-are-done">How you will know you are done</a></li>
-</ul>
+    <p class="toc-title">Unit 2 &middot; Prompting and Context Engineering</p>
+<ul class="unit-toc">
+<li class="active"><a href="00-overview.html">Overview</a>
 </li>
-<li><a href="#cheat-sheet">Cheat sheet</a></li>
-<li><a href="#how-this-connects-to-the-rest-of-the-course">How this connects to the rest of the course</a></li>
+<li class=""><a href="01-prompting-is-a-debugging-skill.html">Part 1 &middot; Prompting is a debugging skill</a>
+</li>
+<li class=""><a href="02-the-debugging-loop-and-choosing-the-right-fix.html">Part 2 &middot; The debugging loop, and choosing the right fix</a>
+</li>
+<li class=""><a href="03-context-engineering.html">Part 3 &middot; Context engineering</a>
+</li>
+<li class=""><a href="04-prompt-caching-and-the-advisor-strategy.html">Part 4 &middot; Prompt caching and the advisor strategy</a>
+</li>
+<li class=""><a href="05-recap.html">Recap</a>
+</li>
+<li class=""><a href="06-the-build.html">The Build</a>
+</li>
 </ul>
-</div>
-
   </div></aside>
   <main id="start">
     <article>
-      <hr />
+      <div class="stepline"><span class="steptxt">Step 1 of 7</span><span class="stepdots"><i class="cur"></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i></span></div><hr />
 <h2 id="in-one-sentence">In one sentence</h2>
 <p>Prompting is a debugging skill, not a writing skill, and it lives inside the bigger discipline of context engineering: you shape the words you send (clear instructions, structure, examples, output contracts), you curate the smallest set of high-signal tokens the model sees while it works, and you reach for the right lever (a tool, a stronger model, more thinking, a multi-step loop) instead of piling on more instructions, all measured against a small eval rather than vibes.</p>
 <blockquote>
@@ -337,256 +346,13 @@ footer.site .fnote{max-width:46em;font-size:13.5px;line-height:1.7}
 <li><strong>Skills that matter:</strong> sending a message to Claude and reading the reply; comfortable reading and running Python; git.</li>
 </ul>
 <hr />
-<h2 id="part-1-prompting-is-a-debugging-skill-not-a-writing-one">Part 1: Prompting is a debugging skill (not a writing one)</h2>
-<p>The amateur judges a prompt by reading one nice answer. The professional judges it against a small <strong>eval</strong>, a collection of test cases where each case is one input plus the answer you expect. The eval is what lets you tell luck from skill, and a behaviour change from a capability change.</p>
-<blockquote>
-<p>🔑 <strong>You cannot fix what you cannot measure.</strong> When a prompt gets worse after a model change there are only two possibilities, and you must tell them apart: (1) the new model is just as capable but <em>behaves differently</em> (fixable by prompting), or (2) the new model is <em>less capable</em> at this task (no prompt will fix it; change the model). Only an eval tells you which.</p>
-</blockquote>
-<p>The core prompting moves are a small set you combine, not pick from:</p>
-<ul>
-<li><strong>Be clear, direct, and specific.</strong> The model fills any gap with a guess. "Summarize this in three bullets for a busy manager, no jargon" beats "summarize this."</li>
-<li><strong>Few-shot examples (show, do not only tell).</strong> A handful of worked input/output pairs lock in tone and format better than a paragraph of rules, especially for classification, extraction, and translation.</li>
-<li><strong>Chain-of-thought for reasoning tasks.</strong> Ask the model to work through steps before answering. Some newer reasoning models already do this internally, so you may not need to ask.</li>
-<li><strong>Structure for mixed content.</strong> Wrap each kind of content in clearly labelled sections so the model never confuses guidelines, policy, and data.</li>
-<li><strong>Output contracts.</strong> If your code will read the answer, ask for a strict, machine-readable shape (JSON, or a tagged block) and describe the exact fields.</li>
-</ul>
-<p>Every eval needs three kinds of case. The third is the one teams forget:</p>
-<table>
-<thead>
-<tr>
-<th>Case type</th>
-<th>What it checks</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><strong>Control</strong></td>
-<td>Something that should <em>always</em> work. Your "nothing is on fire" signal.</td>
-</tr>
-<tr>
-<td><strong>Edge</strong></td>
-<td>Something the model got wrong before. The prompt should stop the regression.</td>
-</tr>
-<tr>
-<td><strong>Capability / handoff</strong></td>
-<td>Does the model know the limits of its job: when to pass to a human, or refuse?</td>
-</tr>
-</tbody>
-</table>
-<blockquote>
-<p>❌ <strong>A common mistake:</strong> "prompt and pray," shipping a prompt with no test set; or over-instructing until the prompt is so rigid it breaks on anything slightly unexpected. Both are symptoms of judging by vibes instead of cases.</p>
-<p>✅ <strong>Pro tip.</strong> Version your prompts in git like code, change one variable at a time so you can attribute any quality change to a specific edit, and keep your test set: it is the seed of your AtlasOS eval suite (Warden, Unit 8).</p>
-</blockquote>
-<hr />
-<h2 id="part-2-the-debugging-loop-and-choosing-the-right-fix">Part 2: The debugging loop, and choosing the right fix</h2>
-<p>Here is the loop you repeat for every prompt in trouble:</p>
-<div class="codehilite"><pre><span></span><code>1. Run the eval on v0 of the prompt   -&gt; see what is failing
-2. Clean up the prompt FIRST          -&gt; often a free win on its own
-3. Fix failing cases ONE AT A TIME    -&gt; so cause and effect are clear
-4. Re-run the eval after every change  -&gt; keep what helps, undo what does not
-</code></pre></div>
-
-<p><strong>Cleanup comes first, every time.</strong> Real prompts arrive cramped into one paragraph, often with copied-in website junk (a "hero image" reference, a cookie notice) and patches for old models all mixed together. Add structure with tags, delete the junk, and define the output. Just doing this, with no other change, usually lifts the score.</p>
-<div class="codehilite"><pre><span></span><code>&lt;role&gt;
-You are a research assistant for AtlasOS. You gather and synthesize sources.
-&lt;/role&gt;
-
-&lt;guidelines&gt;
-- Be concise. Cite every claim with its source.
-- The provided source set is your only source of truth. Do not invent facts.
-&lt;/guidelines&gt;
-
-&lt;output_format&gt;
-Return findings as JSON: a list of {claim, source_url, confidence}.
-&lt;/output_format&gt;
-</code></pre></div>
-
-<p>Enforce the contract in the <strong>harness</strong> (the code around the model), not just in the prompt text. A <code>stop_sequences</code> entry or structured outputs is more reliable than hoping the prompt holds.</p>
-<p>When cases still fail, diagnose <em>why</em> and pick the matching lever. The deep lesson:</p>
-<blockquote>
-<p>🔑 <strong>Instructions do not add capability.</strong> Telling the model "it is CRITICAL to calculate correctly" does not make it better at mental maths. If the model genuinely cannot do the step, change the means, not the wording.</p>
-</blockquote>
-<table>
-<thead>
-<tr>
-<th>Symptom</th>
-<th>The right fix (not "more instructions")</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>Wrong or <strong>hidden</strong> facts</td>
-<td>Remove the old defensive patch; trust the data source.</td>
-</tr>
-<tr>
-<td>Bad maths / unreliable step</td>
-<td>Give it a <strong>tool</strong> (schema plus the real code).</td>
-</tr>
-<tr>
-<td>Will not act / too cautious</td>
-<td>State <strong>both sides</strong> of the trade-off and let it weigh them.</td>
-</tr>
-<tr>
-<td>Not capable enough</td>
-<td>A <strong>stronger model</strong> or more <strong>thinking</strong> (adaptive reasoning effort).</td>
-</tr>
-<tr>
-<td>One prompt doing too much</td>
-<td>Split into <strong>generate -&gt; evaluate -&gt; repair</strong>.</td>
-</tr>
-</tbody>
-</table>
-<p>Two failure shapes recur and are worth naming. First, <strong>withholding</strong>: everyone fears the model <em>inventing</em> facts (hallucination), but a defensive patch like "never give wrong details, send them to the URL" makes a literal-minded newer model <em>suppress</em> a correct answer it already has. Second, <strong>one-sided rules</strong>: state only the cost of escalating ("it costs ~$8") and the model will never escalate; state both sides and a smart model balances them itself.</p>
-<blockquote>
-<p>💡 When steps are easy and repeatable to separate, split them. A generate/evaluate/repair loop (three small prompts, each with one job) often passes a constraint task at <em>lower</em> cost and latency than forcing one giant prompt to do it all, and you can add soft preferences in the evaluate step without touching the grader.</p>
-<p>✅ <strong>Pro tip.</strong> Record your defensive patches in version control with a note on <em>why</em> each was added. A newer model can turn yesterday's helpful patch into today's bug, and you will want to find and remove it.</p>
-</blockquote>
-<hr />
-<h2 id="part-3-context-engineering-curate-do-not-stuff">Part 3: Context engineering (curate, do not stuff)</h2>
-<p>In Part 1 you shaped the words. Now widen the lens to the model's entire <strong>context</strong>: everything it can see in one request. Context is a finite resource in two senses, the fixed token limit and a limited <strong>attention budget</strong> (its focus spreads thinner as you add more text). The analogy is human working memory.</p>
-<blockquote>
-<p>🔑 <strong>The guiding heuristic.</strong> Aim for the <em>smallest set of high-signal tokens that still gets the job done.</em> Every token should earn its place. Write system prompts at the right altitude: specific enough to steer clearly, not so packed with rigid detail that there is no room to adapt.</p>
-</blockquote>
-<p>The trap is assuming bigger is better. <strong>Context rot</strong> is the measurable tendency of a model to recall and reason <em>less</em> accurately as its context grows, the cause being that same diluted attention budget. It shows up in "needle in a haystack" tests: bury one fact in a long document and recall drops as the document grows. A large context window lets you add more text; adding more text often makes quality <em>worse</em>, not better.</p>
-<blockquote>
-<p>❌ <strong>A common mistake:</strong> "just stuff the whole document in," or confusing a large context window with good context engineering. The window is capacity; engineering is what you <em>choose</em> to put in it. And letting an agent's context grow unbounded across turns with no trimming guarantees rot.</p>
-</blockquote>
-<p>The Claude platform gives you concrete levers for this, each narrowing context at a different point. The habit underneath all of them, repeated until it sticks: <strong>read your transcripts</strong> (the full record of what the model actually saw and did) instead of optimising from dashboards alone.</p>
-<ul>
-<li><strong>Tool search (narrow the tools).</strong> Agents can carry tens or hundreds of tools; every schema you load up front eats context (in one demo, individual tool schemas ran 6,000 to 14,000 tokens each). Hand the model one search tool instead, and load a tool's full definition only when it is actually chosen.</li>
-<li><strong>Programmatic tool calling (narrow the results).</strong> Claude writes code well. Instead of dumping a raw tool result into context, have Claude write a small script that calls the tool, curates the output, and returns only the relevant part (for example, the aggregate sentiment from a 60-minute transcript).</li>
-<li><strong>Compaction (keep going).</strong> As a long run approaches the limit, summarize the older turns (guided by your own prompt), drop what is stale, and continue. Set a threshold (often 400K to 500K, model-dependent) for a near-unlimited-feeling context.</li>
-</ul>
-<blockquote>
-<p>💡 These are production tools, not demo tricks. In the talk's worked example, the three context techniques together brought an agent's cost down to about a third of where it started, with quality held or improved, because less clutter in context means the model performs better.</p>
-</blockquote>
-<hr />
-<h2 id="part-4-prompt-caching-and-the-advisor-strategy-the-cheap-on-track-claude-way">Part 4: Prompt caching and the advisor strategy (the cheap, on-track Claude way)</h2>
-<p>Great models are only half the story. The platform layer is what takes an agent from a slow, expensive demo to a cheap, fast, production product. The single most important piece:</p>
-<blockquote>
-<p>🔑 <strong>Prompt caching, if you remember nothing else.</strong> The platform processes your input tokens before generating a reply. Caching saves that processed prefix and reuses it, so on later turns only the <em>new</em> tokens are processed. Three benefits: about a <strong>90% discount</strong> on cached tokens, cached tokens do <strong>not</strong> count against your rate limit (an 80% hit rate is effectively a 5x larger limit), and lower <strong>time to first token</strong>. Crucially, caching has <strong>no effect on intelligence</strong>: same output, just pre-processed and cheaper.</p>
-</blockquote>
-<p>Start by measuring your hit rate (the Console shows it, including why a cache broke), then aim for 80% or above.</p>
-<div class="codehilite"><pre><span></span><code><span class="c1"># Automatic caching: the simplest start. Caches the heavy, repeated prefix.</span>
-<span class="n">response</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">messages</span><span class="o">.</span><span class="n">create</span><span class="p">(</span>
-    <span class="n">model</span><span class="o">=</span><span class="s2">&quot;claude-opus-4-7&quot;</span><span class="p">,</span>
-    <span class="n">max_tokens</span><span class="o">=</span><span class="mi">4096</span><span class="p">,</span>
-    <span class="n">cache_control</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;ephemeral&quot;</span><span class="p">},</span>   <span class="c1"># auto-cache the stable prefix</span>
-    <span class="n">system</span><span class="o">=</span><span class="n">large_stable_system_prompt</span><span class="p">,</span>      <span class="c1"># keep this byte-for-byte identical</span>
-    <span class="n">messages</span><span class="o">=</span><span class="n">messages</span><span class="p">,</span>
-<span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">response</span><span class="o">.</span><span class="n">usage</span><span class="o">.</span><span class="n">cache_read_input_tokens</span><span class="p">)</span>   <span class="c1"># &gt; 0 means the cache is working</span>
-</code></pre></div>
-
-<blockquote>
-<p>❌ <strong>The most common cache mistake:</strong> a <strong>timestamp</strong> in the system prompt ("what day is it?"). It changes every request, which changes the prompt, which breaks the cache. Cached tokens must be <em>exactly</em> identical to be reused. Keep any per-request value out of the stable prefix.</p>
-</blockquote>
-<p>When you still want Opus-level judgement without Opus-everywhere cost, use the <strong>advisor strategy</strong>: run a cheaper <strong>executor</strong> (Sonnet or Haiku) that handles most of the work, and let it <strong>consult a stronger advisor</strong> (Opus) only on the tricky cases it is unsure about. The mental model is a senior engineer paired with a junior: the junior stays hands-on-keyboard, the senior's occasional review lifts the result close to what the senior could do solo.</p>
-<div class="codehilite"><pre><span></span><code><span class="c1"># Advisor pattern: a cheap executor consults a stronger model only when stuck.</span>
-<span class="n">advisor_tool</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;advisor_20260301&quot;</span><span class="p">,</span> <span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;advisor&quot;</span><span class="p">,</span>
-                <span class="s2">&quot;model&quot;</span><span class="p">:</span> <span class="s2">&quot;claude-opus-4-7&quot;</span><span class="p">}</span>     <span class="c1"># the strong model on call</span>
-
-<span class="n">response</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">beta</span><span class="o">.</span><span class="n">messages</span><span class="o">.</span><span class="n">create</span><span class="p">(</span>
-    <span class="n">betas</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;advisor-tool-2026-03-01&quot;</span><span class="p">],</span>
-    <span class="n">model</span><span class="o">=</span><span class="s2">&quot;claude-sonnet-4-6&quot;</span><span class="p">,</span>                  <span class="c1"># cheap executor does the easy 90%</span>
-    <span class="n">max_tokens</span><span class="o">=</span><span class="mi">4096</span><span class="p">,</span>
-    <span class="n">tools</span><span class="o">=</span><span class="p">[</span><span class="n">advisor_tool</span><span class="p">],</span>
-    <span class="n">messages</span><span class="o">=</span><span class="n">messages</span><span class="p">,</span>
-<span class="p">)</span>
-</code></pre></div>
-
-<blockquote>
-<p>💡 You get the cost profile of the cheap model on the easy 90%, and the judgement of the strong model on the hard 10%. The advisor recovers intelligence you would otherwise lose: in the demo it caught a "watermelon" case (green on the outside, red underneath) that the executor alone had reported as on-track.</p>
-</blockquote>
-<hr />
-<h2 id="key-takeaways">Key takeaways</h2>
-<ol>
-<li><strong>Prompting is debugging.</strong> Tune against an eval one change at a time; cover control, edge, and capability/handoff cases.</li>
-<li><strong>Clean up before anything clever.</strong> Structure with tags, delete junk, define the output (and enforce it in the harness). Often a free win.</li>
-<li><strong>Instructions do not add capability.</strong> Pick the right lever: remove a patch, add a tool, stronger model or more thinking, or a multi-step loop.</li>
-<li><strong>Context is finite; curate it.</strong> Smallest set of high-signal tokens. Bigger windows invite context rot, not better answers.</li>
-<li><strong>Cache first, then advise.</strong> Prompt caching cuts cost and latency with no intelligence loss; the advisor gives Opus judgement at executor cost.</li>
-<li><strong>Read your transcripts, version your prompts.</strong> The transcript is your debugging surface; the prompt is a software artifact.</li>
-</ol>
-<h2 id="common-pitfalls">Common pitfalls</h2>
-<ul>
-<li>❌ "Prompt and pray": shipping with no eval, then being surprised it fails on new inputs or a new model.</li>
-<li>❌ Telling the model to "do better" instead of giving it the means (a tool, a model, a loop).</li>
-<li>❌ Long lists of "never do X" rules a smarter model will over-apply, hiding information or refusing to act.</li>
-<li>❌ Stating only one side of a trade-off and being surprised the model overdoes that side.</li>
-<li>❌ Stuffing the whole document in and confusing a large window with good context engineering (context rot).</li>
-<li>❌ A timestamp (or any changing value) in the system prompt, silently breaking your cache.</li>
-<li>❌ Optimising from dashboards without ever reading a transcript.</li>
-</ul>
-<hr />
-<h2 id="capstone" class="capstone-h">🛠️ The Build: the AtlasOS prompt library</h2>
-<blockquote>
-<p>The hands-on payoff. You will author the first real, versioned artifact in <code>prompts/</code>: a system prompt for <strong>Scout</strong>, AtlasOS's research agent. You fuse the eval-driven debugging loop with the platform's caching and context-engineering levers, so Scout starts out reliable <em>and</em> cheap, and you commit it as a reusable file the fleet can reuse and improve later.</p>
-</blockquote>
-<h3 id="what-you-will-build">What you will build</h3>
-<p>A versioned <code>prompts/scout.md</code> system prompt plus a tiny eval harness that proves it. Scout's job: take a research question and a set of sources, and return cited, structured findings without inventing facts. You take it from a deliberately broken v0 to all-green, then make it cheap with caching and lean context.</p>
-<h3 id="milestones-in-order-each-stands-alone">Milestones (in order, each stands alone)</h3>
-<ol>
-<li><strong>Eval first.</strong> Create <code>prompts/scout_cases.json</code> with 5 cases: 1 control (a clear question answerable from the sources), 2 edge (one where the answer is in an awkward source it tends to skip; one where it tends to invent a fact), 1 capability/handoff (a question the sources cannot answer, so Scout must say so rather than guess), and 1 of your own. Write the expected answer for each <em>before</em> writing the prompt. Add a small runner that prints a pass/fail grid.</li>
-<li><strong>The broken v0.</strong> Write a deliberately messy Scout prompt: one big paragraph, some copied-in junk, and an old patch like "never state anything not on the official site, link out instead." Run the eval for a red baseline.</li>
-<li><strong>Clean up.</strong> Restructure with <code>&lt;role&gt;</code>, <code>&lt;guidelines&gt;</code>, <code>&lt;policy&gt;</code>, and <code>&lt;output_format&gt;</code> tags, delete the junk, and add a JSON output contract enforced in the harness. Re-run and record the lift.</li>
-<li><strong>Fix failures one at a time.</strong> Remove the overfitted patch so Scout trusts its sources (the withholding bug); add a tool (for example a <code>fetch_source</code> or citation-checker) where an instruction alone cannot help; and state both sides of any one-sided rule. Re-run after each single change.</li>
-<li><strong>Make it cheap and lean.</strong> Put Scout's stable instructions in a cacheable prefix (no timestamps), measure <code>cache_read_input_tokens</code>, and aim for an 80%+ hit rate. Trim the context to the smallest high-signal set, and read the transcript to confirm what Scout actually sees.</li>
-<li><strong>Commit to the library.</strong> Save <code>prompts/scout.md</code> with a version header and a short changelog noting <em>why</em> each patch exists. This is the first reusable artifact in the AtlasOS prompt library.</li>
-<li><strong>Stretch.</strong> Add the advisor strategy (a cheap executor consulting Opus on a deliberately tricky "watermelon" source) and confirm the advisor catches what the executor missed; or add a generate/evaluate/repair loop for a multi-source synthesis question.</li>
-</ol>
-<h3 id="how-you-will-know-you-are-done">How you will know you are done</h3>
-<ul>
-<li>✅ All 5 eval cases pass consistently (run each a few times), and you can point to the exact change that fixed each one.</li>
-<li>✅ At least one case is fixed by a <strong>tool</strong> and one by <strong>stating both sides</strong>, proving you did not just add instructions.</li>
-<li>✅ Scout's cache hit rate is measured and at 80% or above, with the output unchanged.</li>
-<li>✅ You read the transcript and can show the context is lean (no stuffed, low-signal tokens).</li>
-<li>✅ <code>prompts/scout.md</code> is committed to your AtlasOS repo with a version header and changelog.</li>
-</ul>
-<hr />
-<h2 id="cheat-sheet">Cheat sheet</h2>
-<div class="codehilite"><pre><span></span><code>WHEN A PROMPT GETS WORSE
-  1. Do you have an eval? Build one (control + edge + capability/handoff).
-  2. Clean up FIRST: structure with tags, delete junk, define output (+ enforce in harness).
-  3. Fix ONE failure at a time; re-run after each change.
-
-CHOOSE THE RIGHT FIX (not &quot;more instructions&quot;)
-  Wrong / hidden facts ........ remove the old patch; trust the data source
-  Bad maths / unreliable step . give it a TOOL
-  Will not act / too cautious . state BOTH sides of the trade-off
-  Not capable enough .......... stronger model OR more thinking
-  One prompt doing too much ... split into generate -&gt; evaluate -&gt; repair
-
-CONTEXT ENGINEERING (smallest high-signal set)
-  context rot: more tokens often = worse, not better
-  tool search ............ load only the tool you need, not every schema
-  programmatic tool call . have Claude write code to curate tool RESULTS
-  compaction ............. summarize old turns at a threshold (e.g. 400K)
-
-PLATFORM LEVERS
-  prompt caching ... 90% cheaper cached tokens, ~5x rate limit, lower latency
-                     no intelligence change · breaks on a timestamp in the prompt
-  advisor strategy . cheap executor + strong advisor on hard cases (senior+junior)
-
-ALWAYS  read your transcripts · prompts are versioned artifacts
-</code></pre></div>
-
-<h2 id="how-this-connects-to-the-rest-of-the-course">How this connects to the rest of the course</h2>
-<ul>
-<li><strong>Next, Unit 3 (Model and reasoning levers):</strong> the "stronger model vs adaptive thinking" choices you made by feel here get made rigorously, with evals and a routing policy (Atlas's orchestrator).</li>
-<li><strong>Unit 4 (Tools and MCP):</strong> the tools you reached for in Part 2 get designed properly, going deeper on tool search and programmatic tool calling.</li>
-<li><strong>Unit 8 (Evals and verification):</strong> the eval you seeded here grows into Warden's graded suite, with a deliberately hard case.</li>
-<li><strong>Throughout:</strong> every AtlasOS agent inherits a prompt from the library you start here; Scout is just the first.</li>
-</ul>
-<hr />
-<p><em>Unit 2 of the combined path. Fuses the vendor-neutral principles of Agentic Engineering Modules 02-03 with the Claude-specific implementation of Building with Claude Module 2 (Lessons 3 and 6). Adapt model ids, beta flags, and SDK details to the current docs.</em></p>
     </article>
-    <nav class="lessonnav"><a class="ln prev" href="unit-01-coding-agent-workflow.html"><span class="dir">&#8592; Previous</span><b>Unit 1: The Coding-Agent Workflow</b></a><a class="ln home" href="index.html"><b>All units</b></a><a class="ln next" href="unit-03-model-and-reasoning-levers.html"><span class="dir">Next &#8594;</span><b>Unit 3: Model and Reasoning Levers</b></a></nav>
+    <nav class="lessonnav"><a class="ln prev" href="../unit-01-coding-agent-workflow/08-the-build.html"><span class="dir">&#8592; Previous</span><b>Unit 1: The Coding-Agent Workflow</b></a><a class="ln home" href="../index.html"><b>All units</b></a><a class="ln next" href="01-prompting-is-a-debugging-skill.html"><span class="dir">Next &#8594;</span><b>Prompting is a debugging skill</b></a></nav>
   </main>
 </div>
 
 <footer class="site"><div class="wrap">
-  <a class="logo" href="index.html">Agentic Engineering<span class="dot">.</span></a>
+  <a class="logo" href="../index.html">Agentic Engineering<span class="dot">.</span></a>
   <span class="fnote">A self-paced, model-agnostic course: durable agentic-engineering principles, the how across Claude Code, Gemini CLI, and Codex CLI, and one component of AtlasOS built each unit. Commands and model ids move fast; verify against the current docs.</span>
 </div></footer>
 

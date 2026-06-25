@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Unit 4: Tools, Function-Calling and MCP | Agentic Engineering</title>
+<title>Unit 4: Tools, Function-Calling and MCP · Tools, Function-Calling and MCP | Agentic Engineering</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@500;600;700;800&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
@@ -196,6 +196,23 @@ footer.site .fnote{max-width:46em;font-size:13.5px;line-height:1.7}
   .hero-actions{flex-direction:column;align-items:stretch}
   .hero-actions .play{justify-content:center}
 }
+
+.unit-toc{list-style:none;margin:0;padding:0}
+.unit-toc>li{margin:0 0 3px}
+.unit-toc>li>a{display:block;color:var(--muted);font-size:13.5px;padding:8px 12px;border-radius:9px;font-weight:600;line-height:1.35}
+.unit-toc>li>a:hover{background:#fff;color:var(--ink)}
+.unit-toc>li.active>a{background:#fff;color:var(--teal-d);box-shadow:var(--shadow-sm)}
+.unit-toc>li.done>a{color:#93a1b0}
+.unit-toc .u-sub{list-style:none;margin:3px 0 8px;padding:0 0 0 10px;border-left:2px solid var(--line)}
+.unit-toc .u-sub a{display:block;color:var(--muted);font-size:12.5px;padding:4px 10px;border-radius:6px}
+.unit-toc .u-sub a:hover{color:var(--ink);background:#fff}
+.unit-toc .u-sub a.active{color:var(--teal-d);font-weight:600}
+.stepline{display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin:0 0 26px;padding:0 0 18px;border-bottom:1px solid var(--line)}
+.stepline .steptxt{font-family:Poppins,sans-serif;font-size:13px;font-weight:700;letter-spacing:.04em;text-transform:uppercase;color:var(--teal-d)}
+.stepdots{display:flex;gap:6px;align-items:center}
+.stepdots i{width:9px;height:9px;border-radius:50%;background:var(--line);display:block}
+.stepdots i.done{background:var(--teal)}
+.stepdots i.cur{background:var(--coral);box-shadow:0 0 0 4px var(--coral-soft)}
 </style>
 </head>
 <body>
@@ -203,16 +220,16 @@ footer.site .fnote{max-width:46em;font-size:13.5px;line-height:1.7}
 
 <div class="topbar"><div class="wrap">
   <div>&#10024; Welcome to <b>Agentic Engineering</b> &middot; a self-paced course</div>
-  <div class="right"><span>Model-agnostic &middot; from zero to agent orchestrator</span></div>
+  <div class="right"><span>Model-agnostic &middot; self-paced</span></div>
 </div></div>
 
 <nav class="bar"><div class="wrap">
   <button class="btn btn-outline" id="menuBtn" style="padding:8px 14px">&#9776;</button>
-  <a class="logo" href="index.html">Agentic Engineering<span class="dot">.</span></a>
+  <a class="logo" href="../index.html">Agentic Engineering<span class="dot">.</span></a>
   <div class="navlinks">
-    <a href="index.html">All lessons</a>
+    <a href="../index.html">All units</a>
     <a href="#overview">Overview</a>
-    <a href="#capstone">Capstone</a>
+    <a href="06-the-build.html">The Build</a>
   </div>
   <div class="nav-cta">
     <a class="btn btn-primary" href="#start">Start the lesson &#8594;</a>
@@ -233,8 +250,8 @@ footer.site .fnote{max-width:46em;font-size:13.5px;line-height:1.7}
         
       </div>
       <div class="chips">
-        <span class="chip">&#127908; <b>Model-agnostic</b></span>
-        <span class="chip">&#9201; <b>90 to 120 minutes</b></span>
+        <span class="chip">&#127908; <b>Unit 4 of 11</b></span>
+        <span class="chip">&#9201; <b>Step 1 of 7</b></span>
         <span class="chip">&#128296; <b>Hands-on capstone</b></span>
       </div>
     </div>
@@ -251,7 +268,7 @@ footer.site .fnote{max-width:46em;font-size:13.5px;line-height:1.7}
           <li><span class="ic">&#128296;</span><span>A hands-on capstone you build step by step</span></li>
           <li><span class="ic">&#127919;</span><span>Optional practice drills to reinforce each skill</span></li>
         </ul>
-        <a class="btn btn-coral" href="#capstone" style="width:100%;justify-content:center">Jump to the project</a>
+        <a class="btn btn-coral" href="06-the-build.html" style="width:100%;justify-content:center">Jump to the project</a>
       </div>
     </div>
   </div>
@@ -261,35 +278,27 @@ footer.site .fnote{max-width:46em;font-size:13.5px;line-height:1.7}
   <aside id="sidebar"><div class="toc-card">
     <button class="toc-close" id="tocClose" aria-label="Close menu">&times;</button>
     <p class="toc-title">On this page</p>
-    <div class="toc">
-<ul>
-<li><a href="#in-one-sentence">In one sentence</a></li>
-<li><a href="#first-principles-companion">First-principles companion</a></li>
-<li><a href="#a-few-plain-language-basics-first">A few plain-language basics first</a></li>
-<li><a href="#why-this-unit-matters">Why this unit matters</a></li>
-<li><a href="#learning-objectives">Learning objectives</a></li>
-<li><a href="#prerequisites">Prerequisites</a></li>
-<li><a href="#part-1-the-tool-use-loop-the-model-asks-your-code-acts">Part 1: the tool-use loop (the model asks, your code acts)</a></li>
-<li><a href="#part-2-tool-design-as-important-as-the-prompt">Part 2: tool design (as important as the prompt)</a></li>
-<li><a href="#part-3-mcp-build-the-connector-once-reuse-it-everywhere">Part 3: MCP (build the connector once, reuse it everywhere)</a></li>
-<li><a href="#part-4-keeping-a-growing-catalog-usable-tool-search">Part 4: keeping a growing catalog usable (tool search)</a></li>
-<li><a href="#key-takeaways">Key takeaways</a></li>
-<li><a href="#common-pitfalls">Common pitfalls</a></li>
-<li><a href="#capstone" class="toc-capstone">🛠️ The Build: the AtlasOS tool / MCP layer</a><ul>
-<li><a href="#what-you-will-build">What you will build</a></li>
-<li><a href="#milestones-in-order-each-stands-alone">Milestones (in order, each stands alone)</a></li>
-<li><a href="#how-you-will-know-you-are-done">How you will know you are done</a></li>
-</ul>
+    <p class="toc-title">Unit 4 &middot; Tools, Function-Calling and MCP</p>
+<ul class="unit-toc">
+<li class="active"><a href="00-overview.html">Overview</a>
 </li>
-<li><a href="#cheat-sheet">Cheat sheet</a></li>
-<li><a href="#how-this-connects-to-the-rest-of-the-course">How this connects to the rest of the course</a></li>
+<li class=""><a href="01-the-tool-use-loop.html">Part 1 &middot; the tool-use loop</a>
+</li>
+<li class=""><a href="02-tool-design.html">Part 2 &middot; tool design</a>
+</li>
+<li class=""><a href="03-mcp.html">Part 3 &middot; MCP</a>
+</li>
+<li class=""><a href="04-keeping-a-growing-catalog-usable.html">Part 4 &middot; keeping a growing catalog usable</a>
+</li>
+<li class=""><a href="05-recap.html">Recap</a>
+</li>
+<li class=""><a href="06-the-build.html">The Build</a>
+</li>
 </ul>
-</div>
-
   </div></aside>
   <main id="start">
     <article>
-      <hr />
+      <div class="stepline"><span class="steptxt">Step 1 of 7</span><span class="stepdots"><i class="cur"></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i></span></div><hr />
 <h2 id="in-one-sentence">In one sentence</h2>
 <p>A plain model can only produce text, so this unit gives it hands: you learn the tool-use loop (the model asks for an action by name, your code runs it, the result goes back), you learn to design tools so the model uses them reliably (clear descriptions, consolidated actions, errors returned not hidden), you connect to the outside world once and reuse it everywhere through MCP (the open standard that turns N times M custom connectors into N plus M), and you keep a growing tool catalog usable with tool search.</p>
 <blockquote>
@@ -337,176 +346,13 @@ footer.site .fnote{max-width:46em;font-size:13.5px;line-height:1.7}
 <li><strong>Skills you can defer:</strong> building production MCP servers and deep security hardening. You wire up one server here; safety in depth is its own later topic.</li>
 </ul>
 <hr />
-<h2 id="part-1-the-tool-use-loop-the-model-asks-your-code-acts">Part 1: the tool-use loop (the model asks, your code acts)</h2>
-<p>This is the single most important idea in the unit, so we walk it slowly. A user asks, "What is the weather in Paris?"</p>
-<ol>
-<li>You send the user's message <em>plus</em> your tool definitions to the model.</li>
-<li>The model does not answer directly. It returns a <strong>tool call</strong>: a structured request that says, in effect, "please run <code>get_weather</code> with <code>city = "Paris"</code>." Note that the model does not run anything. It only asks.</li>
-<li>Your code reads that request, runs the real <code>get_weather</code> function (which calls a weather service), and gets back, say, <code>18C and cloudy</code>.</li>
-<li>You send that back as a <strong>tool result</strong>, attached to the same conversation.</li>
-<li>Now the model has the fact it needed, so it writes the final answer: "It is 18 degrees Celsius and cloudy in Paris."</li>
-</ol>
-<blockquote>
-<p>🔑 <strong>The model and your code take turns.</strong> The model decides <em>what</em> to do; your code decides <em>how</em> to do it. A model may chain several tool calls in a row before answering, looping through steps 2 to 4 multiple times. This back-and-forth is the heart of every agent you will build later.</p>
-</blockquote>
-<p>A tool is just three things bundled together: a <strong>name</strong> (<code>get_weather</code>) the model refers to it by; a <strong>description</strong> in plain English that says what it does and when to use it (the most underrated part, read the way a new hire reads a one-line job description); and a <strong>schema</strong> listing its inputs and outputs.</p>
-<div class="codehilite"><pre><span></span><code><span class="p">{</span>
-<span class="w">  </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;get_weather&quot;</span><span class="p">,</span>
-<span class="w">  </span><span class="nt">&quot;description&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Get the current weather for a city. Use this whenever the user asks about current conditions or temperature in a place.&quot;</span><span class="p">,</span>
-<span class="w">  </span><span class="nt">&quot;input_schema&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">    </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;object&quot;</span><span class="p">,</span>
-<span class="w">    </span><span class="nt">&quot;properties&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">      </span><span class="nt">&quot;city&quot;</span><span class="p">:</span><span class="w">  </span><span class="p">{</span><span class="w"> </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;string&quot;</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;description&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;City name, e.g. &#39;Paris&#39;&quot;</span><span class="w"> </span><span class="p">},</span>
-<span class="w">      </span><span class="nt">&quot;units&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;string&quot;</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;enum&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">&quot;celsius&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;fahrenheit&quot;</span><span class="p">],</span><span class="w"> </span><span class="nt">&quot;default&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;celsius&quot;</span><span class="w"> </span><span class="p">}</span>
-<span class="w">    </span><span class="p">},</span>
-<span class="w">    </span><span class="nt">&quot;required&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">&quot;city&quot;</span><span class="p">]</span>
-<span class="w">  </span><span class="p">}</span>
-<span class="p">}</span>
-</code></pre></div>
-
-<blockquote>
-<p>❌ <strong>Errors are results, not crashes.</strong> When a tool fails (service down, city misspelled), do not let your program crash and do not silently hide it. Send the error back as a clearly marked tool result, for example <code>"Error: no city named 'Pariss' found. Did you mean 'Paris'?"</code> A capable model usually corrects itself and tries again. Swallow the error and the model is left guessing.</p>
-</blockquote>
-<hr />
-<h2 id="part-2-tool-design-as-important-as-the-prompt">Part 2: tool design (as important as the prompt)</h2>
-<p>The model can only be as good as the menu you hand it, so design the menu for how the model thinks, not for how your backend happens to be structured. Anthropic recommends designing tools to be <strong>poka-yoke</strong>, a manufacturing term meaning "mistake-proof": shape the inputs so the easy path is the correct path and wrong calls are hard to make. A few durable rules hold across every provider:</p>
-<ul>
-<li><strong>Consolidate, do not mirror your database.</strong> One well-named <code>schedule_meeting</code> tool beats three thin tools (<code>list_users</code>, <code>list_calendars</code>, <code>create_event</code>) that force the model to orchestrate them by hand. More tools is not better; each extra tool is one more thing the model can pick wrongly.</li>
-<li><strong>Namespace your tool names</strong> so they read clearly, like <code>github_list_pull_requests</code> or <code>stripe_create_refund</code>. This helps the model tell similar tools apart.</li>
-<li><strong>Return high-signal output.</strong> Give back human-readable identifiers rather than long random codes, and paginate, filter, or trim large results. Every token you return competes for the model's limited attention and costs money.</li>
-<li><strong>Name fields for the model, not your backend.</strong> Call it <code>customer_email</code>, not <code>cust_eml_2</code>. The model reads these names as hints.</li>
-</ul>
-<p>Two settings show up under different names across providers but mean the same thing. <strong>Tool choice</strong> controls whether the model <em>may</em> call a tool, <em>must</em> call some tool, or must call one <em>specific</em> tool (use "must call a tool" when an answer without one would be useless, like a lookup assistant that should never guess). <strong>Strict schema validation</strong> forces the model's inputs to match your schema exactly. Research and provider docs agree that argument correctness, not the number of tools, is what makes or breaks reliability, so turning on strict validation where it is offered is usually worth it.</p>
-<blockquote>
-<p>❌ <strong>A tool is a door into your systems.</strong> Treat every input the model sends to a tool as untrusted, and validate and limit it at the tool itself. Never rely on the prompt alone to keep the model in bounds. Prompt injection (tricking the model into misusing a tool) is a leading risk, so enforce limits in code. (Covered in depth in a later safety unit.)</p>
-<p>✅ <strong>The test before the loop.</strong> Test each tool on its own before wiring it in, so you know failures come from the model's choices, not from a broken tool.</p>
-</blockquote>
-<hr />
-<h2 id="part-3-mcp-build-the-connector-once-reuse-it-everywhere">Part 3: MCP (build the connector once, reuse it everywhere)</h2>
-<p>You can now hand a model tools. The next problem is practical: every time you connect a model to a new tool or data source, you write custom plumbing. <strong>MCP</strong>, the Model Context Protocol, fixes that by defining one shared way to make those connections, so the work is reusable across tools and across platforms. A common analogy: MCP is "the USB-C port for AI applications." Any compatible app plugs into any compatible tool. It was donated to a vendor-neutral foundation, so treat it like an open web standard, a protocol many vendors implement, not one company's product.</p>
-<blockquote>
-<p>🔑 <strong>N times M becomes N plus M.</strong> With N apps and M tools and no standard, you build a custom connector for every pairing: 10 apps and 10 tools means 100 connectors. With MCP, each app speaks MCP once and each tool is wrapped as a server once. Build one server, and every MCP client can use it.</p>
-</blockquote>
-<p>MCP follows a <strong>client-server</strong> design. A <strong>host</strong> is the AI app you use (a desktop chat app, a code editor, an IDE). Inside it runs an MCP <strong>client</strong> holding a connection to a <strong>server</strong>, a small program that exposes capabilities in the MCP format. The two sides talk over JSON-RPC 2.0 (a lightweight request/reply format written in JSON); you only need to know it is the agreed wire format. A server can offer three <strong>primitives</strong> (the basic building blocks):</p>
-<ul>
-<li><strong>Tools:</strong> functions the model can call to take an action, like "send an email" or "run a query." The executable abilities.</li>
-<li><strong>Resources:</strong> structured data the model can read into its context, like a file's contents or a database record.</li>
-<li><strong>Prompts:</strong> reusable prompt templates or canned workflows a user or app can pull in on demand.</li>
-</ul>
-<p>In a Claude agent (for example a Claude Managed Agent, where the agent's brain holds its model, system prompt, tools, and MCP servers), you attach MCP servers right alongside the agent's plain tools and skills. Connecting an existing server typically looks like one config block naming the server and how to launch it:</p>
-<div class="codehilite"><pre><span></span><code><span class="p">{</span>
-<span class="w">  </span><span class="nt">&quot;mcpServers&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">    </span><span class="nt">&quot;filesystem&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">      </span><span class="nt">&quot;command&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;npx&quot;</span><span class="p">,</span>
-<span class="w">      </span><span class="nt">&quot;args&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">&quot;-y&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;@modelcontextprotocol/server-filesystem&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;/path/to/atlas/data&quot;</span><span class="p">]</span>
-<span class="w">    </span><span class="p">}</span>
-<span class="w">  </span><span class="p">}</span>
-<span class="p">}</span>
-</code></pre></div>
-
-<blockquote>
-<p>✅ <strong>Same naming rules, new surface.</strong> Give every server tool a clear description and sensible name, exactly as in Part 2. And treat tool descriptions from any server as untrusted input, because that text enters your model's context. A malicious server can try to manipulate your agent (tool poisoning), so do not trust third-party servers blindly.</p>
-</blockquote>
-<hr />
-<h2 id="part-4-keeping-a-growing-catalog-usable-tool-search">Part 4: keeping a growing catalog usable (tool search)</h2>
-<p>Real agents use a lot of tools, sometimes tens or hundreds, and each tool's schema costs tokens. When you define them all and pass them to the model, those definitions fill the context window, leaving less room for the actual work. In one Claude demo a single retention-metrics tool schema was 14,000 tokens, a list tool 6,100, another 9,300. That is space gone before the task even starts.</p>
-<p><strong>Tool search</strong> fixes this. You still define all your tools up front, but the model is handed only a single search tool. When it thinks it needs a tool, it calls the search, gets a short list, and <em>only then</em> is the chosen tool's full definition loaded into context.</p>
-<blockquote>
-<p>💡 <strong>A real result.</strong> Lovable used tool search and cut overall token consumption by about 10 percent, and the model's performance actually <em>improved</em>, because less clutter in context means the model performs better. They rolled it out to all users.</p>
-</blockquote>
-<p>This is the same lesson as Part 2's "return high-signal output," applied one level up: protect the context window not just on what tools <em>return</em> but on which tool <em>definitions</em> even load. Tool search is what lets the AtlasOS catalog grow past a handful of tools without each new tool taxing every request.</p>
-<blockquote>
-<p>🔑 <strong>Two scaling moves, two problems.</strong> MCP solves <em>integration</em> sprawl (build the connector once). Tool search solves <em>context</em> sprawl (load only the tool you need). You want both the moment your fleet has more than a few tools and more than one data source.</p>
-</blockquote>
-<hr />
-<h2 id="key-takeaways">Key takeaways</h2>
-<ol>
-<li><strong>The loop is turn-taking.</strong> The model asks for an action by name; your code runs it and returns the result; repeat until the model answers. Model decides <em>what</em>, code decides <em>how</em>.</li>
-<li><strong>A tool is name + description + schema.</strong> The description and field names are written for the model, not your backend.</li>
-<li><strong>Tool design rivals the prompt.</strong> Consolidate, namespace, return high-signal output, validate strictly. Your agent is not dumb, your tools are.</li>
-<li><strong>Errors are results.</strong> Return clear, recoverable error messages so the model self-corrects. Treat every tool input as untrusted and limit it in code.</li>
-<li><strong>MCP turns N times M into N plus M.</strong> An open standard; build a server once, every client reuses it. Three primitives: tools, resources, prompts.</li>
-<li><strong>Tool search protects the context window</strong> as the catalog grows: load only the tool you need, not every schema.</li>
-</ol>
-<h2 id="common-pitfalls">Common pitfalls</h2>
-<ul>
-<li>❌ Exposing dozens of thin tools that each do one tiny database operation, instead of a few consolidated ones.</li>
-<li>❌ Cryptic tool output that floods the context window with noise.</li>
-<li>❌ Hiding errors instead of returning them, leaving the model no way to recover.</li>
-<li>❌ Trusting the prompt to keep a tool safe instead of validating inputs in code.</li>
-<li>❌ Rebuilding bespoke one-off integrations for things MCP already standardizes.</li>
-<li>❌ Trusting a third-party MCP server blindly, when its tool descriptions flow straight into your model's context.</li>
-<li>❌ Loading every tool's full schema up front instead of using tool search.</li>
-</ul>
-<hr />
-<h2 id="capstone" class="capstone-h">🛠️ The Build: the AtlasOS tool / MCP layer</h2>
-<blockquote>
-<p>The hands-on payoff. You give Scout (the research agent) real hands. You design a few clean tools, connect at least one MCP server so an integration is built once and reused, and add tool search so the catalog stays usable as it grows. Everything lands in <code>atlas/tools/</code> and is committed.</p>
-</blockquote>
-<h3 id="what-you-will-build">What you will build</h3>
-<p>A tool layer for Scout, proven by three artifacts: two or three well-designed tools behind clear JSON schemas (one deliberately failing, to watch the model recover), one connected MCP server called from the agent, and tool search switched on so only the needed tool loads into context.</p>
-<h3 id="milestones-in-order-each-stands-alone">Milestones (in order, each stands alone)</h3>
-<ol>
-<li><strong>Two good tools, the raw loop.</strong> Give Scout two or three real tools (for example a <code>web_search</code>, a <code>calculator</code>, and a small <code>lookup_source</code> over local JSON). Write the full loop yourself with the raw provider request, no framework hiding the turn-taking, and watch the model call them. Commit under <code>atlas/tools/</code>.</li>
-<li><strong>Break one on purpose, then fix it.</strong> Make one tool deliberately bad (vague description, cryptic field names, a giant unfiltered result). Watch the model stumble. Then apply the Part 2 rules (clear description, clear names, trimmed output) and watch behavior improve. Write two sentences on what changed.</li>
-<li><strong>Errors as results.</strong> Force one tool to fail (wrong input, service down) and return the failure as a clearly marked tool result. Confirm Scout reads the error and self-corrects rather than crashing or guessing.</li>
-<li><strong>Connect one MCP server.</strong> Wire up a pre-built MCP server (a filesystem or a database server is a good first pick) and call it from Scout. You now have one integration built to the standard, reusable by any MCP client, not bespoke glue.</li>
-<li><strong>Add tool search.</strong> Hand Scout a single search tool instead of every schema up front. Confirm only the chosen tool's definition loads into context, and note the token reduction. This is what lets the catalog grow.</li>
-<li><strong>Stretch.</strong> Write a minimal MCP server of your own that exposes one tool and one resource, then call it from Scout, so you understand both sides of the protocol. Optionally namespace your tools (<code>scout_*</code>) and turn on strict schema validation.</li>
-</ol>
-<h3 id="how-you-will-know-you-are-done">How you will know you are done</h3>
-<ul>
-<li>✅ Scout chooses correctly among several tools and calls them with valid inputs.</li>
-<li>✅ Your once-bad tool, after the fix, is used cleanly, and you can describe the behavior change.</li>
-<li>✅ A forced tool failure returns as a tool result and Scout recovers.</li>
-<li>✅ At least one MCP server is connected and called from the agent.</li>
-<li>✅ Tool search loads only the needed tool, and you can point to the token reduction.</li>
-<li>✅ The tool layer is committed to <code>atlas/tools/</code> with clear schemas.</li>
-</ul>
-<blockquote>
-<p>💡 If the model ever picks the wrong tool, re-read its transcript before adding instructions. The fix is almost always a clearer description or a consolidated tool, not a longer prompt.</p>
-</blockquote>
-<hr />
-<h2 id="cheat-sheet">Cheat sheet</h2>
-<div class="codehilite"><pre><span></span><code>THE TOOL-USE LOOP
-  send message + tool defs -&gt; model returns a TOOL CALL (asks, doesn&#39;t run)
-  your code runs it -&gt; send TOOL RESULT back -&gt; model answers (may loop)
-  model decides WHAT · your code decides HOW
-
-A TOOL = name + description + schema (JSON Schema)
-  description &amp; field names are written FOR THE MODEL, not your backend
-
-TOOL DESIGN RULES
-  consolidate (not 1 tool per DB call) · namespace names · high-signal output
-  errors -&gt; return as recoverable tool RESULT · inputs are UNTRUSTED, limit in code
-  tool choice (may/must/specific) · strict schema validation
-
-MCP (build once, reuse everywhere)
-  N x M connectors -&gt; N + M ; host -&gt; client -&gt; server (JSON-RPC 2.0)
-  three server primitives: TOOLS · RESOURCES · PROMPTS
-  open standard, foundation-stewarded · third-party server descriptions = untrusted
-
-SCALING A CATALOG
-  tool search -&gt; load only the tool you need, not every schema
-  MCP = integration sprawl ; tool search = context sprawl
-</code></pre></div>
-
-<h2 id="how-this-connects-to-the-rest-of-the-course">How this connects to the rest of the course</h2>
-<ul>
-<li><strong>Earlier, Unit 2 (Prompting and context):</strong> tool search was previewed there as a context-engineering lever; here you design the tools it searches over.</li>
-<li><strong>Next, Unit 5 (Retrieval and memory):</strong> Scout's <code>lookup_source</code> tool grows into real retrieval, and you wrap that retrieval tool as an MCP server for Cortex (the shared memory).</li>
-<li><strong>Later, Unit 7 (Multi-agent orchestration):</strong> the tool layer you built is what every agent in the fleet inherits; Atlas dispatches agents that already have hands.</li>
-<li><strong>Throughout:</strong> every AtlasOS agent acts on the world through this layer. Scout is the first to get hands; the rest reuse the same patterns and the same MCP servers.</li>
-</ul>
-<hr />
-<p><em>Unit 4 of the combined path. Fuses the vendor-neutral principles of Agentic Engineering Modules 04 and 09 with the Claude-specific implementation of Building with Claude (Lesson 14 and the tool-search part of Lesson 6). Code snippets are illustrative; adapt model ids, schema fields, and SDK details to the current docs.</em></p>
     </article>
-    <nav class="lessonnav"><a class="ln prev" href="unit-03-model-and-reasoning-levers.html"><span class="dir">&#8592; Previous</span><b>Unit 3: Model and Reasoning Levers</b></a><a class="ln home" href="index.html"><b>All units</b></a><a class="ln next" href="unit-05-retrieval-memory-state.html"><span class="dir">Next &#8594;</span><b>Unit 5: Retrieval, Memory and State</b></a></nav>
+    <nav class="lessonnav"><a class="ln prev" href="../unit-03-model-and-reasoning-levers/06-the-build.html"><span class="dir">&#8592; Previous</span><b>Unit 3: Model and Reasoning Levers</b></a><a class="ln home" href="../index.html"><b>All units</b></a><a class="ln next" href="01-the-tool-use-loop.html"><span class="dir">Next &#8594;</span><b>the tool-use loop</b></a></nav>
   </main>
 </div>
 
 <footer class="site"><div class="wrap">
-  <a class="logo" href="index.html">Agentic Engineering<span class="dot">.</span></a>
+  <a class="logo" href="../index.html">Agentic Engineering<span class="dot">.</span></a>
   <span class="fnote">A self-paced, model-agnostic course: durable agentic-engineering principles, the how across Claude Code, Gemini CLI, and Codex CLI, and one component of AtlasOS built each unit. Commands and model ids move fast; verify against the current docs.</span>
 </div></footer>
 
