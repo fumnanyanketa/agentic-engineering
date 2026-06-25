@@ -1,0 +1,727 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Module 9 · Lesson 35: Where Code Meets Court | Building with Claude</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@500;600;700;800&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --navy:#0a1a2f; --navy-2:#0f243d; --navy-3:#15314f;
+  --teal:#18c4a0; --teal-d:#0fa385; --teal-soft:#e4f8f2;
+  --coral:#f24d63; --coral-d:#d83a50; --coral-soft:#feecee;
+  --ink:#152230; --muted:#5f6c7b; --line:#e9eef2; --bg:#ffffff;
+  --soft:#f4fbf9; --card:#ffffff; --code-bg:#21252b; --max:780px;
+  --k:#2f8fb3; --k-bg:#e8f4f9; --tip:#c4881f; --tip-bg:#fdf4e3; --ok:#1f9d6b; --ok-bg:#e6f6ef;
+  --no:#e0533f; --no-bg:#fdecea; --goal:#7b54c9; --goal-bg:#f1ebfb;
+  --shadow:0 10px 30px rgba(13,30,52,.08); --shadow-sm:0 4px 14px rgba(13,30,52,.07);
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,sans-serif;line-height:1.72;font-size:17px;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+#progress{position:fixed;top:0;left:0;height:4px;width:0;background:linear-gradient(90deg,var(--teal),var(--coral));z-index:200;transition:width .1s linear}
+a{color:var(--teal-d);text-decoration:none}
+a:hover{color:var(--coral)}
+h1,h2,h3{font-family:Poppins,sans-serif;color:var(--ink);letter-spacing:-.01em}
+.accent{color:var(--coral)}
+.wrap{max-width:1200px;margin:0 auto;padding:0 28px}
+
+/* ---------- Top welcome strip ---------- */
+.topbar{background:var(--navy);color:#cdd8e4;font-size:13.5px}
+.topbar .wrap{display:flex;justify-content:space-between;align-items:center;height:42px;gap:18px}
+.topbar b{color:#fff;font-weight:600}
+.topbar .right{display:flex;gap:18px;align-items:center}
+.topbar a{color:#cdd8e4}.topbar a:hover{color:var(--teal)}
+
+/* ---------- Nav ---------- */
+nav.bar{background:var(--navy-2);position:sticky;top:0;z-index:120;box-shadow:0 2px 20px rgba(0,0,0,.25)}
+nav.bar .wrap{display:flex;align-items:center;height:68px;gap:26px}
+.logo{font-family:Poppins;font-weight:800;font-size:22px;color:#fff;letter-spacing:.02em;cursor:pointer;text-decoration:none}
+a.logo:hover{color:var(--teal)}
+.lessonnav{display:flex;gap:14px;align-items:stretch;margin:60px 0 0;flex-wrap:wrap}
+.lessonnav .ln{flex:1;min-width:200px;display:flex;flex-direction:column;gap:3px;border:1px solid var(--line);border-radius:14px;padding:16px 18px;color:var(--muted);transition:.15s;background:#fff}
+.lessonnav .ln:hover{border-color:var(--teal);box-shadow:var(--shadow-sm);transform:translateY(-1px)}
+.lessonnav .ln .dir{font-size:13px;font-weight:600;color:var(--teal-d)}
+.lessonnav .ln b{color:var(--ink);font-family:Poppins;font-size:15px}
+.lessonnav .ln.next{text-align:right}
+.lessonnav .ln.home{flex:0 0 auto;justify-content:center;align-items:center;text-align:center;background:var(--soft)}
+.lessonnav .ln.home b{color:var(--teal-d)}
+.logo .dot{color:var(--teal)}
+.navlinks{display:flex;gap:24px;margin-left:8px}
+.navlinks a{color:#dde6ef;font-weight:500;font-size:15px}
+.navlinks a:hover{color:var(--teal)}
+.nav-cta{margin-left:auto;display:flex;gap:12px;align-items:center}
+.btn{display:inline-flex;align-items:center;gap:9px;border:none;cursor:pointer;font-family:Inter;font-weight:600;border-radius:999px;transition:.18s;font-size:15px;text-decoration:none}
+.btn-primary{background:var(--teal);color:#04231c;padding:12px 22px}
+.btn-primary:hover{background:var(--teal-d);color:#fff;transform:translateY(-1px)}
+.btn-outline{background:transparent;color:#fff;border:1.5px solid rgba(255,255,255,.35);padding:10px 20px}
+.btn-outline:hover{border-color:var(--teal);color:var(--teal)}
+.btn-coral{background:var(--coral);color:#fff;padding:12px 22px}
+.btn-coral:hover{background:var(--coral-d);color:#fff;transform:translateY(-1px)}
+
+/* ---------- Hero ---------- */
+.hero{position:relative;background:radial-gradient(120% 120% at 80% 0%,var(--navy-3),var(--navy) 60%);color:#eaf1f8;overflow:hidden}
+.hero::before{content:"";position:absolute;inset:0;background-image:radial-gradient(rgba(255,255,255,.12) 1.3px,transparent 1.3px);background-size:22px 22px;opacity:.25;mask:radial-gradient(60% 60% at 20% 30%,#000,transparent)}
+.blob{position:absolute;border-radius:50%;filter:blur(8px);opacity:.5;z-index:0}
+.blob.t{width:230px;height:230px;background:rgba(24,196,160,.30);top:-60px;right:8%}
+.blob.c{width:160px;height:160px;background:rgba(242,77,99,.28);bottom:-40px;left:42%}
+.squiggle{position:absolute;z-index:1;opacity:.85}
+.hero .wrap{position:relative;z-index:2;display:grid;grid-template-columns:1.15fr .85fr;gap:48px;align-items:center;padding:70px 28px 90px}
+.eyebrow{display:inline-flex;align-items:center;gap:8px;color:var(--teal);font-weight:600;font-size:14px;letter-spacing:.03em;text-transform:uppercase;margin-bottom:18px}
+.hero h1{font-size:54px;line-height:1.08;font-weight:800;margin:0 0 20px;color:#fff}
+.hero .lead{font-size:18px;color:#b9c6d6;max-width:34em;margin:0 0 30px}
+.hero-actions{display:flex;align-items:center;gap:18px;flex-wrap:wrap;margin-bottom:30px}
+.play{display:inline-flex;align-items:center;gap:12px;color:#fff;font-weight:600}
+.play .circ{width:52px;height:52px;border-radius:50%;background:var(--coral);display:grid;place-items:center;box-shadow:0 8px 22px rgba(242,77,99,.45);font-size:16px;animation:pulse 2.4s infinite}
+@keyframes pulse{0%{box-shadow:0 0 0 0 rgba(242,77,99,.45)}70%{box-shadow:0 0 0 16px rgba(242,77,99,0)}100%{box-shadow:0 0 0 0 rgba(242,77,99,0)}}
+.chips{display:flex;gap:10px;flex-wrap:wrap}
+.chip{display:inline-flex;align-items:center;gap:7px;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.12);color:#dce6f0;padding:8px 14px;border-radius:999px;font-size:13.5px;font-weight:500}
+.chip b{color:#fff}
+/* hero card */
+.hero-card{position:relative;background:#fff;color:var(--ink);border-radius:22px;padding:26px;box-shadow:0 24px 60px rgba(0,0,0,.35)}
+.hero-card .ring{position:absolute;top:-26px;right:-18px;width:96px;height:96px;background:#fff;border-radius:50%;box-shadow:var(--shadow);display:grid;place-items:center}
+.hero-card .ring svg{transform:rotate(-90deg)}
+.hero-card .ring .lab{position:absolute;font-family:Poppins;font-weight:700;font-size:18px;color:var(--teal-d)}
+.hero-card h3{margin:4px 0 14px;font-size:19px}
+.hero-card ul{list-style:none;margin:0 0 18px;padding:0}
+.hero-card li{display:flex;gap:11px;align-items:flex-start;padding:9px 0;border-bottom:1px dashed var(--line);font-size:14.5px;color:#36424f}
+.hero-card li:last-child{border-bottom:none}
+.hero-card li .ic{font-size:17px;line-height:1.4}
+.float-badge{position:absolute;left:18px;bottom:-26px;background:#fff;border-radius:14px;box-shadow:var(--shadow);padding:12px 16px;display:flex;gap:10px;align-items:center;font-size:13px;font-weight:600;color:var(--ink)}
+.float-badge .n{font-family:Poppins;font-weight:800;color:var(--coral);font-size:20px}
+
+/* ---------- Content layout ---------- */
+.layout{display:grid;grid-template-columns:268px minmax(0,1fr);gap:46px;max-width:1200px;margin:0 auto;padding:0 28px}
+aside{position:sticky;top:84px;align-self:start;height:calc(100vh - 100px);overflow-y:auto;padding:26px 0}
+.toc-card{background:var(--soft);border:1px solid var(--line);border-radius:18px;padding:18px}
+.toc-close{display:none;position:absolute;top:-6px;right:-4px;width:36px;height:36px;border:none;background:var(--navy-2);color:#fff;border-radius:50%;font-size:22px;line-height:1;cursor:pointer}
+.toc-close:hover{background:var(--coral)}
+.toc-title{font-family:Poppins;font-size:12px;text-transform:uppercase;letter-spacing:.1em;color:var(--teal-d);margin:0 0 10px;font-weight:700}
+.toc ul{list-style:none;margin:0;padding:0}
+.toc a{display:block;color:var(--muted);font-size:14px;padding:6px 12px;border-radius:8px;border-left:2px solid transparent;line-height:1.4}
+.toc a:hover{color:var(--ink);background:#fff}
+.toc a.active{color:var(--teal-d);background:#fff;border-left-color:var(--teal);font-weight:600}
+.toc .toc li li a{padding-left:24px;font-size:13px}
+.toc a.toc-capstone{color:var(--coral);font-weight:600}
+main{padding:54px 0 120px;min-width:0}
+article{max-width:var(--max)}
+
+/* typography */
+article h2{font-size:30px;margin:56px 0 16px;font-weight:700;position:relative}
+article h2::before{content:"\2726";color:var(--teal);font-size:18px;margin-right:10px;vertical-align:2px}
+article h3{font-size:21px;margin:34px 0 10px;font-weight:600}
+article h2+h3{margin-top:18px}
+article p,article li{font-size:16.5px}
+article ul,article ol{padding-left:24px}
+article li{margin:7px 0}
+article strong{font-weight:700;color:#0f1b28}
+hr{border:none;height:1px;background:var(--line);margin:42px 0}
+
+/* tables */
+table{border-collapse:separate;border-spacing:0;width:100%;margin:24px 0;font-size:15px;border:1px solid var(--line);border-radius:14px;overflow:hidden;display:block;overflow-x:auto}
+th,td{padding:12px 15px;text-align:left;vertical-align:top;border-bottom:1px solid var(--line)}
+th{background:var(--navy-2);color:#eaf1f8;font-family:Poppins;font-weight:600;font-size:14px}
+tr:last-child td{border-bottom:none}
+tbody tr:nth-child(even){background:var(--soft)}
+
+/* inline + block code */
+code{font-family:"JetBrains Mono",ui-monospace,Menlo,monospace;font-size:.86em;background:var(--teal-soft);color:#0c6a55;padding:.13em .42em;border-radius:6px}
+.codehilite,pre{position:relative;background:var(--code-bg);border-radius:14px;margin:22px 0;overflow:hidden;box-shadow:var(--shadow-sm)}
+.codehilite pre{margin:0;border-radius:0;box-shadow:none;background:transparent}
+.codehilite pre,pre>code{display:block;padding:42px 18px 18px;overflow-x:auto}
+.codehilite code,pre code{background:none;color:#dfe6ee;padding:0;font-size:13.5px;line-height:1.7}
+.code-bar{position:absolute;top:0;left:0;right:0;height:34px;display:flex;align-items:center;gap:7px;padding:0 15px;background:rgba(255,255,255,.05);border-bottom:1px solid rgba(255,255,255,.07)}
+.code-bar .dot{width:11px;height:11px;border-radius:50%}
+.dot.r{background:#ff5f57}.dot.y{background:#febc2e}.dot.g{background:#28c840}
+.copy-btn{position:absolute;top:5px;right:9px;z-index:3;background:rgba(255,255,255,.08);color:#dfe6ee;border:1px solid rgba(255,255,255,.14);border-radius:8px;font-size:12px;padding:4px 11px;cursor:pointer;font-family:Inter;transition:.15s}
+.copy-btn:hover{background:var(--teal);border-color:var(--teal);color:#04231c}
+.copy-btn.done{background:var(--teal);color:#04231c;border-color:var(--teal)}
+
+/* callouts */
+blockquote{margin:24px 0;padding:16px 20px;border-radius:14px;background:var(--soft);border:1px solid var(--line);border-left:5px solid var(--teal)}
+blockquote p{margin:7px 0}blockquote p:first-child{margin-top:0}blockquote p:last-child{margin-bottom:0}
+blockquote.cl-key{background:var(--k-bg);border-left-color:var(--k);border-color:transparent}
+blockquote.cl-tip{background:var(--tip-bg);border-left-color:var(--tip);border-color:transparent}
+blockquote.cl-ok{background:var(--ok-bg);border-left-color:var(--ok);border-color:transparent}
+blockquote.cl-no{background:var(--no-bg);border-left-color:var(--no);border-color:transparent}
+blockquote.cl-goal{background:var(--goal-bg);border-left-color:var(--goal);border-color:transparent}
+
+/* capstone banner */
+h2.capstone-h{background:linear-gradient(115deg,var(--navy),var(--navy-3));color:#fff;border-radius:20px;padding:30px 28px 26px;margin-top:64px;box-shadow:0 20px 50px rgba(10,26,47,.3);overflow:hidden;position:relative}
+h2.capstone-h::before{content:"\1F6E0  HANDS-ON PROJECT";display:block;font-family:Poppins;font-size:12px;font-weight:700;letter-spacing:.14em;color:var(--teal);margin:0 0 8px}
+h2.capstone-h::after{content:"";position:absolute;width:150px;height:150px;border-radius:50%;background:rgba(24,196,160,.25);filter:blur(10px);top:-50px;right:-30px}
+
+/* check-off */
+.checkable{list-style:none;padding-left:0}
+.checkable li{position:relative;padding-left:36px;cursor:pointer;margin:9px 0}
+.checkable li::before{content:"";position:absolute;left:0;top:3px;width:22px;height:22px;border:2px solid var(--teal);border-radius:7px;background:#fff;transition:.15s}
+.checkable li.checked::before{background:var(--teal);border-color:var(--teal)}
+.checkable li.checked::after{content:"\2713";position:absolute;left:5px;top:1px;color:#fff;font-weight:800;font-size:15px}
+.checkable li.checked{color:var(--muted)}
+
+/* footer */
+footer.site{background:var(--navy);color:#aebccb;margin-top:90px}
+footer.site .wrap{padding:46px 28px;display:flex;justify-content:space-between;gap:26px;flex-wrap:wrap;align-items:center}
+footer.site .logo{font-size:20px}
+footer.site .fnote{max-width:46em;font-size:13.5px;line-height:1.7}
+
+#menuBtn{display:none}
+@media(max-width:920px){
+  .topbar{display:none}
+  .nav-cta{display:none}
+  .float-badge{display:none}
+  nav.bar .wrap{gap:14px;height:60px}
+  .wrap{padding:0 20px}
+  .logo{font-size:18px;white-space:nowrap}
+  .hero .wrap{grid-template-columns:1fr;gap:30px;padding:42px 20px 56px}
+  .hero h1{font-size:33px}
+  .hero .lead{font-size:16.5px}
+  .hero-actions{gap:14px}
+  .hero-actions .btn-primary{flex:1;justify-content:center}
+  .layout{grid-template-columns:1fr;gap:0}
+  aside{position:fixed;top:0;left:0;width:84vw;max-width:320px;height:100vh;background:#fff;z-index:130;transform:translateX(-100%);transition:.25s;box-shadow:var(--shadow);padding:24px}
+  aside.open{transform:none}
+  #menuBtn{display:inline-flex}
+  .toc-close{display:block}
+  .navlinks{display:none}
+  main{padding:34px 0 80px}
+  body{font-size:16px}
+  article h2{font-size:25px}
+  h2.capstone-h{padding:24px 20px}
+}
+@media(max-width:420px){
+  .hero h1{font-size:29px}
+  .hero-actions{flex-direction:column;align-items:stretch}
+  .hero-actions .play{justify-content:center}
+}
+</style>
+</head>
+<body>
+<div id="progress"></div>
+
+<div class="topbar"><div class="wrap">
+  <div>&#10024; Welcome to <b>Building with Claude</b> &middot; a self-paced course</div>
+  <div class="right"><span>Code with Claude 2026 &middot; London</span></div>
+</div></div>
+
+<nav class="bar"><div class="wrap">
+  <button class="btn btn-outline" id="menuBtn" style="padding:8px 14px">&#9776;</button>
+  <a class="logo" href="../index.html">Building with Claude<span class="dot">.</span></a>
+  <div class="navlinks">
+    <a href="../index.html">All lessons</a>
+    <a href="#overview">Overview</a>
+    <a href="#capstone">Capstone</a>
+  </div>
+  <div class="nav-cta">
+    <a class="btn btn-primary" href="#start">Start the lesson &#8594;</a>
+  </div>
+</div></nav>
+
+<header class="hero">
+  <span class="blob t"></span><span class="blob c"></span>
+  <svg class="squiggle" style="top:120px;left:46%;" width="90" height="26" viewBox="0 0 90 26" fill="none"><path d="M2 13c8-14 16 14 24 0s16 14 24 0 16 14 24 0" stroke="#18c4a0" stroke-width="4" stroke-linecap="round"/></svg>
+  <svg class="squiggle" style="bottom:60px;right:40%;" width="70" height="22" viewBox="0 0 90 26" fill="none"><path d="M2 13c8-14 16 14 24 0s16 14 24 0 16 14 24 0" stroke="#f24d63" stroke-width="4" stroke-linecap="round"/></svg>
+  <div class="wrap" id="overview">
+    <div>
+      <span class="eyebrow">&#10022; Module 9 · Lesson 35</span>
+      <h1>Where Code Meets <span class="accent">Court</span></h1>
+      <p class="lead">Not every domain suits the &quot;describe it and let the agent run&quot; model of delegation; when outputs cannot be cheaply tested and decisions are tightly tangled together, you should design for **collaboration** instead, where the AI surfaces the right judgment calls at the right time and the human imparts judgment as the work takes shape, supported by citations, dedicated interfaces, and parallelized analysis.</p>
+      <div class="hero-actions">
+        <a class="btn btn-primary" href="#start">Start the lesson &#8594;</a>
+        <a class="play" href="https://www.youtube.com/watch?v=T8N0MED3IJo" target="_blank" rel="noopener"><span class="circ">&#9654;</span> Watch the talk</a>
+      </div>
+      <div class="chips">
+        <span class="chip">&#127908; <b>Olly Cobb</b></span>
+        <span class="chip">&#9201; <b>45 to 60 minutes</b></span>
+        <span class="chip">&#128296; <b>Hands-on capstone</b></span>
+      </div>
+    </div>
+    <div style="position:relative">
+      <div class="hero-card">
+        <div class="ring">
+          <svg width="74" height="74"><circle cx="37" cy="37" r="31" stroke="#eef2f5" stroke-width="7" fill="none"/><circle cx="37" cy="37" r="31" stroke="#18c4a0" stroke-width="7" fill="none" stroke-linecap="round" stroke-dasharray="195" stroke-dashoffset="40"/></svg>
+          <span class="lab">&#10022;</span>
+        </div>
+        <h3>What you&#39;ll get</h3>
+        <ul>
+          <li><span class="ic">&#9989;</span><span>Plain-language teaching with every term defined</span></li>
+          <li><span class="ic">&#128221;</span><span>Code snippets pulled from the talk</span></li>
+          <li><span class="ic">&#128296;</span><span>A hands-on capstone you build step by step</span></li>
+          <li><span class="ic">&#127919;</span><span>Optional practice drills to reinforce each skill</span></li>
+        </ul>
+        <a class="btn btn-coral" href="#capstone" style="width:100%;justify-content:center">Jump to the project</a>
+      </div>
+    </div>
+  </div>
+</header>
+
+<div class="layout">
+  <aside id="sidebar"><div class="toc-card">
+    <button class="toc-close" id="tocClose" aria-label="Close menu">&times;</button>
+    <p class="toc-title">On this page</p>
+    <div class="toc">
+<ul>
+<li><a href="#in-one-sentence">In one sentence</a></li>
+<li><a href="#first-principles-companion">First-principles companion</a></li>
+<li><a href="#a-few-plain-language-basics-first">A few plain-language basics first</a></li>
+<li><a href="#why-this-lesson-matters">Why this lesson matters</a></li>
+<li><a href="#learning-objectives">Learning objectives</a></li>
+<li><a href="#prerequisites">Prerequisites</a></li>
+<li><a href="#part-1-a-quick-tour-of-patents-just-enough">Part 1: a quick tour of patents (just enough)</a></li>
+<li><a href="#part-2-the-delegation-model-and-when-it-breaks">Part 2: the delegation model, and when it breaks</a><ul>
+<li><a href="#reason-1-you-cannot-cheaply-validate-the-output">Reason 1: you cannot cheaply validate the output</a></li>
+<li><a href="#reason-2-the-decisions-are-tightly-entangled">Reason 2: the decisions are tightly entangled</a></li>
+<li><a href="#supporting-reasons-briefly">Supporting reasons (briefly)</a></li>
+</ul>
+</li>
+<li><a href="#part-3-the-collaboration-model-and-three-principles">Part 3: the collaboration model, and three principles</a><ul>
+<li><a href="#principle-1-treat-citations-as-a-first-class-citizen">Principle 1: treat citations as a first-class citizen</a></li>
+<li><a href="#principle-2-route-dedicated-interfaces-back-into-the-general-agent">Principle 2: route dedicated interfaces back into the general agent</a></li>
+<li><a href="#principle-3-parallelize-alignment-sequence-execution">Principle 3: parallelize alignment, sequence execution</a></li>
+</ul>
+</li>
+<li><a href="#part-4-the-three-principles-live">Part 4: the three principles, live</a></li>
+<li><a href="#key-takeaways">Key takeaways</a></li>
+<li><a href="#common-pitfalls">Common pitfalls</a></li>
+<li><a href="#capstone" class="toc-capstone">🛠️ Capstone Project: build a Collaboration-First Assistant</a><ul>
+<li><a href="#what-you-will-build">What you will build</a></li>
+<li><a href="#why-this-is-the-perfect-practice">Why this is the perfect practice</a></li>
+<li><a href="#milestones-build-them-in-order-each-one-works-on-its-own">Milestones (build them in order, each one works on its own)</a></li>
+<li><a href="#how-you-will-know-you-are-done">How you will know you are done</a></li>
+</ul>
+</li>
+<li><a href="#practice-exercises-optional-extra-reps">Practice exercises (optional extra reps)</a><ul>
+<li><a href="#exercise-1-run-the-delegation-test-foundational">Exercise 1: run the delegation test (foundational)</a></li>
+<li><a href="#exercise-2-spot-the-entanglement-foundational">Exercise 2: spot the entanglement (foundational)</a></li>
+<li><a href="#exercise-3-real-citations-intermediate">Exercise 3: real citations (intermediate)</a></li>
+<li><a href="#exercise-4-comments-before-edits-intermediate">Exercise 4: comments before edits (intermediate)</a></li>
+<li><a href="#exercise-5-representation-matters-advanced">Exercise 5: representation matters (advanced)</a></li>
+</ul>
+</li>
+<li><a href="#cheat-sheet">Cheat sheet</a></li>
+<li><a href="#how-this-connects-to-the-rest-of-the-course">How this connects to the rest of the course</a></li>
+</ul>
+</div>
+
+  </div></aside>
+  <main id="start">
+    <article>
+      <hr />
+<h2 id="in-one-sentence">In one sentence</h2>
+<p>Not every domain suits the "describe it and let the agent run" model of delegation; when outputs cannot be cheaply tested and decisions are tightly tangled together, you should design for <strong>collaboration</strong> instead, where the AI surfaces the right judgment calls at the right time and the human imparts judgment as the work takes shape, supported by citations, dedicated interfaces, and parallelized analysis.</p>
+<blockquote>
+<p>🎯 <strong>Where this lesson is heading.</strong> It builds to a hands on <strong>Capstone Project</strong> where you build a <strong>Collaboration-First Assistant</strong> for a domain where delegation breaks down, applying the three design principles from the talk. Everything before the Capstone explains <em>when</em> and <em>why</em> to choose collaboration, and the principles you will implement. If you want the finish line first, jump to the <strong>Capstone Project</strong>, then come back.</p>
+</blockquote>
+<h2 id="first-principles-companion">First-principles companion</h2>
+<blockquote>
+<p>💡 <strong>The durable idea behind this lesson.</strong> The talk this lesson is built on is recent, but the underlying concept is not. For the timeless, tool-agnostic version, independent of any single product or model:</p>
+<ul>
+<li><strong><a href="https://en.wikipedia.org/wiki/Human-in-the-loop">Human-in-the-loop</a></strong> (essay). The lesson's collaboration model maps directly onto the established human-in-the-loop spectrum and its accountability rationale: design for collaboration when you can't cheaply validate output.</li>
+<li><strong><a href="https://en.wikipedia.org/wiki/Legal_technology">Legal technology</a></strong> (essay). A domain primer; agentic legal systems succeed on verifiable, trustworthy outputs, matching the lesson's citations-as-first-class principle.</li>
+</ul>
+</blockquote>
+<h2 id="a-few-plain-language-basics-first">A few plain-language basics first</h2>
+<p>This lesson uses AI and a little patent-law vocabulary. Here it is in plain words:</p>
+<ul>
+<li><strong>LLM (Large Language Model):</strong> the kind of AI that reads and writes text. Claude is an LLM.</li>
+<li><strong>Agent:</strong> an AI that takes a series of actions on its own toward a goal, in a loop.</li>
+<li><strong>Delegation model:</strong> "you describe what you want and hand the whole job to an agent," which runs autonomously and gives you a result to check. This is how Claude Code and Cowork often work.</li>
+<li><strong>Collaboration model:</strong> instead of handing off the whole job, the human and AI work <em>together</em> step by step, with the human making key decisions as the work unfolds.</li>
+<li><strong>Citation (here):</strong> a link from something the AI says back to the exact source it relied on, so a human can verify it.</li>
+<li><strong>Sub-agent:</strong> a smaller agent the main agent spins up to handle a piece of the work, often in parallel.</li>
+<li><strong>Compaction:</strong> shrinking a long conversation history so it still fits the model's memory; it can accidentally drop the trail of where facts came from.</li>
+<li><strong>Out of distribution:</strong> something the model has not really seen in training, so it has to reason from general knowledge rather than recognise a familiar pattern.</li>
+<li><strong>Patent:</strong> a legal grant of a temporary monopoly over an invention, in exchange for publicly disclosing how it works. You will not need deep patent knowledge; the lesson explains just enough.</li>
+</ul>
+<p>You do not need to memorise these. Each is explained again the first time it matters.</p>
+<h2 id="why-this-lesson-matters">Why this lesson matters</h2>
+<p>Solve Intelligence builds software for patent lawyers, a field that sits at the intersection of the two domains where AI is most valuable: deep technical reasoning (like software) and finding needles in haystacks of documents (like much legal work). Because the stakes are so high, patent work makes the trade-offs unusually visible. The big, transferable lesson is a question every builder should ask before reaching for an autonomous agent: <em>does my domain actually suit delegation?</em> Olly gives you a sharp test for that, and a set of design principles for when the answer is no. As he puts it, the goal is to help you "better think about what and how to build for your own domains, or even identify domains that might be worth serving in the first place."</p>
+<h2 id="learning-objectives">Learning objectives</h2>
+<p>By the end of this lesson you will be able to:</p>
+<ol>
+<li>Recognise the <strong>delegation model</strong> and name the two conditions under which it breaks down: outputs that cannot be cheaply validated, and decisions that are tightly entangled.</li>
+<li>Explain the <strong>collaboration model</strong> as the alternative, and the AI's twofold role within it.</li>
+<li>Apply three design principles: <strong>citations as a first-class citizen</strong>, <strong>interfaces that route into the general agent</strong>, and <strong>parallelizing alignment while sequencing execution</strong>.</li>
+<li>Decide, for your own domain, whether to design for delegation or collaboration, and why.</li>
+</ol>
+<h2 id="prerequisites">Prerequisites</h2>
+<ul>
+<li>Familiarity with how an autonomous agent works (Module 2 and earlier agent material).</li>
+<li>Helpful but optional: Module 9 · Lesson 34 (Legora), which argues the complementary case for reusing coding-agent patterns.</li>
+</ul>
+<hr />
+<h2 id="part-1-a-quick-tour-of-patents-just-enough">Part 1: a quick tour of patents (just enough)</h2>
+<p>To follow the argument, you need a little context. At its core, Olly explains, a patent is "a social contract between an inventor and society": in exchange for publicly disclosing exactly how an invention works, the state grants a roughly 20-year monopoly over making, using, or selling it. The aim is to reward innovation while eventually feeding the knowledge into the public domain.</p>
+<p>To be granted, an invention must be:</p>
+<table>
+<thead>
+<tr>
+<th>Criterion</th>
+<th>Plain meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Novel</strong></td>
+<td>Never previously known to the public, anywhere.</td>
+</tr>
+<tr>
+<td><strong>Non-obvious</strong></td>
+<td>Not obvious to a notional skilled-but-uninventive practitioner in the field.</td>
+</tr>
+<tr>
+<td><strong>Useful</strong></td>
+<td>Actually good for something, so it is worth examining.</td>
+</tr>
+<tr>
+<td><strong>Sufficiently disclosed</strong></td>
+<td>Described well enough that a skilled person could reproduce it.</td>
+</tr>
+</tbody>
+</table>
+<p>A patent application has <strong>claims</strong> (the precise sentences that define the legal scope of protection), a <strong>description</strong>, line drawings, and an abstract. The claims are the heart of it. Every element of every claim must be supported in the description and drawings.</p>
+<p>After you file, you enter <strong>prosecution</strong>: a back-and-forth with a patent examiner who flags problems in "office actions," to which the drafter responds by arguing or by narrowing the claims. Every argument becomes part of a permanent <strong>file history</strong> that shapes how the claims are later interpreted. Even after a patent is granted, it can be challenged in court.</p>
+<blockquote>
+<p>🔑 <strong>The crucial property:</strong> decisions made while drafting and prosecuting "can have consequences which only reveal themselves many years into the future." An examiner might object in two years, a competitor might try to design around the patent in five, a litigator might try to invalidate it in ten. Keep this in mind; it is the whole reason delegation struggles here.</p>
+</blockquote>
+<p>So the attorney must (1) understand a highly technical invention, (2) work out what is genuinely novel relative to all prior art, and (3) write a legal document in patent-specific syntax that anticipates future objections. A perfect fit for AI's strengths, but, as we will see, a poor fit for the <em>delegation</em> style of AI.</p>
+<hr />
+<h2 id="part-2-the-delegation-model-and-when-it-breaks">Part 2: the delegation model, and when it breaks</h2>
+<p>Claude Code's success rests on a model of <strong>delegation</strong>: you describe what you want and hand implementation to an agent. Cowork generalises this. Olly's claim is that delegation does <em>not</em> lend itself to patent work, and he gives two fundamental reasons (the ones most likely to apply to your domain too) plus a few supporting ones.</p>
+<h3 id="reason-1-you-cannot-cheaply-validate-the-output">Reason 1: you cannot cheaply validate the output</h3>
+<p>In software, much of what you care about can be checked with tests or a few minutes of QA (quality assurance, manually trying it out). So you can specify at a high level, let the agent run autonomously, and validate cheaply. If it is wrong, you retry with an adjusted prompt.</p>
+<blockquote>
+<p>❌ A patent cannot be run. Its correctness "is really a function of events that haven't happened yet." Your decisions are "bets against an adversarial future," trading one kind of risk for another based on the risk appetites of those who bear the consequences. There is no test to run, and no quick retry.</p>
+</blockquote>
+<h3 id="reason-2-the-decisions-are-tightly-entangled">Reason 2: the decisions are tightly entangled</h3>
+<p>In software, an agent can make hundreds of micro-decisions, and most can be revisited later without unwinding the rest. The ones that cannot are usually foreseeable up front and can be settled in a planning phase.</p>
+<blockquote>
+<p>❌ In patents, decisions are not loosely coupled and do not surface up front. Claim scope, claim terminology, the spec, and the drawings all depend on each other, and "those dependencies don't reveal themselves until the document starts to take shape." Reframe claim one and you are sent back through many claims below it, through supporting passages, and through drawings.</p>
+<p>🔑 <strong>The killer is the combination.</strong> Either problem alone would be survivable. If you could test correctness, entanglement would not matter (just iterate until the test passes). If decisions were independent and foreseeable, the attorney could specify everything up front and delegate the rest. But together, the human's judgment "can't be deferred to some final review pass and it can't be concentrated up front." It must be "imparted sequentially as the patent comes together," because each judgment constrains the next and nothing downstream will catch a bad one.</p>
+</blockquote>
+<h3 id="supporting-reasons-briefly">Supporting reasons (briefly)</h3>
+<ul>
+<li><strong>Out of distribution.</strong> Software development recombines familiar patterns and suits reinforcement learning, so labs can hyper-optimise models for it. An invention is, by definition, something new the model has not seen, so this reasoning does not benefit from that training in the same way. Combine that with hallucinations being both harder to detect and more costly, and you want to move away from "let the agent figure everything out."</li>
+<li><strong>Non-textual data.</strong> Software is natively text. Patents include line drawings and often chemical structures or biological sequences, and the model's ability to reason about them "depends meaningfully on how they're represented." Figuring out the best representation is a place the application layer adds real value.</li>
+<li><strong>Uniformity (a point for delegation).</strong> Patents share a remarkably uniform structure, which narrows the space of implementations and might increase comfort with delegation. But that same uniformity is something a dedicated application can lean on, so it is not a clear win for delegation either.</li>
+</ul>
+<blockquote>
+<p>💡 <strong>The transferable test:</strong> before building an autonomous agent, ask two questions. <em>Can I cheaply validate its output?</em> and <em>Are the key decisions independent and foreseeable up front?</em> If both are yes, delegation is great. If both are no, design for collaboration.</p>
+</blockquote>
+<hr />
+<h2 id="part-3-the-collaboration-model-and-three-principles">Part 3: the collaboration model, and three principles</h2>
+<p>If delegation is wrong, what is right? Olly's answer: <strong>collaboration</strong>. The aim is to let the user iterate through that sequence of dependent, consequential decisions "flexibly, quickly, and effectively."</p>
+<blockquote>
+<p>🔑 <strong>The AI's role in collaboration is twofold:</strong>
+1. <strong>Surface the judgment calls</strong> at the moment they need making, in a way that makes the trade-offs clear, so the human can decide well.
+2. <strong>Execute on those calls once made,</strong> whether by doing follow-up analysis or drafting part of the document.</p>
+</blockquote>
+<p>The distinction is not binary. A delegation tool like Cowork still allows collaboration, and a collaboration tool still allows delegating chunks of work. But software centred on collaboration ends up looking quite different, in UI/UX and in the AI layer underneath. Olly shares three principles.</p>
+<h3 id="principle-1-treat-citations-as-a-first-class-citizen">Principle 1: treat citations as a first-class citizen</h3>
+<p>A <strong>citation</strong> here is a link from something the AI tells you back to the exact source it relied on. The point is not credibility-theatre; it is "a genuine audit trail of which sources of information actually shaped the final output."</p>
+<blockquote>
+<p>❌ Many systems bolt citations on at the end to look trustworthy. That is the wrong approach. Citations should be fundamental.</p>
+<p>🔑 Making citations first-class means: <em>any</em> information shown to the model (the document being edited, an uploaded disclosure, prior art pulled in at runtime) is presented "in a format from which it can cite," and the model communicates, both with the user and with other sub-agents, "in a manner that provides proper attribution." Citations "are actually a massive pain" because they fight with tool calling, sub-agents, and compaction, so you often have to engineer your own patterns for those. But if you want to understand how and why a decision was made, this is required.</p>
+</blockquote>
+<h3 id="principle-2-route-dedicated-interfaces-back-into-the-general-agent">Principle 2: route dedicated interfaces back into the general agent</h3>
+<p>You usually want a general-purpose agent the user talks to in open-ended natural language. But for specific repeat workflows, a dedicated interface (with the right buttons and options) is easier for the user.</p>
+<blockquote>
+<p>🔑 The principle: even for those dedicated interfaces, <strong>translate what the user specifies into an instruction you pass to the general agent</strong> (perhaps augmented with an extra tool or sub-agent), rather than building a separate, parallel system.</p>
+<p>💡 Two benefits. The user still gets the familiar experience of the agent "showing its working" with reasoning and citations. And as you make the general agent more capable, <em>every</em> specific workflow built on top improves automatically.</p>
+</blockquote>
+<h3 id="principle-3-parallelize-alignment-sequence-execution">Principle 3: parallelize alignment, sequence execution</h3>
+<p>Since the work cannot be done in one long autonomous run, it becomes very valuable to find a set of decisions that, once aligned on with the human "in a concentrated moment of human sign-off," would enable a long autonomous run the user is unlikely to object to.</p>
+<blockquote>
+<p>🔑 The analysis or research behind those decisions can often be done <strong>in parallel</strong> (hence the name), even though the resulting edits must be applied <strong>in sequence</strong>. The goal is to minimise both the number of touch-points with the user and the time spent navigating between them.</p>
+</blockquote>
+<div class="codehilite"><pre><span></span><code>PARALLELIZE ALIGNMENT          then     SEQUENCE EXECUTION
+  run 30 reviews at once                 make edits one after another,
+  -&gt; produce COMMENTS for the human      keeping everything consistent
+  -&gt; human aligns / dismisses
+  -&gt; ONLY THEN kick off edits
+</code></pre></div>
+
+<hr />
+<h2 id="part-4-the-three-principles-live">Part 4: the three principles, live</h2>
+<p>Olly demonstrates each principle in Solve's patent drafting module, where an attorney has uploaded the inventor's disclosure, an invention disclosure form, some prior art, and a patent application template.</p>
+<ol>
+<li><strong>Principle 1 (citations).</strong> He asks the general agent, "how does my invention compare to the prior art?" The agent reads the disclosure, reads the prior art, and replies with a comparison table identifying the most relevant prior art. Crucially, every claim carries a citation: click it and you see the exact passage in the source document it relied on. Verification, not decoration.</li>
+<li><strong>Principle 2 (interface into the agent).</strong> Drafting the claims uses a dedicated interface where the user expresses preferences (how many claims, how elements are indented, how labels are referred to). But the request is served by the <em>same</em> general-purpose agent, which still shows its reasoning and citations while drafting the claims around the novel part of the invention.</li>
+<li><strong>Principle 3 (parallelize then sequence).</strong> For application review, the agent runs separate sub-reviews for each criterion <strong>in parallel</strong> (in practice there might be 30 criteria). Going straight to edits would produce conflicting suggestions, so instead it first generates <strong>comments</strong> the attorney can read, reply to, or dismiss. Only after the human aligns on which comments matter does it kick off a <strong>sequential</strong> round of edits that keeps the document consistent. And layered on top, principle one again: the review is served by the general agent augmented with a comment-making tool, with citations throughout.</li>
+</ol>
+<blockquote>
+<p>✅ Notice how the principles stack: the review (principle 3) is delivered through the general agent (principle 2) with full citations (principle 1). They are not separate features; they reinforce each other.</p>
+</blockquote>
+<hr />
+<h2 id="key-takeaways">Key takeaways</h2>
+<ol>
+<li><strong>Delegation is not universal.</strong> It works when you can cheaply validate outputs <em>and</em> the key decisions are independent and foreseeable up front.</li>
+<li><strong>The deadly combination</strong> is outputs you cannot test plus decisions that are tightly entangled. Then judgment must be imparted sequentially, not deferred to a final review or concentrated up front.</li>
+<li><strong>Choose collaboration</strong> in that case: the AI surfaces judgment calls at the right moment and executes them once made.</li>
+<li><strong>Citations are first-class,</strong> not a bolt-on. Everything shown to the model must be citable, and the model must attribute its sources, even when that fights tool-calling, sub-agents, and compaction.</li>
+<li><strong>Route dedicated interfaces into the general agent,</strong> so users keep reasoning and citations, and improving the agent lifts every workflow.</li>
+<li><strong>Parallelize alignment, sequence execution.</strong> Do the analysis in parallel, get a concentrated human sign-off, then apply edits in order.</li>
+<li><strong>Represent non-textual data thoughtfully;</strong> how you show drawings, structures, or sequences to the model meaningfully affects its reasoning.</li>
+</ol>
+<h2 id="common-pitfalls">Common pitfalls</h2>
+<ul>
+<li>❌ Reaching for an autonomous agent in a domain where you cannot cheaply test its output.</li>
+<li>❌ Assuming entangled decisions can be settled up front in a single planning phase.</li>
+<li>❌ Bolting citations on at the end for credibility instead of building a real audit trail.</li>
+<li>❌ Building dedicated interfaces as separate systems instead of routing them through the general agent.</li>
+<li>❌ Jumping straight to edits during review, producing conflicting changes, instead of aligning on comments first.</li>
+<li>❌ Ignoring non-textual data, or feeding it to the model in a form it reasons about poorly.</li>
+</ul>
+<hr />
+<h2 id="capstone" class="capstone-h">🛠️ Capstone Project: build a Collaboration-First Assistant</h2>
+<blockquote>
+<p>This is the main hands on project for the lesson. You will build a small <strong>Collaboration-First Assistant</strong> for a domain where delegation breaks down, implementing all three principles. Start with one document and one review criterion, then grow.</p>
+</blockquote>
+<h3 id="what-you-will-build">What you will build</h3>
+<p>An assistant where a human and AI co-produce a high-stakes document: the AI surfaces judgment calls (as cited comments), the human aligns on them, and only then does the AI execute edits in sequence. Every claim the AI makes links to its source. The deliverable is a working assistant plus a short write-up arguing why your domain suits collaboration over delegation.</p>
+<blockquote>
+<p>🎯 <strong>Pick your world.</strong> Choose a domain where outputs are hard to test and decisions are entangled: a grant proposal, a clinical care plan, an architecture design doc, a complex contract, a research paper's argument. You need (a) source documents the AI must rely on and cite, (b) multiple review criteria that can conflict, and (c) decisions where one choice constrains the next.</p>
+</blockquote>
+<h3 id="why-this-is-the-perfect-practice">Why this is the perfect practice</h3>
+<table>
+<thead>
+<tr>
+<th>Lesson idea</th>
+<th>Where you use it in the Assistant</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>The delegation test (validate? foreseeable?)</td>
+<td>Milestone 1, you justify choosing collaboration</td>
+</tr>
+<tr>
+<td>Citations as first-class</td>
+<td>Milestone 3, every claim links to its source</td>
+</tr>
+<tr>
+<td>Surface judgment calls</td>
+<td>Milestone 4, the AI proposes cited comments</td>
+</tr>
+<tr>
+<td>Interface routes into general agent</td>
+<td>Milestone 5, a dedicated workflow uses the same agent</td>
+</tr>
+<tr>
+<td>Parallelize alignment, sequence execution</td>
+<td>Milestone 4 and 6, parallel review then ordered edits</td>
+</tr>
+<tr>
+<td>Non-textual representation</td>
+<td>Stretch goal</td>
+</tr>
+</tbody>
+</table>
+<h3 id="milestones-build-them-in-order-each-one-works-on-its-own">Milestones (build them in order, each one works on its own)</h3>
+<ol>
+<li><strong>Justify the model.</strong> Write one page applying the delegation test to your domain: can outputs be cheaply validated? Are key decisions independent and foreseeable? Conclude why collaboration fits.</li>
+<li><strong>Set up the general agent.</strong> Build a general-purpose agent the user talks to in natural language, that can read your source documents and answer questions about them.</li>
+<li><strong>Make citations first-class.</strong> Present every source to the model in a citable format, and require that every claim in its answers links back to the exact source location. Build a viewer so a human can click a claim and see the highlighted source.</li>
+<li><strong>Surface judgment calls in parallel.</strong> For a review task, run several criteria checks <em>in parallel</em> and have the agent produce <strong>comments</strong> (with citations) rather than edits. The human can reply to or dismiss each.</li>
+<li><strong>Route a dedicated interface into the agent.</strong> Build one structured workflow (for example "draft section X with these preferences") whose inputs are translated into an instruction passed to the <em>same</em> general agent, so reasoning and citations still appear.</li>
+<li><strong>Sequence the execution.</strong> Only after the human aligns on comments, kick off an <em>ordered</em> round of edits that resolves them while keeping the document consistent. Show each edit with its citation.</li>
+<li><strong>Stretch goals.</strong> Handle a non-textual element (an image, a diagram, a table) and experiment with two representations to see which the model reasons about better. Scale the parallel review to many criteria.</li>
+</ol>
+<h3 id="how-you-will-know-you-are-done">How you will know you are done</h3>
+<ul>
+<li>✅ You can clearly argue, using the delegation test, why your domain needs collaboration.</li>
+<li>✅ Every claim the assistant makes links to a source a human can click and verify.</li>
+<li>✅ Review produces cited comments first; edits happen only after the human aligns.</li>
+<li>✅ At least one dedicated interface is served by the same general agent (not a separate system).</li>
+<li>✅ Analysis runs in parallel, but edits are applied in a consistent sequence.</li>
+</ul>
+<blockquote>
+<p>💡 <strong>Keep yourself honest:</strong> if a human can press one button, walk away, and trust the result without checking, your domain probably suited <em>delegation</em> all along, and you have over-built.</p>
+</blockquote>
+<hr />
+<h2 id="practice-exercises-optional-extra-reps">Practice exercises (optional extra reps)</h2>
+<blockquote>
+<p><strong>What these are:</strong> small, self-contained tasks, each focused on one idea. They are optional and independent. The Capstone above covers all of them.</p>
+</blockquote>
+<h3 id="exercise-1-run-the-delegation-test-foundational">Exercise 1: run the delegation test (foundational)</h3>
+<p>Take three tasks from your work. For each, answer: can the output be cheaply validated? Are the key decisions independent and foreseeable up front? Sort them into "delegation" and "collaboration."</p>
+<h3 id="exercise-2-spot-the-entanglement-foundational">Exercise 2: spot the entanglement (foundational)</h3>
+<p>Pick one document-producing task. Map which decisions depend on which others. Find one decision whose change would ripple back through many earlier ones. That ripple is why up-front planning is not enough.</p>
+<h3 id="exercise-3-real-citations-intermediate">Exercise 3: real citations (intermediate)</h3>
+<p>Take an agent answer and retrofit real citations: every factual claim must link to the exact source passage. Note where tool calls or summarisation broke the trail, and how you fixed it.</p>
+<h3 id="exercise-4-comments-before-edits-intermediate">Exercise 4: comments before edits (intermediate)</h3>
+<p>For a review task, build the flow where the agent first emits comments for human alignment, then only edits the aligned ones. Compare the result to letting it edit directly.</p>
+<h3 id="exercise-5-representation-matters-advanced">Exercise 5: representation matters (advanced)</h3>
+<p>Take some non-textual data (a chart, a diagram, a table). Feed it to the model in two different representations and compare the quality of its reasoning. Which representation wins, and why?</p>
+<hr />
+<h2 id="cheat-sheet">Cheat sheet</h2>
+<div class="codehilite"><pre><span></span><code>DELEGATION vs COLLABORATION
+
+THE TEST (run before building an autonomous agent)
+  Q1: can I cheaply VALIDATE the output? (tests, quick QA)
+  Q2: are the key decisions INDEPENDENT and FORESEEABLE up front?
+  both YES -&gt; delegation is great
+  both NO  -&gt; design for COLLABORATION
+
+COLLABORATION = AI does two things
+  1. SURFACE judgment calls at the moment they&#39;re needed (with trade-offs clear)
+  2. EXECUTE those calls once the human decides
+
+THREE PRINCIPLES
+  1. Citations first-class .... everything citable; the model attributes sources
+                               (engineer your own tool-call / subagent / compaction patterns)
+  2. Interfaces -&gt; general agent . dedicated UIs translate to instructions for the
+                               one general agent; improving it lifts every workflow
+  3. Parallelize alignment, .. run analysis in parallel -&gt; comments -&gt; human aligns
+     sequence execution        -&gt; THEN ordered edits that stay consistent
+
+ALSO
+  Represent non-textual data carefully; it changes how well the model reasons.
+</code></pre></div>
+
+<h2 id="how-this-connects-to-the-rest-of-the-course">How this connects to the rest of the course</h2>
+<ul>
+<li><strong>Earlier, Module 9 · Lesson 34 (Legora):</strong> argues for <em>reusing</em> coding-agent (delegation-style) patterns; this lesson is the deliberate counterpoint about when delegation fails. Read them together.</li>
+<li><strong>Earlier, Module 9 · Lesson 33 (Qonto):</strong> shares the human-in-the-loop and audit-trail instincts for high-stakes work.</li>
+<li><strong>Next, Module 9 · Lesson 37 (Omni):</strong> another harness story, with the same emphasis on grounding answers in real, citable context.</li>
+<li><strong>Later, modules on sub-agents and context management:</strong> the hard engineering behind first-class citations (tool calls, sub-agents, compaction) lives there.</li>
+</ul>
+<hr />
+<p><em>Source: "Where code meets court: AI at the legal-technical frontier" by Olly Cobb (Solve Intelligence), Code with Claude 2026, London. The diagram and code-style blocks are illustrative reconstructions of the principles described in the talk, which was delivered with slides and a live demo rather than code listings.</em></p>
+    </article>
+    <nav class="lessonnav"><a class="ln prev" href="34-legal-agents-inherit.html"><span class="dir">&#8592; Previous</span><b>What Legal Agents Inherit from Coding Agents</b></a><a class="ln home" href="../index.html"><b>All lessons</b></a><a class="ln next" href="36-how-lovable-vibecodes.html"><span class="dir">Next &#8594;</span><b>How Lovable Vibecodes Production Software at Scale</b></a></nav>
+  </main>
+</div>
+
+<footer class="site"><div class="wrap">
+  <a class="logo" href="../index.html">Building with Claude<span class="dot">.</span></a>
+  <span class="fnote">A self-paced course generated from the Code with Claude 2026 (London) talks. Code snippets are illustrative reconstructions of the approaches shown. Adapt them to the current SDK.</span>
+</div></footer>
+
+<style>pre { line-height: 125%; }
+td.linenos .normal { color: inherit; background-color: transparent; padding-left: 5px; padding-right: 5px; }
+span.linenos { color: inherit; background-color: transparent; padding-left: 5px; padding-right: 5px; }
+td.linenos .special { color: #000000; background-color: #ffffc0; padding-left: 5px; padding-right: 5px; }
+span.linenos.special { color: #000000; background-color: #ffffc0; padding-left: 5px; padding-right: 5px; }
+.codehilite .hll { background-color: #ffffcc }
+.codehilite { background: #282C34; color: #ABB2BF }
+.codehilite .c { color: #7F848E } /* Comment */
+.codehilite .err { color: #ABB2BF } /* Error */
+.codehilite .esc { color: #ABB2BF } /* Escape */
+.codehilite .g { color: #ABB2BF } /* Generic */
+.codehilite .k { color: #C678DD } /* Keyword */
+.codehilite .l { color: #ABB2BF } /* Literal */
+.codehilite .n { color: #E06C75 } /* Name */
+.codehilite .o { color: #56B6C2 } /* Operator */
+.codehilite .x { color: #ABB2BF } /* Other */
+.codehilite .p { color: #ABB2BF } /* Punctuation */
+.codehilite .ch { color: #7F848E } /* Comment.Hashbang */
+.codehilite .cm { color: #7F848E } /* Comment.Multiline */
+.codehilite .cp { color: #7F848E } /* Comment.Preproc */
+.codehilite .cpf { color: #7F848E } /* Comment.PreprocFile */
+.codehilite .c1 { color: #7F848E } /* Comment.Single */
+.codehilite .cs { color: #7F848E } /* Comment.Special */
+.codehilite .gd { color: #E06C75 } /* Generic.Deleted */
+.codehilite .ge { color: #ABB2BF; font-style: italic } /* Generic.Emph */
+.codehilite .ges { color: #ABB2BF } /* Generic.EmphStrong */
+.codehilite .gr { color: #E06C75 } /* Generic.Error */
+.codehilite .gh { color: #ABB2BF; font-weight: bold } /* Generic.Heading */
+.codehilite .gi { color: #98C379 } /* Generic.Inserted */
+.codehilite .go { color: #E06C75 } /* Generic.Output */
+.codehilite .gp { color: #ABB2BF } /* Generic.Prompt */
+.codehilite .gs { color: #ABB2BF; font-weight: bold } /* Generic.Strong */
+.codehilite .gu { color: #ABB2BF; font-weight: bold } /* Generic.Subheading */
+.codehilite .gt { color: #E06C75 } /* Generic.Traceback */
+.codehilite .kc { color: #E5C07B } /* Keyword.Constant */
+.codehilite .kd { color: #C678DD } /* Keyword.Declaration */
+.codehilite .kn { color: #C678DD } /* Keyword.Namespace */
+.codehilite .kp { color: #C678DD } /* Keyword.Pseudo */
+.codehilite .kr { color: #C678DD } /* Keyword.Reserved */
+.codehilite .kt { color: #E5C07B } /* Keyword.Type */
+.codehilite .ld { color: #ABB2BF } /* Literal.Date */
+.codehilite .m { color: #D19A66 } /* Literal.Number */
+.codehilite .s { color: #98C379 } /* Literal.String */
+.codehilite .na { color: #E06C75 } /* Name.Attribute */
+.codehilite .nb { color: #E5C07B } /* Name.Builtin */
+.codehilite .nc { color: #E5C07B } /* Name.Class */
+.codehilite .no { color: #E06C75 } /* Name.Constant */
+.codehilite .nd { color: #61AFEF } /* Name.Decorator */
+.codehilite .ni { color: #E06C75 } /* Name.Entity */
+.codehilite .ne { color: #E06C75 } /* Name.Exception */
+.codehilite .nf { color: #61AFEF; font-weight: bold } /* Name.Function */
+.codehilite .nl { color: #E06C75 } /* Name.Label */
+.codehilite .nn { color: #E06C75 } /* Name.Namespace */
+.codehilite .nx { color: #E06C75 } /* Name.Other */
+.codehilite .py { color: #E06C75 } /* Name.Property */
+.codehilite .nt { color: #E06C75 } /* Name.Tag */
+.codehilite .nv { color: #E06C75 } /* Name.Variable */
+.codehilite .ow { color: #56B6C2 } /* Operator.Word */
+.codehilite .pm { color: #ABB2BF } /* Punctuation.Marker */
+.codehilite .w { color: #ABB2BF } /* Text.Whitespace */
+.codehilite .mb { color: #D19A66 } /* Literal.Number.Bin */
+.codehilite .mf { color: #D19A66 } /* Literal.Number.Float */
+.codehilite .mh { color: #D19A66 } /* Literal.Number.Hex */
+.codehilite .mi { color: #D19A66 } /* Literal.Number.Integer */
+.codehilite .mo { color: #D19A66 } /* Literal.Number.Oct */
+.codehilite .sa { color: #98C379 } /* Literal.String.Affix */
+.codehilite .sb { color: #98C379 } /* Literal.String.Backtick */
+.codehilite .sc { color: #98C379 } /* Literal.String.Char */
+.codehilite .dl { color: #98C379 } /* Literal.String.Delimiter */
+.codehilite .sd { color: #98C379 } /* Literal.String.Doc */
+.codehilite .s2 { color: #98C379 } /* Literal.String.Double */
+.codehilite .se { color: #98C379 } /* Literal.String.Escape */
+.codehilite .sh { color: #98C379 } /* Literal.String.Heredoc */
+.codehilite .si { color: #98C379 } /* Literal.String.Interpol */
+.codehilite .sx { color: #98C379 } /* Literal.String.Other */
+.codehilite .sr { color: #98C379 } /* Literal.String.Regex */
+.codehilite .s1 { color: #98C379 } /* Literal.String.Single */
+.codehilite .ss { color: #98C379 } /* Literal.String.Symbol */
+.codehilite .bp { color: #E5C07B } /* Name.Builtin.Pseudo */
+.codehilite .fm { color: #56B6C2; font-weight: bold } /* Name.Function.Magic */
+.codehilite .vc { color: #E06C75 } /* Name.Variable.Class */
+.codehilite .vg { color: #E06C75 } /* Name.Variable.Global */
+.codehilite .vi { color: #E06C75 } /* Name.Variable.Instance */
+.codehilite .vm { color: #E06C75 } /* Name.Variable.Magic */
+.codehilite .il { color: #D19A66 } /* Literal.Number.Integer.Long */</style>
+<script>
+// mobile menu
+const sb=document.getElementById('sidebar'),mb=document.getElementById('menuBtn');
+if(mb){mb.onclick=()=>sb.classList.toggle('open');sb.addEventListener('click',e=>{if(e.target.tagName==='A')sb.classList.remove('open')});}
+const tc=document.getElementById('tocClose');if(tc){tc.onclick=()=>sb.classList.remove('open');}
+// progress
+const prog=document.getElementById('progress');
+addEventListener('scroll',()=>{const h=document.body.scrollHeight-innerHeight;prog.style.width=(h>0?scrollY/h*100:0)+'%'});
+// code chrome + copy
+document.querySelectorAll('.codehilite, pre').forEach(block=>{
+  if(block.parentElement.classList.contains('codehilite'))return;
+  const bar=document.createElement('div');bar.className='code-bar';
+  bar.innerHTML='<span class="dot r"></span><span class="dot y"></span><span class="dot g"></span>';
+  block.appendChild(bar);
+  const btn=document.createElement('button');btn.className='copy-btn';btn.textContent='Copy';
+  btn.onclick=()=>{const t=block.querySelector('code')?.innerText||block.innerText;
+    navigator.clipboard.writeText(t.replace(/\nCopy$/,''));btn.textContent='Copied!';btn.classList.add('done');
+    setTimeout(()=>{btn.textContent='Copy';btn.classList.remove('done')},1500)};
+  block.appendChild(btn);
+});
+// callouts by leading emoji
+const map={'🔑':'cl-key','💡':'cl-tip','✅':'cl-ok','❌':'cl-no','🎯':'cl-goal','🛠':'cl-goal'};
+document.querySelectorAll('blockquote').forEach(q=>{const t=(q.textContent||'').trim();for(const e in map){if(t.startsWith(e)){q.classList.add(map[e]);break}}});
+// check-off
+function makeCheckable(rx){document.querySelectorAll('h2,h3').forEach(h=>{if(!rx.test(h.textContent))return;let el=h.nextElementSibling;
+  while(el&&!/^H[1-3]$/.test(el.tagName)){if(el.tagName==='OL'||el.tagName==='UL'){el.classList.add('checkable');
+    el.querySelectorAll(':scope>li').forEach(li=>{const key='cwc:'+location.pathname+':'+li.textContent.slice(0,60);
+      if(localStorage.getItem(key))li.classList.add('checked');
+      li.addEventListener('click',ev=>{if(ev.target.tagName==='A')return;li.classList.toggle('checked');
+        li.classList.contains('checked')?localStorage.setItem(key,'1'):localStorage.removeItem(key)});});}el=el.nextElementSibling;}});}
+makeCheckable(/learning objectives|milestones/i);
+// scrollspy
+const links=[...document.querySelectorAll('.toc a')];
+const heads=links.map(a=>a.getAttribute('href')).filter(h=>h&&h.startsWith('#')).map(h=>document.getElementById(h.slice(1))).filter(Boolean);
+const spy=()=>{let cur=heads[0]?.id;for(const h of heads){if(h.getBoundingClientRect().top<150)cur=h.id}
+  links.forEach(a=>a.classList.toggle('active',a.getAttribute('href')==='#'+cur))};
+addEventListener('scroll',spy);spy();
+</script>
+</body>
+</html>

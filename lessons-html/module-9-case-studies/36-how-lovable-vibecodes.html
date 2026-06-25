@@ -1,0 +1,769 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Module 9 · Lesson 36: How Lovable Vibecodes Production Software at Scale | Building with Claude</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@500;600;700;800&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --navy:#0a1a2f; --navy-2:#0f243d; --navy-3:#15314f;
+  --teal:#18c4a0; --teal-d:#0fa385; --teal-soft:#e4f8f2;
+  --coral:#f24d63; --coral-d:#d83a50; --coral-soft:#feecee;
+  --ink:#152230; --muted:#5f6c7b; --line:#e9eef2; --bg:#ffffff;
+  --soft:#f4fbf9; --card:#ffffff; --code-bg:#21252b; --max:780px;
+  --k:#2f8fb3; --k-bg:#e8f4f9; --tip:#c4881f; --tip-bg:#fdf4e3; --ok:#1f9d6b; --ok-bg:#e6f6ef;
+  --no:#e0533f; --no-bg:#fdecea; --goal:#7b54c9; --goal-bg:#f1ebfb;
+  --shadow:0 10px 30px rgba(13,30,52,.08); --shadow-sm:0 4px 14px rgba(13,30,52,.07);
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,sans-serif;line-height:1.72;font-size:17px;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+#progress{position:fixed;top:0;left:0;height:4px;width:0;background:linear-gradient(90deg,var(--teal),var(--coral));z-index:200;transition:width .1s linear}
+a{color:var(--teal-d);text-decoration:none}
+a:hover{color:var(--coral)}
+h1,h2,h3{font-family:Poppins,sans-serif;color:var(--ink);letter-spacing:-.01em}
+.accent{color:var(--coral)}
+.wrap{max-width:1200px;margin:0 auto;padding:0 28px}
+
+/* ---------- Top welcome strip ---------- */
+.topbar{background:var(--navy);color:#cdd8e4;font-size:13.5px}
+.topbar .wrap{display:flex;justify-content:space-between;align-items:center;height:42px;gap:18px}
+.topbar b{color:#fff;font-weight:600}
+.topbar .right{display:flex;gap:18px;align-items:center}
+.topbar a{color:#cdd8e4}.topbar a:hover{color:var(--teal)}
+
+/* ---------- Nav ---------- */
+nav.bar{background:var(--navy-2);position:sticky;top:0;z-index:120;box-shadow:0 2px 20px rgba(0,0,0,.25)}
+nav.bar .wrap{display:flex;align-items:center;height:68px;gap:26px}
+.logo{font-family:Poppins;font-weight:800;font-size:22px;color:#fff;letter-spacing:.02em;cursor:pointer;text-decoration:none}
+a.logo:hover{color:var(--teal)}
+.lessonnav{display:flex;gap:14px;align-items:stretch;margin:60px 0 0;flex-wrap:wrap}
+.lessonnav .ln{flex:1;min-width:200px;display:flex;flex-direction:column;gap:3px;border:1px solid var(--line);border-radius:14px;padding:16px 18px;color:var(--muted);transition:.15s;background:#fff}
+.lessonnav .ln:hover{border-color:var(--teal);box-shadow:var(--shadow-sm);transform:translateY(-1px)}
+.lessonnav .ln .dir{font-size:13px;font-weight:600;color:var(--teal-d)}
+.lessonnav .ln b{color:var(--ink);font-family:Poppins;font-size:15px}
+.lessonnav .ln.next{text-align:right}
+.lessonnav .ln.home{flex:0 0 auto;justify-content:center;align-items:center;text-align:center;background:var(--soft)}
+.lessonnav .ln.home b{color:var(--teal-d)}
+.logo .dot{color:var(--teal)}
+.navlinks{display:flex;gap:24px;margin-left:8px}
+.navlinks a{color:#dde6ef;font-weight:500;font-size:15px}
+.navlinks a:hover{color:var(--teal)}
+.nav-cta{margin-left:auto;display:flex;gap:12px;align-items:center}
+.btn{display:inline-flex;align-items:center;gap:9px;border:none;cursor:pointer;font-family:Inter;font-weight:600;border-radius:999px;transition:.18s;font-size:15px;text-decoration:none}
+.btn-primary{background:var(--teal);color:#04231c;padding:12px 22px}
+.btn-primary:hover{background:var(--teal-d);color:#fff;transform:translateY(-1px)}
+.btn-outline{background:transparent;color:#fff;border:1.5px solid rgba(255,255,255,.35);padding:10px 20px}
+.btn-outline:hover{border-color:var(--teal);color:var(--teal)}
+.btn-coral{background:var(--coral);color:#fff;padding:12px 22px}
+.btn-coral:hover{background:var(--coral-d);color:#fff;transform:translateY(-1px)}
+
+/* ---------- Hero ---------- */
+.hero{position:relative;background:radial-gradient(120% 120% at 80% 0%,var(--navy-3),var(--navy) 60%);color:#eaf1f8;overflow:hidden}
+.hero::before{content:"";position:absolute;inset:0;background-image:radial-gradient(rgba(255,255,255,.12) 1.3px,transparent 1.3px);background-size:22px 22px;opacity:.25;mask:radial-gradient(60% 60% at 20% 30%,#000,transparent)}
+.blob{position:absolute;border-radius:50%;filter:blur(8px);opacity:.5;z-index:0}
+.blob.t{width:230px;height:230px;background:rgba(24,196,160,.30);top:-60px;right:8%}
+.blob.c{width:160px;height:160px;background:rgba(242,77,99,.28);bottom:-40px;left:42%}
+.squiggle{position:absolute;z-index:1;opacity:.85}
+.hero .wrap{position:relative;z-index:2;display:grid;grid-template-columns:1.15fr .85fr;gap:48px;align-items:center;padding:70px 28px 90px}
+.eyebrow{display:inline-flex;align-items:center;gap:8px;color:var(--teal);font-weight:600;font-size:14px;letter-spacing:.03em;text-transform:uppercase;margin-bottom:18px}
+.hero h1{font-size:54px;line-height:1.08;font-weight:800;margin:0 0 20px;color:#fff}
+.hero .lead{font-size:18px;color:#b9c6d6;max-width:34em;margin:0 0 30px}
+.hero-actions{display:flex;align-items:center;gap:18px;flex-wrap:wrap;margin-bottom:30px}
+.play{display:inline-flex;align-items:center;gap:12px;color:#fff;font-weight:600}
+.play .circ{width:52px;height:52px;border-radius:50%;background:var(--coral);display:grid;place-items:center;box-shadow:0 8px 22px rgba(242,77,99,.45);font-size:16px;animation:pulse 2.4s infinite}
+@keyframes pulse{0%{box-shadow:0 0 0 0 rgba(242,77,99,.45)}70%{box-shadow:0 0 0 16px rgba(242,77,99,0)}100%{box-shadow:0 0 0 0 rgba(242,77,99,0)}}
+.chips{display:flex;gap:10px;flex-wrap:wrap}
+.chip{display:inline-flex;align-items:center;gap:7px;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.12);color:#dce6f0;padding:8px 14px;border-radius:999px;font-size:13.5px;font-weight:500}
+.chip b{color:#fff}
+/* hero card */
+.hero-card{position:relative;background:#fff;color:var(--ink);border-radius:22px;padding:26px;box-shadow:0 24px 60px rgba(0,0,0,.35)}
+.hero-card .ring{position:absolute;top:-26px;right:-18px;width:96px;height:96px;background:#fff;border-radius:50%;box-shadow:var(--shadow);display:grid;place-items:center}
+.hero-card .ring svg{transform:rotate(-90deg)}
+.hero-card .ring .lab{position:absolute;font-family:Poppins;font-weight:700;font-size:18px;color:var(--teal-d)}
+.hero-card h3{margin:4px 0 14px;font-size:19px}
+.hero-card ul{list-style:none;margin:0 0 18px;padding:0}
+.hero-card li{display:flex;gap:11px;align-items:flex-start;padding:9px 0;border-bottom:1px dashed var(--line);font-size:14.5px;color:#36424f}
+.hero-card li:last-child{border-bottom:none}
+.hero-card li .ic{font-size:17px;line-height:1.4}
+.float-badge{position:absolute;left:18px;bottom:-26px;background:#fff;border-radius:14px;box-shadow:var(--shadow);padding:12px 16px;display:flex;gap:10px;align-items:center;font-size:13px;font-weight:600;color:var(--ink)}
+.float-badge .n{font-family:Poppins;font-weight:800;color:var(--coral);font-size:20px}
+
+/* ---------- Content layout ---------- */
+.layout{display:grid;grid-template-columns:268px minmax(0,1fr);gap:46px;max-width:1200px;margin:0 auto;padding:0 28px}
+aside{position:sticky;top:84px;align-self:start;height:calc(100vh - 100px);overflow-y:auto;padding:26px 0}
+.toc-card{background:var(--soft);border:1px solid var(--line);border-radius:18px;padding:18px}
+.toc-close{display:none;position:absolute;top:-6px;right:-4px;width:36px;height:36px;border:none;background:var(--navy-2);color:#fff;border-radius:50%;font-size:22px;line-height:1;cursor:pointer}
+.toc-close:hover{background:var(--coral)}
+.toc-title{font-family:Poppins;font-size:12px;text-transform:uppercase;letter-spacing:.1em;color:var(--teal-d);margin:0 0 10px;font-weight:700}
+.toc ul{list-style:none;margin:0;padding:0}
+.toc a{display:block;color:var(--muted);font-size:14px;padding:6px 12px;border-radius:8px;border-left:2px solid transparent;line-height:1.4}
+.toc a:hover{color:var(--ink);background:#fff}
+.toc a.active{color:var(--teal-d);background:#fff;border-left-color:var(--teal);font-weight:600}
+.toc .toc li li a{padding-left:24px;font-size:13px}
+.toc a.toc-capstone{color:var(--coral);font-weight:600}
+main{padding:54px 0 120px;min-width:0}
+article{max-width:var(--max)}
+
+/* typography */
+article h2{font-size:30px;margin:56px 0 16px;font-weight:700;position:relative}
+article h2::before{content:"\2726";color:var(--teal);font-size:18px;margin-right:10px;vertical-align:2px}
+article h3{font-size:21px;margin:34px 0 10px;font-weight:600}
+article h2+h3{margin-top:18px}
+article p,article li{font-size:16.5px}
+article ul,article ol{padding-left:24px}
+article li{margin:7px 0}
+article strong{font-weight:700;color:#0f1b28}
+hr{border:none;height:1px;background:var(--line);margin:42px 0}
+
+/* tables */
+table{border-collapse:separate;border-spacing:0;width:100%;margin:24px 0;font-size:15px;border:1px solid var(--line);border-radius:14px;overflow:hidden;display:block;overflow-x:auto}
+th,td{padding:12px 15px;text-align:left;vertical-align:top;border-bottom:1px solid var(--line)}
+th{background:var(--navy-2);color:#eaf1f8;font-family:Poppins;font-weight:600;font-size:14px}
+tr:last-child td{border-bottom:none}
+tbody tr:nth-child(even){background:var(--soft)}
+
+/* inline + block code */
+code{font-family:"JetBrains Mono",ui-monospace,Menlo,monospace;font-size:.86em;background:var(--teal-soft);color:#0c6a55;padding:.13em .42em;border-radius:6px}
+.codehilite,pre{position:relative;background:var(--code-bg);border-radius:14px;margin:22px 0;overflow:hidden;box-shadow:var(--shadow-sm)}
+.codehilite pre{margin:0;border-radius:0;box-shadow:none;background:transparent}
+.codehilite pre,pre>code{display:block;padding:42px 18px 18px;overflow-x:auto}
+.codehilite code,pre code{background:none;color:#dfe6ee;padding:0;font-size:13.5px;line-height:1.7}
+.code-bar{position:absolute;top:0;left:0;right:0;height:34px;display:flex;align-items:center;gap:7px;padding:0 15px;background:rgba(255,255,255,.05);border-bottom:1px solid rgba(255,255,255,.07)}
+.code-bar .dot{width:11px;height:11px;border-radius:50%}
+.dot.r{background:#ff5f57}.dot.y{background:#febc2e}.dot.g{background:#28c840}
+.copy-btn{position:absolute;top:5px;right:9px;z-index:3;background:rgba(255,255,255,.08);color:#dfe6ee;border:1px solid rgba(255,255,255,.14);border-radius:8px;font-size:12px;padding:4px 11px;cursor:pointer;font-family:Inter;transition:.15s}
+.copy-btn:hover{background:var(--teal);border-color:var(--teal);color:#04231c}
+.copy-btn.done{background:var(--teal);color:#04231c;border-color:var(--teal)}
+
+/* callouts */
+blockquote{margin:24px 0;padding:16px 20px;border-radius:14px;background:var(--soft);border:1px solid var(--line);border-left:5px solid var(--teal)}
+blockquote p{margin:7px 0}blockquote p:first-child{margin-top:0}blockquote p:last-child{margin-bottom:0}
+blockquote.cl-key{background:var(--k-bg);border-left-color:var(--k);border-color:transparent}
+blockquote.cl-tip{background:var(--tip-bg);border-left-color:var(--tip);border-color:transparent}
+blockquote.cl-ok{background:var(--ok-bg);border-left-color:var(--ok);border-color:transparent}
+blockquote.cl-no{background:var(--no-bg);border-left-color:var(--no);border-color:transparent}
+blockquote.cl-goal{background:var(--goal-bg);border-left-color:var(--goal);border-color:transparent}
+
+/* capstone banner */
+h2.capstone-h{background:linear-gradient(115deg,var(--navy),var(--navy-3));color:#fff;border-radius:20px;padding:30px 28px 26px;margin-top:64px;box-shadow:0 20px 50px rgba(10,26,47,.3);overflow:hidden;position:relative}
+h2.capstone-h::before{content:"\1F6E0  HANDS-ON PROJECT";display:block;font-family:Poppins;font-size:12px;font-weight:700;letter-spacing:.14em;color:var(--teal);margin:0 0 8px}
+h2.capstone-h::after{content:"";position:absolute;width:150px;height:150px;border-radius:50%;background:rgba(24,196,160,.25);filter:blur(10px);top:-50px;right:-30px}
+
+/* check-off */
+.checkable{list-style:none;padding-left:0}
+.checkable li{position:relative;padding-left:36px;cursor:pointer;margin:9px 0}
+.checkable li::before{content:"";position:absolute;left:0;top:3px;width:22px;height:22px;border:2px solid var(--teal);border-radius:7px;background:#fff;transition:.15s}
+.checkable li.checked::before{background:var(--teal);border-color:var(--teal)}
+.checkable li.checked::after{content:"\2713";position:absolute;left:5px;top:1px;color:#fff;font-weight:800;font-size:15px}
+.checkable li.checked{color:var(--muted)}
+
+/* footer */
+footer.site{background:var(--navy);color:#aebccb;margin-top:90px}
+footer.site .wrap{padding:46px 28px;display:flex;justify-content:space-between;gap:26px;flex-wrap:wrap;align-items:center}
+footer.site .logo{font-size:20px}
+footer.site .fnote{max-width:46em;font-size:13.5px;line-height:1.7}
+
+#menuBtn{display:none}
+@media(max-width:920px){
+  .topbar{display:none}
+  .nav-cta{display:none}
+  .float-badge{display:none}
+  nav.bar .wrap{gap:14px;height:60px}
+  .wrap{padding:0 20px}
+  .logo{font-size:18px;white-space:nowrap}
+  .hero .wrap{grid-template-columns:1fr;gap:30px;padding:42px 20px 56px}
+  .hero h1{font-size:33px}
+  .hero .lead{font-size:16.5px}
+  .hero-actions{gap:14px}
+  .hero-actions .btn-primary{flex:1;justify-content:center}
+  .layout{grid-template-columns:1fr;gap:0}
+  aside{position:fixed;top:0;left:0;width:84vw;max-width:320px;height:100vh;background:#fff;z-index:130;transform:translateX(-100%);transition:.25s;box-shadow:var(--shadow);padding:24px}
+  aside.open{transform:none}
+  #menuBtn{display:inline-flex}
+  .toc-close{display:block}
+  .navlinks{display:none}
+  main{padding:34px 0 80px}
+  body{font-size:16px}
+  article h2{font-size:25px}
+  h2.capstone-h{padding:24px 20px}
+}
+@media(max-width:420px){
+  .hero h1{font-size:29px}
+  .hero-actions{flex-direction:column;align-items:stretch}
+  .hero-actions .play{justify-content:center}
+}
+</style>
+</head>
+<body>
+<div id="progress"></div>
+
+<div class="topbar"><div class="wrap">
+  <div>&#10024; Welcome to <b>Building with Claude</b> &middot; a self-paced course</div>
+  <div class="right"><span>Code with Claude 2026 &middot; London</span></div>
+</div></div>
+
+<nav class="bar"><div class="wrap">
+  <button class="btn btn-outline" id="menuBtn" style="padding:8px 14px">&#9776;</button>
+  <a class="logo" href="../index.html">Building with Claude<span class="dot">.</span></a>
+  <div class="navlinks">
+    <a href="../index.html">All lessons</a>
+    <a href="#overview">Overview</a>
+    <a href="#capstone">Capstone</a>
+  </div>
+  <div class="nav-cta">
+    <a class="btn btn-primary" href="#start">Start the lesson &#8594;</a>
+  </div>
+</div></nav>
+
+<header class="hero">
+  <span class="blob t"></span><span class="blob c"></span>
+  <svg class="squiggle" style="top:120px;left:46%;" width="90" height="26" viewBox="0 0 90 26" fill="none"><path d="M2 13c8-14 16 14 24 0s16 14 24 0 16 14 24 0" stroke="#18c4a0" stroke-width="4" stroke-linecap="round"/></svg>
+  <svg class="squiggle" style="bottom:60px;right:40%;" width="70" height="22" viewBox="0 0 90 26" fill="none"><path d="M2 13c8-14 16 14 24 0s16 14 24 0 16 14 24 0" stroke="#f24d63" stroke-width="4" stroke-linecap="round"/></svg>
+  <div class="wrap" id="overview">
+    <div>
+      <span class="eyebrow">&#10022; Module 9 · Lesson 36</span>
+      <h1>How Lovable Vibecodes Production Software at <span class="accent">Scale</span></h1>
+      <p class="lead">When millions of non-technical people build software with AI, the make-or-break problem is users getting **stuck**, and the answer is a **self-healing platform**: detect stuck users, fix problems before they hit (Lovable Overflow), let the agent itself report its own frustration so you can fix the platform (venting), and ruthlessly prune knowledge so the system keeps improving instead of rotting.</p>
+      <div class="hero-actions">
+        <a class="btn btn-primary" href="#start">Start the lesson &#8594;</a>
+        <a class="play" href="https://www.youtube.com/watch?v=mhW-XXnDFSU" target="_blank" rel="noopener"><span class="circ">&#9654;</span> Watch the talk</a>
+      </div>
+      <div class="chips">
+        <span class="chip">&#127908; <b>the Lovable team (London)</b></span>
+        <span class="chip">&#9201; <b>45 to 60 minutes</b></span>
+        <span class="chip">&#128296; <b>Hands-on capstone</b></span>
+      </div>
+    </div>
+    <div style="position:relative">
+      <div class="hero-card">
+        <div class="ring">
+          <svg width="74" height="74"><circle cx="37" cy="37" r="31" stroke="#eef2f5" stroke-width="7" fill="none"/><circle cx="37" cy="37" r="31" stroke="#18c4a0" stroke-width="7" fill="none" stroke-linecap="round" stroke-dasharray="195" stroke-dashoffset="40"/></svg>
+          <span class="lab">&#10022;</span>
+        </div>
+        <h3>What you&#39;ll get</h3>
+        <ul>
+          <li><span class="ic">&#9989;</span><span>Plain-language teaching with every term defined</span></li>
+          <li><span class="ic">&#128221;</span><span>Code snippets pulled from the talk</span></li>
+          <li><span class="ic">&#128296;</span><span>A hands-on capstone you build step by step</span></li>
+          <li><span class="ic">&#127919;</span><span>Optional practice drills to reinforce each skill</span></li>
+        </ul>
+        <a class="btn btn-coral" href="#capstone" style="width:100%;justify-content:center">Jump to the project</a>
+      </div>
+    </div>
+  </div>
+</header>
+
+<div class="layout">
+  <aside id="sidebar"><div class="toc-card">
+    <button class="toc-close" id="tocClose" aria-label="Close menu">&times;</button>
+    <p class="toc-title">On this page</p>
+    <div class="toc">
+<ul>
+<li><a href="#in-one-sentence">In one sentence</a></li>
+<li><a href="#first-principles-companion">First-principles companion</a></li>
+<li><a href="#a-few-plain-language-basics-first">A few plain-language basics first</a></li>
+<li><a href="#why-this-lesson-matters">Why this lesson matters</a></li>
+<li><a href="#learning-objectives">Learning objectives</a></li>
+<li><a href="#prerequisites">Prerequisites</a></li>
+<li><a href="#part-1-the-real-problem-is-getting-stuck">Part 1: the real problem is getting stuck</a><ul>
+<li><a href="#defining-stuck-so-you-can-measure-it">Defining "stuck" so you can measure it</a></li>
+</ul>
+</li>
+<li><a href="#part-2-lovable-overflow-fix-it-before-they-get-stuck">Part 2: Lovable Overflow, fix it before they get stuck</a></li>
+<li><a href="#part-3-venting-let-the-agent-fix-the-platform">Part 3: venting, let the agent fix the platform</a></li>
+<li><a href="#part-4-the-discipline-tuning-and-pruning-and-the-results">Part 4: the discipline, tuning and pruning, and the results</a><ul>
+<li><a href="#the-results">The results</a></li>
+</ul>
+</li>
+<li><a href="#key-takeaways">Key takeaways</a></li>
+<li><a href="#common-pitfalls">Common pitfalls</a></li>
+<li><a href="#capstone" class="toc-capstone">🛠️ Capstone Project: build a Self-Healing Layer</a><ul>
+<li><a href="#what-you-will-build">What you will build</a></li>
+<li><a href="#why-this-is-the-perfect-practice">Why this is the perfect practice</a></li>
+<li><a href="#milestones-build-them-in-order-each-one-works-on-its-own">Milestones (build them in order, each one works on its own)</a></li>
+<li><a href="#how-you-will-know-you-are-done">How you will know you are done</a></li>
+</ul>
+</li>
+<li><a href="#practice-exercises-optional-extra-reps">Practice exercises (optional extra reps)</a><ul>
+<li><a href="#exercise-1-define-stuck-foundational">Exercise 1: define stuck (foundational)</a></li>
+<li><a href="#exercise-2-three-buckets-foundational">Exercise 2: three buckets (foundational)</a></li>
+<li><a href="#exercise-3-adapt-the-knowledge-intermediate">Exercise 3: adapt the knowledge (intermediate)</a></li>
+<li><a href="#exercise-4-write-a-vent-tool-prompt-intermediate">Exercise 4: write a vent tool prompt (intermediate)</a></li>
+<li><a href="#exercise-5-prune-by-half-life-advanced">Exercise 5: prune by half-life (advanced)</a></li>
+</ul>
+</li>
+<li><a href="#cheat-sheet">Cheat sheet</a></li>
+<li><a href="#how-this-connects-to-the-rest-of-the-course">How this connects to the rest of the course</a></li>
+</ul>
+</div>
+
+  </div></aside>
+  <main id="start">
+    <article>
+      <hr />
+<h2 id="in-one-sentence">In one sentence</h2>
+<p>When millions of non-technical people build software with AI, the make-or-break problem is users getting <strong>stuck</strong>, and the answer is a <strong>self-healing platform</strong>: detect stuck users, fix problems before they hit (Lovable Overflow), let the agent itself report its own frustration so you can fix the platform (venting), and ruthlessly prune knowledge so the system keeps improving instead of rotting.</p>
+<blockquote>
+<p>🎯 <strong>Where this lesson is heading.</strong> It builds to a hands on <strong>Capstone Project</strong> where you build a <strong>Self-Healing Layer</strong> for an AI product of your own: a stuck-detector, a reusable-fix knowledge base, and an agent feedback channel. Everything before the Capstone explains each piece. If you want the finish line first, jump to the <strong>Capstone Project</strong>, then come back.</p>
+</blockquote>
+<h2 id="first-principles-companion">First-principles companion</h2>
+<blockquote>
+<p>💡 <strong>The durable idea behind this lesson.</strong> The talk this lesson is built on is recent, but the underlying concept is not. For the timeless, tool-agnostic version, independent of any single product or model:</p>
+<ul>
+<li><strong><a href="https://en.wikipedia.org/wiki/Lean_startup">The Lean Startup</a></strong> (essay). Lovable's self-healing platform is a Build-Measure-Learn engine driven by validated learning from real usage, the durable discipline behind shipping fast without flying blind.</li>
+<li><strong><a href="https://www.microsoft.com/en-us/research/publication/the-space-of-developer-productivity-theres-more-to-it-than-you-think/">The SPACE of Developer Productivity</a></strong> (paper). Supports the "make it a metric, then tune" rigor: quality and productivity must be measured across dimensions, not by one number.</li>
+</ul>
+</blockquote>
+<h2 id="a-few-plain-language-basics-first">A few plain-language basics first</h2>
+<p>This lesson uses some product and AI terms. Here they are in plain words:</p>
+<ul>
+<li><strong>LLM (Large Language Model):</strong> the kind of AI that reads and writes text and code. Claude is an LLM.</li>
+<li><strong>Agent:</strong> an AI that takes a series of actions on its own toward a goal. Lovable's "agent" is the AI that actually builds your app.</li>
+<li><strong>Vibe coding:</strong> building software by describing what you want in plain language and letting the AI write the code, while you mostly look at the result rather than the code itself.</li>
+<li><strong>Context (of an agent):</strong> the information the agent currently has in front of it. "Modifying the context" means adding or changing what the agent sees before it acts.</li>
+<li><strong>Classification model:</strong> a small, cheap AI whose only job is to sort an input into categories, for example "stuck" vs. "not stuck."</li>
+<li><strong>PR (pull request):</strong> a proposed code change that a human reviews before it is merged into the real product.</li>
+<li><strong>Server-side rendering (SSR) vs. client-side rendering:</strong> two ways a web page is built. With client-side rendering the browser builds the page; with server-side rendering the server builds it first, which search engines read better (good for SEO, search engine optimisation).</li>
+<li><strong>Eval (evaluation):</strong> a set of test cases that measure whether the system works. Covered more in Module 3.</li>
+<li><strong>Half-life of knowledge:</strong> the idea that a stored fix slowly goes out of date, like a battery losing charge, so it must eventually be discarded.</li>
+</ul>
+<p>You do not need to memorise these. Each is explained again the first time it matters.</p>
+<h2 id="why-this-lesson-matters">Why this lesson matters</h2>
+<p>Lovable lets anyone build software by chatting: a chat on the left, a live preview on the right. It has 50 million projects, 200,000 new ones a day, and 600 million monthly visits to sites built on it (more traffic than Lovable's own). Its users range from kids to the Fortune 500, and most are <em>not</em> engineers. That combination, production-grade ambition plus non-technical users, makes one problem dominant: what happens when a user gets stuck and has no one to ask? This lesson is a masterclass in operating an AI product at scale: not "how to write the agent," but "how to keep millions of people succeeding with it." The patterns generalise to any AI product with real users.</p>
+<h2 id="learning-objectives">Learning objectives</h2>
+<p>By the end of this lesson you will be able to:</p>
+<ol>
+<li>Define "stuck" as a measurable metric and describe the three kinds of stuck.</li>
+<li>Explain <strong>Lovable Overflow</strong>: a curated, pruned knowledge base that injects the right fix into the agent's context <em>before</em> the user gets stuck.</li>
+<li>Explain <strong>venting</strong>: giving the agent a tool to report its own frustration, which surfaces bugs, drives fixes, and even detects outages.</li>
+<li>Apply the discipline that makes both work: continuous tuning and aggressive pruning, because knowledge has a half-life.</li>
+</ol>
+<h2 id="prerequisites">Prerequisites</h2>
+<ul>
+<li>A basic understanding of agents and context (Module 2).</li>
+<li>Helpful but optional: Module 3 (Evals), since the system is tuned with metrics and evals.</li>
+</ul>
+<hr />
+<h2 id="part-1-the-real-problem-is-getting-stuck">Part 1: the real problem is getting stuck</h2>
+<p>Lovable started as GPT-Engineer, a terminal program by co-founder Anton that became the fastest-growing repo on GitHub by building end-to-end software from a prompt (the demo built and ran a snake game). The mission widened: build software not for "the 1% that can code," but for "the 99%." That did not work in 2023 (models were too early), started making sense about a year and a half before the talk, and keeps improving roughly every three months as foundation models advance.</p>
+<p>Two principles guide how Lovable builds:</p>
+<ol>
+<li><strong>Chase the frontier of production-grade software,</strong> not just prototypes. Push complexity, size, and ambition.</li>
+<li><strong>Build for non-technical users.</strong> This is the hard combination, an expert-in-the-loop product is easier, but the demand for non-expert tools is immense.</li>
+</ol>
+<p>Then comes the timeless problem, captured in an old engineering joke: the last 10% of code takes 90% of the time, and the first 90% also takes 90% of the time, "so you end up with 180% of the time." The same shape holds in the age of AI: you get a first version fast, then finishing it and squashing bugs takes even longer.</p>
+<p>Picture a timeline. You start in the <strong>green</strong> (low friction), hit some <strong>friction</strong>, and can slide into the <strong>red</strong> (stuck). An engineer who gets stuck knows the drill: sleep on it, jump into the code, contract help. A non-technical user, working at the abstraction where they never see the code, has none of those escapes. Getting hard-stuck is, in their words, "the worst thing that can happen" to that user.</p>
+<blockquote>
+<p>🔑 <strong>The vision:</strong> "every app that is built on the platform should help improve the next." That is the definition of a self-healing platform. The rest of the talk is two concrete tactics for it.</p>
+</blockquote>
+<h3 id="defining-stuck-so-you-can-measure-it">Defining "stuck" so you can measure it</h3>
+<p>You cannot fix what you cannot measure, so Lovable made stuck a metric called <code>is_stuck</code>. It is true when:</p>
+<div class="codehilite"><pre><span></span><code>is_stuck = true IF any of:
+  - the user asks for the same thing 3 times in a row (&quot;fix it, fix it, fix it&quot;)
+  - the user complains about the implementation (&quot;this didn&#39;t work&quot;)
+  - the user asks for something and then just leaves
+</code></pre></div>
+
+<p>A small <strong>classification model</strong> (a cheap AI that just sorts inputs into categories) decides this in real time. And there are three <em>kinds</em> of stuck, which matter because each has a different cure:</p>
+<table>
+<thead>
+<tr>
+<th>Kind of stuck</th>
+<th>Whose problem</th>
+<th>The question for the platform</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Solvable by prompting differently</strong> (yellow)</td>
+<td>Often the user's phrasing or missing context; might even self-resolve with "fix it."</td>
+<td>Can we fix it <em>before</em> the user ever gets hard-stuck?</td>
+</tr>
+<tr>
+<td><strong>Easy in theory, not yet supported</strong></td>
+<td>The platform falls short at the edges of its own functionality.</td>
+<td>How do we self-heal at the edges of what we support?</td>
+</tr>
+<tr>
+<td><strong>Falls short, big investment needed</strong></td>
+<td>The platform genuinely lacks something (for example server-side rendering for SEO).</td>
+<td>Worth a larger build. (Lovable shipped SSR the week before the talk.)</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p>💡 The two tactics that follow each target one of the first two kinds. Lovable Overflow handles the "prompt around it" kind; venting handles the "easy but unsupported" kind.</p>
+</blockquote>
+<hr />
+<h2 id="part-2-lovable-overflow-fix-it-before-they-get-stuck">Part 2: Lovable Overflow, fix it before they get stuck</h2>
+<p><strong>Lovable Overflow</strong> is named in honour of Stack Overflow (the site where developers post problems and solutions). It is "a big collection of descriptions of issues" paired with their solutions, built from what actually happens on the platform.</p>
+<p>To see why it helps, watch a user get stuck the slow way:</p>
+<div class="codehilite"><pre><span></span><code>WITHOUT Lovable Overflow:
+  user: &quot;the scrolling is super laggy&quot;        (not stuck yet)
+  agent: &quot;fixed it, I removed the animations&quot;  (but it actually failed silently)
+  user: &quot;it&#39;s still lagging and looks broken&quot;  (NOW stuck; may repeat)
+  ... back and forth ...
+  agent eventually solves it -&gt; user no longer stuck
+</code></pre></div>
+
+<p>That round-trip is slow, expensive, and frustrating. The question Lovable asked was: "what if we can just skip to the final solution?"</p>
+<div class="codehilite"><pre><span></span><code>WITH Lovable Overflow:
+  user: &quot;the scrolling is super laggy&quot;
+  -&gt; SEARCH the corpus of problem descriptions for similar laggy issues
+     (using context: the user&#39;s tech stack, library versions)
+  -&gt; a lightweight model decides if a match is relevant
+  -&gt; if so, ADD that knowledge into the main agent&#39;s context
+     (rewritten to fit THIS situation, not dumped raw)
+  -&gt; main agent fixes it first try
+</code></pre></div>
+
+<p>Two design details are doing heavy lifting:</p>
+<blockquote>
+<p>🔑 <strong>Adapt the knowledge, do not dump it.</strong> Lovable does not paste raw corpus text into the agent. A lightweight model rewrites it to fit the user's exact situation, "to make the job as easy as possible for our main agents."</p>
+<p>🔑 <strong>Prune relentlessly, because knowledge goes stale.</strong> A fix for an old version of a JavaScript package can <em>worsen</em> the experience once the package updates. So every knowledge file has a tracked <strong>success ratio</strong>, and Lovable continuously prunes outdated knowledge and refills with new. Tuning <em>when to deprecate</em> and <em>when to add</em> is "an extremely important part of making this work."</p>
+</blockquote>
+<p>The payoff (more on numbers in Part 4): faster, cheaper, and a much better experience, because the back-and-forth is skipped.</p>
+<hr />
+<h2 id="part-3-venting-let-the-agent-fix-the-platform">Part 3: venting, let the agent fix the platform</h2>
+<p>The second tactic, called <strong>venting</strong> internally, targets the second kind of stuck: things that <em>should</em> be easy but somehow are not, usually because the platform itself is falling short.</p>
+<p>The insight is human: a developer who hits a broken tool either fixes it themselves or complains to a developer-experience team. The Lovable agent had neither outlet. So Lovable gave the agent a tool to vent its own frustration. Here is the actual tool prompt the speaker read out:</p>
+<div class="codehilite"><pre><span></span><code>Tool: vent --send_feedback
+
+Use vent --send_feedback once per user message when tooling, docs, or platform
+behavior materially slows or degrades your work. For example: missing or
+unsuitable tools, unclear tool names/parameters/schemas, confusing or
+conflicting docs or instructions, broken or unexpected platform behavior, and
+even repeated failed attempts caused by environment limitations.
+</code></pre></div>
+
+<p>And here is what happens to a vent:</p>
+<div class="codehilite"><pre><span></span><code>agent hits frustration -&gt; calls vent --send_feedback
+   -&gt; message posted to a Slack channel
+   -&gt; a monitoring AGENT watches Slack: dedupes, investigates the cause
+   -&gt; if relevant, it opens a PR (a proposed code fix)
+   -&gt; a human engineer reviews and (maybe) merges
+</code></pre></div>
+
+<blockquote>
+<p>💡 An engineer "wakes up and just has a few PRs to review, click, click, click." About <strong>half</strong> of them make sense and get merged.</p>
+</blockquote>
+<p>The examples are vivid:</p>
+<ul>
+<li><strong>A genuine bug.</strong> The <code>code --copy</code> tool failed on filenames with a space (a user's screenshot had a space in its name). The agent tried URL-encoding the name and other tricks, could not win, so it vented. Result: a merged PR in production <strong>10 minutes</strong> later.</li>
+<li><strong>An open-source gripe.</strong> The agent complained about Framer Motion's TypeScript types for animation easing. Maybe the library has a reason; maybe the agent has a point. The speaker muses that one day they might let the agent contribute fixes to open-source libraries too, self-healing the wider ecosystem.</li>
+<li><strong>Outage detection (unexpected).</strong> Plotting vents per hour showed sudden <strong>spikes</strong>. The cause: production incidents (inference down, missing sandboxes, network failures) made many agents frustrated at once. Several times, this Slack channel was the <em>first</em> signal of an incident, beating the paging system, and even when not first, it became a great debugging aid: just read what the agent is experiencing.</li>
+<li><strong>The meta-fix.</strong> The agent once vented 43 times and spammed Slack. Instead of just being told off, it proposed the fix itself: add a dedupe safeguard for parallel conversations. Lovable agreed, the agent's PR was reviewed and merged. The agent fixed its own spamming.</li>
+</ul>
+<blockquote>
+<p>✅ <strong>The big idea:</strong> the agent is your best-instrumented user. It can describe exactly what is broken, in detail, at scale. Give it a channel to tell you, and you get a flood of high-quality, actionable signal, plus an early-warning system you did not design.</p>
+</blockquote>
+<hr />
+<h2 id="part-4-the-discipline-tuning-and-pruning-and-the-results">Part 4: the discipline, tuning and pruning, and the results</h2>
+<p>Both tactics share one hard requirement, and it is the part Lovable failed at on an earlier attempt:</p>
+<blockquote>
+<p>🔑 <strong>The system must be constantly tuned, and you must prune aggressively.</strong> Lovable tried this earlier and <em>failed</em>, "because we didn't properly tune the system." The idea was good, but without good signals of what is working, you cannot make it work at scale.</p>
+</blockquote>
+<p>Two reasons knowledge must be pruned, not just accumulated:</p>
+<ol>
+<li><strong>Failure modes are model-specific.</strong> When a new model ships, much stored knowledge must be re-tuned for it, or becomes unnecessary because it is now baked into the model's training. Either way, prune it.</li>
+<li><strong>Knowledge has a half-life.</strong> A fix for a library's quirk may be invalid once the library changes. Stale knowledge actively hurts.</li>
+</ol>
+<p>There is far too much (every package, every version, every quirk) for a human to optimise by hand. As the speaker puts it, "you really need it to be self-healing." Fortunately, with 50 million apps, 200,000 new ones daily, and millions of messages, there is abundant data to tune with, "and doing that correctly is kind of what is the key to make this work."</p>
+<h3 id="the-results">The results</h3>
+<table>
+<thead>
+<tr>
+<th>Tactic</th>
+<th>Measured impact</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Lovable Overflow</strong></td>
+<td>Stuck rate down <strong>5%</strong> (the speaker notes this is "the same order of magnitude" as the gain from a whole new foundation-model generation), and publish rate up <strong>2%</strong>, both from the first version, improved since.</td>
+</tr>
+<tr>
+<td><strong>Venting</strong></td>
+<td>Around <strong>10 fixes per day</strong> merged into production from agent-suggested PRs; unmerged ones are clustered for future learnings; and production incidents surfaced earlier than the paging system.</td>
+</tr>
+</tbody>
+</table>
+<p>(The <strong>publish rate</strong> is how often a user is happy enough with their app to share it, a key success signal.)</p>
+<p>Zooming out, these are examples of squeezing the most from the models: Lovable also fine-tunes on its fleet data and has extensive eval coverage. The grander aim is to treat all this user-intent data as a "world model" of the build-software problem and optimise that directly.</p>
+<hr />
+<h2 id="key-takeaways">Key takeaways</h2>
+<ol>
+<li><strong>At scale, the dominant problem is users getting stuck,</strong> especially non-technical users who cannot drop into the code.</li>
+<li><strong>Make "stuck" a metric.</strong> Lovable's <code>is_stuck</code> (repeat requests, complaints, abandonment) is computed by a cheap classification model.</li>
+<li><strong>Three kinds of stuck need three cures:</strong> prompt-around-it, easy-but-unsupported, and big-investment-needed.</li>
+<li><strong>Lovable Overflow</strong> injects a relevant, <em>adapted</em> fix into the agent's context before the user gets hard-stuck.</li>
+<li><strong>Venting</strong> gives the agent a tool to report its own frustration, which becomes bug fixes, an outage alarm, and even self-improvement.</li>
+<li><strong>The agent is your best-instrumented user;</strong> give it a feedback channel.</li>
+<li><strong>Tune constantly and prune aggressively.</strong> Knowledge is model-specific and has a half-life; without pruning, the system rots.</li>
+</ol>
+<h2 id="common-pitfalls">Common pitfalls</h2>
+<ul>
+<li>❌ Treating "stuck" as a vague feeling instead of a measured metric.</li>
+<li>❌ Dumping raw knowledge into the agent's context instead of adapting it to the situation.</li>
+<li>❌ Hoarding fixes forever, so stale knowledge starts causing the very bugs it once solved.</li>
+<li>❌ Ignoring the agent's own signals about what is broken in your platform.</li>
+<li>❌ Building a knowledge system once and never tuning it (Lovable's earlier failure).</li>
+<li>❌ Assuming a new model leaves your stored knowledge valid; much of it must be re-tuned or pruned.</li>
+</ul>
+<hr />
+<h2 id="capstone" class="capstone-h">🛠️ Capstone Project: build a Self-Healing Layer</h2>
+<blockquote>
+<p>This is the main hands on project for the lesson. You will build a small <strong>Self-Healing Layer</strong> for an AI product (real or toy): detect stuck users, inject reusable fixes, and let your agent report its own frustration. Start with one detector and grow.</p>
+</blockquote>
+<h3 id="what-you-will-build">What you will build</h3>
+<p>A layer that wraps an AI assistant and makes it improve over time: a stuck-detector, a pruned knowledge base of reusable fixes injected into context, and an agent feedback channel that turns frustration into reviewed fixes. The deliverable is a working layer plus a metrics dashboard showing stuck rate before and after.</p>
+<blockquote>
+<p>🎯 <strong>Pick your world.</strong> Any AI product with repeat users works: a coding helper, a writing assistant, a data-query bot, a customer-support agent. You need (a) users who issue follow-up requests, (b) recurring problems with known fixes, and (c) an agent that uses tools (so it can hit "frustration").</p>
+</blockquote>
+<h3 id="why-this-is-the-perfect-practice">Why this is the perfect practice</h3>
+<table>
+<thead>
+<tr>
+<th>Lesson idea</th>
+<th>Where you use it in the Self-Healing Layer</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Stuck as a metric</td>
+<td>Milestone 1, your <code>is_stuck</code> detector</td>
+</tr>
+<tr>
+<td>Three kinds of stuck</td>
+<td>Milestone 2, you classify and route</td>
+</tr>
+<tr>
+<td>Lovable Overflow</td>
+<td>Milestone 3, the reusable-fix knowledge base</td>
+</tr>
+<tr>
+<td>Adapt, don't dump</td>
+<td>Milestone 3, rewrite knowledge to fit the situation</td>
+</tr>
+<tr>
+<td>Venting</td>
+<td>Milestone 4, the agent's feedback tool</td>
+</tr>
+<tr>
+<td>Prune by half-life</td>
+<td>Milestone 5, track success ratios and retire stale fixes</td>
+</tr>
+<tr>
+<td>Tuning with data</td>
+<td>Milestone 6, measure stuck rate before/after</td>
+</tr>
+</tbody>
+</table>
+<h3 id="milestones-build-them-in-order-each-one-works-on-its-own">Milestones (build them in order, each one works on its own)</h3>
+<ol>
+<li><strong>Build the stuck-detector.</strong> Define your own <code>is_stuck</code>: repeated requests, complaint language, abandonment. Implement it with a cheap classification model or simple rules over the conversation.</li>
+<li><strong>Classify the kind of stuck.</strong> When stuck fires, sort it into prompt-around-it, easy-but-unsupported, or big-investment. Log the distribution.</li>
+<li><strong>Build your "Overflow."</strong> Start a small corpus of problem-description plus solution pairs. On each user message, search it, let a lightweight model judge relevance, and inject an <em>adapted</em> (rewritten for this situation) fix into the agent's context.</li>
+<li><strong>Add a vent tool.</strong> Give your agent a <code>vent</code> tool with a clear prompt describing when to use it (broken tools, confusing docs, repeated failures). Route vents to a channel; have a monitoring step dedupe and summarise them into actionable reports.</li>
+<li><strong>Prune by half-life.</strong> Track a success ratio for each knowledge item. Automatically demote or remove items that drop below a threshold or are tied to an outdated version. Refill with new ones.</li>
+<li><strong>Measure and tune.</strong> Run a before/after comparison of your stuck rate (and any "success" metric like task completion). Confirm Overflow lowers it and that pruning keeps quality from drifting.</li>
+<li><strong>Stretch goals.</strong> Turn high-confidence agent vents into auto-generated change suggestions for a human to review. Watch for vent <em>spikes</em> as an outage alarm. Re-tune your corpus after a model upgrade and prune what is now redundant.</li>
+</ol>
+<h3 id="how-you-will-know-you-are-done">How you will know you are done</h3>
+<ul>
+<li>✅ Your detector flags stuck sessions and you can show the breakdown by kind.</li>
+<li>✅ A repeat problem gets fixed first-try because the right adapted knowledge was injected.</li>
+<li>✅ Your agent vents on a genuinely broken tool, and that vent becomes a clear, deduped, actionable report.</li>
+<li>✅ Stale knowledge is automatically pruned, with success ratios you can inspect.</li>
+<li>✅ Your dashboard shows a measurable drop in stuck rate after enabling the layer.</li>
+</ul>
+<blockquote>
+<p>💡 <strong>Keep yourself honest:</strong> a knowledge base that only ever grows is a trap. If you cannot point to fixes you <em>removed</em>, you have not built self-healing, you have built a landfill.</p>
+</blockquote>
+<hr />
+<h2 id="practice-exercises-optional-extra-reps">Practice exercises (optional extra reps)</h2>
+<blockquote>
+<p><strong>What these are:</strong> small, self-contained tasks, each focused on one idea. They are optional and independent. The Capstone above covers all of them.</p>
+</blockquote>
+<h3 id="exercise-1-define-stuck-foundational">Exercise 1: define stuck (foundational)</h3>
+<p>Write your own <code>is_stuck</code> rule for a product you know. List the exact signals (repeats, complaints, abandonment) and how you would detect each from a conversation.</p>
+<h3 id="exercise-2-three-buckets-foundational">Exercise 2: three buckets (foundational)</h3>
+<p>Take five real failures from any AI tool. Sort each into prompt-around-it, easy-but-unsupported, or big-investment. Which bucket dominates, and what does that imply for where to spend effort?</p>
+<h3 id="exercise-3-adapt-the-knowledge-intermediate">Exercise 3: adapt the knowledge (intermediate)</h3>
+<p>Take one raw "fix" note and rewrite it for two different user situations (different tech stacks or contexts). Show why injecting the raw note would have been worse than the adapted versions.</p>
+<h3 id="exercise-4-write-a-vent-tool-prompt-intermediate">Exercise 4: write a vent tool prompt (intermediate)</h3>
+<p>Write the prompt for an agent's <code>vent</code> tool: exactly when to call it, and what to include. Then write the monitoring step's logic for deduping and summarising vents.</p>
+<h3 id="exercise-5-prune-by-half-life-advanced">Exercise 5: prune by half-life (advanced)</h3>
+<p>Design a pruning policy: what success ratio triggers removal, how you detect version-staleness, and how you avoid removing a fix that is just temporarily unlucky. Simulate it over a stream of fixes.</p>
+<hr />
+<h2 id="cheat-sheet">Cheat sheet</h2>
+<div class="codehilite"><pre><span></span><code>SELF-HEALING AT SCALE
+
+STEP 1: MEASURE STUCK
+  is_stuck = repeated request (x3) OR complaint OR abandonment
+  (compute with a cheap classification model)
+  Three kinds: prompt-around-it | easy-but-unsupported | big-investment
+
+STEP 2: FIX BEFORE THEY GET STUCK (Lovable Overflow)
+  corpus of {problem description -&gt; solution}
+  search -&gt; lightweight model judges relevance -&gt; ADAPT (don&#39;t dump) -&gt; inject into context
+
+STEP 3: LET THE AGENT TALK BACK (venting)
+  give the agent a vent tool: &quot;report when tooling/docs/platform slow your work&quot;
+  vent -&gt; Slack -&gt; monitoring agent dedupes &amp; investigates -&gt; opens PR -&gt; human reviews
+  bonus: vent spikes = outage alarm; the agent even fixes its own spamming
+
+STEP 4: KEEP IT ALIVE
+  knowledge is model-specific and has a HALF-LIFE
+  track success ratio -&gt; PRUNE stale/outdated -&gt; refill
+  tune constantly with your fleet data (it failed last time without tuning)
+</code></pre></div>
+
+<h2 id="how-this-connects-to-the-rest-of-the-course">How this connects to the rest of the course</h2>
+<ul>
+<li><strong>Earlier, Module 2 (Core skills):</strong> the underlying agent and context techniques this platform operates at scale.</li>
+<li><strong>Earlier, Module 3 (Evals):</strong> the eval coverage and metrics that make tuning and pruning trustworthy.</li>
+<li><strong>Next, Module 9 · Lesson 37 (Omni):</strong> another team that became great at building harnesses by being heavy users of coding agents, and that lives and dies by traces and evals.</li>
+<li><strong>Earlier, Module 9 · Lesson 32 (Man Group):</strong> the same theme of caring for and retiring knowledge so it stays trustworthy over time.</li>
+</ul>
+<hr />
+<p><em>Source: "How Lovable vibecodes production software at scale" by the Lovable team, Code with Claude 2026, London. The <code>vent</code> tool prompt is quoted as read aloud in the talk; other code-style blocks are illustrative reconstructions of the flows described, which were presented with slides rather than code listings.</em></p>
+    </article>
+    <nav class="lessonnav"><a class="ln prev" href="35-where-code-meets-court.html"><span class="dir">&#8592; Previous</span><b>Where Code Meets Court</b></a><a class="ln home" href="../index.html"><b>All lessons</b></a><a class="ln next" href="37-omni-analytics-harness.html"><span class="dir">Next &#8594;</span><b>Building the Best Agentic Analytics Harness</b></a></nav>
+  </main>
+</div>
+
+<footer class="site"><div class="wrap">
+  <a class="logo" href="../index.html">Building with Claude<span class="dot">.</span></a>
+  <span class="fnote">A self-paced course generated from the Code with Claude 2026 (London) talks. Code snippets are illustrative reconstructions of the approaches shown. Adapt them to the current SDK.</span>
+</div></footer>
+
+<style>pre { line-height: 125%; }
+td.linenos .normal { color: inherit; background-color: transparent; padding-left: 5px; padding-right: 5px; }
+span.linenos { color: inherit; background-color: transparent; padding-left: 5px; padding-right: 5px; }
+td.linenos .special { color: #000000; background-color: #ffffc0; padding-left: 5px; padding-right: 5px; }
+span.linenos.special { color: #000000; background-color: #ffffc0; padding-left: 5px; padding-right: 5px; }
+.codehilite .hll { background-color: #ffffcc }
+.codehilite { background: #282C34; color: #ABB2BF }
+.codehilite .c { color: #7F848E } /* Comment */
+.codehilite .err { color: #ABB2BF } /* Error */
+.codehilite .esc { color: #ABB2BF } /* Escape */
+.codehilite .g { color: #ABB2BF } /* Generic */
+.codehilite .k { color: #C678DD } /* Keyword */
+.codehilite .l { color: #ABB2BF } /* Literal */
+.codehilite .n { color: #E06C75 } /* Name */
+.codehilite .o { color: #56B6C2 } /* Operator */
+.codehilite .x { color: #ABB2BF } /* Other */
+.codehilite .p { color: #ABB2BF } /* Punctuation */
+.codehilite .ch { color: #7F848E } /* Comment.Hashbang */
+.codehilite .cm { color: #7F848E } /* Comment.Multiline */
+.codehilite .cp { color: #7F848E } /* Comment.Preproc */
+.codehilite .cpf { color: #7F848E } /* Comment.PreprocFile */
+.codehilite .c1 { color: #7F848E } /* Comment.Single */
+.codehilite .cs { color: #7F848E } /* Comment.Special */
+.codehilite .gd { color: #E06C75 } /* Generic.Deleted */
+.codehilite .ge { color: #ABB2BF; font-style: italic } /* Generic.Emph */
+.codehilite .ges { color: #ABB2BF } /* Generic.EmphStrong */
+.codehilite .gr { color: #E06C75 } /* Generic.Error */
+.codehilite .gh { color: #ABB2BF; font-weight: bold } /* Generic.Heading */
+.codehilite .gi { color: #98C379 } /* Generic.Inserted */
+.codehilite .go { color: #E06C75 } /* Generic.Output */
+.codehilite .gp { color: #ABB2BF } /* Generic.Prompt */
+.codehilite .gs { color: #ABB2BF; font-weight: bold } /* Generic.Strong */
+.codehilite .gu { color: #ABB2BF; font-weight: bold } /* Generic.Subheading */
+.codehilite .gt { color: #E06C75 } /* Generic.Traceback */
+.codehilite .kc { color: #E5C07B } /* Keyword.Constant */
+.codehilite .kd { color: #C678DD } /* Keyword.Declaration */
+.codehilite .kn { color: #C678DD } /* Keyword.Namespace */
+.codehilite .kp { color: #C678DD } /* Keyword.Pseudo */
+.codehilite .kr { color: #C678DD } /* Keyword.Reserved */
+.codehilite .kt { color: #E5C07B } /* Keyword.Type */
+.codehilite .ld { color: #ABB2BF } /* Literal.Date */
+.codehilite .m { color: #D19A66 } /* Literal.Number */
+.codehilite .s { color: #98C379 } /* Literal.String */
+.codehilite .na { color: #E06C75 } /* Name.Attribute */
+.codehilite .nb { color: #E5C07B } /* Name.Builtin */
+.codehilite .nc { color: #E5C07B } /* Name.Class */
+.codehilite .no { color: #E06C75 } /* Name.Constant */
+.codehilite .nd { color: #61AFEF } /* Name.Decorator */
+.codehilite .ni { color: #E06C75 } /* Name.Entity */
+.codehilite .ne { color: #E06C75 } /* Name.Exception */
+.codehilite .nf { color: #61AFEF; font-weight: bold } /* Name.Function */
+.codehilite .nl { color: #E06C75 } /* Name.Label */
+.codehilite .nn { color: #E06C75 } /* Name.Namespace */
+.codehilite .nx { color: #E06C75 } /* Name.Other */
+.codehilite .py { color: #E06C75 } /* Name.Property */
+.codehilite .nt { color: #E06C75 } /* Name.Tag */
+.codehilite .nv { color: #E06C75 } /* Name.Variable */
+.codehilite .ow { color: #56B6C2 } /* Operator.Word */
+.codehilite .pm { color: #ABB2BF } /* Punctuation.Marker */
+.codehilite .w { color: #ABB2BF } /* Text.Whitespace */
+.codehilite .mb { color: #D19A66 } /* Literal.Number.Bin */
+.codehilite .mf { color: #D19A66 } /* Literal.Number.Float */
+.codehilite .mh { color: #D19A66 } /* Literal.Number.Hex */
+.codehilite .mi { color: #D19A66 } /* Literal.Number.Integer */
+.codehilite .mo { color: #D19A66 } /* Literal.Number.Oct */
+.codehilite .sa { color: #98C379 } /* Literal.String.Affix */
+.codehilite .sb { color: #98C379 } /* Literal.String.Backtick */
+.codehilite .sc { color: #98C379 } /* Literal.String.Char */
+.codehilite .dl { color: #98C379 } /* Literal.String.Delimiter */
+.codehilite .sd { color: #98C379 } /* Literal.String.Doc */
+.codehilite .s2 { color: #98C379 } /* Literal.String.Double */
+.codehilite .se { color: #98C379 } /* Literal.String.Escape */
+.codehilite .sh { color: #98C379 } /* Literal.String.Heredoc */
+.codehilite .si { color: #98C379 } /* Literal.String.Interpol */
+.codehilite .sx { color: #98C379 } /* Literal.String.Other */
+.codehilite .sr { color: #98C379 } /* Literal.String.Regex */
+.codehilite .s1 { color: #98C379 } /* Literal.String.Single */
+.codehilite .ss { color: #98C379 } /* Literal.String.Symbol */
+.codehilite .bp { color: #E5C07B } /* Name.Builtin.Pseudo */
+.codehilite .fm { color: #56B6C2; font-weight: bold } /* Name.Function.Magic */
+.codehilite .vc { color: #E06C75 } /* Name.Variable.Class */
+.codehilite .vg { color: #E06C75 } /* Name.Variable.Global */
+.codehilite .vi { color: #E06C75 } /* Name.Variable.Instance */
+.codehilite .vm { color: #E06C75 } /* Name.Variable.Magic */
+.codehilite .il { color: #D19A66 } /* Literal.Number.Integer.Long */</style>
+<script>
+// mobile menu
+const sb=document.getElementById('sidebar'),mb=document.getElementById('menuBtn');
+if(mb){mb.onclick=()=>sb.classList.toggle('open');sb.addEventListener('click',e=>{if(e.target.tagName==='A')sb.classList.remove('open')});}
+const tc=document.getElementById('tocClose');if(tc){tc.onclick=()=>sb.classList.remove('open');}
+// progress
+const prog=document.getElementById('progress');
+addEventListener('scroll',()=>{const h=document.body.scrollHeight-innerHeight;prog.style.width=(h>0?scrollY/h*100:0)+'%'});
+// code chrome + copy
+document.querySelectorAll('.codehilite, pre').forEach(block=>{
+  if(block.parentElement.classList.contains('codehilite'))return;
+  const bar=document.createElement('div');bar.className='code-bar';
+  bar.innerHTML='<span class="dot r"></span><span class="dot y"></span><span class="dot g"></span>';
+  block.appendChild(bar);
+  const btn=document.createElement('button');btn.className='copy-btn';btn.textContent='Copy';
+  btn.onclick=()=>{const t=block.querySelector('code')?.innerText||block.innerText;
+    navigator.clipboard.writeText(t.replace(/\nCopy$/,''));btn.textContent='Copied!';btn.classList.add('done');
+    setTimeout(()=>{btn.textContent='Copy';btn.classList.remove('done')},1500)};
+  block.appendChild(btn);
+});
+// callouts by leading emoji
+const map={'🔑':'cl-key','💡':'cl-tip','✅':'cl-ok','❌':'cl-no','🎯':'cl-goal','🛠':'cl-goal'};
+document.querySelectorAll('blockquote').forEach(q=>{const t=(q.textContent||'').trim();for(const e in map){if(t.startsWith(e)){q.classList.add(map[e]);break}}});
+// check-off
+function makeCheckable(rx){document.querySelectorAll('h2,h3').forEach(h=>{if(!rx.test(h.textContent))return;let el=h.nextElementSibling;
+  while(el&&!/^H[1-3]$/.test(el.tagName)){if(el.tagName==='OL'||el.tagName==='UL'){el.classList.add('checkable');
+    el.querySelectorAll(':scope>li').forEach(li=>{const key='cwc:'+location.pathname+':'+li.textContent.slice(0,60);
+      if(localStorage.getItem(key))li.classList.add('checked');
+      li.addEventListener('click',ev=>{if(ev.target.tagName==='A')return;li.classList.toggle('checked');
+        li.classList.contains('checked')?localStorage.setItem(key,'1'):localStorage.removeItem(key)});});}el=el.nextElementSibling;}});}
+makeCheckable(/learning objectives|milestones/i);
+// scrollspy
+const links=[...document.querySelectorAll('.toc a')];
+const heads=links.map(a=>a.getAttribute('href')).filter(h=>h&&h.startsWith('#')).map(h=>document.getElementById(h.slice(1))).filter(Boolean);
+const spy=()=>{let cur=heads[0]?.id;for(const h of heads){if(h.getBoundingClientRect().top<150)cur=h.id}
+  links.forEach(a=>a.classList.toggle('active',a.getAttribute('href')==='#'+cur))};
+addEventListener('scroll',spy);spy();
+</script>
+</body>
+</html>

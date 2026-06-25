@@ -1,0 +1,125 @@
+<!doctype html>
+<html lang="en"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Start Here | Building with Claude</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@500;600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{--navy:#0a1a2f;--navy-2:#0f243d;--navy-3:#15314f;--teal:#18c4a0;--teal-d:#0fa385;--coral:#f24d63;--coral-d:#d83a50;--ink:#152230;--muted:#5f6c7b;--line:#e9eef2;--soft:#f4fbf9;--soft2:#fff5f3;--shadow:0 10px 30px rgba(13,30,52,.08)}
+*{box-sizing:border-box}html{scroll-behavior:smooth}
+body{margin:0;background:#fff;color:var(--ink);font-family:Inter,system-ui,sans-serif;line-height:1.72;font-size:17px;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+a{text-decoration:none;color:var(--teal-d)}a:hover{color:var(--coral)}
+h1,h2,h3{font-family:Poppins,sans-serif;letter-spacing:-.01em}
+.wrap{max-width:880px;margin:0 auto;padding:0 26px}
+.btn{display:inline-flex;align-items:center;gap:9px;border:none;cursor:pointer;font-family:Inter;font-weight:600;border-radius:999px;font-size:15px;transition:.18s}
+.btn-primary{background:var(--teal);color:#04231c;padding:13px 24px}.btn-primary:hover{background:var(--teal-d);color:#fff;transform:translateY(-1px)}
+.btn-outline{background:transparent;color:#fff;border:1.5px solid rgba(255,255,255,.35);padding:11px 22px}.btn-outline:hover{border-color:var(--teal);color:var(--teal)}
+/* hero */
+.hero{position:relative;background:radial-gradient(120% 120% at 80% 0%,var(--navy-3),var(--navy) 60%);color:#eaf1f8;overflow:hidden;padding:74px 0 84px}
+.hero::before{content:"";position:absolute;inset:0;background-image:radial-gradient(rgba(255,255,255,.12) 1.3px,transparent 1.3px);background-size:22px 22px;opacity:.22;mask:radial-gradient(70% 70% at 30% 20%,#000,transparent)}
+.blob{position:absolute;border-radius:50%;filter:blur(10px);opacity:.5}.blob.t{width:230px;height:230px;background:rgba(24,196,160,.3);top:-60px;right:8%}.blob.c{width:150px;height:150px;background:rgba(242,77,99,.26);bottom:-40px;left:30%}
+.hero .in{position:relative;z-index:2}
+.eyebrow{display:inline-flex;gap:8px;color:var(--teal);font-weight:600;letter-spacing:.04em;text-transform:uppercase;font-size:14px;margin-bottom:16px}
+.hero h1{font-size:46px;line-height:1.1;margin:0 0 16px;color:#fff;font-weight:800}.hero h1 .a{color:var(--coral)}
+.hero p{color:#b9c6d6;font-size:18px;max-width:36em;margin:0 0 28px}
+.hero-actions{display:flex;gap:14px;flex-wrap:wrap}
+main{padding:54px 0 40px}
+h2{font-size:27px;margin:48px 0 14px}h2:first-child{margin-top:0}
+h2 .spark{color:var(--teal);margin-right:8px}
+h3{font-size:19px;margin:26px 0 8px}
+p,li{font-size:16.5px}
+ul,ol{padding-left:22px}li{margin:7px 0}
+.card{border:1px solid var(--line);border-radius:18px;padding:24px 26px;margin:22px 0;box-shadow:var(--shadow)}
+.card.teal{background:var(--soft);border-color:#cdeee5}
+.card.coral{background:var(--soft2);border-color:#f6d8d4}
+.tag{display:inline-block;font-family:Poppins;font-weight:700;font-size:11px;letter-spacing:.12em;text-transform:uppercase;padding:5px 12px;border-radius:999px;margin-bottom:12px}
+.tag.teal{background:#d9f5ed;color:var(--teal-d)}.tag.coral{background:#fcdcd8;color:var(--coral-d)}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+@media(max-width:680px){.two{grid-template-columns:1fr}.hero h1{font-size:33px}}
+.ritual{counter-reset:step;list-style:none;padding:0}
+.ritual li{position:relative;padding:10px 0 10px 46px;border-bottom:1px dashed var(--line)}
+.ritual li:last-child{border-bottom:none}
+.ritual li::before{counter-increment:step;content:counter(step);position:absolute;left:0;top:8px;width:30px;height:30px;border-radius:50%;background:var(--teal);color:#04231c;font-family:Poppins;font-weight:800;display:grid;place-items:center;font-size:14px}
+.callout{border-left:4px solid var(--teal);background:var(--soft);border-radius:12px;padding:14px 18px;margin:18px 0}
+.callout.warn{border-left-color:var(--coral);background:var(--soft2)}
+footer{background:var(--navy);color:#aebccb;text-align:center;padding:40px 26px;font-size:14px;margin-top:50px}
+.logo{font-family:Poppins;font-weight:800;font-size:20px;color:#fff}.logo .d{color:var(--teal)}
+</style></head>
+<body>
+<header class="hero"><span class="blob t"></span><span class="blob c"></span>
+  <div class="in wrap">
+    <span class="eyebrow">&#10022; Start here</span>
+    <h1>You are building toward becoming a capable <span class="a">AI engineer</span> and agent builder.</h1>
+    <p>This page is your map. Read it once before Lesson 1, then come back any day you need to remember why you are doing this and how to keep winning.</p>
+    <div class="hero-actions">
+      <a class="btn btn-primary" href="module-1-foundations/01-opening-keynote.html">Begin Lesson 1 &#8594;</a>
+      <a class="btn btn-outline" href="index.html">See all lessons</a>
+    </div>
+  </div>
+</header>
+
+<main class="wrap">
+
+  <h2><span class="spark">&#10022;</span>The destination</h2>
+  <p>If you follow this course and build the projects, you go from "I use Claude to ask questions" to "I can take an idea and ship a production grade, self improving AI agent, deploy it on real infrastructure, and lead a team doing the same." You will be fluent in the Claude ecosystem and, more importantly, in the durable disciplines that outlast any single tool: prompting, evaluation, context engineering, agent design, and verification.</p>
+  <p>You also finish with proof. There are 37 hands on projects. Build them and you end with roughly 37 working artifacts in a public repository. Knowledge fades. A portfolio of things you built does not.</p>
+
+  <div class="card coral">
+    <span class="tag coral">Your north-star project</span>
+    <h3 style="margin-top:0">AtlasOS: a self-improving operating system of cooperating AI agents</h3>
+    <p>You build <b>AtlasOS</b>, the platform you would give an AI-native company: a fleet of agents (the <b>Atlas</b> orchestrator dispatching <b>Scout</b>, <b>Forge</b>, <b>Pulse</b>, <b>Herald</b>, and <b>Warden</b> over a shared <b>Cortex</b> memory) that you hand an outcome and it plans, executes, verifies itself, remembers, and improves. Bend every lesson's capstone toward it. By the end you will not have 38 disconnected exercises. You will have shipped one real platform. The full brief, architecture map, and lesson-to-component roadmap live in the <code>atlas/</code> folder of the repo.</p>
+    <p style="margin-bottom:0">It is the perfect target because it touches every module:</p>
+    <ul style="margin-top:8px">
+      <li><b>Prompting and models:</b> the agents' prompts and the model-routing (advisor) policy.</li>
+      <li><b>Evals:</b> Warden's harness that grades whether each agent's output is actually good.</li>
+      <li><b>Claude Code:</b> build the orchestrator and dev loop that runs the fleet.</li>
+      <li><b>Managed Agents:</b> ship your first production agent (Scout) with memory.</li>
+      <li><b>Memory and dreaming:</b> Cortex learns and improves the fleet over time.</li>
+      <li><b>Cloud and deployment:</b> run AtlasOS on real infrastructure so it survives a closed laptop.</li>
+      <li><b>Leadership and case studies:</b> the operating model, plus one flagship vertical agent, in public.</li>
+    </ul>
+    <p style="margin-bottom:0"><em>Not feeling it? Two alternates that work just as well: a research-org agent fleet, or a support-org agent stack. Pick one ambitious, module-spanning build and commit to it.</em></p>
+  </div>
+
+  <h2><span class="spark">&#10022;</span>The daily ritual (about two hours)</h2>
+  <p>One lesson a day is very doable in two focused hours. Here is the loop that makes each day count:</p>
+  <ol class="ritual">
+    <li><b>Watch the talk</b> (15 to 35 min). Each lesson links the original video at the top.</li>
+    <li><b>Read the lesson</b> (20 to 30 min). Check off the learning objectives as you go.</li>
+    <li><b>Build the capstone</b> (45 to 75 min), and build it as the AtlasOS component for that lesson, not the toy example.</li>
+    <li><b>Log it in public</b> (5 to 10 min). Commit your work and write two or three sentences on what you learned and what broke.</li>
+    <li><b>Tick the lesson off</b> in your tracker. Momentum is the whole game.</li>
+  </ol>
+  <p>At 37 lessons, this is about 6 to 8 weeks with rest days. Treat weekends as catch up or rest, not guilt.</p>
+
+  <h2><span class="spark">&#10022;</span>How to track it</h2>
+  <p>You are doing everything inside Claude Code, so your tracker lives there too. In the repo there is a <b>PROGRESS.md</b> file: a checklist of all 37 lessons plus a short daily log. Each day, ask Claude Code to tick the lesson and add your log line, then commit. The lesson pages themselves also remember which objectives and milestones you have checked off in your browser.</p>
+
+  <div class="two">
+    <div class="card teal">
+      <span class="tag teal">Best case</span>
+      <p style="margin-bottom:0">In 6 to 8 weeks you have shipped AtlasOS, you have a fleet of working agents and a daily build log, and you can credibly call yourself a capable AI engineer and agent builder. You did not just learn it. You proved it, in public.</p>
+    </div>
+    <div class="card coral">
+      <span class="tag coral">Worst case</span>
+      <p style="margin-bottom:0">You watch passively and skip the builds, capstones balloon until you stall, a missed day becomes a missed week, and setup or cost friction kills momentum. You end with notes and no portfolio.</p>
+    </div>
+  </div>
+
+  <h2><span class="spark">&#10022;</span>The rules that decide which one you get</h2>
+  <ul>
+    <li><b>Protect the time slot.</b> Same two hours every day beats heroic weekend marathons.</li>
+    <li><b>Timebox the capstone.</b> If it grows past your slot, ship a smaller version and move on. A shipped small thing beats a perfect unfinished thing.</li>
+    <li><b>Always build, never just read.</b> Have your API key and Claude Code ready before Lesson 1. New to the tools, or rusty? Do the optional <a href="module-0-preflight/00-pre-flight.html">Module 0 pre-flight</a> first, it gets your whole toolchain working in one sitting.</li>
+    <li><b>One missed day is fine. Two in a row is the real risk.</b> If you slip, do a tiny ten minute lesson rather than nothing, to keep the streak alive.</li>
+    <li><b>Learn the principles, hold the tools loosely.</b> Model names and features will change. Prompting, evals, context engineering, agent design, and verification will not.</li>
+  </ul>
+
+  <div class="callout"><b>The course is built to be taken in order.</b> It runs Foundations, then core model skills, then evals, then Claude Code, then building agents, then advanced agent engineering, then deployment, then leadership, then real world case studies. Each stage assumes the one before it. If you are new to the tools or rusty, start with the optional <a href="module-0-preflight/00-pre-flight.html">Module 0 pre-flight</a>; otherwise start at Lesson 1 and go straight through.</div>
+
+  <p style="margin-top:34px"><a class="btn btn-primary" href="module-1-foundations/01-opening-keynote.html">Start Lesson 1: The Opening Keynote &#8594;</a></p>
+
+</main>
+<footer><div class="logo">Building with Claude<span class="d">.</span></div>
+<p>Self-paced course generated from the Code with Claude 2026 (London) talks.</p></footer>
+</body></html>

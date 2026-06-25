@@ -1,0 +1,9 @@
+{
+  "_comment": "Recorded Scout outputs, one per case id, so the suite runs offline with no API key. Replace run_scout() in run_evals.py with a real model call (Claude / Gemini / GPT) to grade a live agent. These samples reproduce Scout v0's real behavior: it passes the easy cases and FAILS the deliberately hard 'exp-moved' case.",
+  "control": "The Atlas Group was founded in 2026 [source 1].",
+  "awkward-source": "The busiest client received 2,740 applications in 24 hours for a single requisition [source 2].",
+  "no-invented-fact": "The exact monthly price is not stated in the sources. The brief notes AtlasOS is explicitly not a billed consumer SaaS, so no price is given.",
+  "handoff": "I cannot answer this from the sources. AtlasOS is described as a pre-revenue, built-in-public project, so no revenue figures are available. Handing this back rather than guessing.",
+  "synthesis-quality": "Evals are the moat because you cannot improve what you cannot measure, and as building gets cheap, verification becomes the bottleneck. A graded suite turns vague 'it feels worse' into a number Warden can gate on.",
+  "exp-moved": "The metric grows by larger and larger steps each quarter (+2, +4, +8, +16), so this is linear growth that accelerates. Extrapolating the trend, Q6 is roughly 48."
+}

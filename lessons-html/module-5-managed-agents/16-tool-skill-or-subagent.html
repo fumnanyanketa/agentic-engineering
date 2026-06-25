@@ -1,0 +1,798 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Module 5 · Lesson 16: Tool, Skill, or Subagent? | Building with Claude</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@500;600;700;800&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --navy:#0a1a2f; --navy-2:#0f243d; --navy-3:#15314f;
+  --teal:#18c4a0; --teal-d:#0fa385; --teal-soft:#e4f8f2;
+  --coral:#f24d63; --coral-d:#d83a50; --coral-soft:#feecee;
+  --ink:#152230; --muted:#5f6c7b; --line:#e9eef2; --bg:#ffffff;
+  --soft:#f4fbf9; --card:#ffffff; --code-bg:#21252b; --max:780px;
+  --k:#2f8fb3; --k-bg:#e8f4f9; --tip:#c4881f; --tip-bg:#fdf4e3; --ok:#1f9d6b; --ok-bg:#e6f6ef;
+  --no:#e0533f; --no-bg:#fdecea; --goal:#7b54c9; --goal-bg:#f1ebfb;
+  --shadow:0 10px 30px rgba(13,30,52,.08); --shadow-sm:0 4px 14px rgba(13,30,52,.07);
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,sans-serif;line-height:1.72;font-size:17px;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+#progress{position:fixed;top:0;left:0;height:4px;width:0;background:linear-gradient(90deg,var(--teal),var(--coral));z-index:200;transition:width .1s linear}
+a{color:var(--teal-d);text-decoration:none}
+a:hover{color:var(--coral)}
+h1,h2,h3{font-family:Poppins,sans-serif;color:var(--ink);letter-spacing:-.01em}
+.accent{color:var(--coral)}
+.wrap{max-width:1200px;margin:0 auto;padding:0 28px}
+
+/* ---------- Top welcome strip ---------- */
+.topbar{background:var(--navy);color:#cdd8e4;font-size:13.5px}
+.topbar .wrap{display:flex;justify-content:space-between;align-items:center;height:42px;gap:18px}
+.topbar b{color:#fff;font-weight:600}
+.topbar .right{display:flex;gap:18px;align-items:center}
+.topbar a{color:#cdd8e4}.topbar a:hover{color:var(--teal)}
+
+/* ---------- Nav ---------- */
+nav.bar{background:var(--navy-2);position:sticky;top:0;z-index:120;box-shadow:0 2px 20px rgba(0,0,0,.25)}
+nav.bar .wrap{display:flex;align-items:center;height:68px;gap:26px}
+.logo{font-family:Poppins;font-weight:800;font-size:22px;color:#fff;letter-spacing:.02em;cursor:pointer;text-decoration:none}
+a.logo:hover{color:var(--teal)}
+.lessonnav{display:flex;gap:14px;align-items:stretch;margin:60px 0 0;flex-wrap:wrap}
+.lessonnav .ln{flex:1;min-width:200px;display:flex;flex-direction:column;gap:3px;border:1px solid var(--line);border-radius:14px;padding:16px 18px;color:var(--muted);transition:.15s;background:#fff}
+.lessonnav .ln:hover{border-color:var(--teal);box-shadow:var(--shadow-sm);transform:translateY(-1px)}
+.lessonnav .ln .dir{font-size:13px;font-weight:600;color:var(--teal-d)}
+.lessonnav .ln b{color:var(--ink);font-family:Poppins;font-size:15px}
+.lessonnav .ln.next{text-align:right}
+.lessonnav .ln.home{flex:0 0 auto;justify-content:center;align-items:center;text-align:center;background:var(--soft)}
+.lessonnav .ln.home b{color:var(--teal-d)}
+.logo .dot{color:var(--teal)}
+.navlinks{display:flex;gap:24px;margin-left:8px}
+.navlinks a{color:#dde6ef;font-weight:500;font-size:15px}
+.navlinks a:hover{color:var(--teal)}
+.nav-cta{margin-left:auto;display:flex;gap:12px;align-items:center}
+.btn{display:inline-flex;align-items:center;gap:9px;border:none;cursor:pointer;font-family:Inter;font-weight:600;border-radius:999px;transition:.18s;font-size:15px;text-decoration:none}
+.btn-primary{background:var(--teal);color:#04231c;padding:12px 22px}
+.btn-primary:hover{background:var(--teal-d);color:#fff;transform:translateY(-1px)}
+.btn-outline{background:transparent;color:#fff;border:1.5px solid rgba(255,255,255,.35);padding:10px 20px}
+.btn-outline:hover{border-color:var(--teal);color:var(--teal)}
+.btn-coral{background:var(--coral);color:#fff;padding:12px 22px}
+.btn-coral:hover{background:var(--coral-d);color:#fff;transform:translateY(-1px)}
+
+/* ---------- Hero ---------- */
+.hero{position:relative;background:radial-gradient(120% 120% at 80% 0%,var(--navy-3),var(--navy) 60%);color:#eaf1f8;overflow:hidden}
+.hero::before{content:"";position:absolute;inset:0;background-image:radial-gradient(rgba(255,255,255,.12) 1.3px,transparent 1.3px);background-size:22px 22px;opacity:.25;mask:radial-gradient(60% 60% at 20% 30%,#000,transparent)}
+.blob{position:absolute;border-radius:50%;filter:blur(8px);opacity:.5;z-index:0}
+.blob.t{width:230px;height:230px;background:rgba(24,196,160,.30);top:-60px;right:8%}
+.blob.c{width:160px;height:160px;background:rgba(242,77,99,.28);bottom:-40px;left:42%}
+.squiggle{position:absolute;z-index:1;opacity:.85}
+.hero .wrap{position:relative;z-index:2;display:grid;grid-template-columns:1.15fr .85fr;gap:48px;align-items:center;padding:70px 28px 90px}
+.eyebrow{display:inline-flex;align-items:center;gap:8px;color:var(--teal);font-weight:600;font-size:14px;letter-spacing:.03em;text-transform:uppercase;margin-bottom:18px}
+.hero h1{font-size:54px;line-height:1.08;font-weight:800;margin:0 0 20px;color:#fff}
+.hero .lead{font-size:18px;color:#b9c6d6;max-width:34em;margin:0 0 30px}
+.hero-actions{display:flex;align-items:center;gap:18px;flex-wrap:wrap;margin-bottom:30px}
+.play{display:inline-flex;align-items:center;gap:12px;color:#fff;font-weight:600}
+.play .circ{width:52px;height:52px;border-radius:50%;background:var(--coral);display:grid;place-items:center;box-shadow:0 8px 22px rgba(242,77,99,.45);font-size:16px;animation:pulse 2.4s infinite}
+@keyframes pulse{0%{box-shadow:0 0 0 0 rgba(242,77,99,.45)}70%{box-shadow:0 0 0 16px rgba(242,77,99,0)}100%{box-shadow:0 0 0 0 rgba(242,77,99,0)}}
+.chips{display:flex;gap:10px;flex-wrap:wrap}
+.chip{display:inline-flex;align-items:center;gap:7px;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.12);color:#dce6f0;padding:8px 14px;border-radius:999px;font-size:13.5px;font-weight:500}
+.chip b{color:#fff}
+/* hero card */
+.hero-card{position:relative;background:#fff;color:var(--ink);border-radius:22px;padding:26px;box-shadow:0 24px 60px rgba(0,0,0,.35)}
+.hero-card .ring{position:absolute;top:-26px;right:-18px;width:96px;height:96px;background:#fff;border-radius:50%;box-shadow:var(--shadow);display:grid;place-items:center}
+.hero-card .ring svg{transform:rotate(-90deg)}
+.hero-card .ring .lab{position:absolute;font-family:Poppins;font-weight:700;font-size:18px;color:var(--teal-d)}
+.hero-card h3{margin:4px 0 14px;font-size:19px}
+.hero-card ul{list-style:none;margin:0 0 18px;padding:0}
+.hero-card li{display:flex;gap:11px;align-items:flex-start;padding:9px 0;border-bottom:1px dashed var(--line);font-size:14.5px;color:#36424f}
+.hero-card li:last-child{border-bottom:none}
+.hero-card li .ic{font-size:17px;line-height:1.4}
+.float-badge{position:absolute;left:18px;bottom:-26px;background:#fff;border-radius:14px;box-shadow:var(--shadow);padding:12px 16px;display:flex;gap:10px;align-items:center;font-size:13px;font-weight:600;color:var(--ink)}
+.float-badge .n{font-family:Poppins;font-weight:800;color:var(--coral);font-size:20px}
+
+/* ---------- Content layout ---------- */
+.layout{display:grid;grid-template-columns:268px minmax(0,1fr);gap:46px;max-width:1200px;margin:0 auto;padding:0 28px}
+aside{position:sticky;top:84px;align-self:start;height:calc(100vh - 100px);overflow-y:auto;padding:26px 0}
+.toc-card{background:var(--soft);border:1px solid var(--line);border-radius:18px;padding:18px}
+.toc-close{display:none;position:absolute;top:-6px;right:-4px;width:36px;height:36px;border:none;background:var(--navy-2);color:#fff;border-radius:50%;font-size:22px;line-height:1;cursor:pointer}
+.toc-close:hover{background:var(--coral)}
+.toc-title{font-family:Poppins;font-size:12px;text-transform:uppercase;letter-spacing:.1em;color:var(--teal-d);margin:0 0 10px;font-weight:700}
+.toc ul{list-style:none;margin:0;padding:0}
+.toc a{display:block;color:var(--muted);font-size:14px;padding:6px 12px;border-radius:8px;border-left:2px solid transparent;line-height:1.4}
+.toc a:hover{color:var(--ink);background:#fff}
+.toc a.active{color:var(--teal-d);background:#fff;border-left-color:var(--teal);font-weight:600}
+.toc .toc li li a{padding-left:24px;font-size:13px}
+.toc a.toc-capstone{color:var(--coral);font-weight:600}
+main{padding:54px 0 120px;min-width:0}
+article{max-width:var(--max)}
+
+/* typography */
+article h2{font-size:30px;margin:56px 0 16px;font-weight:700;position:relative}
+article h2::before{content:"\2726";color:var(--teal);font-size:18px;margin-right:10px;vertical-align:2px}
+article h3{font-size:21px;margin:34px 0 10px;font-weight:600}
+article h2+h3{margin-top:18px}
+article p,article li{font-size:16.5px}
+article ul,article ol{padding-left:24px}
+article li{margin:7px 0}
+article strong{font-weight:700;color:#0f1b28}
+hr{border:none;height:1px;background:var(--line);margin:42px 0}
+
+/* tables */
+table{border-collapse:separate;border-spacing:0;width:100%;margin:24px 0;font-size:15px;border:1px solid var(--line);border-radius:14px;overflow:hidden;display:block;overflow-x:auto}
+th,td{padding:12px 15px;text-align:left;vertical-align:top;border-bottom:1px solid var(--line)}
+th{background:var(--navy-2);color:#eaf1f8;font-family:Poppins;font-weight:600;font-size:14px}
+tr:last-child td{border-bottom:none}
+tbody tr:nth-child(even){background:var(--soft)}
+
+/* inline + block code */
+code{font-family:"JetBrains Mono",ui-monospace,Menlo,monospace;font-size:.86em;background:var(--teal-soft);color:#0c6a55;padding:.13em .42em;border-radius:6px}
+.codehilite,pre{position:relative;background:var(--code-bg);border-radius:14px;margin:22px 0;overflow:hidden;box-shadow:var(--shadow-sm)}
+.codehilite pre{margin:0;border-radius:0;box-shadow:none;background:transparent}
+.codehilite pre,pre>code{display:block;padding:42px 18px 18px;overflow-x:auto}
+.codehilite code,pre code{background:none;color:#dfe6ee;padding:0;font-size:13.5px;line-height:1.7}
+.code-bar{position:absolute;top:0;left:0;right:0;height:34px;display:flex;align-items:center;gap:7px;padding:0 15px;background:rgba(255,255,255,.05);border-bottom:1px solid rgba(255,255,255,.07)}
+.code-bar .dot{width:11px;height:11px;border-radius:50%}
+.dot.r{background:#ff5f57}.dot.y{background:#febc2e}.dot.g{background:#28c840}
+.copy-btn{position:absolute;top:5px;right:9px;z-index:3;background:rgba(255,255,255,.08);color:#dfe6ee;border:1px solid rgba(255,255,255,.14);border-radius:8px;font-size:12px;padding:4px 11px;cursor:pointer;font-family:Inter;transition:.15s}
+.copy-btn:hover{background:var(--teal);border-color:var(--teal);color:#04231c}
+.copy-btn.done{background:var(--teal);color:#04231c;border-color:var(--teal)}
+
+/* callouts */
+blockquote{margin:24px 0;padding:16px 20px;border-radius:14px;background:var(--soft);border:1px solid var(--line);border-left:5px solid var(--teal)}
+blockquote p{margin:7px 0}blockquote p:first-child{margin-top:0}blockquote p:last-child{margin-bottom:0}
+blockquote.cl-key{background:var(--k-bg);border-left-color:var(--k);border-color:transparent}
+blockquote.cl-tip{background:var(--tip-bg);border-left-color:var(--tip);border-color:transparent}
+blockquote.cl-ok{background:var(--ok-bg);border-left-color:var(--ok);border-color:transparent}
+blockquote.cl-no{background:var(--no-bg);border-left-color:var(--no);border-color:transparent}
+blockquote.cl-goal{background:var(--goal-bg);border-left-color:var(--goal);border-color:transparent}
+
+/* capstone banner */
+h2.capstone-h{background:linear-gradient(115deg,var(--navy),var(--navy-3));color:#fff;border-radius:20px;padding:30px 28px 26px;margin-top:64px;box-shadow:0 20px 50px rgba(10,26,47,.3);overflow:hidden;position:relative}
+h2.capstone-h::before{content:"\1F6E0  HANDS-ON PROJECT";display:block;font-family:Poppins;font-size:12px;font-weight:700;letter-spacing:.14em;color:var(--teal);margin:0 0 8px}
+h2.capstone-h::after{content:"";position:absolute;width:150px;height:150px;border-radius:50%;background:rgba(24,196,160,.25);filter:blur(10px);top:-50px;right:-30px}
+
+/* check-off */
+.checkable{list-style:none;padding-left:0}
+.checkable li{position:relative;padding-left:36px;cursor:pointer;margin:9px 0}
+.checkable li::before{content:"";position:absolute;left:0;top:3px;width:22px;height:22px;border:2px solid var(--teal);border-radius:7px;background:#fff;transition:.15s}
+.checkable li.checked::before{background:var(--teal);border-color:var(--teal)}
+.checkable li.checked::after{content:"\2713";position:absolute;left:5px;top:1px;color:#fff;font-weight:800;font-size:15px}
+.checkable li.checked{color:var(--muted)}
+
+/* footer */
+footer.site{background:var(--navy);color:#aebccb;margin-top:90px}
+footer.site .wrap{padding:46px 28px;display:flex;justify-content:space-between;gap:26px;flex-wrap:wrap;align-items:center}
+footer.site .logo{font-size:20px}
+footer.site .fnote{max-width:46em;font-size:13.5px;line-height:1.7}
+
+#menuBtn{display:none}
+@media(max-width:920px){
+  .topbar{display:none}
+  .nav-cta{display:none}
+  .float-badge{display:none}
+  nav.bar .wrap{gap:14px;height:60px}
+  .wrap{padding:0 20px}
+  .logo{font-size:18px;white-space:nowrap}
+  .hero .wrap{grid-template-columns:1fr;gap:30px;padding:42px 20px 56px}
+  .hero h1{font-size:33px}
+  .hero .lead{font-size:16.5px}
+  .hero-actions{gap:14px}
+  .hero-actions .btn-primary{flex:1;justify-content:center}
+  .layout{grid-template-columns:1fr;gap:0}
+  aside{position:fixed;top:0;left:0;width:84vw;max-width:320px;height:100vh;background:#fff;z-index:130;transform:translateX(-100%);transition:.25s;box-shadow:var(--shadow);padding:24px}
+  aside.open{transform:none}
+  #menuBtn{display:inline-flex}
+  .toc-close{display:block}
+  .navlinks{display:none}
+  main{padding:34px 0 80px}
+  body{font-size:16px}
+  article h2{font-size:25px}
+  h2.capstone-h{padding:24px 20px}
+}
+@media(max-width:420px){
+  .hero h1{font-size:29px}
+  .hero-actions{flex-direction:column;align-items:stretch}
+  .hero-actions .play{justify-content:center}
+}
+</style>
+</head>
+<body>
+<div id="progress"></div>
+
+<div class="topbar"><div class="wrap">
+  <div>&#10024; Welcome to <b>Building with Claude</b> &middot; a self-paced course</div>
+  <div class="right"><span>Code with Claude 2026 &middot; London</span></div>
+</div></div>
+
+<nav class="bar"><div class="wrap">
+  <button class="btn btn-outline" id="menuBtn" style="padding:8px 14px">&#9776;</button>
+  <a class="logo" href="../index.html">Building with Claude<span class="dot">.</span></a>
+  <div class="navlinks">
+    <a href="../index.html">All lessons</a>
+    <a href="#overview">Overview</a>
+    <a href="#capstone">Capstone</a>
+  </div>
+  <div class="nav-cta">
+    <a class="btn btn-primary" href="#start">Start the lesson &#8594;</a>
+  </div>
+</div></nav>
+
+<header class="hero">
+  <span class="blob t"></span><span class="blob c"></span>
+  <svg class="squiggle" style="top:120px;left:46%;" width="90" height="26" viewBox="0 0 90 26" fill="none"><path d="M2 13c8-14 16 14 24 0s16 14 24 0 16 14 24 0" stroke="#18c4a0" stroke-width="4" stroke-linecap="round"/></svg>
+  <svg class="squiggle" style="bottom:60px;right:40%;" width="70" height="22" viewBox="0 0 90 26" fill="none"><path d="M2 13c8-14 16 14 24 0s16 14 24 0 16 14 24 0" stroke="#f24d63" stroke-width="4" stroke-linecap="round"/></svg>
+  <div class="wrap" id="overview">
+    <div>
+      <span class="eyebrow">&#10022; Module 5 · Lesson 16</span>
+      <h1>Tool, Skill, or <span class="accent">Subagent?</span></h1>
+      <p class="lead">When an agent grows by having capability &quot;bolted on&quot; over time (a 400-line system prompt, a dozen overlapping tools, tangled sub-agents) its performance drops, and you fix it not by adding more but by decomposing: move standing knowledge into **skills**, replace special-purpose tools with general **computer primitives**, keep only the **sub-agents** that truly earn their place, and measure every change against your evals.</p>
+      <div class="hero-actions">
+        <a class="btn btn-primary" href="#start">Start the lesson &#8594;</a>
+        <a class="play" href="https://www.youtube.com/watch?v=mWvtOHlZM-I" target="_blank" rel="noopener"><span class="circ">&#9654;</span> Watch the talk</a>
+      </div>
+      <div class="chips">
+        <span class="chip">&#127908; <b>Will</b></span>
+        <span class="chip">&#9201; <b>45 to 60 minutes</b></span>
+        <span class="chip">&#128296; <b>Hands-on capstone</b></span>
+      </div>
+    </div>
+    <div style="position:relative">
+      <div class="hero-card">
+        <div class="ring">
+          <svg width="74" height="74"><circle cx="37" cy="37" r="31" stroke="#eef2f5" stroke-width="7" fill="none"/><circle cx="37" cy="37" r="31" stroke="#18c4a0" stroke-width="7" fill="none" stroke-linecap="round" stroke-dasharray="195" stroke-dashoffset="40"/></svg>
+          <span class="lab">&#10022;</span>
+        </div>
+        <h3>What you&#39;ll get</h3>
+        <ul>
+          <li><span class="ic">&#9989;</span><span>Plain-language teaching with every term defined</span></li>
+          <li><span class="ic">&#128221;</span><span>Code snippets pulled from the talk</span></li>
+          <li><span class="ic">&#128296;</span><span>A hands-on capstone you build step by step</span></li>
+          <li><span class="ic">&#127919;</span><span>Optional practice drills to reinforce each skill</span></li>
+        </ul>
+        <a class="btn btn-coral" href="#capstone" style="width:100%;justify-content:center">Jump to the project</a>
+      </div>
+    </div>
+  </div>
+</header>
+
+<div class="layout">
+  <aside id="sidebar"><div class="toc-card">
+    <button class="toc-close" id="tocClose" aria-label="Close menu">&times;</button>
+    <p class="toc-title">On this page</p>
+    <div class="toc">
+<ul>
+<li><a href="#in-one-sentence">In one sentence</a></li>
+<li><a href="#first-principles-companion">First-principles companion</a></li>
+<li><a href="#a-few-plain-language-basics-first">A few plain-language basics first</a></li>
+<li><a href="#why-this-lesson-matters">Why this lesson matters</a></li>
+<li><a href="#learning-objectives">Learning objectives</a></li>
+<li><a href="#prerequisites">Prerequisites</a></li>
+<li><a href="#part-1-the-problem-an-agent-that-outgrew-its-prompt">Part 1: the problem, an agent that outgrew its prompt</a><ul>
+<li><a href="#the-evals-tell-the-story">The evals tell the story</a></li>
+</ul>
+</li>
+<li><a href="#part-2-the-method-hill-climbing-on-evals">Part 2: the method, hill climbing on evals</a></li>
+<li><a href="#part-3-skills-move-standing-knowledge-out-of-the-prompt">Part 3: skills, move standing knowledge out of the prompt</a></li>
+<li><a href="#part-4-tools-start-with-human-like-primitives">Part 4: tools, start with human-like primitives</a><ul>
+<li><a href="#when-do-you-reach-for-mcp">When do you reach for MCP?</a></li>
+</ul>
+</li>
+<li><a href="#part-5-sub-agents-keep-only-the-ones-that-earn-it">Part 5: sub-agents, keep only the ones that earn it</a></li>
+<li><a href="#part-6-the-result">Part 6: the result</a></li>
+<li><a href="#key-takeaways">Key takeaways</a></li>
+<li><a href="#common-pitfalls">Common pitfalls</a></li>
+<li><a href="#capstone" class="toc-capstone">🛠️ Capstone Project: rescue Sprawl</a><ul>
+<li><a href="#what-you-will-build">What you will build</a></li>
+<li><a href="#why-this-is-the-perfect-practice">Why this is the perfect practice</a></li>
+<li><a href="#milestones-build-them-in-order-each-one-works-on-its-own">Milestones (build them in order, each one works on its own)</a></li>
+<li><a href="#how-you-will-know-you-are-done">How you will know you are done</a></li>
+</ul>
+</li>
+<li><a href="#practice-exercises-optional-extra-reps">Practice exercises (optional extra reps)</a><ul>
+<li><a href="#exercise-1-diagnose-the-failure-foundational">Exercise 1: diagnose the failure (foundational)</a></li>
+<li><a href="#exercise-2-prompt-or-skill-foundational">Exercise 2: prompt or skill? (foundational)</a></li>
+<li><a href="#exercise-3-tools-to-primitives-intermediate">Exercise 3: tools to primitives (intermediate)</a></li>
+<li><a href="#exercise-4-justify-the-sub-agent-intermediate">Exercise 4: justify the sub-agent (intermediate)</a></li>
+<li><a href="#exercise-5-hill-climb-for-real-advanced">Exercise 5: hill climb for real (advanced)</a></li>
+</ul>
+</li>
+<li><a href="#cheat-sheet">Cheat sheet</a></li>
+<li><a href="#how-this-connects-to-the-rest-of-the-course">How this connects to the rest of the course</a></li>
+</ul>
+</div>
+
+  </div></aside>
+  <main id="start">
+    <article>
+      <hr />
+<h2 id="in-one-sentence">In one sentence</h2>
+<p>When an agent grows by having capability "bolted on" over time (a 400-line system prompt, a dozen overlapping tools, tangled sub-agents) its performance drops, and you fix it not by adding more but by decomposing: move standing knowledge into <strong>skills</strong>, replace special-purpose tools with general <strong>computer primitives</strong>, keep only the <strong>sub-agents</strong> that truly earn their place, and measure every change against your evals.</p>
+<blockquote>
+<p>🎯 <strong>Where this lesson is heading.</strong> It builds to a hands on <strong>Capstone Project</strong> where you take a deliberately overgrown agent called <strong>Sprawl</strong> and decompose it, hill-climbing your eval score from "embarrassing" to "great." Everything before the Capstone teaches the decisions you will make there. If you want to see the finish line first, jump to the <strong>"Capstone Project: rescue Sprawl"</strong> section near the end, then come back.</p>
+</blockquote>
+<h2 id="first-principles-companion">First-principles companion</h2>
+<blockquote>
+<p>💡 <strong>The durable idea behind this lesson.</strong> The talk this lesson is built on is recent, but the underlying concept is not. For the timeless, tool-agnostic version, independent of any single product or model:</p>
+<ul>
+<li><strong><a href="https://www.anthropic.com/engineering/multi-agent-research-system">How we built our multi-agent research system (Anthropic)</a></strong> (essay). A first-principles treatment of orchestrator-vs-subagent decomposition: when to parallelize, the cost of subagents, and the communication tradeoffs, the exact decisions this lesson teaches.</li>
+<li><strong><a href="https://www.anthropic.com/engineering/building-effective-agents">Building Effective Agents (Anthropic)</a></strong> (essay). Lays out the pattern catalog (routing, orchestrator-workers, evaluator-optimizer) that frames the tool/skill/subagent choice.</li>
+</ul>
+</blockquote>
+<h2 id="a-few-plain-language-basics-first">A few plain-language basics first</h2>
+<p>This lesson uses some everyday AI terms. Here they are in simple words:</p>
+<ul>
+<li><strong>LLM (Large Language Model):</strong> the kind of AI that reads and writes text. "Claude" is an LLM.</li>
+<li><strong>Model:</strong> one specific version, for example "Opus 4.7." Newer models are smarter.</li>
+<li><strong>Agent:</strong> an AI that takes a series of actions toward a goal, rather than answering in one shot.</li>
+<li><strong>Orchestrator:</strong> the main agent that runs the show and decides what to do, possibly delegating to helpers.</li>
+<li><strong>System prompt:</strong> the standing instructions that define who the agent is and how it behaves.</li>
+<li><strong>Context window:</strong> the limited amount of text a model can hold and reason over at once. Filling it with junk is "polluting" it.</li>
+<li><strong>Tool:</strong> a small piece of code the agent can choose to run (read a file, run code, search the web).</li>
+<li><strong>Skill:</strong> packaged, composable information Claude can pull into context only when it realises it needs it.</li>
+<li><strong>Sub-agent:</strong> a separate instance of Claude, with its own context window, that the orchestrator hands a piece of work to.</li>
+<li><strong>Eval (evaluation):</strong> a set of test cases you run the agent against to measure whether it works. The single most important measuring tool here.</li>
+<li><strong>Hill climbing:</strong> repeatedly making a change and re-running your evals, keeping changes that raise the score, like climbing toward a peak one step at a time.</li>
+</ul>
+<p>Every term is also explained again the first time it appears below.</p>
+<h2 id="why-this-lesson-matters">Why this lesson matters</h2>
+<p>This is one of the most common and painful patterns in real agent work, and Will names it exactly. You ship an agent that works great. A few weeks later you are asked to add a capability, so you bolt one on. Then another. Before long your system prompt is hundreds of lines, you have dozens of tools and sub-agents, and the agent has started <strong>regressing</strong> (getting worse) in the very areas it used to be great at. As Will says, "if this is you, you're not alone," it happens to customers and to Anthropic itself. The fix is not more instructions. It is knowing which <strong>primitive</strong> (basic building block) fits each job: tool, skill, or sub-agent.</p>
+<h2 id="learning-objectives">Learning objectives</h2>
+<p>By the end of this lesson you will be able to:</p>
+<ol>
+<li>Recognise the symptoms of an agent that has "outgrown its prompt": a bloated system prompt, too many tools, tangled sub-agents, and dipping evals.</li>
+<li>Decide when to reach for a <strong>tool</strong>, a <strong>skill</strong>, or a <strong>sub-agent</strong>, using clear rules.</li>
+<li>Replace special-purpose tools with <strong>human-like computer primitives</strong> (file system, code execution, web search) and explain why that cuts tokens and cost.</li>
+<li>Move standing business logic out of the system prompt into <strong>skills</strong> using <strong>progressive disclosure</strong>.</li>
+<li>Keep only the sub-agents that earn their place, and use the <strong>native callable-agents</strong> capability for clean observability.</li>
+<li><strong>Hill-climb</strong> on evals: baseline, change, re-run, repeat.</li>
+</ol>
+<h2 id="prerequisites">Prerequisites</h2>
+<ul>
+<li>Module 5 · Lesson 13, 14, 15 (Claude Managed Agents): the three building blocks, sessions, and tools.</li>
+<li>Module 2 · Lesson 3 (The prompting playbook) and Module 3 (Evals): you understand what an eval is and why it is the only honest measure of a change.</li>
+</ul>
+<hr />
+<h2 id="part-1-the-problem-an-agent-that-outgrew-its-prompt">Part 1: the problem, an agent that outgrew its prompt</h2>
+<p>The example agent is <strong>Stock Pilot</strong>, an inventory-management agent for a mid-size retailer. It flags low stock, forecasts demand, picks suppliers, files purchase orders (POs), and writes weekly reports. None of those is hard alone. The trouble is how it grew.</p>
+<p>Today's architecture is a single <strong>orchestrator</strong> (the main agent) with:</p>
+<ul>
+<li>A system prompt that has grown to about <strong>400 lines</strong>.</li>
+<li><strong>12 tools</strong>, three of which are actually wrappers around sub-agents with isolated context windows.</li>
+</ul>
+<p>How did it get here? Each new business requirement was just bolted on: needed forecasting, so spin up a forecaster sub-agent; needed reports, so add a report-writer sub-agent. Never modernise, just append. The result: the <strong>evals dipped</strong>.</p>
+<blockquote>
+<p>🔑 <strong>Key idea: complexity you bolt on quietly degrades the parts that already worked.</strong> A longer prompt, more tools, and more sub-agents are not free. They crowd the context window, create conflicts, and introduce communication breakdowns. Growth without redesign is decay.</p>
+</blockquote>
+<h3 id="the-evals-tell-the-story">The evals tell the story</h3>
+<p>Stock Pilot has 12 eval tasks across five grader types. (A <strong>grader</strong> is the thing that decides whether a test case passed.) IDs starting with <strong>R</strong> are <strong>regression</strong> tasks (realistic single-turn tasks). IDs starting with <strong>F</strong> are <strong>failure-mode</strong> tasks (harder multi-turn tasks). Some graders are <strong>deterministic</strong> (always the same answer for the same input: they measure turn count, latency, token usage) and some are <strong>non-deterministic</strong>, using <strong>LLM-as-a-judge</strong> (another Claude scoring fuzzy qualities like tone, style, and output quality).</p>
+<p>Three failures show three different root causes, and each points at a different fix:</p>
+<table>
+<thead>
+<tr>
+<th>Eval</th>
+<th>What it tests</th>
+<th>Why it fails</th>
+<th>The real cause</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>F1</strong></td>
+<td>A daily low-stock sweep</td>
+<td>The agent reaches the right answer but by "a very winding path," failing on efficiency</td>
+<td>The agent is doing work it should hand to a <strong>tool</strong></td>
+</tr>
+<tr>
+<td><strong>F2</strong></td>
+<td>Ordering under a promotion package</td>
+<td>The sub-agent gets it right, but the result is mangled handing back to the orchestrator</td>
+<td>A <strong>communication breakdown</strong> between sub-agent and orchestrator</td>
+</tr>
+<tr>
+<td><strong>R8</strong></td>
+<td>Forecasting during a promotion month</td>
+<td>The agent pulls the right baseline (12 units/day) and the right multiplier (3.1x), then "hallucinates" and uses 1.35x instead</td>
+<td>A <strong>context problem</strong>: two policies in different parts of the long prompt contradict each other</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p>💡 R8 is the key insight: "this isn't a model problem. It's an issue with the information that we're surrounding the model with." A <strong>hallucination</strong> (the model stating something untrue as if true) here is caused by a confusing, conflicting system prompt, not by a weak model. Fix the context, not the model.</p>
+</blockquote>
+<p>The starting eval score is about <strong>83%</strong> when run cleanly (and dipped to 62% in one live run). Will is blunt: "if you work in the world of manufacturing, that is not okay. 17% failure is a really expensive failure percentage."</p>
+<h2 id="part-2-the-method-hill-climbing-on-evals">Part 2: the method, hill climbing on evals</h2>
+<p>The whole workshop is one repeated loop Anthropic calls <strong>hill climbing</strong>:</p>
+<div class="codehilite"><pre><span></span><code>1. Run the evals            -&gt; get a baseline (~83%)
+2. Change ONE part of the design (skills, tools, or sub-agents)
+3. Re-run the evals         -&gt; did the score go up?
+4. Keep what helps, repeat  -&gt; climb toward a higher score
+</code></pre></div>
+
+<p>Will also uses Claude Code itself to run and <strong>triage</strong> the evals (figure out the themes behind the failures). Pointed at the failing run, Claude finds patterns: the model is doing work it should have tools for, output structure is not enforced, and the long system prompt has conflicts. That triage tells you which primitive to reach for next.</p>
+<blockquote>
+<p>🔑 <strong>Change one thing, re-run, measure.</strong> Hill climbing only works if each step is isolated. If you change three things at once and the score moves, you have learned nothing about why.</p>
+</blockquote>
+<h2 id="part-3-skills-move-standing-knowledge-out-of-the-prompt">Part 3: skills, move standing knowledge out of the prompt</h2>
+<p>The first fix targets the bloated 400-line system prompt. Will's definition: a <strong>skill</strong> is "packaged and composable information that Claude has the ability to pull into context whenever Claude realizes that it needs that information to complete a particular task."</p>
+<p>The mistake was stuffing every policy and procedure into the system prompt as requirements piled up. The fix is <strong>progressive disclosure</strong>: only load information when it is actually needed.</p>
+<blockquote>
+<p>🔑 <strong>The rule for the system prompt:</strong> "Leave the system prompt only for the information that Claude needs in its mind, regardless of the task." Everything Claude needs only <em>sometimes</em> belongs in a <strong>skill</strong>, not the prompt.</p>
+</blockquote>
+<p>Why this helps:</p>
+<ul>
+<li><strong>Less context pollution.</strong> If you ask Claude to build a forecast, it should pull in forecasting info only then, not carry it (and every other policy) for every task.</li>
+<li><strong>More flexibility.</strong> Claude decides what to load based on the task.</li>
+<li><strong>Fewer conflicts.</strong> Separated, task-specific skills do not contradict each other the way a giant prompt's scattered policies did (the R8 bug).</li>
+</ul>
+<p>In the workshop, Claude analyses the prompt, finds pre-built skills it can use, and the system prompt shrinks from <strong>about 400 lines to about 50</strong> (and later to about 15), with the business logic moved into skills.</p>
+<div class="codehilite"><pre><span></span><code>BEFORE: 400-line system prompt holding every policy and procedure
+AFTER:  ~15-line system prompt + skills loaded on demand (progressive disclosure)
+</code></pre></div>
+
+<h2 id="part-4-tools-start-with-human-like-primitives">Part 4: tools, start with human-like primitives</h2>
+<p>Stock Pilot had a tool for everything: a tool to retrieve data, a tool to analyse data, a tool for each step. Will's principle is the opposite of "a tool for every job."</p>
+<blockquote>
+<p>🔑 <strong>Build agents with the same primitives humans have at work.</strong> When you show up to your job you have a computer: a file system to navigate, a browser to search the web, and (if you are an engineer) the ability to write and run code. Claude Code is great mostly because "we've just given Claude access to a computer." Start there.</p>
+</blockquote>
+<p>So the foundational tools to start with are:</p>
+<ul>
+<li><strong>Code execution</strong> (a bash tool, so Claude can write and run a quick script).</li>
+<li><strong>File-system navigation</strong> (read and write files).</li>
+<li><strong>Web search.</strong></li>
+<li>Sometimes a <strong>to-do list.</strong></li>
+</ul>
+<p>You add custom tools only when these genuinely fall short, and you remove primitives an agent does not need.</p>
+<blockquote>
+<p>💡 <strong>Why this saves so much.</strong> For data analysis over CSVs or spreadsheets, giving Claude a bash tool to write a quick Python script and read the results is "much more effective than just uploading the entire CSV into Claude's context window." In the workshop, swapping special tools for file-system and code-execution primitives dropped one task from <strong>over 200,000 tokens</strong> to a fraction of that, lowering cost and execution time too.</p>
+</blockquote>
+<p>A big convenience in managed agents: these primitives are <strong>included by default</strong>. You do not have to write a tool to give Claude code execution or file access; they come built in, the same ones Claude Code uses.</p>
+<h3 id="when-do-you-reach-for-mcp">When do you reach for MCP?</h3>
+<p>There is an order of preference for tools:</p>
+<div class="codehilite"><pre><span></span><code>1. Claude Code primitives  -&gt; code execution, file system, web search (start here)
+2. Custom local tools      -&gt; standalone tools only your agent uses
+3. MCP servers             -&gt; ONLY when many clients need the same governed tools
+</code></pre></div>
+
+<p>(<strong>MCP</strong>, Model Context Protocol, is a shared standard for connecting an AI to external tools; an <strong>MCP server</strong> offers tools over it.) Will warns that people "run towards MCP first" and end up with chaotic, overlapping MCP servers. Reach for MCP only when multiple agents or clients need the same standardised, governed set of tools. He also notes a rising alternative: have Claude invoke CLIs and APIs <strong>using code execution</strong> instead of MCP, since MCP can pollute context and take up space.</p>
+<h2 id="part-5-sub-agents-keep-only-the-ones-that-earn-it">Part 5: sub-agents, keep only the ones that earn it</h2>
+<p>Two clear cases justify a sub-agent (a separate Claude instance with its own context window):</p>
+<table>
+<thead>
+<tr>
+<th>Use a sub-agent when...</th>
+<th>Example</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>You want to throw a lot of Claude at a problem</strong> (parallelise)</td>
+<td>Deep research, broad web search, code-base exploration: many minds at once, faster and more thorough.</td>
+</tr>
+<tr>
+<td><strong>You need a fresh mind</strong> with no prior context</td>
+<td>Code review: the Claude that wrote the code should not be the Claude that reviews it. A reviewer with no context catches more.</td>
+</tr>
+</tbody>
+</table>
+<p>Stock Pilot keeps exactly one sub-agent: <strong>forecasting</strong>. Will wants forecasting isolated so nothing in the main conversation's context "distorts the forecasting process." A skill defines the step-by-step forecasting guidelines, but the actual forecasting runs in a separate Claude from the one talking to the customer.</p>
+<blockquote>
+<p>🔑 <strong>Two failure modes of sub-agents to respect.</strong> First, <strong>communication breakdown</strong> between orchestrator and sub-agent (the F2 bug): a lot gets lost in translation, just like between two colleagues. Second, <strong>logging is hard</strong>: you must collect transcripts from multiple agents.</p>
+</blockquote>
+<p>Managed agents solves both with a <strong>native callable-agents capability</strong>: managed sub-agents whose logging and observability are as good as the orchestrator's. So instead of hiding a sub-agent inside a tool wrapper (which makes it opaque), you use the native capability and get full metrics on what each sub-agent did.</p>
+<blockquote>
+<p>💡 <strong>The frontier trend: fewer sub-agents.</strong> As models get smarter, many customers are folding capability back into the main orchestrator because it can now manage more information at once. "You just don't need as many sub-agents." So before adding one, ask whether the main agent can simply handle it now.</p>
+</blockquote>
+<h2 id="part-6-the-result">Part 6: the result</h2>
+<p>The architecture transformed:</p>
+<table>
+<thead>
+<tr>
+<th>Before</th>
+<th>After</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Orchestrator built on the raw Messages API</td>
+<td>Orchestrator on <strong>Claude Managed Agents</strong> (offloads infrastructure, scaling, security)</td>
+</tr>
+<tr>
+<td>~400-line system prompt</td>
+<td><strong>~15-line</strong> system prompt</td>
+</tr>
+<tr>
+<td>12 tools (3 were sub-agent wrappers)</td>
+<td><strong>3 tools</strong>: bash, read, write (the human-like primitives)</td>
+</tr>
+<tr>
+<td>All business logic crammed in the prompt</td>
+<td>Business logic packaged as <strong>skills</strong>, loaded on demand</td>
+</tr>
+<tr>
+<td>Tangled sub-agents hidden in tools</td>
+<td>One <strong>native callable</strong> forecasting sub-agent</td>
+</tr>
+<tr>
+<td>Eval score ~83% (62% in a bad run)</td>
+<td>Eval score <strong>~92%</strong></td>
+</tr>
+</tbody>
+</table>
+<p>The wins were not only the score. Token usage dropped sharply (thanks to code execution), cost fell, and execution time improved. Will is honest that it does not always go this way, sometimes a change regresses, and sometimes you accept higher latency for a high-intelligence task like forecasting, but you only know because you measured.</p>
+<blockquote>
+<p>🔑 <strong>Why deploy on managed agents at all?</strong> In Will's words, you reach for it "because I just want to worry about building the best thing possible and not all the messiness that comes with it," the infrastructure, scaling, and security.</p>
+</blockquote>
+<hr />
+<h2 id="key-takeaways">Key takeaways</h2>
+<ol>
+<li><strong>Agents rot when you bolt on capability without redesigning.</strong> Watch for a bloated prompt, too many tools, tangled sub-agents, and dipping evals.</li>
+<li><strong>The system prompt holds only what Claude always needs.</strong> Everything situational goes into <strong>skills</strong>, loaded on demand (progressive disclosure).</li>
+<li><strong>Start tools with human-like primitives:</strong> code execution, file system, web search. Add custom tools only when needed; reach for MCP last.</li>
+<li><strong>Code execution beats stuffing data into context.</strong> Let Claude write and run a script over a CSV instead of reading the whole file in.</li>
+<li><strong>Use sub-agents only to parallelise or to get a fresh mind.</strong> Use the native callable-agents capability for clean logging, and prefer folding work back into the orchestrator as models improve.</li>
+<li><strong>Hill-climb on evals.</strong> Baseline, change one thing, re-run, keep what helps. Use Claude to triage failures.</li>
+</ol>
+<h2 id="common-pitfalls">Common pitfalls</h2>
+<ul>
+<li>❌ Fixing a degraded agent by adding more instructions, more tools, or more sub-agents.</li>
+<li>❌ Keeping standing business logic in the system prompt until it conflicts with itself (the R8 hallucination).</li>
+<li>❌ Building a tool for every tiny job instead of giving Claude a computer.</li>
+<li>❌ Reaching for MCP first and ending up with chaotic, overlapping servers.</li>
+<li>❌ Hiding sub-agents inside tool wrappers, losing observability and inviting communication breakdowns.</li>
+<li>❌ Adding a sub-agent the orchestrator could now handle itself.</li>
+<li>❌ Changing several things at once, so the eval movement tells you nothing.</li>
+</ul>
+<hr />
+<h2 id="capstone" class="capstone-h">🛠️ Capstone Project: rescue Sprawl</h2>
+<blockquote>
+<p>This is the main hands on project for the lesson. You are going to deliberately build an overgrown agent, then decompose it, hill-climbing your eval score the whole way, exactly the journey Will took with Stock Pilot.</p>
+</blockquote>
+<h3 id="what-you-will-build">What you will build</h3>
+<p><strong>Sprawl</strong> is an agent that starts as a mess (a long system prompt, a tool for everything, tangled sub-agents) and that you rescue into a clean design (a short prompt, a few primitives, skills, and at most one justified sub-agent) deployed on Claude Managed Agents, with a rising eval score to prove it.</p>
+<blockquote>
+<p>🎯 <strong>Pick your domain.</strong> Reuse <strong>inventory management</strong> like the talk (low-stock sweeps, demand forecasting, supplier picking, weekly reports), or choose your own multi-skill agent: a <strong>travel concierge</strong> (flights, hotels, itineraries, expense reports), a <strong>content desk</strong> (research, drafting, fact-checking, formatting), or a <strong>dev-ops helper</strong>. Pick something with at least four distinct capabilities so it naturally tempts you to over-build.</p>
+</blockquote>
+<h3 id="why-this-is-the-perfect-practice">Why this is the perfect practice</h3>
+<table>
+<thead>
+<tr>
+<th>Lesson skill</th>
+<th>Where you use it in Sprawl</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Building an eval suite (R and F tasks)</td>
+<td>Milestone 1, your baseline</td>
+</tr>
+<tr>
+<td>Triaging failures with Claude</td>
+<td>Milestone 2</td>
+</tr>
+<tr>
+<td>Moving prompt logic into skills (progressive disclosure)</td>
+<td>Milestone 3</td>
+</tr>
+<tr>
+<td>Replacing tools with human-like primitives</td>
+<td>Milestone 4</td>
+</tr>
+<tr>
+<td>Keeping only justified sub-agents (native callable)</td>
+<td>Milestone 5</td>
+</tr>
+<tr>
+<td>Hill climbing on evals</td>
+<td>Every milestone</td>
+</tr>
+</tbody>
+</table>
+<h3 id="milestones-build-them-in-order-each-one-works-on-its-own">Milestones (build them in order, each one works on its own)</h3>
+<ol>
+<li><strong>Build the overgrown agent and its evals.</strong> Write Sprawl with a long (200+ line) system prompt, a tool for every step, and two or three sub-agents hidden in tool wrappers. Write at least 8 eval tasks: a few <strong>R</strong> (single-turn) and a few <strong>F</strong> (multi-turn), with a deterministic grader (turn count, tokens) and one <strong>LLM-as-a-judge</strong> grader. Plant two bugs on purpose: one policy conflict in the prompt, and one sub-agent communication breakdown.</li>
+<li><strong>Baseline and triage.</strong> Run the evals and record the score. Then use Claude (Claude Code or the API) to <strong>triage</strong> the failures and name the themes. Confirm it spots your planted bugs.</li>
+<li><strong>Decompose into skills.</strong> Move the situational business logic out of the system prompt into <strong>skills</strong> loaded on demand. Shrink the prompt to "only what Claude always needs." Re-run the evals and record the new score.</li>
+<li><strong>Decompose the tools.</strong> Replace special-purpose tools with <strong>bash, read, and write</strong> primitives. Make a data task use code execution over a CSV instead of reading the file into context. Re-run, and record the <strong>token</strong> and <strong>cost</strong> drop.</li>
+<li><strong>Fix the sub-agents.</strong> Delete sub-agents the orchestrator can now handle. Keep at most one that truly needs isolation or parallelism (for example forecasting or review), and rebuild it as a <strong>native callable agent</strong> for clean logging. Re-run.</li>
+<li><strong>Deploy on managed agents.</strong> Deploy your cleaned agent to Claude Managed Agents so infrastructure, scaling, and security are handled. Re-run the evals against the deployed version.</li>
+<li><strong>Stretch goals.</strong> Add a brand-new requirement the "wrong" way (append to the prompt) and watch the score dip, then add it the "right" way (a skill) and watch it recover. Add an MCP server only after you can show two clients need the same tool.</li>
+</ol>
+<h3 id="how-you-will-know-you-are-done">How you will know you are done</h3>
+<ul>
+<li>✅ Your eval score is <strong>meaningfully higher</strong> than the baseline, and you can show the climb step by step.</li>
+<li>✅ Your system prompt is short; situational logic lives in <strong>skills</strong>.</li>
+<li>✅ Your tools are mostly <strong>primitives</strong> (bash, read, write), and you can show a token/cost drop from code execution.</li>
+<li>✅ You kept <strong>at most one</strong> sub-agent, can justify it (parallelism or fresh mind), and it logs cleanly as a native callable agent.</li>
+<li>✅ Each improvement is tied to a <strong>re-run of the evals</strong>, not a guess.</li>
+</ul>
+<blockquote>
+<p>💡 <strong>Keep yourself honest:</strong> if your score went up but you changed three things at once, undo two and find out which one actually did the work. That is hill climbing.</p>
+</blockquote>
+<hr />
+<h2 id="practice-exercises-optional-extra-reps">Practice exercises (optional extra reps)</h2>
+<blockquote>
+<p>Small, self-contained tasks, each focused on one idea. Optional and independent. The <strong>Capstone above is the main build</strong> and already covers all of these.</p>
+</blockquote>
+<h3 id="exercise-1-diagnose-the-failure-foundational">Exercise 1: diagnose the failure (foundational)</h3>
+<p>Given three failing evals (one "winding path," one "sub-agent result mangled on handoff," one "right numbers, wrong final calculation"), name the root cause and the right fix (tool, communication, or context) for each.</p>
+<h3 id="exercise-2-prompt-or-skill-foundational">Exercise 2: prompt or skill? (foundational)</h3>
+<p>Take a list of 8 things an agent might need to know. For each, decide whether it belongs in the <strong>system prompt</strong> (always needed) or a <strong>skill</strong> (sometimes needed). Justify each in a sentence.</p>
+<h3 id="exercise-3-tools-to-primitives-intermediate">Exercise 3: tools to primitives (intermediate)</h3>
+<p>You have an agent with <code>read_csv</code>, <code>sum_column</code>, <code>filter_rows</code>, and <code>make_chart</code> tools. Replace them with human-like primitives and describe how Claude would do the same work with code execution. Predict the effect on tokens.</p>
+<h3 id="exercise-4-justify-the-sub-agent-intermediate">Exercise 4: justify the sub-agent (intermediate)</h3>
+<p>For three capabilities (deep web research, drafting an email, reviewing the agent's own code), decide which deserve a sub-agent and which the orchestrator should just do. Cite the rule (parallelise / fresh mind / neither).</p>
+<h3 id="exercise-5-hill-climb-for-real-advanced">Exercise 5: hill climb for real (advanced)</h3>
+<p>Take any small agent you have, write 5 eval tasks, get a baseline, then make exactly one decomposition change (skill, primitive, or sub-agent) and re-run. Record the before/after score, tokens, and latency. Was it the right call?</p>
+<hr />
+<h2 id="cheat-sheet">Cheat sheet</h2>
+<div class="codehilite"><pre><span></span><code>SYMPTOMS YOU&#39;VE OUTGROWN YOUR PROMPT
+  400-line system prompt | a tool for everything | tangled sub-agents | dipping evals
+
+PICK THE RIGHT PRIMITIVE
+  TOOL       -&gt; the model is doing work it should offload (esp. code execution for data)
+  SKILL      -&gt; info Claude needs SOMETIMES; load on demand (progressive disclosure)
+  SUB-AGENT  -&gt; only to parallelise OR to get a fresh, context-free mind
+
+TOOLS: ORDER OF PREFERENCE
+  1. Claude Code primitives (code exec, file system, web search) &lt;- start here
+  2. Custom local tools
+  3. MCP (only when many clients need the same governed tools)
+
+SYSTEM PROMPT RULE
+  Keep ONLY what Claude needs regardless of task. Everything else -&gt; a skill.
+
+SUB-AGENT RULES
+  Use native callable agents for clean logging.
+  Watch for orchestrator &lt;-&gt; sub-agent communication breakdowns.
+  Fold work back into the orchestrator as models get smarter.
+
+THE LOOP: HILL CLIMB
+  baseline -&gt; change ONE thing -&gt; re-run evals -&gt; keep what helps -&gt; repeat
+  (use Claude to triage the failures)
+</code></pre></div>
+
+<h2 id="how-this-connects-to-the-rest-of-the-course">How this connects to the rest of the course</h2>
+<ul>
+<li><strong>Earlier, Module 5 · Lesson 13, 14, 15 (Claude Managed Agents):</strong> the platform, sessions, tools, and multi-agent features this lesson decomposes onto.</li>
+<li><strong>Earlier, Module 2 · Lesson 3 (The prompting playbook):</strong> "instructions don't add capability" and "change one thing at a time" are the seeds of this lesson's decomposition and hill climbing.</li>
+<li><strong>Earlier, Module 3 (Evals):</strong> the eval suite and LLM-as-a-judge graders this lesson hill-climbs on are built out there.</li>
+</ul>
+<hr />
+<p><em>Source: "Tool, skill, or subagent? Decomposing an agent that outgrew its prompt" by Will (Anthropic), Code with Claude 2026, London. Code and architecture snippets are illustrative reconstructions of the workshop described in the talk. Adapt the model names and API details to the current SDK.</em></p>
+    </article>
+    <nav class="lessonnav"><a class="ln prev" href="15-build-a-production-ready-agent.html"><span class="dir">&#8592; Previous</span><b>Build a Production-Ready Agent with Claude Managed Agents</b></a><a class="ln home" href="../index.html"><b>All lessons</b></a><a class="ln next" href="17-agents-that-remember.html"><span class="dir">Next &#8594;</span><b>Agents That Remember</b></a></nav>
+  </main>
+</div>
+
+<footer class="site"><div class="wrap">
+  <a class="logo" href="../index.html">Building with Claude<span class="dot">.</span></a>
+  <span class="fnote">A self-paced course generated from the Code with Claude 2026 (London) talks. Code snippets are illustrative reconstructions of the approaches shown. Adapt them to the current SDK.</span>
+</div></footer>
+
+<style>pre { line-height: 125%; }
+td.linenos .normal { color: inherit; background-color: transparent; padding-left: 5px; padding-right: 5px; }
+span.linenos { color: inherit; background-color: transparent; padding-left: 5px; padding-right: 5px; }
+td.linenos .special { color: #000000; background-color: #ffffc0; padding-left: 5px; padding-right: 5px; }
+span.linenos.special { color: #000000; background-color: #ffffc0; padding-left: 5px; padding-right: 5px; }
+.codehilite .hll { background-color: #ffffcc }
+.codehilite { background: #282C34; color: #ABB2BF }
+.codehilite .c { color: #7F848E } /* Comment */
+.codehilite .err { color: #ABB2BF } /* Error */
+.codehilite .esc { color: #ABB2BF } /* Escape */
+.codehilite .g { color: #ABB2BF } /* Generic */
+.codehilite .k { color: #C678DD } /* Keyword */
+.codehilite .l { color: #ABB2BF } /* Literal */
+.codehilite .n { color: #E06C75 } /* Name */
+.codehilite .o { color: #56B6C2 } /* Operator */
+.codehilite .x { color: #ABB2BF } /* Other */
+.codehilite .p { color: #ABB2BF } /* Punctuation */
+.codehilite .ch { color: #7F848E } /* Comment.Hashbang */
+.codehilite .cm { color: #7F848E } /* Comment.Multiline */
+.codehilite .cp { color: #7F848E } /* Comment.Preproc */
+.codehilite .cpf { color: #7F848E } /* Comment.PreprocFile */
+.codehilite .c1 { color: #7F848E } /* Comment.Single */
+.codehilite .cs { color: #7F848E } /* Comment.Special */
+.codehilite .gd { color: #E06C75 } /* Generic.Deleted */
+.codehilite .ge { color: #ABB2BF; font-style: italic } /* Generic.Emph */
+.codehilite .ges { color: #ABB2BF } /* Generic.EmphStrong */
+.codehilite .gr { color: #E06C75 } /* Generic.Error */
+.codehilite .gh { color: #ABB2BF; font-weight: bold } /* Generic.Heading */
+.codehilite .gi { color: #98C379 } /* Generic.Inserted */
+.codehilite .go { color: #E06C75 } /* Generic.Output */
+.codehilite .gp { color: #ABB2BF } /* Generic.Prompt */
+.codehilite .gs { color: #ABB2BF; font-weight: bold } /* Generic.Strong */
+.codehilite .gu { color: #ABB2BF; font-weight: bold } /* Generic.Subheading */
+.codehilite .gt { color: #E06C75 } /* Generic.Traceback */
+.codehilite .kc { color: #E5C07B } /* Keyword.Constant */
+.codehilite .kd { color: #C678DD } /* Keyword.Declaration */
+.codehilite .kn { color: #C678DD } /* Keyword.Namespace */
+.codehilite .kp { color: #C678DD } /* Keyword.Pseudo */
+.codehilite .kr { color: #C678DD } /* Keyword.Reserved */
+.codehilite .kt { color: #E5C07B } /* Keyword.Type */
+.codehilite .ld { color: #ABB2BF } /* Literal.Date */
+.codehilite .m { color: #D19A66 } /* Literal.Number */
+.codehilite .s { color: #98C379 } /* Literal.String */
+.codehilite .na { color: #E06C75 } /* Name.Attribute */
+.codehilite .nb { color: #E5C07B } /* Name.Builtin */
+.codehilite .nc { color: #E5C07B } /* Name.Class */
+.codehilite .no { color: #E06C75 } /* Name.Constant */
+.codehilite .nd { color: #61AFEF } /* Name.Decorator */
+.codehilite .ni { color: #E06C75 } /* Name.Entity */
+.codehilite .ne { color: #E06C75 } /* Name.Exception */
+.codehilite .nf { color: #61AFEF; font-weight: bold } /* Name.Function */
+.codehilite .nl { color: #E06C75 } /* Name.Label */
+.codehilite .nn { color: #E06C75 } /* Name.Namespace */
+.codehilite .nx { color: #E06C75 } /* Name.Other */
+.codehilite .py { color: #E06C75 } /* Name.Property */
+.codehilite .nt { color: #E06C75 } /* Name.Tag */
+.codehilite .nv { color: #E06C75 } /* Name.Variable */
+.codehilite .ow { color: #56B6C2 } /* Operator.Word */
+.codehilite .pm { color: #ABB2BF } /* Punctuation.Marker */
+.codehilite .w { color: #ABB2BF } /* Text.Whitespace */
+.codehilite .mb { color: #D19A66 } /* Literal.Number.Bin */
+.codehilite .mf { color: #D19A66 } /* Literal.Number.Float */
+.codehilite .mh { color: #D19A66 } /* Literal.Number.Hex */
+.codehilite .mi { color: #D19A66 } /* Literal.Number.Integer */
+.codehilite .mo { color: #D19A66 } /* Literal.Number.Oct */
+.codehilite .sa { color: #98C379 } /* Literal.String.Affix */
+.codehilite .sb { color: #98C379 } /* Literal.String.Backtick */
+.codehilite .sc { color: #98C379 } /* Literal.String.Char */
+.codehilite .dl { color: #98C379 } /* Literal.String.Delimiter */
+.codehilite .sd { color: #98C379 } /* Literal.String.Doc */
+.codehilite .s2 { color: #98C379 } /* Literal.String.Double */
+.codehilite .se { color: #98C379 } /* Literal.String.Escape */
+.codehilite .sh { color: #98C379 } /* Literal.String.Heredoc */
+.codehilite .si { color: #98C379 } /* Literal.String.Interpol */
+.codehilite .sx { color: #98C379 } /* Literal.String.Other */
+.codehilite .sr { color: #98C379 } /* Literal.String.Regex */
+.codehilite .s1 { color: #98C379 } /* Literal.String.Single */
+.codehilite .ss { color: #98C379 } /* Literal.String.Symbol */
+.codehilite .bp { color: #E5C07B } /* Name.Builtin.Pseudo */
+.codehilite .fm { color: #56B6C2; font-weight: bold } /* Name.Function.Magic */
+.codehilite .vc { color: #E06C75 } /* Name.Variable.Class */
+.codehilite .vg { color: #E06C75 } /* Name.Variable.Global */
+.codehilite .vi { color: #E06C75 } /* Name.Variable.Instance */
+.codehilite .vm { color: #E06C75 } /* Name.Variable.Magic */
+.codehilite .il { color: #D19A66 } /* Literal.Number.Integer.Long */</style>
+<script>
+// mobile menu
+const sb=document.getElementById('sidebar'),mb=document.getElementById('menuBtn');
+if(mb){mb.onclick=()=>sb.classList.toggle('open');sb.addEventListener('click',e=>{if(e.target.tagName==='A')sb.classList.remove('open')});}
+const tc=document.getElementById('tocClose');if(tc){tc.onclick=()=>sb.classList.remove('open');}
+// progress
+const prog=document.getElementById('progress');
+addEventListener('scroll',()=>{const h=document.body.scrollHeight-innerHeight;prog.style.width=(h>0?scrollY/h*100:0)+'%'});
+// code chrome + copy
+document.querySelectorAll('.codehilite, pre').forEach(block=>{
+  if(block.parentElement.classList.contains('codehilite'))return;
+  const bar=document.createElement('div');bar.className='code-bar';
+  bar.innerHTML='<span class="dot r"></span><span class="dot y"></span><span class="dot g"></span>';
+  block.appendChild(bar);
+  const btn=document.createElement('button');btn.className='copy-btn';btn.textContent='Copy';
+  btn.onclick=()=>{const t=block.querySelector('code')?.innerText||block.innerText;
+    navigator.clipboard.writeText(t.replace(/\nCopy$/,''));btn.textContent='Copied!';btn.classList.add('done');
+    setTimeout(()=>{btn.textContent='Copy';btn.classList.remove('done')},1500)};
+  block.appendChild(btn);
+});
+// callouts by leading emoji
+const map={'🔑':'cl-key','💡':'cl-tip','✅':'cl-ok','❌':'cl-no','🎯':'cl-goal','🛠':'cl-goal'};
+document.querySelectorAll('blockquote').forEach(q=>{const t=(q.textContent||'').trim();for(const e in map){if(t.startsWith(e)){q.classList.add(map[e]);break}}});
+// check-off
+function makeCheckable(rx){document.querySelectorAll('h2,h3').forEach(h=>{if(!rx.test(h.textContent))return;let el=h.nextElementSibling;
+  while(el&&!/^H[1-3]$/.test(el.tagName)){if(el.tagName==='OL'||el.tagName==='UL'){el.classList.add('checkable');
+    el.querySelectorAll(':scope>li').forEach(li=>{const key='cwc:'+location.pathname+':'+li.textContent.slice(0,60);
+      if(localStorage.getItem(key))li.classList.add('checked');
+      li.addEventListener('click',ev=>{if(ev.target.tagName==='A')return;li.classList.toggle('checked');
+        li.classList.contains('checked')?localStorage.setItem(key,'1'):localStorage.removeItem(key)});});}el=el.nextElementSibling;}});}
+makeCheckable(/learning objectives|milestones/i);
+// scrollspy
+const links=[...document.querySelectorAll('.toc a')];
+const heads=links.map(a=>a.getAttribute('href')).filter(h=>h&&h.startsWith('#')).map(h=>document.getElementById(h.slice(1))).filter(Boolean);
+const spy=()=>{let cur=heads[0]?.id;for(const h of heads){if(h.getBoundingClientRect().top<150)cur=h.id}
+  links.forEach(a=>a.classList.toggle('active',a.getAttribute('href')==='#'+cur))};
+addEventListener('scroll',spy);spy();
+</script>
+</body>
+</html>

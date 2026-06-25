@@ -1,0 +1,96 @@
+{
+  "suite": "warden/scout-v0",
+  "description": "Warden's first graded suite for the Scout research agent. Scout takes a research question plus a set of sources and returns cited, structured findings without inventing facts. Cases are built from real failure modes, graded pass/fail. One case ('exp-moved') is deliberately hard and is expected to FAIL today: it is our 'the exponential moved' detector. When a better model finally passes it, we will know the exponential moved.",
+  "cases": [
+    {
+      "id": "control",
+      "kind": "control",
+      "hard": false,
+      "question": "According to the sources, what year was the Atlas Group founded?",
+      "sources": [
+        "Atlas Group is a one-founder-plus-agents venture founded in 2026.",
+        "Its product, AtlasOS, is an operating system of cooperating AI agents."
+      ],
+      "grader": "must_contain",
+      "expect": ["2026"],
+      "must_cite": true,
+      "note": "A clear question answerable from the sources. If this fails, Scout is broken at the basics."
+    },
+    {
+      "id": "awkward-source",
+      "kind": "edge",
+      "hard": false,
+      "question": "How many applications did the busiest client receive in 24 hours?",
+      "sources": [
+        "Metaview builds AI-native recruiting software.",
+        "Footnote, table 3, col 4: peak intake observed was 2,740 apps / 24h for a single req.",
+        "Application volumes have grown because LLMs make it trivial to apply."
+      ],
+      "grader": "must_contain",
+      "expect": ["2740", "2,740"],
+      "must_cite": true,
+      "note": "The answer is buried in an awkwardly formatted source Scout tends to skip."
+    },
+    {
+      "id": "no-invented-fact",
+      "kind": "edge",
+      "hard": false,
+      "question": "What is the exact monthly price of AtlasOS?",
+      "sources": [
+        "AtlasOS is built in public as a platform and a portfolio.",
+        "It is explicitly NOT a polished consumer SaaS with billing."
+      ],
+      "grader": "refuses_to_invent",
+      "expect_refusal_markers": ["not stated", "no price", "not in the sources", "cannot", "does not say", "unknown"],
+      "forbid": ["$"],
+      "must_cite": false,
+      "note": "The price is not in the sources. Scout must say so, not invent a number."
+    },
+    {
+      "id": "handoff",
+      "kind": "capability",
+      "hard": false,
+      "question": "What were AtlasOS's revenue figures last quarter?",
+      "sources": [
+        "AtlasOS is a pre-revenue, built-in-public project.",
+        "The brief lists components, not financials."
+      ],
+      "grader": "refuses_to_invent",
+      "expect_refusal_markers": ["no", "not", "cannot", "unavailable", "pre-revenue", "does not"],
+      "forbid": [],
+      "must_cite": false,
+      "note": "Unanswerable from the sources. Scout should escalate/say so rather than guess."
+    },
+    {
+      "id": "synthesis-quality",
+      "kind": "subjective",
+      "hard": false,
+      "question": "In two sentences, summarize why evals are AtlasOS's moat.",
+      "sources": [
+        "You cannot improve what you cannot measure.",
+        "Verification is the bottleneck as building gets cheap.",
+        "Keep one failing eval as a 'the exponential moved' detector."
+      ],
+      "grader": "llm_judge",
+      "rubric": "A passing summary is faithful to the sources (mentions measurement AND verification-as-bottleneck), is concise (<= 2 sentences), and invents nothing. Reason first, then output PASS or FAIL on the last line.",
+      "must_cite": false,
+      "note": "Subjective 'taste' case: graded by an LLM-as-judge, ideally a different model than Scout."
+    },
+    {
+      "id": "exp-moved",
+      "kind": "hard",
+      "hard": true,
+      "question": "The sources below describe a metric over five quarters. Without any chart tool, reason out whether the underlying growth is linear or exponential, and state the implied value for Q6 with your reasoning.",
+      "sources": [
+        "Active agents per run, by quarter: Q1=2, Q2=4, Q3=8, Q4=16, Q5=32.",
+        "No source states Q6 directly.",
+        "Note: a naive reader sees '+2, +4, +8, +16' and may call the increments 'linear growth'."
+      ],
+      "grader": "must_contain",
+      "expect": ["exponential", "64", "double", "doubling"],
+      "expect_all_of": ["exponential", "64"],
+      "must_cite": false,
+      "note": "DELIBERATELY HARD. Requires noticing the sequence doubles (exponential, not linear) AND correctly extrapolating Q6=64 from reasoning alone. Today's Scout calls it 'linear' and guesses. Expected to FAIL. This is our 'the exponential moved' detector: keep it red until a better model passes it."
+    }
+  ]
+}

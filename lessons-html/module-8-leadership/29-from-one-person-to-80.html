@@ -1,0 +1,756 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Module 8 · Lesson 29: From One Person to 80, Scaling a Hypergrowth Engineering Org | Building with Claude</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@500;600;700;800&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --navy:#0a1a2f; --navy-2:#0f243d; --navy-3:#15314f;
+  --teal:#18c4a0; --teal-d:#0fa385; --teal-soft:#e4f8f2;
+  --coral:#f24d63; --coral-d:#d83a50; --coral-soft:#feecee;
+  --ink:#152230; --muted:#5f6c7b; --line:#e9eef2; --bg:#ffffff;
+  --soft:#f4fbf9; --card:#ffffff; --code-bg:#21252b; --max:780px;
+  --k:#2f8fb3; --k-bg:#e8f4f9; --tip:#c4881f; --tip-bg:#fdf4e3; --ok:#1f9d6b; --ok-bg:#e6f6ef;
+  --no:#e0533f; --no-bg:#fdecea; --goal:#7b54c9; --goal-bg:#f1ebfb;
+  --shadow:0 10px 30px rgba(13,30,52,.08); --shadow-sm:0 4px 14px rgba(13,30,52,.07);
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,sans-serif;line-height:1.72;font-size:17px;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+#progress{position:fixed;top:0;left:0;height:4px;width:0;background:linear-gradient(90deg,var(--teal),var(--coral));z-index:200;transition:width .1s linear}
+a{color:var(--teal-d);text-decoration:none}
+a:hover{color:var(--coral)}
+h1,h2,h3{font-family:Poppins,sans-serif;color:var(--ink);letter-spacing:-.01em}
+.accent{color:var(--coral)}
+.wrap{max-width:1200px;margin:0 auto;padding:0 28px}
+
+/* ---------- Top welcome strip ---------- */
+.topbar{background:var(--navy);color:#cdd8e4;font-size:13.5px}
+.topbar .wrap{display:flex;justify-content:space-between;align-items:center;height:42px;gap:18px}
+.topbar b{color:#fff;font-weight:600}
+.topbar .right{display:flex;gap:18px;align-items:center}
+.topbar a{color:#cdd8e4}.topbar a:hover{color:var(--teal)}
+
+/* ---------- Nav ---------- */
+nav.bar{background:var(--navy-2);position:sticky;top:0;z-index:120;box-shadow:0 2px 20px rgba(0,0,0,.25)}
+nav.bar .wrap{display:flex;align-items:center;height:68px;gap:26px}
+.logo{font-family:Poppins;font-weight:800;font-size:22px;color:#fff;letter-spacing:.02em;cursor:pointer;text-decoration:none}
+a.logo:hover{color:var(--teal)}
+.lessonnav{display:flex;gap:14px;align-items:stretch;margin:60px 0 0;flex-wrap:wrap}
+.lessonnav .ln{flex:1;min-width:200px;display:flex;flex-direction:column;gap:3px;border:1px solid var(--line);border-radius:14px;padding:16px 18px;color:var(--muted);transition:.15s;background:#fff}
+.lessonnav .ln:hover{border-color:var(--teal);box-shadow:var(--shadow-sm);transform:translateY(-1px)}
+.lessonnav .ln .dir{font-size:13px;font-weight:600;color:var(--teal-d)}
+.lessonnav .ln b{color:var(--ink);font-family:Poppins;font-size:15px}
+.lessonnav .ln.next{text-align:right}
+.lessonnav .ln.home{flex:0 0 auto;justify-content:center;align-items:center;text-align:center;background:var(--soft)}
+.lessonnav .ln.home b{color:var(--teal-d)}
+.logo .dot{color:var(--teal)}
+.navlinks{display:flex;gap:24px;margin-left:8px}
+.navlinks a{color:#dde6ef;font-weight:500;font-size:15px}
+.navlinks a:hover{color:var(--teal)}
+.nav-cta{margin-left:auto;display:flex;gap:12px;align-items:center}
+.btn{display:inline-flex;align-items:center;gap:9px;border:none;cursor:pointer;font-family:Inter;font-weight:600;border-radius:999px;transition:.18s;font-size:15px;text-decoration:none}
+.btn-primary{background:var(--teal);color:#04231c;padding:12px 22px}
+.btn-primary:hover{background:var(--teal-d);color:#fff;transform:translateY(-1px)}
+.btn-outline{background:transparent;color:#fff;border:1.5px solid rgba(255,255,255,.35);padding:10px 20px}
+.btn-outline:hover{border-color:var(--teal);color:var(--teal)}
+.btn-coral{background:var(--coral);color:#fff;padding:12px 22px}
+.btn-coral:hover{background:var(--coral-d);color:#fff;transform:translateY(-1px)}
+
+/* ---------- Hero ---------- */
+.hero{position:relative;background:radial-gradient(120% 120% at 80% 0%,var(--navy-3),var(--navy) 60%);color:#eaf1f8;overflow:hidden}
+.hero::before{content:"";position:absolute;inset:0;background-image:radial-gradient(rgba(255,255,255,.12) 1.3px,transparent 1.3px);background-size:22px 22px;opacity:.25;mask:radial-gradient(60% 60% at 20% 30%,#000,transparent)}
+.blob{position:absolute;border-radius:50%;filter:blur(8px);opacity:.5;z-index:0}
+.blob.t{width:230px;height:230px;background:rgba(24,196,160,.30);top:-60px;right:8%}
+.blob.c{width:160px;height:160px;background:rgba(242,77,99,.28);bottom:-40px;left:42%}
+.squiggle{position:absolute;z-index:1;opacity:.85}
+.hero .wrap{position:relative;z-index:2;display:grid;grid-template-columns:1.15fr .85fr;gap:48px;align-items:center;padding:70px 28px 90px}
+.eyebrow{display:inline-flex;align-items:center;gap:8px;color:var(--teal);font-weight:600;font-size:14px;letter-spacing:.03em;text-transform:uppercase;margin-bottom:18px}
+.hero h1{font-size:54px;line-height:1.08;font-weight:800;margin:0 0 20px;color:#fff}
+.hero .lead{font-size:18px;color:#b9c6d6;max-width:34em;margin:0 0 30px}
+.hero-actions{display:flex;align-items:center;gap:18px;flex-wrap:wrap;margin-bottom:30px}
+.play{display:inline-flex;align-items:center;gap:12px;color:#fff;font-weight:600}
+.play .circ{width:52px;height:52px;border-radius:50%;background:var(--coral);display:grid;place-items:center;box-shadow:0 8px 22px rgba(242,77,99,.45);font-size:16px;animation:pulse 2.4s infinite}
+@keyframes pulse{0%{box-shadow:0 0 0 0 rgba(242,77,99,.45)}70%{box-shadow:0 0 0 16px rgba(242,77,99,0)}100%{box-shadow:0 0 0 0 rgba(242,77,99,0)}}
+.chips{display:flex;gap:10px;flex-wrap:wrap}
+.chip{display:inline-flex;align-items:center;gap:7px;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.12);color:#dce6f0;padding:8px 14px;border-radius:999px;font-size:13.5px;font-weight:500}
+.chip b{color:#fff}
+/* hero card */
+.hero-card{position:relative;background:#fff;color:var(--ink);border-radius:22px;padding:26px;box-shadow:0 24px 60px rgba(0,0,0,.35)}
+.hero-card .ring{position:absolute;top:-26px;right:-18px;width:96px;height:96px;background:#fff;border-radius:50%;box-shadow:var(--shadow);display:grid;place-items:center}
+.hero-card .ring svg{transform:rotate(-90deg)}
+.hero-card .ring .lab{position:absolute;font-family:Poppins;font-weight:700;font-size:18px;color:var(--teal-d)}
+.hero-card h3{margin:4px 0 14px;font-size:19px}
+.hero-card ul{list-style:none;margin:0 0 18px;padding:0}
+.hero-card li{display:flex;gap:11px;align-items:flex-start;padding:9px 0;border-bottom:1px dashed var(--line);font-size:14.5px;color:#36424f}
+.hero-card li:last-child{border-bottom:none}
+.hero-card li .ic{font-size:17px;line-height:1.4}
+.float-badge{position:absolute;left:18px;bottom:-26px;background:#fff;border-radius:14px;box-shadow:var(--shadow);padding:12px 16px;display:flex;gap:10px;align-items:center;font-size:13px;font-weight:600;color:var(--ink)}
+.float-badge .n{font-family:Poppins;font-weight:800;color:var(--coral);font-size:20px}
+
+/* ---------- Content layout ---------- */
+.layout{display:grid;grid-template-columns:268px minmax(0,1fr);gap:46px;max-width:1200px;margin:0 auto;padding:0 28px}
+aside{position:sticky;top:84px;align-self:start;height:calc(100vh - 100px);overflow-y:auto;padding:26px 0}
+.toc-card{background:var(--soft);border:1px solid var(--line);border-radius:18px;padding:18px}
+.toc-close{display:none;position:absolute;top:-6px;right:-4px;width:36px;height:36px;border:none;background:var(--navy-2);color:#fff;border-radius:50%;font-size:22px;line-height:1;cursor:pointer}
+.toc-close:hover{background:var(--coral)}
+.toc-title{font-family:Poppins;font-size:12px;text-transform:uppercase;letter-spacing:.1em;color:var(--teal-d);margin:0 0 10px;font-weight:700}
+.toc ul{list-style:none;margin:0;padding:0}
+.toc a{display:block;color:var(--muted);font-size:14px;padding:6px 12px;border-radius:8px;border-left:2px solid transparent;line-height:1.4}
+.toc a:hover{color:var(--ink);background:#fff}
+.toc a.active{color:var(--teal-d);background:#fff;border-left-color:var(--teal);font-weight:600}
+.toc .toc li li a{padding-left:24px;font-size:13px}
+.toc a.toc-capstone{color:var(--coral);font-weight:600}
+main{padding:54px 0 120px;min-width:0}
+article{max-width:var(--max)}
+
+/* typography */
+article h2{font-size:30px;margin:56px 0 16px;font-weight:700;position:relative}
+article h2::before{content:"\2726";color:var(--teal);font-size:18px;margin-right:10px;vertical-align:2px}
+article h3{font-size:21px;margin:34px 0 10px;font-weight:600}
+article h2+h3{margin-top:18px}
+article p,article li{font-size:16.5px}
+article ul,article ol{padding-left:24px}
+article li{margin:7px 0}
+article strong{font-weight:700;color:#0f1b28}
+hr{border:none;height:1px;background:var(--line);margin:42px 0}
+
+/* tables */
+table{border-collapse:separate;border-spacing:0;width:100%;margin:24px 0;font-size:15px;border:1px solid var(--line);border-radius:14px;overflow:hidden;display:block;overflow-x:auto}
+th,td{padding:12px 15px;text-align:left;vertical-align:top;border-bottom:1px solid var(--line)}
+th{background:var(--navy-2);color:#eaf1f8;font-family:Poppins;font-weight:600;font-size:14px}
+tr:last-child td{border-bottom:none}
+tbody tr:nth-child(even){background:var(--soft)}
+
+/* inline + block code */
+code{font-family:"JetBrains Mono",ui-monospace,Menlo,monospace;font-size:.86em;background:var(--teal-soft);color:#0c6a55;padding:.13em .42em;border-radius:6px}
+.codehilite,pre{position:relative;background:var(--code-bg);border-radius:14px;margin:22px 0;overflow:hidden;box-shadow:var(--shadow-sm)}
+.codehilite pre{margin:0;border-radius:0;box-shadow:none;background:transparent}
+.codehilite pre,pre>code{display:block;padding:42px 18px 18px;overflow-x:auto}
+.codehilite code,pre code{background:none;color:#dfe6ee;padding:0;font-size:13.5px;line-height:1.7}
+.code-bar{position:absolute;top:0;left:0;right:0;height:34px;display:flex;align-items:center;gap:7px;padding:0 15px;background:rgba(255,255,255,.05);border-bottom:1px solid rgba(255,255,255,.07)}
+.code-bar .dot{width:11px;height:11px;border-radius:50%}
+.dot.r{background:#ff5f57}.dot.y{background:#febc2e}.dot.g{background:#28c840}
+.copy-btn{position:absolute;top:5px;right:9px;z-index:3;background:rgba(255,255,255,.08);color:#dfe6ee;border:1px solid rgba(255,255,255,.14);border-radius:8px;font-size:12px;padding:4px 11px;cursor:pointer;font-family:Inter;transition:.15s}
+.copy-btn:hover{background:var(--teal);border-color:var(--teal);color:#04231c}
+.copy-btn.done{background:var(--teal);color:#04231c;border-color:var(--teal)}
+
+/* callouts */
+blockquote{margin:24px 0;padding:16px 20px;border-radius:14px;background:var(--soft);border:1px solid var(--line);border-left:5px solid var(--teal)}
+blockquote p{margin:7px 0}blockquote p:first-child{margin-top:0}blockquote p:last-child{margin-bottom:0}
+blockquote.cl-key{background:var(--k-bg);border-left-color:var(--k);border-color:transparent}
+blockquote.cl-tip{background:var(--tip-bg);border-left-color:var(--tip);border-color:transparent}
+blockquote.cl-ok{background:var(--ok-bg);border-left-color:var(--ok);border-color:transparent}
+blockquote.cl-no{background:var(--no-bg);border-left-color:var(--no);border-color:transparent}
+blockquote.cl-goal{background:var(--goal-bg);border-left-color:var(--goal);border-color:transparent}
+
+/* capstone banner */
+h2.capstone-h{background:linear-gradient(115deg,var(--navy),var(--navy-3));color:#fff;border-radius:20px;padding:30px 28px 26px;margin-top:64px;box-shadow:0 20px 50px rgba(10,26,47,.3);overflow:hidden;position:relative}
+h2.capstone-h::before{content:"\1F6E0  HANDS-ON PROJECT";display:block;font-family:Poppins;font-size:12px;font-weight:700;letter-spacing:.14em;color:var(--teal);margin:0 0 8px}
+h2.capstone-h::after{content:"";position:absolute;width:150px;height:150px;border-radius:50%;background:rgba(24,196,160,.25);filter:blur(10px);top:-50px;right:-30px}
+
+/* check-off */
+.checkable{list-style:none;padding-left:0}
+.checkable li{position:relative;padding-left:36px;cursor:pointer;margin:9px 0}
+.checkable li::before{content:"";position:absolute;left:0;top:3px;width:22px;height:22px;border:2px solid var(--teal);border-radius:7px;background:#fff;transition:.15s}
+.checkable li.checked::before{background:var(--teal);border-color:var(--teal)}
+.checkable li.checked::after{content:"\2713";position:absolute;left:5px;top:1px;color:#fff;font-weight:800;font-size:15px}
+.checkable li.checked{color:var(--muted)}
+
+/* footer */
+footer.site{background:var(--navy);color:#aebccb;margin-top:90px}
+footer.site .wrap{padding:46px 28px;display:flex;justify-content:space-between;gap:26px;flex-wrap:wrap;align-items:center}
+footer.site .logo{font-size:20px}
+footer.site .fnote{max-width:46em;font-size:13.5px;line-height:1.7}
+
+#menuBtn{display:none}
+@media(max-width:920px){
+  .topbar{display:none}
+  .nav-cta{display:none}
+  .float-badge{display:none}
+  nav.bar .wrap{gap:14px;height:60px}
+  .wrap{padding:0 20px}
+  .logo{font-size:18px;white-space:nowrap}
+  .hero .wrap{grid-template-columns:1fr;gap:30px;padding:42px 20px 56px}
+  .hero h1{font-size:33px}
+  .hero .lead{font-size:16.5px}
+  .hero-actions{gap:14px}
+  .hero-actions .btn-primary{flex:1;justify-content:center}
+  .layout{grid-template-columns:1fr;gap:0}
+  aside{position:fixed;top:0;left:0;width:84vw;max-width:320px;height:100vh;background:#fff;z-index:130;transform:translateX(-100%);transition:.25s;box-shadow:var(--shadow);padding:24px}
+  aside.open{transform:none}
+  #menuBtn{display:inline-flex}
+  .toc-close{display:block}
+  .navlinks{display:none}
+  main{padding:34px 0 80px}
+  body{font-size:16px}
+  article h2{font-size:25px}
+  h2.capstone-h{padding:24px 20px}
+}
+@media(max-width:420px){
+  .hero h1{font-size:29px}
+  .hero-actions{flex-direction:column;align-items:stretch}
+  .hero-actions .play{justify-content:center}
+}
+</style>
+</head>
+<body>
+<div id="progress"></div>
+
+<div class="topbar"><div class="wrap">
+  <div>&#10024; Welcome to <b>Building with Claude</b> &middot; a self-paced course</div>
+  <div class="right"><span>Code with Claude 2026 &middot; London</span></div>
+</div></div>
+
+<nav class="bar"><div class="wrap">
+  <button class="btn btn-outline" id="menuBtn" style="padding:8px 14px">&#9776;</button>
+  <a class="logo" href="../index.html">Building with Claude<span class="dot">.</span></a>
+  <div class="navlinks">
+    <a href="../index.html">All lessons</a>
+    <a href="#overview">Overview</a>
+    <a href="#capstone">Capstone</a>
+  </div>
+  <div class="nav-cta">
+    <a class="btn btn-primary" href="#start">Start the lesson &#8594;</a>
+  </div>
+</div></nav>
+
+<header class="hero">
+  <span class="blob t"></span><span class="blob c"></span>
+  <svg class="squiggle" style="top:120px;left:46%;" width="90" height="26" viewBox="0 0 90 26" fill="none"><path d="M2 13c8-14 16 14 24 0s16 14 24 0 16 14 24 0" stroke="#18c4a0" stroke-width="4" stroke-linecap="round"/></svg>
+  <svg class="squiggle" style="bottom:60px;right:40%;" width="70" height="22" viewBox="0 0 90 26" fill="none"><path d="M2 13c8-14 16 14 24 0s16 14 24 0 16 14 24 0" stroke="#f24d63" stroke-width="4" stroke-linecap="round"/></svg>
+  <div class="wrap" id="overview">
+    <div>
+      <span class="eyebrow">&#10022; Module 8 · Lesson 29</span>
+      <h1>From One Person to 80, Scaling a Hypergrowth Engineering <span class="accent">Org</span></h1>
+      <p class="lead">Base44 grew from a single founder to 80 engineers without losing speed by refusing to build heavy processes too early: at each stage they solved onboarding, code review, evals, experimentation, and QA with the simplest possible thing (often just a prompt or a skill), and only built sophisticated systems when the team was actually big enough to need them.</p>
+      <div class="hero-actions">
+        <a class="btn btn-primary" href="#start">Start the lesson &#8594;</a>
+        <a class="play" href="https://www.youtube.com/watch?v=VueeyKcquoA" target="_blank" rel="noopener"><span class="circ">&#9654;</span> Watch the talk</a>
+      </div>
+      <div class="chips">
+        <span class="chip">&#127908; <b>Yoav (Head of Product</b></span>
+        <span class="chip">&#9201; <b>45 to 60 minutes</b></span>
+        <span class="chip">&#128296; <b>Hands-on capstone</b></span>
+      </div>
+    </div>
+    <div style="position:relative">
+      <div class="hero-card">
+        <div class="ring">
+          <svg width="74" height="74"><circle cx="37" cy="37" r="31" stroke="#eef2f5" stroke-width="7" fill="none"/><circle cx="37" cy="37" r="31" stroke="#18c4a0" stroke-width="7" fill="none" stroke-linecap="round" stroke-dasharray="195" stroke-dashoffset="40"/></svg>
+          <span class="lab">&#10022;</span>
+        </div>
+        <h3>What you&#39;ll get</h3>
+        <ul>
+          <li><span class="ic">&#9989;</span><span>Plain-language teaching with every term defined</span></li>
+          <li><span class="ic">&#128221;</span><span>Code snippets pulled from the talk</span></li>
+          <li><span class="ic">&#128296;</span><span>A hands-on capstone you build step by step</span></li>
+          <li><span class="ic">&#127919;</span><span>Optional practice drills to reinforce each skill</span></li>
+        </ul>
+        <a class="btn btn-coral" href="#capstone" style="width:100%;justify-content:center">Jump to the project</a>
+      </div>
+    </div>
+  </div>
+</header>
+
+<div class="layout">
+  <aside id="sidebar"><div class="toc-card">
+    <button class="toc-close" id="tocClose" aria-label="Close menu">&times;</button>
+    <p class="toc-title">On this page</p>
+    <div class="toc">
+<ul>
+<li><a href="#in-one-sentence">In one sentence</a></li>
+<li><a href="#first-principles-companion">First-principles companion</a></li>
+<li><a href="#a-few-plain-language-basics-first">A few plain-language basics first</a></li>
+<li><a href="#why-this-lesson-matters">Why this lesson matters</a></li>
+<li><a href="#learning-objectives">Learning objectives</a></li>
+<li><a href="#prerequisites">Prerequisites</a></li>
+<li><a href="#part-1-from-1-to-15-engineers-yoav">Part 1: from 1 to 15 engineers (Yoav)</a><ul>
+<li><a href="#onboarding-two-prompts-no-docs">Onboarding: two prompts, no docs</a></li>
+<li><a href="#code-review-amplify-the-founder-do-not-replace-him">Code review: amplify the founder, do not replace him</a></li>
+<li><a href="#product-validation-let-users-tell-you-for-free">Product validation: let users tell you, for free</a></li>
+</ul>
+</li>
+<li><a href="#part-2-from-50-to-80-engineers-gabriel">Part 2: from 50 to 80 engineers (Gabriel)</a><ul>
+<li><a href="#challenge-1-experimentation-at-scale">Challenge 1: experimentation at scale</a></li>
+<li><a href="#challenge-2-better-evals-now-it-is-the-right-time">Challenge 2: better evals (now it is the right time)</a></li>
+<li><a href="#challenge-3-streamlining-qa-without-growing-testers-linearly">Challenge 3: streamlining QA without growing testers linearly</a></li>
+</ul>
+</li>
+<li><a href="#part-3-the-common-thread">Part 3: the common thread</a></li>
+<li><a href="#key-takeaways">Key takeaways</a></li>
+<li><a href="#common-pitfalls">Common pitfalls</a></li>
+<li><a href="#capstone" class="toc-capstone">🛠️ Capstone Project: The Right-Sized Scaling Kit</a><ul>
+<li><a href="#what-you-will-build">What you will build</a></li>
+<li><a href="#why-this-is-the-perfect-practice">Why this is the perfect practice</a></li>
+<li><a href="#milestones-build-them-in-order-each-one-is-shippable">Milestones (build them in order, each one is shippable)</a></li>
+<li><a href="#how-you-will-know-you-are-done">How you will know you are done</a></li>
+</ul>
+</li>
+<li><a href="#practice-exercises-optional-extra-reps">Practice exercises (optional extra reps)</a><ul>
+<li><a href="#exercise-1-the-onboarding-prompts-foundational">Exercise 1: the onboarding prompts (foundational)</a></li>
+<li><a href="#exercise-2-distill-a-reviewer-foundational">Exercise 2: distill a reviewer (foundational)</a></li>
+<li><a href="#exercise-3-the-free-signal-intermediate">Exercise 3: the free signal (intermediate)</a></li>
+<li><a href="#exercise-4-the-user-simulator-mindset-intermediate">Exercise 4: the user simulator mindset (intermediate)</a></li>
+<li><a href="#exercise-5-agent-powered-qa-advanced">Exercise 5: agent-powered QA (advanced)</a></li>
+</ul>
+</li>
+<li><a href="#cheat-sheet">Cheat sheet</a></li>
+<li><a href="#how-this-connects-to-the-rest-of-the-course">How this connects to the rest of the course</a></li>
+</ul>
+</div>
+
+  </div></aside>
+  <main id="start">
+    <article>
+      <hr />
+<h2 id="in-one-sentence">In one sentence</h2>
+<p>Base44 grew from a single founder to 80 engineers without losing speed by refusing to build heavy processes too early: at each stage they solved onboarding, code review, evals, experimentation, and QA with the simplest possible thing (often just a prompt or a skill), and only built sophisticated systems when the team was actually big enough to need them.</p>
+<blockquote>
+<p>🎯 <strong>Where this lesson is heading.</strong> It builds to a hands on <strong>Capstone Project</strong> where you take one scaling pain on a team you know and solve it the Base44 way: start with the simplest possible automation (a single prompt), then upgrade it only as far as the team's size justifies. Everything before the Capstone teaches the patterns you will reuse. If you want to see the finish line first, jump to the <strong>"Capstone Project"</strong> section, then come back.</p>
+</blockquote>
+<h2 id="first-principles-companion">First-principles companion</h2>
+<blockquote>
+<p>💡 <strong>The durable idea behind this lesson.</strong> The talk this lesson is built on is recent, but the underlying concept is not. For the timeless, tool-agnostic version, independent of any single product or model:</p>
+<ul>
+<li><strong><a href="https://en.wikipedia.org/wiki/The_Mythical_Man-Month">The Mythical Man-Month (Fred Brooks)</a></strong> (book). The enduring classic on what breaks as engineering teams grow (Brooks's Law, communication overhead), the backdrop to "don't add heavy process too early."</li>
+<li><strong><a href="https://dora.dev/research/">Accelerate / the DORA research</a></strong> (docs). Evidence-based grounding for keeping process lightweight and metrics-driven as you scale.</li>
+</ul>
+</blockquote>
+<h2 id="a-few-plain-language-basics-first">A few plain-language basics first</h2>
+<p>This talk moves fast through several technical ideas. Here they are in plain words:</p>
+<ul>
+<li><strong>Vibe coding:</strong> building software by describing what you want in natural language and letting AI write the code. Base44 is a platform that lets anyone (technical or not) build apps this way.</li>
+<li><strong>PR (Pull Request):</strong> a proposed code change someone reviews before it joins the product. "Merging" means accepting it.</li>
+<li><strong>Onboarding:</strong> the process of getting a new team member up to speed.</li>
+<li><strong>Mermaid chart:</strong> a simple diagram (like a flowchart) written as text, which tools can render into a picture. Useful for showing how a piece of software works.</li>
+<li><strong>Eval (evaluation):</strong> a set of test cases you run to measure whether your AI behaves correctly. Building a full eval suite is a big effort.</li>
+<li><strong>A/B test:</strong> showing version A to some users and version B to others, then comparing results, to learn which is better.</li>
+<li><strong>PostHog and BigQuery:</strong> PostHog is a product for running A/B tests and experiments. BigQuery is a data warehouse (a big store of a company's data). Both are connected as data sources.</li>
+<li><strong>MCP (Model Context Protocol):</strong> an open standard that lets Claude connect to outside tools and data (for example, PostHog) and use them.</li>
+<li><strong>Skill:</strong> a reusable instruction file you give Claude so it knows how to perform a specific task (like running a test flow) without re explaining every time.</li>
+<li><strong>CI/CD pipeline:</strong> the automated system that builds, tests, and ships code (Continuous Integration / Continuous Delivery).</li>
+<li><strong>Stagehand / Playwright:</strong> tools that let software control a web browser automatically, so an agent can click around an app like a person would.</li>
+<li><strong>Compaction:</strong> a way of summarising a long conversation so the model can keep working without running out of room for context.</li>
+</ul>
+<p>You do not need to memorise these. Each one is explained again the first time it matters below.</p>
+<h2 id="why-this-lesson-matters">Why this lesson matters</h2>
+<p>Most advice about scaling teams tells you to add process: write the onboarding doc, set up the eval suite, form the review committee. Base44's story is the opposite. Their hard won lesson is that the right amount of process depends on the size of the team, and adding it too early slows you down. They got immediate product market fit (lots of paying customers, fast), which forced them to scale faster than usual. By keeping every solution radically simple until the moment it truly needed to grow, they went from 1 to 80 engineers while keeping velocity. This lesson gives you their concrete patterns for each scaling stage, and a way to judge <em>when</em> simple is enough and <em>when</em> it is time to go all in.</p>
+<blockquote>
+<p>🔑 <strong>The thread through the whole talk (paraphrased from Yoav):</strong> keep everything very, very simple. Work hard <em>not</em> to build complex things when it is not the right time. Then, when the moment comes, go all in.</p>
+</blockquote>
+<h2 id="learning-objectives">Learning objectives</h2>
+<p>By the end of this lesson you will be able to:</p>
+<ol>
+<li>Solve onboarding, code review, and product validation with a single prompt or skill instead of a heavy process.</li>
+<li>Encode your team's "taste" by having Claude distill it from your past actions (PR comments, past experiments) rather than holding a guidelines meeting.</li>
+<li>Build a simple but real signal for whether your AI product is working, using production traffic.</li>
+<li>Judge when a lightweight hack is enough and when the team is finally big enough to invest in a full eval suite or automated QA.</li>
+<li>Apply the "bottleneck keeps moving" mindset so you keep solving the next constraint, not the last one.</li>
+</ol>
+<h2 id="prerequisites">Prerequisites</h2>
+<ul>
+<li>A basic understanding of how a software team ships changes (PRs, reviews, tests). No coding required to follow the ideas.</li>
+<li>Helpful but optional: Module 3 (Evals), since evals and a "user simulator" appear in Part 2.</li>
+</ul>
+<hr />
+<h2 id="part-1-from-1-to-15-engineers-yoav">Part 1: from 1 to 15 engineers (Yoav)</h2>
+<p>Base44 started at the end of 2024 as a vibe coding platform (building apps by describing them in natural language). By 2025 it had a working product; the founder built in public on LinkedIn and Twitter, gained traction, and by April 2025 it was profitable. That profitability and a fast growing, AI focused user base attracted acquisition interest, and Wix (a company with a very similar user base) acquired it. Wix wanted to keep Base44's velocity but expand it dramatically, so a two person team had to scale into a 15 person engineering team "as fast as possible."</p>
+<p>Four challenges came with that growth, and none of the old "just do it manually" answers scaled:</p>
+<table>
+<thead>
+<tr>
+<th>Challenge</th>
+<th>Why it broke at 15 people</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Onboarding</strong></td>
+<td>The founder (Maor) could not personally onboard every new engineer.</td>
+</tr>
+<tr>
+<td><strong>Code review</strong></td>
+<td>Maor was very cautious about what went into the backend, and wanted to review every PR himself. That does not scale.</td>
+</tr>
+<tr>
+<td><strong>Product validation</strong></td>
+<td>They could not have each engineer sit with a beta tester to check the product works.</td>
+</tr>
+<tr>
+<td><strong>Huge product surface</strong></td>
+<td>Immediate product market fit meant many areas (integrations, the agentic flow, the visual editor), and engineers had to ramp up fast.</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p>🔑 <strong>The key instinct:</strong> the meeting to solve these started heading toward "let's build a process where we review everything and build an onboarding doc and a nightly job to update it." They stopped and said: no, keep it very simple.</p>
+</blockquote>
+<h3 id="onboarding-two-prompts-no-docs">Onboarding: two prompts, no docs</h3>
+<p>Instead of writing and maintaining onboarding docs, every new engineer runs two prompts before starting their first task:</p>
+<div class="codehilite"><pre><span></span><code>ONBOARDING PROMPT 1 (the org map)
+  &quot;Go over all the commits and tell me what everyone cares about.&quot;
+  -&gt; Gives a new joiner a real-time map of who owns and focuses on what.
+
+ONBOARDING PROMPT 2 (the component map)
+  &quot;Can you give me a mermaid chart of how this component works?&quot;
+  -&gt; A live diagram of the area they&#39;re about to work in.
+</code></pre></div>
+
+<blockquote>
+<p>💡 The genius here is that nothing goes stale. A document needs constant updating; a prompt reads the <em>current</em> state of the code base every time. "You don't need to think about how do I keep these onboarding docs updated... a simple prompt gives you in real time the entire map of the organization."</p>
+</blockquote>
+<h3 id="code-review-amplify-the-founder-do-not-replace-him">Code review: amplify the founder, do not replace him</h3>
+<p>Maor cared deeply about backend quality. After a week or two of him reviewing PRs, there was a big pool of his review comments in the repo. Instead of brainstorming review guidelines from scratch, they had Claude read those PR comments and extract the most important and crucial things to keep in mind. They put that into an instruction, ran it every couple of days, and effectively got a "Maor PR Reviewer" inside Base44 without building a sophisticated process.</p>
+<p>The payoff was visible. They handed a new engineer a WhatsApp integration (a feature requiring a new integration, work on the agentic flow, and a new Meta API). They expected one to two weeks. The engineer onboarded Thursday using the two prompts, and by Sunday morning it was ready. The PR review had two or three small comments, and it shipped.</p>
+<blockquote>
+<p>✅ <strong>Best practice: encode taste from past actions.</strong> You do not need a guidelines committee. Have Claude read what your team already did (review comments, past decisions) and distill the guideline. It will not be perfect, but you get a working version in hours, then iterate.</p>
+</blockquote>
+<h3 id="product-validation-let-users-tell-you-for-free">Product validation: let users tell you, for free</h3>
+<p>When the team was tiny, they sat with customers to watch them use Base44. At 15 people, that does not scale. The "naive AI company" answer is "let's build an eval suite," but Yoav is blunt: a 15 person team is usually not ready for that effort.</p>
+<p>So they used the production traffic they already had. They noticed a simple pattern in conversations: when things work, the user says nothing and just moves to the next feature. When things break, "users get really, really loud in the chat," saying "why is this broken?" That loudness is a strong, free signal.</p>
+<div class="codehilite"><pre><span></span><code>THE FRUSTRATION SIGNAL
+  1. Use a small, cheap model to classify each user message:
+     is frustration level HIGH or LOW?
+  2. Roll out a new agent version to a small percentage of customers.
+  3. Track the frustration level for that group.
+  Works whether you changed the infra, the prompt, or the model.
+</code></pre></div>
+
+<blockquote>
+<p>🔑 <strong>The pattern:</strong> find a signal you already have in production, and read it cheaply, instead of building a heavyweight evaluation system before you need one. "You have a very simple way of getting almost the same amount of value while keeping processes really, really lean."</p>
+</blockquote>
+<hr />
+<h2 id="part-2-from-50-to-80-engineers-gabriel">Part 2: from 50 to 80 engineers (Gabriel)</h2>
+<p>A few months later, Base44 hit a new growth phase: more external hires, internal movers from Wix, and a merged Vibe coding product. "In one single night, we doubled our headcount from 40 people to almost 80." That brought new challenges where the simple hacks from Part 1 were no longer enough. Gabriel focuses on the three most interesting ones.</p>
+<h3 id="challenge-1-experimentation-at-scale">Challenge 1: experimentation at scale</h3>
+<p>You cannot expect every new hire to know which KPIs to test, how long to run a test, or when it is fine to just ship without an experiment. So the team wanted to <strong>shift left</strong> (move earlier in the process) the product management decisions around A/B testing, so they happen automatically when a PR is ready.</p>
+<p>They started with the easy "shell" of what they wanted: a process that runs when a PR is ready, a bot commenting on GitHub telling the developer whether to just ship, gradually roll out, or A/B test (and for how long, and which KPIs to watch), and that opens the experiment in PostHog (their A/B testing tool).</p>
+<p>The hard part was the <em>guidelines</em>, the actual logic of how they make these decisions. They had never written it down; they just had "really good product sense and intuitions." Their two options were a multi stakeholder guidelines committee with lots of meetings ("we really hate meetings"), or:</p>
+<div class="codehilite"><pre><span></span><code>DISTILL GUIDELINES FROM PAST ACTIONS
+  1. Take the last 100 experiments from PostHog + their matching PRs.
+  2. Spawn Claude Code, hooked to the PostHog MCP.
+  3. Ask Claude to suggest the first draft of the guidelines.
+  -&gt; Rough on the edges, but a working document in a couple of hours, then iterate.
+</code></pre></div>
+
+<p>Now every PR gets a clear verdict: just ship, gradual rollout, or A/B test (and for how long). For their scale, some features need 7 days of testing, some need a full month because they might move conversion or premium rates by tiny percentages. To make it visible, they dogfooded their own product, Base44, building a central dashboard connected to BigQuery, PostHog, and GitHub, so everyone can see which experiments are running and how they are moving the needle.</p>
+<blockquote>
+<p>💡 This is the same "encode taste from past actions" move as Part 1's code review, now applied to experimentation. It ties to the broader idea that you can capture a big chunk of your team's taste by looking at what you actually did, not by holding a meeting about it.</p>
+</blockquote>
+<h3 id="challenge-2-better-evals-now-it-is-the-right-time">Challenge 2: better evals (now it is the right time)</h3>
+<p>In Part 1, evals were <em>not</em> the best return on investment for a small team. At 80 people, they became something the team really needed. But the challenge was short term: deliver real value without a three month project or pulling away their top AI engineers.</p>
+<p>The key question: do we just evaluate the model's raw output, or check whether the <em>apps users build actually work</em>? The answer led to a <strong>user simulator</strong>. And a crucial epiphany: for Base44, when a user asks for an app and some small part does not work, that does not mean the eval failed. A real user would just ask the agent to fix the missing part. So the eval suite must pipe the rejection back and ask the agent to fix it, the way a real user would.</p>
+<div class="codehilite"><pre><span></span><code>THE EVAL PIPELINE (a robot QA engineer)
+  - Any change to AI code spins up a real Base44 app instance.
+  - Use stagehand (browser automation) to simulate real user actions.
+  - Measure: latency, number of turns, cost to us, credits used by users.
+  - Pipe back rejections and ask the agent to fix the missing parts.
+</code></pre></div>
+
+<p>Their most canonical eval is a <strong>smoke test</strong> (a quick check that nothing is fundamentally broken): ask Base44 to build a "Hello World" app, assert the right text is visible and it "looks good" (judged subjectively, trusting AI to flag failures), then ask for a small text change, then a small feature. Most pass, and a fun fact: these basic evals pass even on the smallest model. They also have complex evals: starting from an existing app and making many changes, and testing the compaction mechanism (summarising long conversations) which needs many user messages.</p>
+<blockquote>
+<p>🔑 <strong>The timing lesson:</strong> "We held it off until it was the right moment to build it, and then we went all in." Evals were the wrong investment at 15 people and the right one at 80. Knowing <em>when</em> is as important as knowing <em>how</em>.</p>
+</blockquote>
+<h3 id="challenge-3-streamlining-qa-without-growing-testers-linearly">Challenge 3: streamlining QA without growing testers linearly</h3>
+<p>The team believes in shifting left quality (unit tests, end to end tests, full ownership of what you build). But deep features have many edge cases. Gabriel's example: a feature that only affects users at a specific subscription tier when they hit a specific point of their credit limit, with many permutations. Testing all of that manually is tedious, and handing it to a human QA engineer means longer feedback loops and waiting for someone to be free.</p>
+<p>They knew Claude Code could drive a browser (via Playwright, browser use, and similar tools). But it was missing two critical pieces:</p>
+<ol>
+<li><strong>Knowing the platform.</strong> Each time, Claude had to relearn the app's flows, the selectors (how to find buttons on a page), and which events to look for in the database. They fixed this by wrapping common flows in <strong>skills</strong>. One skill taught Claude how to walk all the major user flows that most features touch. The aim was not 100% coverage; "you just need to maximize the 80% so you have enough context," then trust Claude for the rest.</li>
+<li><strong>Setting up the test state.</strong> A good QA engineer goes into the database and overrides the setup so they can test a specific edge case. Claude needed the same power. So they built <strong>CLI tools</strong> (command line tools) that abstract their APIs and databases specifically for setting up tests, and skills that taught Claude how to use them.</li>
+</ol>
+<p>They combined everything into one <strong>meta skill</strong> for how to do proper QA. Now when a PR opens, the agent triggers, creates a test plan, runs it against a Base44 app (dogfooding again), and reports back with screenshots of what it tested and what it did not. When Gabriel pushes it past its limits, "it will just write, like, I couldn't test that, and surface the missing capabilities." It works for 80% of cases, letting them shift left even deep, edge case quality assurance.</p>
+<blockquote>
+<p>✅ <strong>Best practice: give the agent the same powers a good human has.</strong> A human QA engineer needs to know the flows <em>and</em> set up the database. So give Claude skills for the flows and CLI tools for the setup. Aim for 80% coverage and trust the agent on the rest.</p>
+</blockquote>
+<hr />
+<h2 id="part-3-the-common-thread">Part 3: the common thread</h2>
+<p>Gabriel closes with the threads running through every solution:</p>
+<ol>
+<li><strong>Value simplicity.</strong> Think "bold and simple." Work hard <em>not</em> to build complex things when it is not the right time. Evals are the example: held off until the right moment, then all in.</li>
+<li><strong>Encode taste from past actions.</strong> Taste is the "last moat" of humans against machines, but you can encode a big chunk of your team's taste by looking at what you actually did, for code reviews, A/B testing, anything. (This connects to the idea of giving Claude memory of your recent decisions.)</li>
+<li><strong>Use your own product if you can.</strong> Dogfooding gives you a magical feedback and insight loop. If you work on a finance app you may have to stretch, but find ways to do it.</li>
+<li><strong>The bottleneck keeps moving.</strong> The current challenge is no longer the ones above; it is <strong>post validation</strong>: once a PR reaches production, how do you confirm it moved the right needle? Is a bug fix really reducing support tickets? Is a feature really being used? You do not want a human holding that in their head, so the next thing to automate is exactly that.</li>
+</ol>
+<blockquote>
+<p>🔑 <strong>The single most reusable idea:</strong> match your process to your team size. The same problem (review, validation, evals) deserves a one prompt hack at 5 people and a full system at 80. Adding the big system early is the mistake.</p>
+</blockquote>
+<hr />
+<h2 id="key-takeaways">Key takeaways</h2>
+<ol>
+<li><strong>Right size your process.</strong> A one prompt hack at 5 people; a full system at 80. The crime is building the heavy system too early.</li>
+<li><strong>Onboard with prompts, not docs.</strong> "Read the commits, tell me who cares about what" and "draw a mermaid chart of this component" stay current automatically.</li>
+<li><strong>Encode taste from past actions.</strong> Have Claude distill review guidelines from past PR comments, and experimentation guidelines from past experiments. No committee needed.</li>
+<li><strong>Find a free production signal.</strong> Loud, frustrated users are a strong signal. Classify it with a cheap model and track it per agent version.</li>
+<li><strong>Know when it is time for evals.</strong> Hold them off when the ROI is low; go all in when the team is big enough to need them. Build a user simulator that pipes rejections back, like a real user.</li>
+<li><strong>Give agents human powers.</strong> Skills for the flows, CLI tools for the test setup. Aim for 80% coverage and trust the agent on the rest.</li>
+<li><strong>The bottleneck keeps moving.</strong> Today's win exposes tomorrow's constraint (now: post validation in production).</li>
+</ol>
+<h2 id="common-pitfalls">Common pitfalls</h2>
+<ul>
+<li>❌ Building an onboarding doc, eval suite, or guidelines committee before the team is big enough to need it.</li>
+<li>❌ Holding a meeting to write down "our guidelines" when Claude could distill them from your past actions in hours.</li>
+<li>❌ Trying to sit with every customer (or have every engineer do so) once you pass a handful of people.</li>
+<li>❌ Treating any failed step inside an AI product as an eval failure, when a real user would just ask for a fix.</li>
+<li>❌ Expecting Claude to do QA without giving it the flows (skills) and the test setup (CLI tools) a human QA engineer would use.</li>
+<li>❌ Solving the last bottleneck forever instead of moving on to the new one.</li>
+</ul>
+<hr />
+<h2 id="capstone" class="capstone-h">🛠️ Capstone Project: The Right-Sized Scaling Kit</h2>
+<blockquote>
+<p>This is the main hands on project for the lesson. You will take one real scaling pain and solve it the Base44 way: start with the simplest possible automation, then upgrade it exactly as far as your team's size justifies, and no further.</p>
+</blockquote>
+<h3 id="what-you-will-build">What you will build</h3>
+<p>A small, working "scaling kit" for one chosen pain (onboarding, code review, product validation, experimentation, or QA), delivered at two sizes: a <strong>tiny version</strong> (one prompt or skill, buildable in an afternoon) and a <strong>scaled version</strong> (a real automation or dashboard), plus a one paragraph note explaining at what team size you would switch from one to the other.</p>
+<blockquote>
+<p>🎯 <strong>Pick the pain that hurts most right now.</strong> If onboarding is slow, build the two onboarding prompts. If review is a bottleneck, distill a reviewer from past comments. If you ship blind, build the frustration signal. Choose one and go deep.</p>
+</blockquote>
+<h3 id="why-this-is-the-perfect-practice">Why this is the perfect practice</h3>
+<table>
+<thead>
+<tr>
+<th>Lesson skill</th>
+<th>Where you use it in the Capstone</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Onboard with prompts, not docs</td>
+<td>Onboarding track, the two prompts</td>
+</tr>
+<tr>
+<td>Encode taste from past actions</td>
+<td>Review / experimentation track, the distilled guideline</td>
+</tr>
+<tr>
+<td>Free production signal</td>
+<td>Validation track, the frustration classifier</td>
+</tr>
+<tr>
+<td>Knowing when to build evals</td>
+<td>The "switch size" note</td>
+</tr>
+<tr>
+<td>Give agents human powers</td>
+<td>QA track, skills plus CLI tools</td>
+</tr>
+<tr>
+<td>Bottleneck keeps moving</td>
+<td>The closing reflection</td>
+</tr>
+</tbody>
+</table>
+<h3 id="milestones-build-them-in-order-each-one-is-shippable">Milestones (build them in order, each one is shippable)</h3>
+<ol>
+<li><strong>Name the pain and the team size.</strong> One paragraph: which scaling pain are you solving, and how many people are on the team today?</li>
+<li><strong>Build the tiny version.</strong> Solve it with the smallest possible thing. Examples: the two onboarding prompts; a "reviewer" instruction distilled from a real pile of past PR comments; a cheap model that classifies user messages as high or low frustration; a guideline distilled from past experiments; one QA skill for your main user flow.</li>
+<li><strong>Run it for real.</strong> Use the tiny version on at least one real task (onboard one person, review one PR, classify one batch of messages). Capture the result.</li>
+<li><strong>Build the scaled version.</strong> Now upgrade exactly one notch: a dashboard (dogfood your own product if you can) that shows the signal over time; or a CI step that comments a ship / rollout / A/B-test verdict on every PR; or a user simulator that builds an app, asserts it looks good, and pipes rejections back.</li>
+<li><strong>Write the "switch size" note.</strong> One paragraph: at what team size does the tiny version stop being enough, and the scaled version become worth it? Justify it the way Gabriel justified holding evals until 80 people.</li>
+<li><strong>Name the next bottleneck.</strong> Predict what your solution will expose next (for example post validation in production: did this change actually move the needle?). Write one sentence on how you would automate it.</li>
+</ol>
+<h3 id="how-you-will-know-you-are-done">How you will know you are done</h3>
+<ul>
+<li>✅ Your <strong>tiny version</strong> works and you ran it on a real task.</li>
+<li>✅ Your <strong>scaled version</strong> works and adds value the tiny one could not (visibility, automation, coverage).</li>
+<li>✅ At least one part <strong>encodes taste from past actions</strong> (distilled from real history, not written by committee).</li>
+<li>✅ Your "switch size" note gives a <strong>specific team size</strong> and a reason.</li>
+<li>✅ You named the <strong>next bottleneck</strong> your solution exposes.</li>
+</ul>
+<blockquote>
+<p>💡 <strong>Keep yourself honest:</strong> if you reached for a committee, a long doc, or a three month project, ask whether a single prompt or skill would get 80% of the value first. Build complex only when the team size truly demands it.</p>
+</blockquote>
+<hr />
+<h2 id="practice-exercises-optional-extra-reps">Practice exercises (optional extra reps)</h2>
+<blockquote>
+<p><strong>What these are:</strong> small, independent reps, each focused on one move from the talk. Optional. The Capstone above exercises all of them together.</p>
+</blockquote>
+<h3 id="exercise-1-the-onboarding-prompts-foundational">Exercise 1: the onboarding prompts (foundational)</h3>
+<p>On any code base you can access, run "go over the recent commits and tell me what everyone cares about" and "draw a mermaid chart of how this component works." Compare the result to whatever onboarding doc exists.</p>
+<h3 id="exercise-2-distill-a-reviewer-foundational">Exercise 2: distill a reviewer (foundational)</h3>
+<p>Gather 20 to 50 past code review comments from a repo. Ask Claude to extract the most important recurring rules. You now have a draft "reviewer" instruction. Iterate once.</p>
+<h3 id="exercise-3-the-free-signal-intermediate">Exercise 3: the free signal (intermediate)</h3>
+<p>Take a batch of real user messages (support chats, app reviews). Use a cheap model to classify each as high or low frustration. Could you track this per release? What would it tell you?</p>
+<h3 id="exercise-4-the-user-simulator-mindset-intermediate">Exercise 4: the user simulator mindset (intermediate)</h3>
+<p>Pick an AI feature. Write down what a <em>real user</em> would do if a small part failed (hint: ask for a fix). Sketch an eval that pipes that rejection back to the agent instead of marking it a failure.</p>
+<h3 id="exercise-5-agent-powered-qa-advanced">Exercise 5: agent-powered QA (advanced)</h3>
+<p>Write one skill that teaches Claude to walk your app's main user flow in a browser, plus a note on what CLI tool or database override it would need to set up a tricky edge case. Aim for 80% coverage, not 100%.</p>
+<hr />
+<h2 id="cheat-sheet">Cheat sheet</h2>
+<div class="codehilite"><pre><span></span><code>RIGHT-SIZE YOUR PROCESS
+  5 people:  one prompt or skill.
+  80 people: a real system (dashboard, CI bot, user simulator).
+  The crime is building the big system too early.
+
+ONBOARDING (no docs)
+  &quot;Read recent commits; tell me who cares about what.&quot;
+  &quot;Draw a mermaid chart of how this component works.&quot;
+  Stays current automatically.
+
+ENCODE TASTE FROM PAST ACTIONS (no committee)
+  Reviews: distill rules from past PR comments.
+  Experiments: distill guidelines from the last 100 experiments + PRs.
+
+FREE PRODUCTION SIGNAL
+  Happy users go quiet; frustrated users get loud.
+  Classify frustration with a cheap model. Track per agent version.
+
+EVALS: KNOW WHEN
+  Wrong investment when tiny. Go all in when big.
+  Build a user simulator that pipes rejections back, like a real user.
+
+AGENT QA = HUMAN QA POWERS
+  Skills for the flows + CLI tools for the test setup. Aim for 80%.
+
+AND REMEMBER
+  Dogfood your own product. The bottleneck keeps moving (next: post validation).
+</code></pre></div>
+
+<h2 id="how-this-connects-to-the-rest-of-the-course">How this connects to the rest of the course</h2>
+<ul>
+<li><strong>Earlier, Module 8 · Lesson 27 (Running an AI-native engineering org):</strong> the same "audit your processes, do not let them pile up" mindset, here applied stage by stage as a team grows.</li>
+<li><strong>Earlier, Module 8 · Lesson 28 (Designing with Claude):</strong> another small team going fast by refusing heavy process and dogfooding relentlessly.</li>
+<li><strong>Earlier, Module 3 (Evals):</strong> the deeper foundation behind the user simulator and the "when is it time for evals" decision.</li>
+<li><strong>Next, Module 8 · Lesson 31 (Building AI-native at enterprise scale):</strong> the same patterns (encode taste, A/B test, skills marketplaces) at companies many times Base44's size.</li>
+</ul>
+<hr />
+<p><em>Source: "From one person to 80: Scaling a hypergrowth engineering org with Claude Code" by Yoav and Gabriel (Base44), Code with Claude 2026, London. The prompt and pipeline boxes are faithful paraphrases of what the speakers described; they are illustrative reconstructions, not verbatim slides.</em></p>
+    </article>
+    <nav class="lessonnav"><a class="ln prev" href="28-designing-with-claude.html"><span class="dir">&#8592; Previous</span><b>Designing with Claude, From Prompt to Production</b></a><a class="ln home" href="../index.html"><b>All lessons</b></a><a class="ln next" href="30-coding-is-no-longer-the-constraint.html"><span class="dir">Next &#8594;</span><b>Coding Is No Longer the Constraint, Scaling Devex at Spotify</b></a></nav>
+  </main>
+</div>
+
+<footer class="site"><div class="wrap">
+  <a class="logo" href="../index.html">Building with Claude<span class="dot">.</span></a>
+  <span class="fnote">A self-paced course generated from the Code with Claude 2026 (London) talks. Code snippets are illustrative reconstructions of the approaches shown. Adapt them to the current SDK.</span>
+</div></footer>
+
+<style>pre { line-height: 125%; }
+td.linenos .normal { color: inherit; background-color: transparent; padding-left: 5px; padding-right: 5px; }
+span.linenos { color: inherit; background-color: transparent; padding-left: 5px; padding-right: 5px; }
+td.linenos .special { color: #000000; background-color: #ffffc0; padding-left: 5px; padding-right: 5px; }
+span.linenos.special { color: #000000; background-color: #ffffc0; padding-left: 5px; padding-right: 5px; }
+.codehilite .hll { background-color: #ffffcc }
+.codehilite { background: #282C34; color: #ABB2BF }
+.codehilite .c { color: #7F848E } /* Comment */
+.codehilite .err { color: #ABB2BF } /* Error */
+.codehilite .esc { color: #ABB2BF } /* Escape */
+.codehilite .g { color: #ABB2BF } /* Generic */
+.codehilite .k { color: #C678DD } /* Keyword */
+.codehilite .l { color: #ABB2BF } /* Literal */
+.codehilite .n { color: #E06C75 } /* Name */
+.codehilite .o { color: #56B6C2 } /* Operator */
+.codehilite .x { color: #ABB2BF } /* Other */
+.codehilite .p { color: #ABB2BF } /* Punctuation */
+.codehilite .ch { color: #7F848E } /* Comment.Hashbang */
+.codehilite .cm { color: #7F848E } /* Comment.Multiline */
+.codehilite .cp { color: #7F848E } /* Comment.Preproc */
+.codehilite .cpf { color: #7F848E } /* Comment.PreprocFile */
+.codehilite .c1 { color: #7F848E } /* Comment.Single */
+.codehilite .cs { color: #7F848E } /* Comment.Special */
+.codehilite .gd { color: #E06C75 } /* Generic.Deleted */
+.codehilite .ge { color: #ABB2BF; font-style: italic } /* Generic.Emph */
+.codehilite .ges { color: #ABB2BF } /* Generic.EmphStrong */
+.codehilite .gr { color: #E06C75 } /* Generic.Error */
+.codehilite .gh { color: #ABB2BF; font-weight: bold } /* Generic.Heading */
+.codehilite .gi { color: #98C379 } /* Generic.Inserted */
+.codehilite .go { color: #E06C75 } /* Generic.Output */
+.codehilite .gp { color: #ABB2BF } /* Generic.Prompt */
+.codehilite .gs { color: #ABB2BF; font-weight: bold } /* Generic.Strong */
+.codehilite .gu { color: #ABB2BF; font-weight: bold } /* Generic.Subheading */
+.codehilite .gt { color: #E06C75 } /* Generic.Traceback */
+.codehilite .kc { color: #E5C07B } /* Keyword.Constant */
+.codehilite .kd { color: #C678DD } /* Keyword.Declaration */
+.codehilite .kn { color: #C678DD } /* Keyword.Namespace */
+.codehilite .kp { color: #C678DD } /* Keyword.Pseudo */
+.codehilite .kr { color: #C678DD } /* Keyword.Reserved */
+.codehilite .kt { color: #E5C07B } /* Keyword.Type */
+.codehilite .ld { color: #ABB2BF } /* Literal.Date */
+.codehilite .m { color: #D19A66 } /* Literal.Number */
+.codehilite .s { color: #98C379 } /* Literal.String */
+.codehilite .na { color: #E06C75 } /* Name.Attribute */
+.codehilite .nb { color: #E5C07B } /* Name.Builtin */
+.codehilite .nc { color: #E5C07B } /* Name.Class */
+.codehilite .no { color: #E06C75 } /* Name.Constant */
+.codehilite .nd { color: #61AFEF } /* Name.Decorator */
+.codehilite .ni { color: #E06C75 } /* Name.Entity */
+.codehilite .ne { color: #E06C75 } /* Name.Exception */
+.codehilite .nf { color: #61AFEF; font-weight: bold } /* Name.Function */
+.codehilite .nl { color: #E06C75 } /* Name.Label */
+.codehilite .nn { color: #E06C75 } /* Name.Namespace */
+.codehilite .nx { color: #E06C75 } /* Name.Other */
+.codehilite .py { color: #E06C75 } /* Name.Property */
+.codehilite .nt { color: #E06C75 } /* Name.Tag */
+.codehilite .nv { color: #E06C75 } /* Name.Variable */
+.codehilite .ow { color: #56B6C2 } /* Operator.Word */
+.codehilite .pm { color: #ABB2BF } /* Punctuation.Marker */
+.codehilite .w { color: #ABB2BF } /* Text.Whitespace */
+.codehilite .mb { color: #D19A66 } /* Literal.Number.Bin */
+.codehilite .mf { color: #D19A66 } /* Literal.Number.Float */
+.codehilite .mh { color: #D19A66 } /* Literal.Number.Hex */
+.codehilite .mi { color: #D19A66 } /* Literal.Number.Integer */
+.codehilite .mo { color: #D19A66 } /* Literal.Number.Oct */
+.codehilite .sa { color: #98C379 } /* Literal.String.Affix */
+.codehilite .sb { color: #98C379 } /* Literal.String.Backtick */
+.codehilite .sc { color: #98C379 } /* Literal.String.Char */
+.codehilite .dl { color: #98C379 } /* Literal.String.Delimiter */
+.codehilite .sd { color: #98C379 } /* Literal.String.Doc */
+.codehilite .s2 { color: #98C379 } /* Literal.String.Double */
+.codehilite .se { color: #98C379 } /* Literal.String.Escape */
+.codehilite .sh { color: #98C379 } /* Literal.String.Heredoc */
+.codehilite .si { color: #98C379 } /* Literal.String.Interpol */
+.codehilite .sx { color: #98C379 } /* Literal.String.Other */
+.codehilite .sr { color: #98C379 } /* Literal.String.Regex */
+.codehilite .s1 { color: #98C379 } /* Literal.String.Single */
+.codehilite .ss { color: #98C379 } /* Literal.String.Symbol */
+.codehilite .bp { color: #E5C07B } /* Name.Builtin.Pseudo */
+.codehilite .fm { color: #56B6C2; font-weight: bold } /* Name.Function.Magic */
+.codehilite .vc { color: #E06C75 } /* Name.Variable.Class */
+.codehilite .vg { color: #E06C75 } /* Name.Variable.Global */
+.codehilite .vi { color: #E06C75 } /* Name.Variable.Instance */
+.codehilite .vm { color: #E06C75 } /* Name.Variable.Magic */
+.codehilite .il { color: #D19A66 } /* Literal.Number.Integer.Long */</style>
+<script>
+// mobile menu
+const sb=document.getElementById('sidebar'),mb=document.getElementById('menuBtn');
+if(mb){mb.onclick=()=>sb.classList.toggle('open');sb.addEventListener('click',e=>{if(e.target.tagName==='A')sb.classList.remove('open')});}
+const tc=document.getElementById('tocClose');if(tc){tc.onclick=()=>sb.classList.remove('open');}
+// progress
+const prog=document.getElementById('progress');
+addEventListener('scroll',()=>{const h=document.body.scrollHeight-innerHeight;prog.style.width=(h>0?scrollY/h*100:0)+'%'});
+// code chrome + copy
+document.querySelectorAll('.codehilite, pre').forEach(block=>{
+  if(block.parentElement.classList.contains('codehilite'))return;
+  const bar=document.createElement('div');bar.className='code-bar';
+  bar.innerHTML='<span class="dot r"></span><span class="dot y"></span><span class="dot g"></span>';
+  block.appendChild(bar);
+  const btn=document.createElement('button');btn.className='copy-btn';btn.textContent='Copy';
+  btn.onclick=()=>{const t=block.querySelector('code')?.innerText||block.innerText;
+    navigator.clipboard.writeText(t.replace(/\nCopy$/,''));btn.textContent='Copied!';btn.classList.add('done');
+    setTimeout(()=>{btn.textContent='Copy';btn.classList.remove('done')},1500)};
+  block.appendChild(btn);
+});
+// callouts by leading emoji
+const map={'🔑':'cl-key','💡':'cl-tip','✅':'cl-ok','❌':'cl-no','🎯':'cl-goal','🛠':'cl-goal'};
+document.querySelectorAll('blockquote').forEach(q=>{const t=(q.textContent||'').trim();for(const e in map){if(t.startsWith(e)){q.classList.add(map[e]);break}}});
+// check-off
+function makeCheckable(rx){document.querySelectorAll('h2,h3').forEach(h=>{if(!rx.test(h.textContent))return;let el=h.nextElementSibling;
+  while(el&&!/^H[1-3]$/.test(el.tagName)){if(el.tagName==='OL'||el.tagName==='UL'){el.classList.add('checkable');
+    el.querySelectorAll(':scope>li').forEach(li=>{const key='cwc:'+location.pathname+':'+li.textContent.slice(0,60);
+      if(localStorage.getItem(key))li.classList.add('checked');
+      li.addEventListener('click',ev=>{if(ev.target.tagName==='A')return;li.classList.toggle('checked');
+        li.classList.contains('checked')?localStorage.setItem(key,'1'):localStorage.removeItem(key)});});}el=el.nextElementSibling;}});}
+makeCheckable(/learning objectives|milestones/i);
+// scrollspy
+const links=[...document.querySelectorAll('.toc a')];
+const heads=links.map(a=>a.getAttribute('href')).filter(h=>h&&h.startsWith('#')).map(h=>document.getElementById(h.slice(1))).filter(Boolean);
+const spy=()=>{let cur=heads[0]?.id;for(const h of heads){if(h.getBoundingClientRect().top<150)cur=h.id}
+  links.forEach(a=>a.classList.toggle('active',a.getAttribute('href')==='#'+cur))};
+addEventListener('scroll',spy);spy();
+</script>
+</body>
+</html>

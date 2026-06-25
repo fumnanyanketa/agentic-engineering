@@ -1,0 +1,806 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Module 4 · Lesson 9: How We Claude Code | Building with Claude</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@500;600;700;800&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --navy:#0a1a2f; --navy-2:#0f243d; --navy-3:#15314f;
+  --teal:#18c4a0; --teal-d:#0fa385; --teal-soft:#e4f8f2;
+  --coral:#f24d63; --coral-d:#d83a50; --coral-soft:#feecee;
+  --ink:#152230; --muted:#5f6c7b; --line:#e9eef2; --bg:#ffffff;
+  --soft:#f4fbf9; --card:#ffffff; --code-bg:#21252b; --max:780px;
+  --k:#2f8fb3; --k-bg:#e8f4f9; --tip:#c4881f; --tip-bg:#fdf4e3; --ok:#1f9d6b; --ok-bg:#e6f6ef;
+  --no:#e0533f; --no-bg:#fdecea; --goal:#7b54c9; --goal-bg:#f1ebfb;
+  --shadow:0 10px 30px rgba(13,30,52,.08); --shadow-sm:0 4px 14px rgba(13,30,52,.07);
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,sans-serif;line-height:1.72;font-size:17px;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+#progress{position:fixed;top:0;left:0;height:4px;width:0;background:linear-gradient(90deg,var(--teal),var(--coral));z-index:200;transition:width .1s linear}
+a{color:var(--teal-d);text-decoration:none}
+a:hover{color:var(--coral)}
+h1,h2,h3{font-family:Poppins,sans-serif;color:var(--ink);letter-spacing:-.01em}
+.accent{color:var(--coral)}
+.wrap{max-width:1200px;margin:0 auto;padding:0 28px}
+
+/* ---------- Top welcome strip ---------- */
+.topbar{background:var(--navy);color:#cdd8e4;font-size:13.5px}
+.topbar .wrap{display:flex;justify-content:space-between;align-items:center;height:42px;gap:18px}
+.topbar b{color:#fff;font-weight:600}
+.topbar .right{display:flex;gap:18px;align-items:center}
+.topbar a{color:#cdd8e4}.topbar a:hover{color:var(--teal)}
+
+/* ---------- Nav ---------- */
+nav.bar{background:var(--navy-2);position:sticky;top:0;z-index:120;box-shadow:0 2px 20px rgba(0,0,0,.25)}
+nav.bar .wrap{display:flex;align-items:center;height:68px;gap:26px}
+.logo{font-family:Poppins;font-weight:800;font-size:22px;color:#fff;letter-spacing:.02em;cursor:pointer;text-decoration:none}
+a.logo:hover{color:var(--teal)}
+.lessonnav{display:flex;gap:14px;align-items:stretch;margin:60px 0 0;flex-wrap:wrap}
+.lessonnav .ln{flex:1;min-width:200px;display:flex;flex-direction:column;gap:3px;border:1px solid var(--line);border-radius:14px;padding:16px 18px;color:var(--muted);transition:.15s;background:#fff}
+.lessonnav .ln:hover{border-color:var(--teal);box-shadow:var(--shadow-sm);transform:translateY(-1px)}
+.lessonnav .ln .dir{font-size:13px;font-weight:600;color:var(--teal-d)}
+.lessonnav .ln b{color:var(--ink);font-family:Poppins;font-size:15px}
+.lessonnav .ln.next{text-align:right}
+.lessonnav .ln.home{flex:0 0 auto;justify-content:center;align-items:center;text-align:center;background:var(--soft)}
+.lessonnav .ln.home b{color:var(--teal-d)}
+.logo .dot{color:var(--teal)}
+.navlinks{display:flex;gap:24px;margin-left:8px}
+.navlinks a{color:#dde6ef;font-weight:500;font-size:15px}
+.navlinks a:hover{color:var(--teal)}
+.nav-cta{margin-left:auto;display:flex;gap:12px;align-items:center}
+.btn{display:inline-flex;align-items:center;gap:9px;border:none;cursor:pointer;font-family:Inter;font-weight:600;border-radius:999px;transition:.18s;font-size:15px;text-decoration:none}
+.btn-primary{background:var(--teal);color:#04231c;padding:12px 22px}
+.btn-primary:hover{background:var(--teal-d);color:#fff;transform:translateY(-1px)}
+.btn-outline{background:transparent;color:#fff;border:1.5px solid rgba(255,255,255,.35);padding:10px 20px}
+.btn-outline:hover{border-color:var(--teal);color:var(--teal)}
+.btn-coral{background:var(--coral);color:#fff;padding:12px 22px}
+.btn-coral:hover{background:var(--coral-d);color:#fff;transform:translateY(-1px)}
+
+/* ---------- Hero ---------- */
+.hero{position:relative;background:radial-gradient(120% 120% at 80% 0%,var(--navy-3),var(--navy) 60%);color:#eaf1f8;overflow:hidden}
+.hero::before{content:"";position:absolute;inset:0;background-image:radial-gradient(rgba(255,255,255,.12) 1.3px,transparent 1.3px);background-size:22px 22px;opacity:.25;mask:radial-gradient(60% 60% at 20% 30%,#000,transparent)}
+.blob{position:absolute;border-radius:50%;filter:blur(8px);opacity:.5;z-index:0}
+.blob.t{width:230px;height:230px;background:rgba(24,196,160,.30);top:-60px;right:8%}
+.blob.c{width:160px;height:160px;background:rgba(242,77,99,.28);bottom:-40px;left:42%}
+.squiggle{position:absolute;z-index:1;opacity:.85}
+.hero .wrap{position:relative;z-index:2;display:grid;grid-template-columns:1.15fr .85fr;gap:48px;align-items:center;padding:70px 28px 90px}
+.eyebrow{display:inline-flex;align-items:center;gap:8px;color:var(--teal);font-weight:600;font-size:14px;letter-spacing:.03em;text-transform:uppercase;margin-bottom:18px}
+.hero h1{font-size:54px;line-height:1.08;font-weight:800;margin:0 0 20px;color:#fff}
+.hero .lead{font-size:18px;color:#b9c6d6;max-width:34em;margin:0 0 30px}
+.hero-actions{display:flex;align-items:center;gap:18px;flex-wrap:wrap;margin-bottom:30px}
+.play{display:inline-flex;align-items:center;gap:12px;color:#fff;font-weight:600}
+.play .circ{width:52px;height:52px;border-radius:50%;background:var(--coral);display:grid;place-items:center;box-shadow:0 8px 22px rgba(242,77,99,.45);font-size:16px;animation:pulse 2.4s infinite}
+@keyframes pulse{0%{box-shadow:0 0 0 0 rgba(242,77,99,.45)}70%{box-shadow:0 0 0 16px rgba(242,77,99,0)}100%{box-shadow:0 0 0 0 rgba(242,77,99,0)}}
+.chips{display:flex;gap:10px;flex-wrap:wrap}
+.chip{display:inline-flex;align-items:center;gap:7px;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.12);color:#dce6f0;padding:8px 14px;border-radius:999px;font-size:13.5px;font-weight:500}
+.chip b{color:#fff}
+/* hero card */
+.hero-card{position:relative;background:#fff;color:var(--ink);border-radius:22px;padding:26px;box-shadow:0 24px 60px rgba(0,0,0,.35)}
+.hero-card .ring{position:absolute;top:-26px;right:-18px;width:96px;height:96px;background:#fff;border-radius:50%;box-shadow:var(--shadow);display:grid;place-items:center}
+.hero-card .ring svg{transform:rotate(-90deg)}
+.hero-card .ring .lab{position:absolute;font-family:Poppins;font-weight:700;font-size:18px;color:var(--teal-d)}
+.hero-card h3{margin:4px 0 14px;font-size:19px}
+.hero-card ul{list-style:none;margin:0 0 18px;padding:0}
+.hero-card li{display:flex;gap:11px;align-items:flex-start;padding:9px 0;border-bottom:1px dashed var(--line);font-size:14.5px;color:#36424f}
+.hero-card li:last-child{border-bottom:none}
+.hero-card li .ic{font-size:17px;line-height:1.4}
+.float-badge{position:absolute;left:18px;bottom:-26px;background:#fff;border-radius:14px;box-shadow:var(--shadow);padding:12px 16px;display:flex;gap:10px;align-items:center;font-size:13px;font-weight:600;color:var(--ink)}
+.float-badge .n{font-family:Poppins;font-weight:800;color:var(--coral);font-size:20px}
+
+/* ---------- Content layout ---------- */
+.layout{display:grid;grid-template-columns:268px minmax(0,1fr);gap:46px;max-width:1200px;margin:0 auto;padding:0 28px}
+aside{position:sticky;top:84px;align-self:start;height:calc(100vh - 100px);overflow-y:auto;padding:26px 0}
+.toc-card{background:var(--soft);border:1px solid var(--line);border-radius:18px;padding:18px}
+.toc-close{display:none;position:absolute;top:-6px;right:-4px;width:36px;height:36px;border:none;background:var(--navy-2);color:#fff;border-radius:50%;font-size:22px;line-height:1;cursor:pointer}
+.toc-close:hover{background:var(--coral)}
+.toc-title{font-family:Poppins;font-size:12px;text-transform:uppercase;letter-spacing:.1em;color:var(--teal-d);margin:0 0 10px;font-weight:700}
+.toc ul{list-style:none;margin:0;padding:0}
+.toc a{display:block;color:var(--muted);font-size:14px;padding:6px 12px;border-radius:8px;border-left:2px solid transparent;line-height:1.4}
+.toc a:hover{color:var(--ink);background:#fff}
+.toc a.active{color:var(--teal-d);background:#fff;border-left-color:var(--teal);font-weight:600}
+.toc .toc li li a{padding-left:24px;font-size:13px}
+.toc a.toc-capstone{color:var(--coral);font-weight:600}
+main{padding:54px 0 120px;min-width:0}
+article{max-width:var(--max)}
+
+/* typography */
+article h2{font-size:30px;margin:56px 0 16px;font-weight:700;position:relative}
+article h2::before{content:"\2726";color:var(--teal);font-size:18px;margin-right:10px;vertical-align:2px}
+article h3{font-size:21px;margin:34px 0 10px;font-weight:600}
+article h2+h3{margin-top:18px}
+article p,article li{font-size:16.5px}
+article ul,article ol{padding-left:24px}
+article li{margin:7px 0}
+article strong{font-weight:700;color:#0f1b28}
+hr{border:none;height:1px;background:var(--line);margin:42px 0}
+
+/* tables */
+table{border-collapse:separate;border-spacing:0;width:100%;margin:24px 0;font-size:15px;border:1px solid var(--line);border-radius:14px;overflow:hidden;display:block;overflow-x:auto}
+th,td{padding:12px 15px;text-align:left;vertical-align:top;border-bottom:1px solid var(--line)}
+th{background:var(--navy-2);color:#eaf1f8;font-family:Poppins;font-weight:600;font-size:14px}
+tr:last-child td{border-bottom:none}
+tbody tr:nth-child(even){background:var(--soft)}
+
+/* inline + block code */
+code{font-family:"JetBrains Mono",ui-monospace,Menlo,monospace;font-size:.86em;background:var(--teal-soft);color:#0c6a55;padding:.13em .42em;border-radius:6px}
+.codehilite,pre{position:relative;background:var(--code-bg);border-radius:14px;margin:22px 0;overflow:hidden;box-shadow:var(--shadow-sm)}
+.codehilite pre{margin:0;border-radius:0;box-shadow:none;background:transparent}
+.codehilite pre,pre>code{display:block;padding:42px 18px 18px;overflow-x:auto}
+.codehilite code,pre code{background:none;color:#dfe6ee;padding:0;font-size:13.5px;line-height:1.7}
+.code-bar{position:absolute;top:0;left:0;right:0;height:34px;display:flex;align-items:center;gap:7px;padding:0 15px;background:rgba(255,255,255,.05);border-bottom:1px solid rgba(255,255,255,.07)}
+.code-bar .dot{width:11px;height:11px;border-radius:50%}
+.dot.r{background:#ff5f57}.dot.y{background:#febc2e}.dot.g{background:#28c840}
+.copy-btn{position:absolute;top:5px;right:9px;z-index:3;background:rgba(255,255,255,.08);color:#dfe6ee;border:1px solid rgba(255,255,255,.14);border-radius:8px;font-size:12px;padding:4px 11px;cursor:pointer;font-family:Inter;transition:.15s}
+.copy-btn:hover{background:var(--teal);border-color:var(--teal);color:#04231c}
+.copy-btn.done{background:var(--teal);color:#04231c;border-color:var(--teal)}
+
+/* callouts */
+blockquote{margin:24px 0;padding:16px 20px;border-radius:14px;background:var(--soft);border:1px solid var(--line);border-left:5px solid var(--teal)}
+blockquote p{margin:7px 0}blockquote p:first-child{margin-top:0}blockquote p:last-child{margin-bottom:0}
+blockquote.cl-key{background:var(--k-bg);border-left-color:var(--k);border-color:transparent}
+blockquote.cl-tip{background:var(--tip-bg);border-left-color:var(--tip);border-color:transparent}
+blockquote.cl-ok{background:var(--ok-bg);border-left-color:var(--ok);border-color:transparent}
+blockquote.cl-no{background:var(--no-bg);border-left-color:var(--no);border-color:transparent}
+blockquote.cl-goal{background:var(--goal-bg);border-left-color:var(--goal);border-color:transparent}
+
+/* capstone banner */
+h2.capstone-h{background:linear-gradient(115deg,var(--navy),var(--navy-3));color:#fff;border-radius:20px;padding:30px 28px 26px;margin-top:64px;box-shadow:0 20px 50px rgba(10,26,47,.3);overflow:hidden;position:relative}
+h2.capstone-h::before{content:"\1F6E0  HANDS-ON PROJECT";display:block;font-family:Poppins;font-size:12px;font-weight:700;letter-spacing:.14em;color:var(--teal);margin:0 0 8px}
+h2.capstone-h::after{content:"";position:absolute;width:150px;height:150px;border-radius:50%;background:rgba(24,196,160,.25);filter:blur(10px);top:-50px;right:-30px}
+
+/* check-off */
+.checkable{list-style:none;padding-left:0}
+.checkable li{position:relative;padding-left:36px;cursor:pointer;margin:9px 0}
+.checkable li::before{content:"";position:absolute;left:0;top:3px;width:22px;height:22px;border:2px solid var(--teal);border-radius:7px;background:#fff;transition:.15s}
+.checkable li.checked::before{background:var(--teal);border-color:var(--teal)}
+.checkable li.checked::after{content:"\2713";position:absolute;left:5px;top:1px;color:#fff;font-weight:800;font-size:15px}
+.checkable li.checked{color:var(--muted)}
+
+/* footer */
+footer.site{background:var(--navy);color:#aebccb;margin-top:90px}
+footer.site .wrap{padding:46px 28px;display:flex;justify-content:space-between;gap:26px;flex-wrap:wrap;align-items:center}
+footer.site .logo{font-size:20px}
+footer.site .fnote{max-width:46em;font-size:13.5px;line-height:1.7}
+
+#menuBtn{display:none}
+@media(max-width:920px){
+  .topbar{display:none}
+  .nav-cta{display:none}
+  .float-badge{display:none}
+  nav.bar .wrap{gap:14px;height:60px}
+  .wrap{padding:0 20px}
+  .logo{font-size:18px;white-space:nowrap}
+  .hero .wrap{grid-template-columns:1fr;gap:30px;padding:42px 20px 56px}
+  .hero h1{font-size:33px}
+  .hero .lead{font-size:16.5px}
+  .hero-actions{gap:14px}
+  .hero-actions .btn-primary{flex:1;justify-content:center}
+  .layout{grid-template-columns:1fr;gap:0}
+  aside{position:fixed;top:0;left:0;width:84vw;max-width:320px;height:100vh;background:#fff;z-index:130;transform:translateX(-100%);transition:.25s;box-shadow:var(--shadow);padding:24px}
+  aside.open{transform:none}
+  #menuBtn{display:inline-flex}
+  .toc-close{display:block}
+  .navlinks{display:none}
+  main{padding:34px 0 80px}
+  body{font-size:16px}
+  article h2{font-size:25px}
+  h2.capstone-h{padding:24px 20px}
+}
+@media(max-width:420px){
+  .hero h1{font-size:29px}
+  .hero-actions{flex-direction:column;align-items:stretch}
+  .hero-actions .play{justify-content:center}
+}
+</style>
+</head>
+<body>
+<div id="progress"></div>
+
+<div class="topbar"><div class="wrap">
+  <div>&#10024; Welcome to <b>Building with Claude</b> &middot; a self-paced course</div>
+  <div class="right"><span>Code with Claude 2026 &middot; London</span></div>
+</div></div>
+
+<nav class="bar"><div class="wrap">
+  <button class="btn btn-outline" id="menuBtn" style="padding:8px 14px">&#9776;</button>
+  <a class="logo" href="../index.html">Building with Claude<span class="dot">.</span></a>
+  <div class="navlinks">
+    <a href="../index.html">All lessons</a>
+    <a href="#overview">Overview</a>
+    <a href="#capstone">Capstone</a>
+  </div>
+  <div class="nav-cta">
+    <a class="btn btn-primary" href="#start">Start the lesson &#8594;</a>
+  </div>
+</div></nav>
+
+<header class="hero">
+  <span class="blob t"></span><span class="blob c"></span>
+  <svg class="squiggle" style="top:120px;left:46%;" width="90" height="26" viewBox="0 0 90 26" fill="none"><path d="M2 13c8-14 16 14 24 0s16 14 24 0 16 14 24 0" stroke="#18c4a0" stroke-width="4" stroke-linecap="round"/></svg>
+  <svg class="squiggle" style="bottom:60px;right:40%;" width="70" height="22" viewBox="0 0 90 26" fill="none"><path d="M2 13c8-14 16 14 24 0s16 14 24 0 16 14 24 0" stroke="#f24d63" stroke-width="4" stroke-linecap="round"/></svg>
+  <div class="wrap" id="overview">
+    <div>
+      <span class="eyebrow">&#10022; Module 4 · Lesson 9</span>
+      <h1>How We Claude <span class="accent">Code</span></h1>
+      <p class="lead">As models get more capable, you get more out of them by constraining them less: let Claude interview you to pull out what you really want, review the plan in a rich HTML mockup instead of a long markdown file, and build verification directly into the thing you are making so the agent can check its own work.</p>
+      <div class="hero-actions">
+        <a class="btn btn-primary" href="#start">Start the lesson &#8594;</a>
+        <a class="play" href="https://www.youtube.com/watch?v=IlqJqcl8ONE" target="_blank" rel="noopener"><span class="circ">&#9654;</span> Watch the talk</a>
+      </div>
+      <div class="chips">
+        <span class="chip">&#127908; <b>Arno</b></span>
+        <span class="chip">&#9201; <b>45 to 60 minutes</b></span>
+        <span class="chip">&#128296; <b>Hands-on capstone</b></span>
+      </div>
+    </div>
+    <div style="position:relative">
+      <div class="hero-card">
+        <div class="ring">
+          <svg width="74" height="74"><circle cx="37" cy="37" r="31" stroke="#eef2f5" stroke-width="7" fill="none"/><circle cx="37" cy="37" r="31" stroke="#18c4a0" stroke-width="7" fill="none" stroke-linecap="round" stroke-dasharray="195" stroke-dashoffset="40"/></svg>
+          <span class="lab">&#10022;</span>
+        </div>
+        <h3>What you&#39;ll get</h3>
+        <ul>
+          <li><span class="ic">&#9989;</span><span>Plain-language teaching with every term defined</span></li>
+          <li><span class="ic">&#128221;</span><span>Code snippets pulled from the talk</span></li>
+          <li><span class="ic">&#128296;</span><span>A hands-on capstone you build step by step</span></li>
+          <li><span class="ic">&#127919;</span><span>Optional practice drills to reinforce each skill</span></li>
+        </ul>
+        <a class="btn btn-coral" href="#capstone" style="width:100%;justify-content:center">Jump to the project</a>
+      </div>
+    </div>
+  </div>
+</header>
+
+<div class="layout">
+  <aside id="sidebar"><div class="toc-card">
+    <button class="toc-close" id="tocClose" aria-label="Close menu">&times;</button>
+    <p class="toc-title">On this page</p>
+    <div class="toc">
+<ul>
+<li><a href="#in-one-sentence">In one sentence</a></li>
+<li><a href="#first-principles-companion">First-principles companion</a></li>
+<li><a href="#a-few-plain-language-basics-first">A few plain-language basics first</a></li>
+<li><a href="#why-this-lesson-matters">Why this lesson matters</a></li>
+<li><a href="#learning-objectives">Learning objectives</a></li>
+<li><a href="#prerequisites">Prerequisites</a></li>
+<li><a href="#part-1-the-mindset-constrain-less">Part 1: the mindset (constrain less)</a></li>
+<li><a href="#part-2-phase-1-let-claude-interview-you">Part 2: phase 1, let Claude interview you</a><ul>
+<li><a href="#good-vs-bad-prompting">Good vs bad prompting</a></li>
+<li><a href="#the-ask-user-question-tool">The ask-user-question tool</a></li>
+<li><a href="#a-few-session-settings-to-know">A few session settings to know</a></li>
+</ul>
+</li>
+<li><a href="#part-3-phase-2-review-the-plan-as-html">Part 3: phase 2, review the plan as HTML</a></li>
+<li><a href="#part-4-phase-3-build-verification-into-the-artifact">Part 4: phase 3, build verification into the artifact</a><ul>
+<li><a href="#the-example-a-tiny-to-do-app">The example: a tiny to-do app</a></li>
+<li><a href="#the-key-trick-publish-state-to-the-dom">The key trick: publish state to the DOM</a></li>
+<li><a href="#what-each-component-carries">What each component carries</a></li>
+<li><a href="#the-same-verification-three-surfaces">The same verification, three surfaces</a></li>
+<li><a href="#record-the-verification-as-evidence">Record the verification as evidence</a></li>
+<li><a href="#what-is-actually-new-here">What is actually new here</a></li>
+<li><a href="#a-model-note">A model note</a></li>
+</ul>
+</li>
+<li><a href="#key-takeaways">Key takeaways</a></li>
+<li><a href="#common-pitfalls">Common pitfalls</a></li>
+<li><a href="#capstone" class="toc-capstone">🛠️ Capstone Project: the Self-Verifying App</a><ul>
+<li><a href="#what-you-will-build">What you will build</a></li>
+<li><a href="#why-this-is-the-perfect-practice">Why this is the perfect practice</a></li>
+<li><a href="#milestones-build-them-in-order-each-one-works-on-its-own">Milestones (build them in order, each one works on its own)</a></li>
+<li><a href="#how-you-will-know-you-are-done">How you will know you are done</a></li>
+</ul>
+</li>
+<li><a href="#practice-exercises-optional-extra-reps">Practice exercises (optional extra reps)</a><ul>
+<li><a href="#exercise-1-rewrite-a-bad-prompt-foundational">Exercise 1: rewrite a bad prompt (foundational)</a></li>
+<li><a href="#exercise-2-four-directions-foundational">Exercise 2: four directions (foundational)</a></li>
+<li><a href="#exercise-3-screenshot-feedback-intermediate">Exercise 3: screenshot feedback (intermediate)</a></li>
+<li><a href="#exercise-4-publish-state-to-the-dom-intermediate">Exercise 4: publish state to the DOM (intermediate)</a></li>
+<li><a href="#exercise-5-three-surface-verification-advanced">Exercise 5: three-surface verification (advanced)</a></li>
+</ul>
+</li>
+<li><a href="#cheat-sheet">Cheat sheet</a></li>
+<li><a href="#how-this-connects-to-the-rest-of-the-course">How this connects to the rest of the course</a></li>
+</ul>
+</div>
+
+  </div></aside>
+  <main id="start">
+    <article>
+      <hr />
+<h2 id="in-one-sentence">In one sentence</h2>
+<p>As models get more capable, you get more out of them by constraining them less: let Claude interview you to pull out what you really want, review the plan in a rich HTML mockup instead of a long markdown file, and build verification directly into the thing you are making so the agent can check its own work.</p>
+<blockquote>
+<p>🎯 <strong>Where this lesson is heading.</strong> It builds to a hands on <strong>Capstone Project</strong> where you take a small app from a vague idea to a fully self-verifying artifact, using the exact three-phase workflow the talk demonstrates. Everything before the Capstone teaches one phase. To see the finish line first, jump to <strong>"Capstone Project: the Self-Verifying App"</strong>, then come back.</p>
+</blockquote>
+<h2 id="first-principles-companion">First-principles companion</h2>
+<blockquote>
+<p>💡 <strong>The durable idea behind this lesson.</strong> The talk this lesson is built on is recent, but the underlying concept is not. For the timeless, tool-agnostic version, independent of any single product or model:</p>
+<ul>
+<li><strong><a href="https://code.claude.com/docs/en/best-practices">Best practices for Claude Code (Anthropic docs)</a></strong> (docs). The official codification of the exact workflow the lesson teaches: explore, plan, implement, commit, "let Claude interview you," and give the agent a verification loop it can run itself.</li>
+<li><strong><a href="https://en.wikipedia.org/wiki/Bitter_lesson">The Bitter Lesson (Rich Sutton)</a></strong> (essay). The intellectual root of the lesson's "constrain capable models less" thesis.</li>
+</ul>
+</blockquote>
+<h2 id="a-few-plain-language-basics-first">A few plain-language basics first</h2>
+<p>This lesson uses some everyday terms. Here they are in plain words:</p>
+<ul>
+<li><strong>Claude Code:</strong> Anthropic's coding agent. You give it a task in plain English and it reads, writes, and runs code for you.</li>
+<li><strong>Agent:</strong> an AI that takes a series of actions on its own toward a goal. The longer it runs, the more it can do, but also the more it can burn tokens if it goes the wrong way.</li>
+<li><strong>Token:</strong> the unit the model reads and writes in. You are billed per token, so wasted work costs money.</li>
+<li><strong>Spec (specification):</strong> a written description of what you want built (the requirements, the look, the rules).</li>
+<li><strong>Markdown:</strong> a simple text format with <code>#</code> headings and <code>-</code> bullets. Long markdown specs are common but get tedious to read.</li>
+<li><strong>HTML:</strong> the language web pages are written in. An HTML mockup is something you can actually open in a browser and click.</li>
+<li><strong>DOM (Document Object Model):</strong> the live structure of a web page in the browser. Code can read and change it. We will use it to expose an app's state so an agent can check it.</li>
+<li><strong>React:</strong> a popular library for building web app interfaces out of reusable "components."</li>
+<li><strong>Playwright MCP:</strong> a tool that lets Claude drive a real browser (click, type, read the page). "MCP" is the standard way Claude connects to external tools.</li>
+<li><strong>CI (Continuous Integration):</strong> an automated system that runs your tests every time you push code.</li>
+</ul>
+<p>You do not need to memorise these. Each is explained again the first time it appears below.</p>
+<h2 id="why-this-lesson-matters">Why this lesson matters</h2>
+<p>This is not a feature tour. It is how the Applied AI team and the Claude Code team actually work day to day, and it is built on one observation: agents are getting more capable because models are getting more capable. That means agents can run longer on harder tasks. But a long-running agent that starts off in the wrong direction can burn through a lot of tokens before you notice.</p>
+<p>So the whole workflow is about <strong>front-loading correctness</strong>: getting the requirements right before the agent runs, making the plan easy to sanity-check, and wiring verification into the artifact so the agent can confirm it built the right thing. The material is based on a talk by Tariq (and his blog post, "The Unreasonable Effectiveness of HTML files") and reflects current practice on the Claude Code team.</p>
+<h2 id="learning-objectives">Learning objectives</h2>
+<p>By the end of this lesson you will be able to:</p>
+<ol>
+<li>Explain the <strong>bitter lesson</strong> and why you should constrain capable models <em>less</em>, not more.</li>
+<li>Write a good prompt that makes Claude <strong>interview you</strong> to extract requirements, instead of forcing you to specify everything up front.</li>
+<li>Review a plan as a <strong>rich HTML mockup</strong> rather than a long markdown file, and give feedback with screenshots.</li>
+<li>Build <strong>agent-native verification</strong> into an app by publishing its state to the DOM, so an agent can verify it across three surfaces: human dashboard, agent-from-browser, and headless CI.</li>
+<li>Use <strong>fast mode</strong>, <strong>auto mode</strong>, and the <strong>effort</strong> parameter, with sensible defaults.</li>
+</ol>
+<h2 id="prerequisites">Prerequisites</h2>
+<ul>
+<li>Module 4 · Lesson 8 (What's new in Claude Code), which introduces auto mode and the broader tooling.</li>
+<li>Comfort running a basic Claude Code session and a basic web app locally.</li>
+</ul>
+<hr />
+<h2 id="part-1-the-mindset-constrain-less">Part 1: the mindset (constrain less)</h2>
+<p>The talk opens with a principle from Richard Sutton, the "father of reinforcement learning" (a way of training AI by rewarding good outcomes). His famous idea is the <strong>bitter lesson</strong>: you can spend enormous effort hand-coding human knowledge and constraints into a system, but in the end, pouring in more data and more compute beats anything you could hand-craft.</p>
+<p>Arno draws the analogy straight to how you work with Claude:</p>
+<blockquote>
+<p>🔑 <strong>The model is probably better at extracting your requirements than you are at defining them.</strong> Your requirements are <em>latent</em> (present inside you but not yet articulated). Just like your users, "you know it when you see it" but struggle to say it up front. As models improve, the smart move is to let Claude interview you, not to over-specify.</p>
+</blockquote>
+<p>The three levels the talk covers map onto three phases of work:</p>
+<table>
+<thead>
+<tr>
+<th>Phase</th>
+<th>Goal</th>
+<th>Old way</th>
+<th>New way</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1. Prompt</td>
+<td>Remove ambiguity</td>
+<td>You write the full spec</td>
+<td>Claude interviews you</td>
+</tr>
+<tr>
+<td>2. Plan</td>
+<td>Check it is what you want</td>
+<td>Long markdown file</td>
+<td>Rich HTML mockup</td>
+</tr>
+<tr>
+<td>3. Verify</td>
+<td>Confirm it works</td>
+<td>Manual checking</td>
+<td>Verification built into the artifact</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="part-2-phase-1-let-claude-interview-you">Part 2: phase 1, let Claude interview you</h2>
+<h3 id="good-vs-bad-prompting">Good vs bad prompting</h3>
+<p>The worst prompt, which Arno sees constantly, is "just make it better." It gives Claude nothing to work with.</p>
+<blockquote>
+<p>❌ <strong>Bad prompt:</strong> "Make it better." (No direction, no domains, nothing to extract.)</p>
+</blockquote>
+<p>A good prompt does two things differently:</p>
+<ul>
+<li>It <strong>names the domains you care about</strong> (audience, edge cases, look and feel) without dictating the exact outcome.</li>
+<li>It <strong>invites open-ended answers</strong> rather than predefining them, which prompts Claude to interview you turn by turn.</li>
+</ul>
+<blockquote>
+<p>✅ <strong>Good prompt shape:</strong> "I want to build a bill-splitting app. Interview me to extract the requirements. Ask about the audience, the edge cases, and the design direction. Use the ask-user-question tool, one area at a time."</p>
+</blockquote>
+<h3 id="the-ask-user-question-tool">The ask-user-question tool</h3>
+<p>The thing that actually triggers the interview is referring to the <strong>ask-user-question tool</strong> in your prompt. This is a built-in tool that lets Claude ask you a question and present tappable answer options. When your prompt explicitly mentions it, Claude runs the interview workflow: it asks who the app is for ("just for friends? a secondary audience?"), tabs through your answers, and only then writes the spec.</p>
+<div class="codehilite"><pre><span></span><code># A prompt that triggers the interview (illustrative)
+I want to build a bill-splitting app so friends can see who owes what.
+Don&#39;t over-specify the outcome. Instead, use the ask-user-question tool
+to interview me about: the audience, the key scenarios, and the look/feel.
+Ask one area at a time, then write the spec.
+</code></pre></div>
+
+<blockquote>
+<p>🔑 <strong>Why this beats writing the spec yourself.</strong> The longer you let an agent run, the more important it is that the spec is complete, and the less likely you are to have thought of everything up front. Iterating turn-by-turn with Claude produces a more comprehensive spec than a blank-page brain dump.</p>
+</blockquote>
+<h3 id="a-few-session-settings-to-know">A few session settings to know</h3>
+<p>Three settings the talk recommends turning on:</p>
+<ul>
+<li><strong>Auto mode</strong> (toggle with shift-tab to cycle modes): lets Claude proceed without stopping for trivial permissions. "If you're not using auto mode, you need to be using auto mode."</li>
+<li><strong>Effort</strong> (<code>/effort</code>): how hard the model thinks. The recommendation is <strong>X-high</strong>; you can also set <strong>max</strong>.</li>
+<li><strong>Fast mode</strong> (<code>/fast</code>): iterates more quickly. It costs more, but it is great for rapid iteration on specs and designs.</li>
+</ul>
+<div class="codehilite"><pre><span></span><code>/effort x-high      # recommended default thinking effort
+/fast               # quicker iteration, costs more, great for specs
+# shift-tab to cycle into auto mode
+</code></pre></div>
+
+<hr />
+<h2 id="part-3-phase-2-review-the-plan-as-html">Part 3: phase 2, review the plan as HTML</h2>
+<p>Once the interview produces a spec, Claude turns it into a plan. The old habit was to read that plan as a markdown file. A colleague of Arno's called the markdown file "the lingua franca of the AI-native software development life cycle" (the common language everyone uses). Poetic, but markdown has a real limit.</p>
+<blockquote>
+<p>🔑 <strong>The 200-line problem.</strong> Once a markdown spec runs past about 200 lines, you are unlikely to read it, and your colleagues are almost certainly not going to. A plan nobody reads cannot be checked.</p>
+</blockquote>
+<p>The fix is to have Claude generate the plan (or design directions) as <strong>HTML</strong>, which you open in a browser. HTML is far more <strong>information dense</strong> and <strong>ergonomic</strong>: you see what the thing will actually look like instead of imagining it from prose.</p>
+<p>A concrete move from the talk: ask Claude for several design directions at once.</p>
+<div class="codehilite"><pre><span></span><code># Generate explorable design directions (illustrative)
+Give me four different design directions for the bill-splitting app.
+Explore them, generate each as a standalone HTML file, and let me click
+through and compare them side by side.
+</code></pre></div>
+
+<p>Claude (using Opus 4.7) produced distinct aesthetics, for example one "brutalist" and one "Tokyo fintech," each a clickable HTML page. Clicking through real mockups is "much better for me to give feedback to Claude on than to infer from a markdown file."</p>
+<blockquote>
+<p>✅ <strong>Take screenshots and feed them back.</strong> Especially for front-end work, it is hard to put a visual problem into words ("there's a misalignment here, it's slightly off"). A screenshot says it instantly. Opus 4.7's stronger vision model can look at your screenshot and extract the problem proactively. You can also connect the <strong>Playwright MCP</strong> (a tool that lets Claude drive a real browser) so Claude interacts with the mockup itself.</p>
+<p>💡 <strong>Isn't an HTML spec wasteful on tokens?</strong> A common worry, and the answer is usually no. Yes, generating rich HTML costs more tokens in that one moment. But a good, rich HTML spec means you <strong>iterate less</strong> over the whole project, which saves tokens in the long run. You can even use fast mode for it.</p>
+</blockquote>
+<hr />
+<h2 id="part-4-phase-3-build-verification-into-the-artifact">Part 4: phase 3, build verification into the artifact</h2>
+<p>This is the deepest and most important part. The goal: make verification <strong>native to the thing itself</strong>, so the agent can drive it, and eventually run it headlessly with no human at all.</p>
+<h3 id="the-example-a-tiny-to-do-app">The example: a tiny to-do app</h3>
+<p>The demo uses a small React to-do app. You can add an item, tick it off, drop it, and clear finished items. Lots of <strong>state</strong> (the app's current data: which items exist, which are done) is changing, and we want to verify it all works, in a way an <strong>agent</strong> can drive.</p>
+<h3 id="the-key-trick-publish-state-to-the-dom">The key trick: publish state to the DOM</h3>
+<p>Normally, to check a web app's state, an agent would have to <strong>scrape the DOM</strong> (dig through the page's HTML structure and guess). That is fragile. Instead, each component <strong>publishes its own state to the DOM</strong> through data attributes:</p>
+<div class="codehilite"><pre><span></span><code><span class="cm">&lt;!-- The component publishes its state where an agent can simply read it --&gt;</span>
+<span class="p">&lt;</span><span class="nt">div</span> <span class="na">data-verify</span><span class="o">=</span><span class="s">&quot;unit&quot;</span>
+     <span class="na">data-total</span><span class="o">=</span><span class="s">&quot;3&quot;</span>
+     <span class="na">data-done</span><span class="o">=</span><span class="s">&quot;1&quot;</span>
+     <span class="na">data-active</span><span class="o">=</span><span class="s">&quot;2&quot;</span><span class="p">&gt;</span>
+  ... the actual to-do list ...
+<span class="p">&lt;/</span><span class="nt">div</span><span class="p">&gt;</span>
+</code></pre></div>
+
+<p>Now when the state changes (you add or drop an item), these attributes update. The agent does not interpret the React internals; it reads a clean, declared <strong>data contract</strong> straight from the DOM.</p>
+<blockquote>
+<p>🔑 <strong>Separate the contract from the implementation.</strong> Because state is published independently of React's internals, you can verify the app no matter what its internal state is. You are checking against a stated contract, not reverse-engineering the code.</p>
+</blockquote>
+<h3 id="what-each-component-carries">What each component carries</h3>
+<p>Every component is set up with a small verification kit:</p>
+<ul>
+<li><strong>Schemas:</strong> the shape its data should have.</li>
+<li><strong>Fixtures:</strong> sample data and <strong>known states</strong> to test against (from a testing library, here Storybook).</li>
+<li><strong>Invariants:</strong> rules that must <em>always</em> hold (for example, total = done + active).</li>
+<li><strong>Probes:</strong> checks that deliberately push off the "happy path" to test edge cases.</li>
+</ul>
+<blockquote>
+<p>💡 <strong>Include probes that push off the happy path.</strong> It is not enough to test that things work when everything goes right. Probes deliberately test the awkward cases. And much of this scaffolding "will be generated by Claude for Claude," so it scales.</p>
+</blockquote>
+<h3 id="the-same-verification-three-surfaces">The same verification, three surfaces</h3>
+<p>The cleverest part: the <em>same</em> verification logic runs on three different surfaces, so you can choose how hands-on to be.</p>
+<div class="codehilite"><pre><span></span><code>1. HUMAN-READABLE DASHBOARD  -&gt; you click &quot;run all&quot;, a person reads the results.
+2. AGENT-FROM-BROWSER        -&gt; Claude reads the verification manifest from the
+                                DOM and runs the same checks itself (via Playwright MCP).
+3. HEADLESS (CI)             -&gt; `bun verify` runs the test matrix with no UI at all.
+</code></pre></div>
+
+<p>In the demo, one check is deliberately rigged to fail (the sums do not match: "3 + 4 does not equal 10"). All three surfaces catch the same failure:</p>
+<ul>
+<li>The <strong>human dashboard</strong> shows pass/pass/pass/fail when you run all checks.</li>
+<li><strong>Claude, driven from the browser</strong> with Opus 4.7 and Playwright MCP, finds and diagnoses it: "schema got rejected, 4 + 3 does not equal 10."</li>
+<li>Running <strong><code>bun verify</code></strong> headlessly runs the underlying test matrix.</li>
+</ul>
+<blockquote>
+<p>🔑 <strong>Breaking the contract vs breaking the app.</strong> The talk shows deleting a published attribute (<code>total</code>): the <em>app still works</em>, but the <em>contract</em> is now broken, so the verification fails. That is the point. The contract is what the agent verifies against, independently of whether the app happens to look fine.</p>
+</blockquote>
+<h3 id="record-the-verification-as-evidence">Record the verification as evidence</h3>
+<p>A final step the Claude Code team uses: don't just <em>run</em> the verification, <strong>record it</strong>. Each check can be captured as a video clip, bundled, and stored (on S3, or shared with colleagues). The clips become evidence that the verification passed.</p>
+<blockquote>
+<p>💡 <strong>Why record?</strong> At the team's shipping pace, recorded verification clips are a regular cadence. They let humans have fewer and fewer touchpoints with the work while still trusting it. The agent generates the verification, runs it, and records the proof.</p>
+</blockquote>
+<h3 id="what-is-actually-new-here">What is actually new here</h3>
+<p>Arno is clear that the individual pieces (React components, Storybook fixtures, Playwright, data attributes) are things you already know. What is new is the <strong>remixing</strong>: arranging these familiar primitives so the work is <strong>agent-first</strong>, readable and runnable by an agent, not just a human.</p>
+<blockquote>
+<p>🔑 <strong>The objective, stated plainly:</strong> "embed the verification into the artifact itself." When the thing you build carries its own checks, the agent can verify, re-verify, and record without you in the loop.</p>
+</blockquote>
+<h3 id="a-model-note">A model note</h3>
+<p>For this workflow, the recommendation is <strong>Opus 4.7</strong>, specifically because of its stronger vision model, which makes the HTML mockup and screenshot feedback steps shine. Sonnet is not recommended here. Fast mode is great for iterating on specs.</p>
+<hr />
+<h2 id="key-takeaways">Key takeaways</h2>
+<ol>
+<li><strong>Constrain capable models less.</strong> The bitter lesson: extracting requirements from you beats you specifying everything up front.</li>
+<li><strong>Let Claude interview you</strong> by naming the domains you care about and referring to the ask-user-question tool.</li>
+<li><strong>"Make it better" is a non-prompt.</strong> Give domains and open-ended directions instead.</li>
+<li><strong>Review plans as HTML, not long markdown.</strong> Past ~200 lines, nobody reads markdown. HTML mockups are dense, clickable, and screenshot-friendly.</li>
+<li><strong>Feed screenshots back</strong> for visual feedback; Opus 4.7's vision model extracts the problem for you.</li>
+<li><strong>Publish state to the DOM</strong> so an agent reads a clean contract instead of scraping internals.</li>
+<li><strong>Build verification into the artifact</strong> so the same checks run as a human dashboard, agent-from-browser, and headless CI.</li>
+<li><strong>Verify the contract, not just the app</strong>, and record the verification as evidence.</li>
+<li><strong>Use Opus 4.7, X-high effort, auto mode, and fast mode</strong> for this kind of work.</li>
+</ol>
+<h2 id="common-pitfalls">Common pitfalls</h2>
+<ul>
+<li>❌ Typing "make it better" instead of naming the domains and letting Claude interview you.</li>
+<li>❌ Trying to write the entire spec up front before the agent has interviewed you.</li>
+<li>❌ Reviewing a 400-line markdown plan you (and your team) will never actually read.</li>
+<li>❌ Describing a visual bug in words when a screenshot would say it instantly.</li>
+<li>❌ Making the agent scrape the DOM instead of publishing a clean state contract.</li>
+<li>❌ Testing only the happy path with no probes.</li>
+<li>❌ Worrying about HTML token cost while ignoring that it cuts total iterations.</li>
+<li>❌ Using Sonnet for the vision-heavy steps where Opus 4.7 is recommended.</li>
+</ul>
+<hr />
+<h2 id="capstone" class="capstone-h">🛠️ Capstone Project: the Self-Verifying App</h2>
+<blockquote>
+<p>This is the main hands on project for the lesson. You will take a small app from a vague idea all the way to a self-verifying artifact, using the talk's three phases. There is a companion repo (under the Code with Claude workshops, "How we Claude Code") with a worked verification setup you can study; this Capstone has you build your own.</p>
+</blockquote>
+<h3 id="what-you-will-build">What you will build</h3>
+<p>A small web app (the talk uses a <strong>bill-splitting app</strong> for phases 1 and 2 and a <strong>to-do app</strong> for phase 3; you can use one app for all three) that you:</p>
+<ol>
+<li><strong>Spec by interview</strong> (Claude interviews you),</li>
+<li><strong>Design in HTML</strong> (clickable mockups you choose between), and</li>
+<li><strong>Wrap in agent-native verification</strong> that runs three ways.</li>
+</ol>
+<blockquote>
+<p>🎯 <strong>Pick your app.</strong> Anything with visible state and a few rules: a bill splitter, a to-do list, a habit tracker, a tip calculator. You need at least one <strong>invariant</strong> (a rule that must always hold) to make verification interesting.</p>
+</blockquote>
+<h3 id="why-this-is-the-perfect-practice">Why this is the perfect practice</h3>
+<table>
+<thead>
+<tr>
+<th>Lesson skill</th>
+<th>Where you use it in the build</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Constrain less / interview</td>
+<td>Milestone 1, the ask-user-question prompt</td>
+</tr>
+<tr>
+<td>Good prompting</td>
+<td>Milestone 1, naming domains not outcomes</td>
+</tr>
+<tr>
+<td>HTML mockups</td>
+<td>Milestone 2, four design directions</td>
+</tr>
+<tr>
+<td>Screenshot feedback</td>
+<td>Milestone 2, give visual feedback</td>
+</tr>
+<tr>
+<td>Publish state to the DOM</td>
+<td>Milestone 3, the data contract</td>
+</tr>
+<tr>
+<td>Schemas, fixtures, invariants, probes</td>
+<td>Milestone 4</td>
+</tr>
+<tr>
+<td>Three verification surfaces</td>
+<td>Milestone 5</td>
+</tr>
+<tr>
+<td>Record verification as evidence</td>
+<td>Milestone 6</td>
+</tr>
+</tbody>
+</table>
+<h3 id="milestones-build-them-in-order-each-one-works-on-its-own">Milestones (build them in order, each one works on its own)</h3>
+<ol>
+<li><strong>Spec by interview.</strong> Write a prompt that names the domains you care about (audience, key scenarios, look and feel) and explicitly tells Claude to use the ask-user-question tool, one area at a time. Run the interview, answer turn by turn, and let Claude write the spec. Compare it against a spec you would have written cold; note what the interview surfaced that you would have missed.</li>
+<li><strong>Design directions in HTML.</strong> Ask Claude for <strong>four</strong> different design directions, each as a standalone HTML file. Open them in a browser, click through, and pick one. Give feedback by <strong>taking a screenshot</strong> of something you want changed and feeding it back. Use fast mode and Opus 4.7.</li>
+<li><strong>Publish state to the DOM.</strong> Build (or have Claude build) the app so each component <strong>publishes its state</strong> via data attributes (<code>data-verify</code>, <code>data-total</code>, <code>data-done</code>, <code>data-active</code>, etc.). Confirm in the browser's element inspector that the attributes update as you use the app.</li>
+<li><strong>Add the verification kit.</strong> For each component, define <strong>schemas</strong> (data shape), <strong>fixtures</strong> and known states, <strong>invariants</strong> (rules that always hold, e.g. total = done + active), and <strong>probes</strong> that push off the happy path. Have Claude generate as much of this as possible.</li>
+<li><strong>Run verification three ways.</strong> Wire up (a) a <strong>human dashboard</strong> with a "run all" button, (b) an <strong>agent-from-browser</strong> path where Claude reads the verification manifest from the DOM and runs it (connect the Playwright MCP), and (c) a <strong>headless</strong> <code>verify</code> command for CI. Confirm all three agree.</li>
+<li><strong>Plant a failure, then catch it.</strong> Deliberately break a check two ways: once by breaking the <strong>app logic</strong> (make the sums wrong) and once by breaking the <strong>contract</strong> (delete a published attribute while the app still works). Confirm all three surfaces catch each. Then ask Claude to diagnose the failure for you.</li>
+<li><strong>Record the evidence (stretch).</strong> Capture each verification run as a clip, bundle them, and store/share them. Then try running the whole verification headlessly with no human in the loop.</li>
+</ol>
+<h3 id="how-you-will-know-you-are-done">How you will know you are done</h3>
+<ul>
+<li>✅ Claude <strong>interviewed you</strong> and wrote a spec richer than your cold draft.</li>
+<li>✅ You chose a design from <strong>clickable HTML mockups</strong> and gave at least one <strong>screenshot</strong> of feedback.</li>
+<li>✅ Your app <strong>publishes its state to the DOM</strong> as a clean contract.</li>
+<li>✅ The <strong>same verification</strong> passes as a human dashboard, agent-from-browser, and headless command.</li>
+<li>✅ A planted failure is caught on <strong>all three surfaces</strong>, including one that breaks the <strong>contract but not the app</strong>.</li>
+<li>✅ (Stretch) You produced a <strong>recorded bundle</strong> proving the verification ran.</li>
+</ul>
+<blockquote>
+<p>💡 <strong>The real lesson:</strong> the more the verification lives inside the artifact, the fewer touchpoints you need. You are building something the agent can check for you.</p>
+</blockquote>
+<hr />
+<h2 id="practice-exercises-optional-extra-reps">Practice exercises (optional extra reps)</h2>
+<blockquote>
+<p><strong>What these are:</strong> five small, self-contained tasks, each focused on one phase. Optional and independent. The <strong>Capstone above is the main build</strong> and already covers all of them.</p>
+</blockquote>
+<h3 id="exercise-1-rewrite-a-bad-prompt-foundational">Exercise 1: rewrite a bad prompt (foundational)</h3>
+<p>Take "make it better" and rewrite it into a prompt that names domains, invites open-ended answers, and refers to the ask-user-question tool. Run both and compare what Claude does.</p>
+<h3 id="exercise-2-four-directions-foundational">Exercise 2: four directions (foundational)</h3>
+<p>For any small UI, ask Claude for four HTML design directions. Click through them and pick one. Write one sentence on why HTML beat imagining it from text.</p>
+<h3 id="exercise-3-screenshot-feedback-intermediate">Exercise 3: screenshot feedback (intermediate)</h3>
+<p>Build a simple page, screenshot one visual flaw, and feed the screenshot back to Claude (use Opus 4.7). Confirm it identifies the problem from the image alone.</p>
+<h3 id="exercise-4-publish-state-to-the-dom-intermediate">Exercise 4: publish state to the DOM (intermediate)</h3>
+<p>Take any small interactive component and add data attributes that publish its state. Open the element inspector and confirm they update as you interact. Then have Claude read them instead of scraping the DOM.</p>
+<h3 id="exercise-5-three-surface-verification-advanced">Exercise 5: three-surface verification (advanced)</h3>
+<p>Define one invariant for a component, then run it three ways: a human dashboard button, Claude from the browser via Playwright MCP, and a headless command. Plant a failure that breaks the contract but not the app, and confirm all three catch it.</p>
+<hr />
+<h2 id="cheat-sheet">Cheat sheet</h2>
+<div class="codehilite"><pre><span></span><code>THE MINDSET
+  Bitter lesson: constrain capable models LESS. Let Claude extract requirements.
+
+PHASE 1 - PROMPT (interview)
+  Bad:  &quot;make it better&quot;
+  Good: name the DOMAINS (audience, edge cases, look) + refer to the
+        ask-user-question tool, one area at a time -&gt; Claude interviews you
+  Settings: /effort x-high  ·  /fast (great for specs)  ·  auto mode (shift-tab)
+
+PHASE 2 - PLAN (HTML, not long markdown)
+  Markdown &gt; ~200 lines = nobody reads it.
+  Ask for 4 HTML design directions, click through, pick one.
+  Give feedback with SCREENSHOTS (Opus 4.7 vision extracts the problem).
+  HTML costs more tokens once, but you iterate LESS overall.
+
+PHASE 3 - VERIFY (build it into the artifact)
+  Publish state to the DOM (data-verify attrs) = a contract, not DOM scraping.
+  Each component: schemas + fixtures/known states + invariants + probes.
+  Run the SAME checks three ways:
+    human dashboard  ·  agent-from-browser (Playwright MCP)  ·  headless (verify)
+  Verify the CONTRACT, not just the app. Record clips as evidence.
+
+MODEL: Opus 4.7 (better vision). Not Sonnet for this.
+</code></pre></div>
+
+<h2 id="how-this-connects-to-the-rest-of-the-course">How this connects to the rest of the course</h2>
+<ul>
+<li><strong>Earlier, Module 2 (The prompting playbook):</strong> "good vs bad prompting" here is the same discipline, applied to extracting requirements.</li>
+<li><strong>Earlier, Module 3 (Evals for taste):</strong> the QA-loop and "let the agent verify itself" ideas grow into the self-verifying artifact in this lesson.</li>
+<li><strong>Earlier, Module 4 · Lesson 8 (What's new in Claude Code):</strong> auto mode, fast mode, and effort are introduced there and used heavily here.</li>
+<li><strong>Later, Module 5 (Managed agents):</strong> headless, recorded verification is the foundation for fully asynchronous agents that ship with little human touch.</li>
+</ul>
+<hr />
+<p><em>Source: "How we Claude Code" by Arno (Anthropic Applied AI team), Code with Claude 2026, London, based on Tariq's talk and his post "The Unreasonable Effectiveness of HTML files." Code snippets are illustrative reconstructions of the patterns shown in the talk; see the companion workshop repo for a complete worked setup.</em></p>
+    </article>
+    <nav class="lessonnav"><a class="ln prev" href="08-whats-new-in-claude-code.html"><span class="dir">&#8592; Previous</span><b>What&#x27;s New in Claude Code</b></a><a class="ln home" href="../index.html"><b>All lessons</b></a><a class="ln next" href="10-beyond-the-basics-with-claude-code.html"><span class="dir">Next &#8594;</span><b>Beyond the Basics with Claude Code</b></a></nav>
+  </main>
+</div>
+
+<footer class="site"><div class="wrap">
+  <a class="logo" href="../index.html">Building with Claude<span class="dot">.</span></a>
+  <span class="fnote">A self-paced course generated from the Code with Claude 2026 (London) talks. Code snippets are illustrative reconstructions of the approaches shown. Adapt them to the current SDK.</span>
+</div></footer>
+
+<style>pre { line-height: 125%; }
+td.linenos .normal { color: inherit; background-color: transparent; padding-left: 5px; padding-right: 5px; }
+span.linenos { color: inherit; background-color: transparent; padding-left: 5px; padding-right: 5px; }
+td.linenos .special { color: #000000; background-color: #ffffc0; padding-left: 5px; padding-right: 5px; }
+span.linenos.special { color: #000000; background-color: #ffffc0; padding-left: 5px; padding-right: 5px; }
+.codehilite .hll { background-color: #ffffcc }
+.codehilite { background: #282C34; color: #ABB2BF }
+.codehilite .c { color: #7F848E } /* Comment */
+.codehilite .err { color: #ABB2BF } /* Error */
+.codehilite .esc { color: #ABB2BF } /* Escape */
+.codehilite .g { color: #ABB2BF } /* Generic */
+.codehilite .k { color: #C678DD } /* Keyword */
+.codehilite .l { color: #ABB2BF } /* Literal */
+.codehilite .n { color: #E06C75 } /* Name */
+.codehilite .o { color: #56B6C2 } /* Operator */
+.codehilite .x { color: #ABB2BF } /* Other */
+.codehilite .p { color: #ABB2BF } /* Punctuation */
+.codehilite .ch { color: #7F848E } /* Comment.Hashbang */
+.codehilite .cm { color: #7F848E } /* Comment.Multiline */
+.codehilite .cp { color: #7F848E } /* Comment.Preproc */
+.codehilite .cpf { color: #7F848E } /* Comment.PreprocFile */
+.codehilite .c1 { color: #7F848E } /* Comment.Single */
+.codehilite .cs { color: #7F848E } /* Comment.Special */
+.codehilite .gd { color: #E06C75 } /* Generic.Deleted */
+.codehilite .ge { color: #ABB2BF; font-style: italic } /* Generic.Emph */
+.codehilite .ges { color: #ABB2BF } /* Generic.EmphStrong */
+.codehilite .gr { color: #E06C75 } /* Generic.Error */
+.codehilite .gh { color: #ABB2BF; font-weight: bold } /* Generic.Heading */
+.codehilite .gi { color: #98C379 } /* Generic.Inserted */
+.codehilite .go { color: #E06C75 } /* Generic.Output */
+.codehilite .gp { color: #ABB2BF } /* Generic.Prompt */
+.codehilite .gs { color: #ABB2BF; font-weight: bold } /* Generic.Strong */
+.codehilite .gu { color: #ABB2BF; font-weight: bold } /* Generic.Subheading */
+.codehilite .gt { color: #E06C75 } /* Generic.Traceback */
+.codehilite .kc { color: #E5C07B } /* Keyword.Constant */
+.codehilite .kd { color: #C678DD } /* Keyword.Declaration */
+.codehilite .kn { color: #C678DD } /* Keyword.Namespace */
+.codehilite .kp { color: #C678DD } /* Keyword.Pseudo */
+.codehilite .kr { color: #C678DD } /* Keyword.Reserved */
+.codehilite .kt { color: #E5C07B } /* Keyword.Type */
+.codehilite .ld { color: #ABB2BF } /* Literal.Date */
+.codehilite .m { color: #D19A66 } /* Literal.Number */
+.codehilite .s { color: #98C379 } /* Literal.String */
+.codehilite .na { color: #E06C75 } /* Name.Attribute */
+.codehilite .nb { color: #E5C07B } /* Name.Builtin */
+.codehilite .nc { color: #E5C07B } /* Name.Class */
+.codehilite .no { color: #E06C75 } /* Name.Constant */
+.codehilite .nd { color: #61AFEF } /* Name.Decorator */
+.codehilite .ni { color: #E06C75 } /* Name.Entity */
+.codehilite .ne { color: #E06C75 } /* Name.Exception */
+.codehilite .nf { color: #61AFEF; font-weight: bold } /* Name.Function */
+.codehilite .nl { color: #E06C75 } /* Name.Label */
+.codehilite .nn { color: #E06C75 } /* Name.Namespace */
+.codehilite .nx { color: #E06C75 } /* Name.Other */
+.codehilite .py { color: #E06C75 } /* Name.Property */
+.codehilite .nt { color: #E06C75 } /* Name.Tag */
+.codehilite .nv { color: #E06C75 } /* Name.Variable */
+.codehilite .ow { color: #56B6C2 } /* Operator.Word */
+.codehilite .pm { color: #ABB2BF } /* Punctuation.Marker */
+.codehilite .w { color: #ABB2BF } /* Text.Whitespace */
+.codehilite .mb { color: #D19A66 } /* Literal.Number.Bin */
+.codehilite .mf { color: #D19A66 } /* Literal.Number.Float */
+.codehilite .mh { color: #D19A66 } /* Literal.Number.Hex */
+.codehilite .mi { color: #D19A66 } /* Literal.Number.Integer */
+.codehilite .mo { color: #D19A66 } /* Literal.Number.Oct */
+.codehilite .sa { color: #98C379 } /* Literal.String.Affix */
+.codehilite .sb { color: #98C379 } /* Literal.String.Backtick */
+.codehilite .sc { color: #98C379 } /* Literal.String.Char */
+.codehilite .dl { color: #98C379 } /* Literal.String.Delimiter */
+.codehilite .sd { color: #98C379 } /* Literal.String.Doc */
+.codehilite .s2 { color: #98C379 } /* Literal.String.Double */
+.codehilite .se { color: #98C379 } /* Literal.String.Escape */
+.codehilite .sh { color: #98C379 } /* Literal.String.Heredoc */
+.codehilite .si { color: #98C379 } /* Literal.String.Interpol */
+.codehilite .sx { color: #98C379 } /* Literal.String.Other */
+.codehilite .sr { color: #98C379 } /* Literal.String.Regex */
+.codehilite .s1 { color: #98C379 } /* Literal.String.Single */
+.codehilite .ss { color: #98C379 } /* Literal.String.Symbol */
+.codehilite .bp { color: #E5C07B } /* Name.Builtin.Pseudo */
+.codehilite .fm { color: #56B6C2; font-weight: bold } /* Name.Function.Magic */
+.codehilite .vc { color: #E06C75 } /* Name.Variable.Class */
+.codehilite .vg { color: #E06C75 } /* Name.Variable.Global */
+.codehilite .vi { color: #E06C75 } /* Name.Variable.Instance */
+.codehilite .vm { color: #E06C75 } /* Name.Variable.Magic */
+.codehilite .il { color: #D19A66 } /* Literal.Number.Integer.Long */</style>
+<script>
+// mobile menu
+const sb=document.getElementById('sidebar'),mb=document.getElementById('menuBtn');
+if(mb){mb.onclick=()=>sb.classList.toggle('open');sb.addEventListener('click',e=>{if(e.target.tagName==='A')sb.classList.remove('open')});}
+const tc=document.getElementById('tocClose');if(tc){tc.onclick=()=>sb.classList.remove('open');}
+// progress
+const prog=document.getElementById('progress');
+addEventListener('scroll',()=>{const h=document.body.scrollHeight-innerHeight;prog.style.width=(h>0?scrollY/h*100:0)+'%'});
+// code chrome + copy
+document.querySelectorAll('.codehilite, pre').forEach(block=>{
+  if(block.parentElement.classList.contains('codehilite'))return;
+  const bar=document.createElement('div');bar.className='code-bar';
+  bar.innerHTML='<span class="dot r"></span><span class="dot y"></span><span class="dot g"></span>';
+  block.appendChild(bar);
+  const btn=document.createElement('button');btn.className='copy-btn';btn.textContent='Copy';
+  btn.onclick=()=>{const t=block.querySelector('code')?.innerText||block.innerText;
+    navigator.clipboard.writeText(t.replace(/\nCopy$/,''));btn.textContent='Copied!';btn.classList.add('done');
+    setTimeout(()=>{btn.textContent='Copy';btn.classList.remove('done')},1500)};
+  block.appendChild(btn);
+});
+// callouts by leading emoji
+const map={'🔑':'cl-key','💡':'cl-tip','✅':'cl-ok','❌':'cl-no','🎯':'cl-goal','🛠':'cl-goal'};
+document.querySelectorAll('blockquote').forEach(q=>{const t=(q.textContent||'').trim();for(const e in map){if(t.startsWith(e)){q.classList.add(map[e]);break}}});
+// check-off
+function makeCheckable(rx){document.querySelectorAll('h2,h3').forEach(h=>{if(!rx.test(h.textContent))return;let el=h.nextElementSibling;
+  while(el&&!/^H[1-3]$/.test(el.tagName)){if(el.tagName==='OL'||el.tagName==='UL'){el.classList.add('checkable');
+    el.querySelectorAll(':scope>li').forEach(li=>{const key='cwc:'+location.pathname+':'+li.textContent.slice(0,60);
+      if(localStorage.getItem(key))li.classList.add('checked');
+      li.addEventListener('click',ev=>{if(ev.target.tagName==='A')return;li.classList.toggle('checked');
+        li.classList.contains('checked')?localStorage.setItem(key,'1'):localStorage.removeItem(key)});});}el=el.nextElementSibling;}});}
+makeCheckable(/learning objectives|milestones/i);
+// scrollspy
+const links=[...document.querySelectorAll('.toc a')];
+const heads=links.map(a=>a.getAttribute('href')).filter(h=>h&&h.startsWith('#')).map(h=>document.getElementById(h.slice(1))).filter(Boolean);
+const spy=()=>{let cur=heads[0]?.id;for(const h of heads){if(h.getBoundingClientRect().top<150)cur=h.id}
+  links.forEach(a=>a.classList.toggle('active',a.getAttribute('href')==='#'+cur))};
+addEventListener('scroll',spy);spy();
+</script>
+</body>
+</html>

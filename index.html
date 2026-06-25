@@ -1,66 +1,22 @@
 <!doctype html>
-<html lang="en"><head>
-<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Agentic Engineering | From Zero to Agent Orchestrator</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@500;600;700;800&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Agentic Engineering | A model-agnostic, self-paced course</title>
+<meta http-equiv="refresh" content="0; url=combined/index.html">
+<link rel="canonical" href="combined/index.html">
 <style>
-:root{--navy:#0a1a2f;--navy-2:#0f243d;--navy-3:#15314f;--teal:#18c4a0;--teal-d:#0fa385;--coral:#f24d63;--ink:#152230;--muted:#5f6c7b;--line:#e9eef2;--soft:#f4fbf9;--shadow:0 10px 30px rgba(13,30,52,.08)}
-*{box-sizing:border-box}
-body{margin:0;background:#fff;color:var(--ink);font-family:Inter,system-ui,sans-serif;line-height:1.7;-webkit-font-smoothing:antialiased;overflow-x:hidden}
-a{text-decoration:none;color:inherit}
-h1,h2{font-family:Poppins,sans-serif;letter-spacing:-.01em}
-.wrap{max-width:1100px;margin:0 auto;padding:0 26px}
-.hero{position:relative;background:radial-gradient(120% 120% at 80% 0%,var(--navy-3),var(--navy) 60%);color:#eaf1f8;overflow:hidden;text-align:center;padding:80px 0 90px}
-.hero::before{content:"";position:absolute;inset:0;background-image:radial-gradient(rgba(255,255,255,.12) 1.3px,transparent 1.3px);background-size:22px 22px;opacity:.22;mask:radial-gradient(70% 70% at 50% 20%,#000,transparent)}
-.blob{position:absolute;border-radius:50%;filter:blur(10px);opacity:.5}
-.blob.t{width:240px;height:240px;background:rgba(24,196,160,.30);top:-70px;left:6%}
-.blob.c{width:170px;height:170px;background:rgba(242,77,99,.26);bottom:-50px;right:10%}
-.hero .in{position:relative;z-index:2}
-.eyebrow{display:inline-flex;gap:8px;color:var(--teal);font-weight:600;letter-spacing:.04em;text-transform:uppercase;font-size:14px;margin-bottom:16px}
-.hero h1{font-size:52px;line-height:1.08;margin:0 0 16px;color:#fff;font-weight:800}
-.hero h1 .a{color:var(--coral)}
-.hero p{color:#b9c6d6;font-size:18px;max-width:42em;margin:0 auto 26px}
-.stats{display:flex;gap:34px;justify-content:center;flex-wrap:wrap;margin-top:30px}
-.stat .n{font-family:Poppins;font-weight:800;font-size:30px;color:#fff}
-.stat .l{color:#9fb0c2;font-size:13.5px}
-main{padding:64px 0 100px}
-.intro{text-align:center;max-width:42em;margin:0 auto 50px;color:var(--muted)}
-.modcard{border:1px solid var(--line);border-radius:20px;padding:26px;margin:22px 0;box-shadow:var(--shadow)}
-.modhead{margin-bottom:16px}
-.modtag{display:inline-block;background:var(--soft);color:var(--teal-d);font-weight:700;font-size:12px;letter-spacing:.08em;text-transform:uppercase;padding:5px 12px;border-radius:999px}
-.modhead h2{font-size:24px;margin:12px 0 4px}
-.modhead p{margin:0;color:var(--muted);font-size:15px}
-.lessons{display:grid;gap:10px;margin-top:8px}
-.lesson{display:flex;align-items:center;gap:16px;padding:14px 16px;border:1px solid var(--line);border-radius:14px;transition:.15s;background:#fff}
-.lesson:hover{border-color:var(--teal);box-shadow:var(--shadow);transform:translateY(-1px)}
-.lesson .num{font-family:Poppins;font-weight:800;color:var(--teal);font-size:18px;min-width:34px}
-.ltext{display:flex;flex-direction:column;flex:1;min-width:0}
-.lt{font-weight:600}.ls{color:var(--muted);font-size:13px}
-.arr{color:var(--teal);font-size:20px}
-footer{background:var(--navy);color:#aebccb;text-align:center;padding:40px 26px;font-size:14px}
-.logo{font-family:Poppins;font-weight:800;font-size:22px;color:#fff}.logo .d{color:var(--teal)}
-@media(max-width:700px){.hero h1{font-size:34px}.hero{padding:56px 0 64px}.stats{gap:22px}}
-</style></head>
+body{margin:0;min-height:100vh;display:grid;place-items:center;background:#0a1a2f;color:#eaf1f8;font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,sans-serif;text-align:center;padding:24px}
+a{color:#18c4a0;font-weight:600}
+.box{max-width:32em}
+h1{font-family:Poppins,sans-serif;font-weight:800}
+</style>
+</head>
 <body>
-<header class="hero"><span class="blob t"></span><span class="blob c"></span>
-  <div class="in wrap">
-    <span class="eyebrow">&#10022; Self-paced curriculum</span>
-    <h1>Agentic <span class="a">Engineering</span></h1>
-    <p>From zero to agent orchestrator. A hands-on path through what it actually takes to design, evaluate, and operate production systems where models plan, use tools, hold state, and recover from failure. Vendor-neutral and platform-agnostic, grounded in durable principles and best practices. No hype.</p>
-    <div class="stats">
-      <div class="stat"><div class="n">7</div><div class="l">phases</div></div>
-      <div class="stat"><div class="n">18</div><div class="l">modules</div></div>
-      <div class="stat"><div class="n">18</div><div class="l">hands-on labs</div></div>
-    </div>
-    <div style="margin-top:30px"><a href="orientation.html" style="display:inline-flex;align-items:center;gap:9px;background:#18c4a0;color:#04231c;font-weight:600;border-radius:999px;padding:13px 26px;font-family:Inter">New here? Start with the orientation &#8594;</a></div>
-  </div>
-</header>
-<main class="wrap">
-  <div class="intro">Work top to bottom, or jump to the phase that fits you. Every module defines its terms in plain language, teaches the durable, vendor-neutral concept, and ends with a hands-on lab that builds toward a capstone agent orchestration platform.</div>
-  <section class="modcard"><div class="modhead"><span class="modtag">Phase 0 &middot; Week 0</span><h2>Orientation &amp; prerequisites</h2><p>The accounts, tools, and the one mental model to install before Lesson 1.</p></div><div class="lessons"><a class="lesson" href="modules/module-00-baseline-skills-and-the-right-mental-mod.html"><span class="num">00</span><span class="ltext"><span class="lt">Baseline skills and the right mental model</span><span class="ls">Confirm (or close) the prerequisites, and install the single most important mental model in the field.</span></span><span class="arr">&#8594;</span></a></div></section><section class="modcard"><div class="modhead"><span class="modtag">Phase 1 &middot; Weeks 1–3</span><h2>Foundations: the single model</h2><p>Make one model call excellent before you ever chain or loop.</p></div><div class="lessons"><a class="lesson" href="modules/module-01-how-llms-work.html"><span class="num">01</span><span class="ltext"><span class="lt">How LLMs work (exactly enough, no more)</span><span class="ls">Build a simple but correct mental model of how an LLM works inside, enough to debug its behavior without needing to write a research paper.</span></span><span class="arr">&#8594;</span></a><a class="lesson" href="modules/module-02-prompt-engineering-fundamentals.html"><span class="num">02</span><span class="ltext"><span class="lt">Prompt engineering fundamentals</span><span class="ls">Reliably get good behavior from a single call. This is a *skill inside the job*, not the job.</span></span><span class="arr">&#8594;</span></a><a class="lesson" href="modules/module-03-context-engineering-i.html"><span class="num">03</span><span class="ltext"><span class="lt">Context engineering I: the discipline that replaced &quot;prompt engineering&quot;</span><span class="ls">Reframe your job from &quot;writing prompts&quot; to &quot;curating the model&#x27;s entire working context.&quot; This is the conceptual hinge of the whole curriculum.</span></span><span class="arr">&#8594;</span></a></div></section><section class="modcard"><div class="modhead"><span class="modtag">Phase 2 &middot; Weeks 4–6</span><h2>The augmented LLM</h2><p>The atom of every agent: a model with tools, retrieval, and memory.</p></div><div class="lessons"><a class="lesson" href="modules/module-04-tool-use-function-calling.html"><span class="num">04</span><span class="ltext"><span class="lt">Tool use / function calling</span><span class="ls">Let a model *act* on the world through well-designed tools.</span></span><span class="arr">&#8594;</span></a><a class="lesson" href="modules/module-05-retrieval-rag.html"><span class="num">05</span><span class="ltext"><span class="lt">Retrieval &amp; RAG</span><span class="ls">Ground the model in information it was not trained on, such as your own data or fresh data, without retraining.</span></span><span class="arr">&#8594;</span></a><a class="lesson" href="modules/module-06-memory-context-management-at-scale.html"><span class="num">06</span><span class="ltext"><span class="lt">Memory &amp; context management at scale</span><span class="ls">Keep an agent coherent across long, multi-turn, multi-step tasks, beyond a single context window.</span></span><span class="arr">&#8594;</span></a></div></section><section class="modcard"><div class="modhead"><span class="modtag">Phase 3 &middot; Weeks 7–9</span><h2>Workflows &amp; agents</h2><p>The five workflow patterns, the agent loop, and MCP.</p></div><div class="lessons"><a class="lesson" href="modules/module-07-workflows.html"><span class="num">07</span><span class="ltext"><span class="lt">Workflows: the five patterns</span><span class="ls">Master the named, battle-tested workflow patterns and *when* each applies. These solve a huge fraction of real problems without full agency.</span></span><span class="arr">&#8594;</span></a><a class="lesson" href="modules/module-08-autonomous-agents.html"><span class="num">08</span><span class="ltext"><span class="lt">Autonomous agents: the loop, and its discontents</span><span class="ls">Build a genuinely autonomous agent, and understand exactly why and where they get fragile.</span></span><span class="arr">&#8594;</span></a><a class="lesson" href="modules/module-09-mcp.html"><span class="num">09</span><span class="ltext"><span class="lt">MCP: standardizing the agent&#x27;s connection to the world</span><span class="ls">Understand and use the Model Context Protocol, the open standard for connecting agents to tools, data, and prompts.</span></span><span class="arr">&#8594;</span></a></div></section><section class="modcard"><div class="modhead"><span class="modtag">Phase 4 &middot; Weeks 10–11</span><h2>Orchestration &amp; multi-agent</h2><p>Become an orchestrator, and learn when not to.</p></div><div class="lessons"><a class="lesson" href="modules/module-10-multi-agent-systems-orchestration.html"><span class="num">10</span><span class="ltext"><span class="lt">Multi-agent systems &amp; orchestration (with the real debate)</span><span class="ls">Build an orchestrator-worker system and develop the judgment to know when not to.</span></span><span class="arr">&#8594;</span></a><a class="lesson" href="modules/module-11-the-agentic-engineer-s-toolkit.html"><span class="num">11</span><span class="ltext"><span class="lt">The agentic engineer&#x27;s toolkit (frameworks, with eyes open)</span><span class="ls">Map the tooling landscape and adopt a defensible &quot;framework vs. no-framework&quot; stance.</span></span><span class="arr">&#8594;</span></a></div></section><section class="modcard"><div class="modhead"><span class="modtag">Phase 5 &middot; Weeks 12–14</span><h2>Reliability: evals, observability, safety, production</h2><p>The phase that separates hobbyists from engineers.</p></div><div class="lessons"><a class="lesson" href="modules/module-12-evaluation.html"><span class="num">12</span><span class="ltext"><span class="lt">Evaluation: the moat</span><span class="ls">Build a real evaluation practice. This is, per multiple leading practitioners, the single most important new skill in the field.</span></span><span class="arr">&#8594;</span></a><a class="lesson" href="modules/module-13-observability-tracing.html"><span class="num">13</span><span class="ltext"><span class="lt">Observability &amp; tracing</span><span class="ls">See inside your agents in production: every step, token, cost, and latency.</span></span><span class="arr">&#8594;</span></a><a class="lesson" href="modules/module-14-safety-guardrails-security.html"><span class="num">14</span><span class="ltext"><span class="lt">Safety, guardrails &amp; security</span><span class="ls">Defend agents against the failure modes that get systems pulled from production, especially prompt injection and the lethal trifecta.</span></span><span class="arr">&#8594;</span></a><a class="lesson" href="modules/module-15-production-hardening.html"><span class="num">15</span><span class="ltext"><span class="lt">Production hardening: cost, latency, reliability</span><span class="ls">Make the system survivable in the real world: affordable, fast enough, and resilient.</span></span><span class="arr">&#8594;</span></a></div></section><section class="modcard"><div class="modhead"><span class="modtag">Phase 6 &middot; Weeks 15–17</span><h2>Practice &amp; capstone</h2><p>Get fluent at driving coding agents, then compose everything into a real agent-orchestration system.</p></div><div class="lessons"><a class="lesson" href="modules/module-16-working-with-coding-agents.html"><span class="num">16</span><span class="ltext"><span class="lt">Working with coding agents</span><span class="ls">Become fluent at driving a coding agent to produce reviewed, tested software you would stand behind. This is the meta-skill you will use to build the capstone itself, drawn from the best practices working engineers have shared about the craft.</span></span><span class="arr">&#8594;</span></a><a class="lesson" href="modules/module-17-capstone-orchestration-platform.html"><span class="num">17</span><span class="ltext"><span class="lt">Capstone: build an enterprise agent orchestration platform</span><span class="ls">Compose everything you have learned into one real, evaluated, observable, and hardened agent orchestration platform, then document the build so others can follow it.</span></span><span class="arr">&#8594;</span></a></div></section>
-</main>
-<footer><div class="logo">AI Nativity<span class="d">.</span></div>
-<p>An AI Nativity curriculum &middot; built from a deep-research pass across primary sources. Code snippets and tooling specifics will age, so verify against current docs.</p></footer>
-</body></html>
+<div class="box">
+<h1>Agentic Engineering</h1>
+<p>Taking you to the course&hellip; If it does not load, <a href="combined/index.html">open the course here</a>.</p>
+</div>
+</body>
+</html>

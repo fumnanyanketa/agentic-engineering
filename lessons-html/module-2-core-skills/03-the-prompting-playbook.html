@@ -1,0 +1,930 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Module 2 · Lesson 3: The Prompting Playbook | Building with Claude</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@500;600;700;800&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --navy:#0a1a2f; --navy-2:#0f243d; --navy-3:#15314f;
+  --teal:#18c4a0; --teal-d:#0fa385; --teal-soft:#e4f8f2;
+  --coral:#f24d63; --coral-d:#d83a50; --coral-soft:#feecee;
+  --ink:#152230; --muted:#5f6c7b; --line:#e9eef2; --bg:#ffffff;
+  --soft:#f4fbf9; --card:#ffffff; --code-bg:#21252b; --max:780px;
+  --k:#2f8fb3; --k-bg:#e8f4f9; --tip:#c4881f; --tip-bg:#fdf4e3; --ok:#1f9d6b; --ok-bg:#e6f6ef;
+  --no:#e0533f; --no-bg:#fdecea; --goal:#7b54c9; --goal-bg:#f1ebfb;
+  --shadow:0 10px 30px rgba(13,30,52,.08); --shadow-sm:0 4px 14px rgba(13,30,52,.07);
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,sans-serif;line-height:1.72;font-size:17px;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+#progress{position:fixed;top:0;left:0;height:4px;width:0;background:linear-gradient(90deg,var(--teal),var(--coral));z-index:200;transition:width .1s linear}
+a{color:var(--teal-d);text-decoration:none}
+a:hover{color:var(--coral)}
+h1,h2,h3{font-family:Poppins,sans-serif;color:var(--ink);letter-spacing:-.01em}
+.accent{color:var(--coral)}
+.wrap{max-width:1200px;margin:0 auto;padding:0 28px}
+
+/* ---------- Top welcome strip ---------- */
+.topbar{background:var(--navy);color:#cdd8e4;font-size:13.5px}
+.topbar .wrap{display:flex;justify-content:space-between;align-items:center;height:42px;gap:18px}
+.topbar b{color:#fff;font-weight:600}
+.topbar .right{display:flex;gap:18px;align-items:center}
+.topbar a{color:#cdd8e4}.topbar a:hover{color:var(--teal)}
+
+/* ---------- Nav ---------- */
+nav.bar{background:var(--navy-2);position:sticky;top:0;z-index:120;box-shadow:0 2px 20px rgba(0,0,0,.25)}
+nav.bar .wrap{display:flex;align-items:center;height:68px;gap:26px}
+.logo{font-family:Poppins;font-weight:800;font-size:22px;color:#fff;letter-spacing:.02em;cursor:pointer;text-decoration:none}
+a.logo:hover{color:var(--teal)}
+.lessonnav{display:flex;gap:14px;align-items:stretch;margin:60px 0 0;flex-wrap:wrap}
+.lessonnav .ln{flex:1;min-width:200px;display:flex;flex-direction:column;gap:3px;border:1px solid var(--line);border-radius:14px;padding:16px 18px;color:var(--muted);transition:.15s;background:#fff}
+.lessonnav .ln:hover{border-color:var(--teal);box-shadow:var(--shadow-sm);transform:translateY(-1px)}
+.lessonnav .ln .dir{font-size:13px;font-weight:600;color:var(--teal-d)}
+.lessonnav .ln b{color:var(--ink);font-family:Poppins;font-size:15px}
+.lessonnav .ln.next{text-align:right}
+.lessonnav .ln.home{flex:0 0 auto;justify-content:center;align-items:center;text-align:center;background:var(--soft)}
+.lessonnav .ln.home b{color:var(--teal-d)}
+.logo .dot{color:var(--teal)}
+.navlinks{display:flex;gap:24px;margin-left:8px}
+.navlinks a{color:#dde6ef;font-weight:500;font-size:15px}
+.navlinks a:hover{color:var(--teal)}
+.nav-cta{margin-left:auto;display:flex;gap:12px;align-items:center}
+.btn{display:inline-flex;align-items:center;gap:9px;border:none;cursor:pointer;font-family:Inter;font-weight:600;border-radius:999px;transition:.18s;font-size:15px;text-decoration:none}
+.btn-primary{background:var(--teal);color:#04231c;padding:12px 22px}
+.btn-primary:hover{background:var(--teal-d);color:#fff;transform:translateY(-1px)}
+.btn-outline{background:transparent;color:#fff;border:1.5px solid rgba(255,255,255,.35);padding:10px 20px}
+.btn-outline:hover{border-color:var(--teal);color:var(--teal)}
+.btn-coral{background:var(--coral);color:#fff;padding:12px 22px}
+.btn-coral:hover{background:var(--coral-d);color:#fff;transform:translateY(-1px)}
+
+/* ---------- Hero ---------- */
+.hero{position:relative;background:radial-gradient(120% 120% at 80% 0%,var(--navy-3),var(--navy) 60%);color:#eaf1f8;overflow:hidden}
+.hero::before{content:"";position:absolute;inset:0;background-image:radial-gradient(rgba(255,255,255,.12) 1.3px,transparent 1.3px);background-size:22px 22px;opacity:.25;mask:radial-gradient(60% 60% at 20% 30%,#000,transparent)}
+.blob{position:absolute;border-radius:50%;filter:blur(8px);opacity:.5;z-index:0}
+.blob.t{width:230px;height:230px;background:rgba(24,196,160,.30);top:-60px;right:8%}
+.blob.c{width:160px;height:160px;background:rgba(242,77,99,.28);bottom:-40px;left:42%}
+.squiggle{position:absolute;z-index:1;opacity:.85}
+.hero .wrap{position:relative;z-index:2;display:grid;grid-template-columns:1.15fr .85fr;gap:48px;align-items:center;padding:70px 28px 90px}
+.eyebrow{display:inline-flex;align-items:center;gap:8px;color:var(--teal);font-weight:600;font-size:14px;letter-spacing:.03em;text-transform:uppercase;margin-bottom:18px}
+.hero h1{font-size:54px;line-height:1.08;font-weight:800;margin:0 0 20px;color:#fff}
+.hero .lead{font-size:18px;color:#b9c6d6;max-width:34em;margin:0 0 30px}
+.hero-actions{display:flex;align-items:center;gap:18px;flex-wrap:wrap;margin-bottom:30px}
+.play{display:inline-flex;align-items:center;gap:12px;color:#fff;font-weight:600}
+.play .circ{width:52px;height:52px;border-radius:50%;background:var(--coral);display:grid;place-items:center;box-shadow:0 8px 22px rgba(242,77,99,.45);font-size:16px;animation:pulse 2.4s infinite}
+@keyframes pulse{0%{box-shadow:0 0 0 0 rgba(242,77,99,.45)}70%{box-shadow:0 0 0 16px rgba(242,77,99,0)}100%{box-shadow:0 0 0 0 rgba(242,77,99,0)}}
+.chips{display:flex;gap:10px;flex-wrap:wrap}
+.chip{display:inline-flex;align-items:center;gap:7px;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.12);color:#dce6f0;padding:8px 14px;border-radius:999px;font-size:13.5px;font-weight:500}
+.chip b{color:#fff}
+/* hero card */
+.hero-card{position:relative;background:#fff;color:var(--ink);border-radius:22px;padding:26px;box-shadow:0 24px 60px rgba(0,0,0,.35)}
+.hero-card .ring{position:absolute;top:-26px;right:-18px;width:96px;height:96px;background:#fff;border-radius:50%;box-shadow:var(--shadow);display:grid;place-items:center}
+.hero-card .ring svg{transform:rotate(-90deg)}
+.hero-card .ring .lab{position:absolute;font-family:Poppins;font-weight:700;font-size:18px;color:var(--teal-d)}
+.hero-card h3{margin:4px 0 14px;font-size:19px}
+.hero-card ul{list-style:none;margin:0 0 18px;padding:0}
+.hero-card li{display:flex;gap:11px;align-items:flex-start;padding:9px 0;border-bottom:1px dashed var(--line);font-size:14.5px;color:#36424f}
+.hero-card li:last-child{border-bottom:none}
+.hero-card li .ic{font-size:17px;line-height:1.4}
+.float-badge{position:absolute;left:18px;bottom:-26px;background:#fff;border-radius:14px;box-shadow:var(--shadow);padding:12px 16px;display:flex;gap:10px;align-items:center;font-size:13px;font-weight:600;color:var(--ink)}
+.float-badge .n{font-family:Poppins;font-weight:800;color:var(--coral);font-size:20px}
+
+/* ---------- Content layout ---------- */
+.layout{display:grid;grid-template-columns:268px minmax(0,1fr);gap:46px;max-width:1200px;margin:0 auto;padding:0 28px}
+aside{position:sticky;top:84px;align-self:start;height:calc(100vh - 100px);overflow-y:auto;padding:26px 0}
+.toc-card{background:var(--soft);border:1px solid var(--line);border-radius:18px;padding:18px}
+.toc-close{display:none;position:absolute;top:-6px;right:-4px;width:36px;height:36px;border:none;background:var(--navy-2);color:#fff;border-radius:50%;font-size:22px;line-height:1;cursor:pointer}
+.toc-close:hover{background:var(--coral)}
+.toc-title{font-family:Poppins;font-size:12px;text-transform:uppercase;letter-spacing:.1em;color:var(--teal-d);margin:0 0 10px;font-weight:700}
+.toc ul{list-style:none;margin:0;padding:0}
+.toc a{display:block;color:var(--muted);font-size:14px;padding:6px 12px;border-radius:8px;border-left:2px solid transparent;line-height:1.4}
+.toc a:hover{color:var(--ink);background:#fff}
+.toc a.active{color:var(--teal-d);background:#fff;border-left-color:var(--teal);font-weight:600}
+.toc .toc li li a{padding-left:24px;font-size:13px}
+.toc a.toc-capstone{color:var(--coral);font-weight:600}
+main{padding:54px 0 120px;min-width:0}
+article{max-width:var(--max)}
+
+/* typography */
+article h2{font-size:30px;margin:56px 0 16px;font-weight:700;position:relative}
+article h2::before{content:"\2726";color:var(--teal);font-size:18px;margin-right:10px;vertical-align:2px}
+article h3{font-size:21px;margin:34px 0 10px;font-weight:600}
+article h2+h3{margin-top:18px}
+article p,article li{font-size:16.5px}
+article ul,article ol{padding-left:24px}
+article li{margin:7px 0}
+article strong{font-weight:700;color:#0f1b28}
+hr{border:none;height:1px;background:var(--line);margin:42px 0}
+
+/* tables */
+table{border-collapse:separate;border-spacing:0;width:100%;margin:24px 0;font-size:15px;border:1px solid var(--line);border-radius:14px;overflow:hidden;display:block;overflow-x:auto}
+th,td{padding:12px 15px;text-align:left;vertical-align:top;border-bottom:1px solid var(--line)}
+th{background:var(--navy-2);color:#eaf1f8;font-family:Poppins;font-weight:600;font-size:14px}
+tr:last-child td{border-bottom:none}
+tbody tr:nth-child(even){background:var(--soft)}
+
+/* inline + block code */
+code{font-family:"JetBrains Mono",ui-monospace,Menlo,monospace;font-size:.86em;background:var(--teal-soft);color:#0c6a55;padding:.13em .42em;border-radius:6px}
+.codehilite,pre{position:relative;background:var(--code-bg);border-radius:14px;margin:22px 0;overflow:hidden;box-shadow:var(--shadow-sm)}
+.codehilite pre{margin:0;border-radius:0;box-shadow:none;background:transparent}
+.codehilite pre,pre>code{display:block;padding:42px 18px 18px;overflow-x:auto}
+.codehilite code,pre code{background:none;color:#dfe6ee;padding:0;font-size:13.5px;line-height:1.7}
+.code-bar{position:absolute;top:0;left:0;right:0;height:34px;display:flex;align-items:center;gap:7px;padding:0 15px;background:rgba(255,255,255,.05);border-bottom:1px solid rgba(255,255,255,.07)}
+.code-bar .dot{width:11px;height:11px;border-radius:50%}
+.dot.r{background:#ff5f57}.dot.y{background:#febc2e}.dot.g{background:#28c840}
+.copy-btn{position:absolute;top:5px;right:9px;z-index:3;background:rgba(255,255,255,.08);color:#dfe6ee;border:1px solid rgba(255,255,255,.14);border-radius:8px;font-size:12px;padding:4px 11px;cursor:pointer;font-family:Inter;transition:.15s}
+.copy-btn:hover{background:var(--teal);border-color:var(--teal);color:#04231c}
+.copy-btn.done{background:var(--teal);color:#04231c;border-color:var(--teal)}
+
+/* callouts */
+blockquote{margin:24px 0;padding:16px 20px;border-radius:14px;background:var(--soft);border:1px solid var(--line);border-left:5px solid var(--teal)}
+blockquote p{margin:7px 0}blockquote p:first-child{margin-top:0}blockquote p:last-child{margin-bottom:0}
+blockquote.cl-key{background:var(--k-bg);border-left-color:var(--k);border-color:transparent}
+blockquote.cl-tip{background:var(--tip-bg);border-left-color:var(--tip);border-color:transparent}
+blockquote.cl-ok{background:var(--ok-bg);border-left-color:var(--ok);border-color:transparent}
+blockquote.cl-no{background:var(--no-bg);border-left-color:var(--no);border-color:transparent}
+blockquote.cl-goal{background:var(--goal-bg);border-left-color:var(--goal);border-color:transparent}
+
+/* capstone banner */
+h2.capstone-h{background:linear-gradient(115deg,var(--navy),var(--navy-3));color:#fff;border-radius:20px;padding:30px 28px 26px;margin-top:64px;box-shadow:0 20px 50px rgba(10,26,47,.3);overflow:hidden;position:relative}
+h2.capstone-h::before{content:"\1F6E0  HANDS-ON PROJECT";display:block;font-family:Poppins;font-size:12px;font-weight:700;letter-spacing:.14em;color:var(--teal);margin:0 0 8px}
+h2.capstone-h::after{content:"";position:absolute;width:150px;height:150px;border-radius:50%;background:rgba(24,196,160,.25);filter:blur(10px);top:-50px;right:-30px}
+
+/* check-off */
+.checkable{list-style:none;padding-left:0}
+.checkable li{position:relative;padding-left:36px;cursor:pointer;margin:9px 0}
+.checkable li::before{content:"";position:absolute;left:0;top:3px;width:22px;height:22px;border:2px solid var(--teal);border-radius:7px;background:#fff;transition:.15s}
+.checkable li.checked::before{background:var(--teal);border-color:var(--teal)}
+.checkable li.checked::after{content:"\2713";position:absolute;left:5px;top:1px;color:#fff;font-weight:800;font-size:15px}
+.checkable li.checked{color:var(--muted)}
+
+/* footer */
+footer.site{background:var(--navy);color:#aebccb;margin-top:90px}
+footer.site .wrap{padding:46px 28px;display:flex;justify-content:space-between;gap:26px;flex-wrap:wrap;align-items:center}
+footer.site .logo{font-size:20px}
+footer.site .fnote{max-width:46em;font-size:13.5px;line-height:1.7}
+
+#menuBtn{display:none}
+@media(max-width:920px){
+  .topbar{display:none}
+  .nav-cta{display:none}
+  .float-badge{display:none}
+  nav.bar .wrap{gap:14px;height:60px}
+  .wrap{padding:0 20px}
+  .logo{font-size:18px;white-space:nowrap}
+  .hero .wrap{grid-template-columns:1fr;gap:30px;padding:42px 20px 56px}
+  .hero h1{font-size:33px}
+  .hero .lead{font-size:16.5px}
+  .hero-actions{gap:14px}
+  .hero-actions .btn-primary{flex:1;justify-content:center}
+  .layout{grid-template-columns:1fr;gap:0}
+  aside{position:fixed;top:0;left:0;width:84vw;max-width:320px;height:100vh;background:#fff;z-index:130;transform:translateX(-100%);transition:.25s;box-shadow:var(--shadow);padding:24px}
+  aside.open{transform:none}
+  #menuBtn{display:inline-flex}
+  .toc-close{display:block}
+  .navlinks{display:none}
+  main{padding:34px 0 80px}
+  body{font-size:16px}
+  article h2{font-size:25px}
+  h2.capstone-h{padding:24px 20px}
+}
+@media(max-width:420px){
+  .hero h1{font-size:29px}
+  .hero-actions{flex-direction:column;align-items:stretch}
+  .hero-actions .play{justify-content:center}
+}
+</style>
+</head>
+<body>
+<div id="progress"></div>
+
+<div class="topbar"><div class="wrap">
+  <div>&#10024; Welcome to <b>Building with Claude</b> &middot; a self-paced course</div>
+  <div class="right"><span>Code with Claude 2026 &middot; London</span></div>
+</div></div>
+
+<nav class="bar"><div class="wrap">
+  <button class="btn btn-outline" id="menuBtn" style="padding:8px 14px">&#9776;</button>
+  <a class="logo" href="../index.html">Building with Claude<span class="dot">.</span></a>
+  <div class="navlinks">
+    <a href="../index.html">All lessons</a>
+    <a href="#overview">Overview</a>
+    <a href="#capstone">Capstone</a>
+  </div>
+  <div class="nav-cta">
+    <a class="btn btn-primary" href="#start">Start the lesson &#8594;</a>
+  </div>
+</div></nav>
+
+<header class="hero">
+  <span class="blob t"></span><span class="blob c"></span>
+  <svg class="squiggle" style="top:120px;left:46%;" width="90" height="26" viewBox="0 0 90 26" fill="none"><path d="M2 13c8-14 16 14 24 0s16 14 24 0 16 14 24 0" stroke="#18c4a0" stroke-width="4" stroke-linecap="round"/></svg>
+  <svg class="squiggle" style="bottom:60px;right:40%;" width="70" height="22" viewBox="0 0 90 26" fill="none"><path d="M2 13c8-14 16 14 24 0s16 14 24 0 16 14 24 0" stroke="#f24d63" stroke-width="4" stroke-linecap="round"/></svg>
+  <div class="wrap" id="overview">
+    <div>
+      <span class="eyebrow">&#10022; Module 2 · Lesson 3</span>
+      <h1>The Prompting <span class="accent">Playbook</span></h1>
+      <p class="lead">Prompting is a debugging skill, not a writing skill. You improve a prompt by making changes one at a time and checking each change against a set of tests, you tidy the prompt up first, and you reach for the right fix (clearer structure, a tool, a stronger model, or a multi step process) instead of just adding more instructions.</p>
+      <div class="hero-actions">
+        <a class="btn btn-primary" href="#start">Start the lesson &#8594;</a>
+        <a class="play" href="https://www.youtube.com/watch?v=G2B0YWuJUgI" target="_blank" rel="noopener"><span class="circ">&#9654;</span> Watch the talk</a>
+      </div>
+      <div class="chips">
+        <span class="chip">&#127908; <b>Margo van Laar</b></span>
+        <span class="chip">&#9201; <b>45 to 60 minutes</b></span>
+        <span class="chip">&#128296; <b>Hands-on capstone</b></span>
+      </div>
+    </div>
+    <div style="position:relative">
+      <div class="hero-card">
+        <div class="ring">
+          <svg width="74" height="74"><circle cx="37" cy="37" r="31" stroke="#eef2f5" stroke-width="7" fill="none"/><circle cx="37" cy="37" r="31" stroke="#18c4a0" stroke-width="7" fill="none" stroke-linecap="round" stroke-dasharray="195" stroke-dashoffset="40"/></svg>
+          <span class="lab">&#10022;</span>
+        </div>
+        <h3>What you&#39;ll get</h3>
+        <ul>
+          <li><span class="ic">&#9989;</span><span>Plain-language teaching with every term defined</span></li>
+          <li><span class="ic">&#128221;</span><span>Code snippets pulled from the talk</span></li>
+          <li><span class="ic">&#128296;</span><span>A hands-on capstone you build step by step</span></li>
+          <li><span class="ic">&#127919;</span><span>Optional practice drills to reinforce each skill</span></li>
+        </ul>
+        <a class="btn btn-coral" href="#capstone" style="width:100%;justify-content:center">Jump to the project</a>
+      </div>
+    </div>
+  </div>
+</header>
+
+<div class="layout">
+  <aside id="sidebar"><div class="toc-card">
+    <button class="toc-close" id="tocClose" aria-label="Close menu">&times;</button>
+    <p class="toc-title">On this page</p>
+    <div class="toc">
+<ul>
+<li><a href="#in-one-sentence">In one sentence</a></li>
+<li><a href="#first-principles-companion">First-principles companion</a></li>
+<li><a href="#a-few-plain-language-basics-first">A few plain-language basics first</a></li>
+<li><a href="#why-this-lesson-matters">Why this lesson matters</a></li>
+<li><a href="#learning-objectives">Learning objectives</a></li>
+<li><a href="#prerequisites">Prerequisites</a></li>
+<li><a href="#part-1-the-setup-a-prompt-in-trouble">Part 1: the setup, a prompt in trouble</a><ul>
+<li><a href="#the-three-kinds-of-test-cases-every-eval-needs">The three kinds of test cases every eval needs</a></li>
+<li><a href="#the-method">The method</a></li>
+</ul>
+</li>
+<li><a href="#part-2-prompt-cleanup-do-this-first-every-time">Part 2: prompt cleanup (do this first, every time)</a><ul>
+<li><a href="#fix-21-add-structure-with-xml-tags">Fix 2.1: add structure with XML tags</a></li>
+<li><a href="#fix-22-define-the-output-and-enforce-it-in-the-harness">Fix 2.2: define the output, and enforce it in the harness</a></li>
+</ul>
+</li>
+<li><a href="#part-3-fixing-failures-one-at-a-time">Part 3: fixing failures one at a time</a><ul>
+<li><a href="#failure-31-the-model-hides-information-it-actually-has-the-hotspot-case">Failure 3.1: the model hides information it actually has (the "hotspot" case)</a></li>
+<li><a href="#failure-32-doing-maths-in-its-head-the-proration-case">Failure 3.2: doing maths in its head (the "proration" case)</a></li>
+<li><a href="#failure-33-only-telling-one-side-of-the-story-the-billing-error-case">Failure 3.3: only telling one side of the story (the "billing error" case)</a></li>
+</ul>
+</li>
+<li><a href="#part-4-building-a-new-assistant-from-scratch">Part 4: building a new assistant from scratch</a></li>
+<li><a href="#key-takeaways">Key takeaways</a></li>
+<li><a href="#common-pitfalls">Common pitfalls</a></li>
+<li><a href="#capstone" class="toc-capstone">🛠️ Capstone Project: build PromptLab</a><ul>
+<li><a href="#what-you-will-build">What you will build</a></li>
+<li><a href="#why-this-is-the-perfect-practice">Why this is the perfect practice</a></li>
+<li><a href="#milestones-build-them-in-order-each-one-works-on-its-own">Milestones (build them in order, each one works on its own)</a></li>
+<li><a href="#how-you-will-know-you-are-done">How you will know you are done</a></li>
+</ul>
+</li>
+<li><a href="#practice-exercises-optional-extra-reps">Practice exercises (optional extra reps)</a><ul>
+<li><a href="#exercise-1-build-the-eval-first-foundational">Exercise 1: build the eval first (foundational)</a></li>
+<li><a href="#exercise-2-cleanup-pass-foundational">Exercise 2: cleanup pass (foundational)</a></li>
+<li><a href="#exercise-3-tool-versus-instruction-intermediate">Exercise 3: tool versus instruction (intermediate)</a></li>
+<li><a href="#exercise-4-fix-a-one-sided-rule-intermediate">Exercise 4: fix a one sided rule (intermediate)</a></li>
+<li><a href="#exercise-5-climb-the-ladder-on-a-from-scratch-assistant-advanced">Exercise 5: climb the ladder on a from scratch assistant (advanced)</a></li>
+</ul>
+</li>
+<li><a href="#cheat-sheet">Cheat sheet</a></li>
+<li><a href="#how-this-connects-to-the-rest-of-the-course">How this connects to the rest of the course</a></li>
+</ul>
+</div>
+
+  </div></aside>
+  <main id="start">
+    <article>
+      <hr />
+<h2 id="in-one-sentence">In one sentence</h2>
+<p>Prompting is a debugging skill, not a writing skill. You improve a prompt by making changes one at a time and checking each change against a set of tests, you tidy the prompt up first, and you reach for the right fix (clearer structure, a tool, a stronger model, or a multi step process) instead of just adding more instructions.</p>
+<blockquote>
+<p>🎯 <strong>Where this lesson is heading.</strong> It builds to a hands on <strong>Capstone Project</strong> where you build a small tool called <strong>PromptLab</strong> and use it to take a real assistant from broken to working. Everything before the Capstone teaches the skills you will use there. If you want to see the finish line first, jump to the <strong>"Capstone Project: build PromptLab"</strong> section near the end, then come back.</p>
+</blockquote>
+<h2 id="first-principles-companion">First-principles companion</h2>
+<blockquote>
+<p>💡 <strong>The durable idea behind this lesson.</strong> The talk this lesson is built on is recent, but the underlying concept is not. For the timeless, tool-agnostic version, independent of any single product or model:</p>
+<ul>
+<li><strong><a href="https://platform.claude.com/docs/en/build-with-claude/prompt-engineering/overview">Prompt engineering overview (Anthropic docs)</a></strong> (docs). The official, durable method: define success and evals first, structure the prompt, and recognize when a different lever (model, tool) is the real fix rather than more instructions.</li>
+<li><strong><a href="https://arxiv.org/abs/2005.14165">Language Models are Few-Shot Learners (GPT-3)</a></strong> (paper). The seminal paper establishing why in-context prompting and examples work at all.</li>
+</ul>
+</blockquote>
+<h2 id="a-few-plain-language-basics-first">A few plain-language basics first</h2>
+<p>This lesson uses some everyday AI terms. Here they are in simple words, so nothing below is confusing:</p>
+<ul>
+<li><strong>LLM (Large Language Model):</strong> the kind of AI that reads and writes text. "Claude" is an LLM. Think of it as a very capable text assistant.</li>
+<li><strong>Model:</strong> one specific version of that AI, for example "Sonnet 4.6" or "Opus 4.7." Different models have different strengths, speeds, and prices, much like different car engines.</li>
+<li><strong>Prompt:</strong> the text instructions you give the model to tell it what to do and how to behave. Writing good prompts is called <strong>prompt engineering</strong>.</li>
+<li><strong>Token:</strong> the unit the model reads and writes in. A token is roughly three quarters of a word. You are billed per token, so "using more tokens" means "costing more and taking longer."</li>
+<li><strong>Latency:</strong> how long the model takes to respond, measured in seconds. Lower is faster.</li>
+<li><strong>API (Application Programming Interface):</strong> the connection your code uses to send a prompt to the model and get its answer back. An "API call" is one such request.</li>
+<li><strong>Eval (evaluation):</strong> a set of test cases you run a prompt against to measure whether it works. This is the single most important idea in the lesson.</li>
+<li><strong>Harness:</strong> all the code and settings around the model (the API call, the tools you give it, the loop that runs it). The prompt is what you say to the model; the harness is everything else that surrounds it.</li>
+</ul>
+<p>You do not need to memorise these. Every term is also explained again the first time it appears below.</p>
+<h2 id="why-this-lesson-matters">Why this lesson matters</h2>
+<p>Prompting was, in Margo's words, "arguably the first skill we had to learn as engineers working with LLMs, and it continues to be one of the most critical." In real jobs you are usually not writing a prompt from a blank page. More often you are maintaining a prompt that several people have edited over time, that mixes rules, tone, and old fixes together, and that suddenly works worse after you switch to a newer model. This lesson gives you a repeatable method for that exact situation, and then shows how to start a brand new assistant the right way.</p>
+<h2 id="learning-objectives">Learning objectives</h2>
+<p>By the end of this lesson you will be able to:</p>
+<ol>
+<li>Build a small <strong>eval</strong> (a set of test cases) with the three kinds of cases every prompt needs.</li>
+<li>Apply basic <strong>prompt cleanup</strong> (clear structure, removing junk, defining the output) before chasing specific problems.</li>
+<li>Work out <em>why</em> a prompt is failing and pick the correct fix: rewrite an instruction, give the model a <strong>tool</strong>, switch model or reasoning effort, or split the work into a <strong>multi step loop</strong>.</li>
+<li>Spot and avoid the most common trap: leftover instructions from older models that quietly make newer models behave worse.</li>
+</ol>
+<h2 id="prerequisites">Prerequisites</h2>
+<ul>
+<li>Module 2 · Lesson 1 (this lesson assumes you know the basics of sending a message to Claude and getting a reply).</li>
+<li>Helpful but optional: Module 3 (Evals for taste). This lesson leans on evals, and Module 3 goes deeper on them. You can do them in either order.</li>
+</ul>
+<hr />
+<h2 id="part-1-the-setup-a-prompt-in-trouble">Part 1: the setup, a prompt in trouble</h2>
+<p>Picture a customer support chatbot for a made up phone company called <strong>Meridian Mobile</strong>. ("Customer support chatbot" just means an assistant that answers customer questions about their account.) The prompt behind it has, in Margo's description, "no clear owner," it covers "policy, tone, processes," and it carries "patches for previous models all mixed together." A <strong>patch</strong> here means a small instruction someone added in the past to fix a specific problem with an older model. After the team switches to a newer model, several of their tests start failing.</p>
+<blockquote>
+<p>🔑 <strong>Key idea: you cannot fix what you cannot measure.</strong> When a prompt gets worse after a model change, there are only two possible reasons, and you must tell them apart:
+1. The new model is just as capable but <strong>behaves differently</strong>. You can fix this by adjusting the prompt.
+2. The new model is <strong>less capable</strong> at this task. No amount of prompting will fix that, and you need a different model.
+An <strong>eval</strong> (your set of test cases) is what lets you tell which situation you are in, and it proves whether a change actually helped or not.</p>
+</blockquote>
+<h3 id="the-three-kinds-of-test-cases-every-eval-needs">The three kinds of test cases every eval needs</h3>
+<p>An <strong>eval</strong> is just a collection of <strong>test cases</strong>. A test case is one example input plus the answer you expect. The demo uses only five test cases to stay simple (a real one would have many more), but they cover three essential kinds:</p>
+<table>
+<thead>
+<tr>
+<th>Kind of case</th>
+<th>What it checks</th>
+<th>Meridian example</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Control case</strong></td>
+<td>Something that should <em>always</em> work. It is clear cut and the model handles it well. It is your "nothing is on fire" signal.</td>
+<td>"What is the data limit on the basic plan?"</td>
+</tr>
+<tr>
+<td><strong>Edge case</strong></td>
+<td>Something the model has gotten wrong before. The prompt should stop that mistake from coming back.</td>
+<td>Doing the billing maths; not hiding information it actually has.</td>
+</tr>
+<tr>
+<td><strong>Capability or handoff case</strong></td>
+<td>Does the model know the limits of its job: when to pass the customer to a human, or when to refuse?</td>
+<td>Sending billing disputes to a human.</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p>💡 The capability or handoff case is the one teams most often forget. A model that confidently answers something it should have passed to a human is more dangerous than one that simply fails and says so.</p>
+</blockquote>
+<h3 id="the-method">The method</h3>
+<p>Here is the loop you will repeat for the rest of Part 1, 2, and 3:</p>
+<div class="codehilite"><pre><span></span><code>1. Run the eval on version 0 of the prompt   -&gt; see what is failing
+2. Clean up the prompt first                 -&gt; often an easy win on its own
+3. Fix failing cases ONE AT A TIME           -&gt; so cause and effect are clear
+4. Re-run the eval after every change         -&gt; keep what helps, undo what does not
+</code></pre></div>
+
+<p>On the first run, the control case passes but the bot "performs pretty poorly in the other areas." Before zooming in on any single problem, clean the prompt up.</p>
+<hr />
+<h2 id="part-2-prompt-cleanup-do-this-first-every-time">Part 2: prompt cleanup (do this first, every time)</h2>
+<p>The original prompt has obvious problems. It tells the bot it is a human, "which just isn't true." It contains text that was clearly copied straight off a web page: the giveaway is "a reference to a hero image" (a "hero image" is the big banner picture at the top of a website) and even "references to cookies at the bottom" (website "cookies" are unrelated to a support bot). And everything is crammed "into one big paragraph" with no separation between rules, tone, and data.</p>
+<h3 id="fix-21-add-structure-with-xml-tags">Fix 2.1: add structure with XML tags</h3>
+<p><strong>XML tags</strong> are labels written in angle brackets, like <code>&lt;role&gt;</code> and <code>&lt;/role&gt;</code>, that mark where a section starts and ends. They are an easy way to show the model which part of the prompt is which. A messy, unlabelled prompt looks like this:</p>
+<div class="codehilite"><pre><span></span><code>You are a friendly human support rep for Meridian Mobile. Our hero image
+shows... [website junk] ... Always be polite. Never give wrong plan
+details, point them to the URL. Plans: basic 10GB... We use cookies to...
+Always calculate prorated amounts correctly.
+</code></pre></div>
+
+<p>Restructure it so each kind of information is clearly separated:</p>
+<div class="codehilite"><pre><span></span><code>&lt;role&gt;
+You are a customer support assistant for Meridian Mobile, a mobile network operator.
+&lt;/role&gt;
+
+&lt;guidelines&gt;
+- Be concise, warm, and conversational.
+- Answer using the customer&#39;s account data as the source of truth.
+&lt;/guidelines&gt;
+
+&lt;policy&gt;
+- Plan data allowances are listed in &lt;plan_data&gt;.
+- Customers on grandfathered or legacy plans may have different allowances.
+  These are captured in the customer&#39;s account context.
+&lt;/policy&gt;
+
+&lt;tone&gt;
+Friendly and professional. Avoid jargon.
+&lt;/tone&gt;
+
+&lt;plan_data&gt;
+...
+&lt;/plan_data&gt;
+</code></pre></div>
+
+<p>Just doing this, with no other change, already improves the results. (A <strong>grandfathered</strong> or <strong>legacy</strong> plan means an old plan a customer is still on even though the company stopped offering it to new customers. More on that in Part 3.)</p>
+<blockquote>
+<p>🔑 <strong>Rule of thumb (quote):</strong> "If you're reading a prompt and you can't tell guidelines from policy from data, most likely the model isn't able to either." (Margo van Laar)</p>
+</blockquote>
+<h3 id="fix-22-define-the-output-and-enforce-it-in-the-harness">Fix 2.2: define the output, and enforce it in the harness</h3>
+<p>An <strong>output contract</strong> is simply a clear statement of the exact format you want the answer in. If your answers come back in inconsistent shapes, define the format and then back it up in the <strong>harness</strong> (the code around the model) rather than hoping the prompt alone is enough.</p>
+<div class="codehilite"><pre><span></span><code>&lt;output_format&gt;
+Respond with your message wrapped in &lt;response&gt;...&lt;/response&gt; tags.
+&lt;/output_format&gt;
+</code></pre></div>
+
+<div class="codehilite"><pre><span></span><code><span class="c1"># Enforce the format in the harness, not just in the prompt text.</span>
+<span class="n">response</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">messages</span><span class="o">.</span><span class="n">create</span><span class="p">(</span>
+    <span class="n">model</span><span class="o">=</span><span class="s2">&quot;claude-sonnet-4-6&quot;</span><span class="p">,</span>
+    <span class="n">max_tokens</span><span class="o">=</span><span class="mi">1024</span><span class="p">,</span>                  <span class="c1"># the most tokens (text) the reply may use</span>
+    <span class="n">system</span><span class="o">=</span><span class="n">system_prompt</span><span class="p">,</span>
+    <span class="n">messages</span><span class="o">=</span><span class="n">messages</span><span class="p">,</span>
+    <span class="n">stop_sequences</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;&lt;/response&gt;&quot;</span><span class="p">],</span>   <span class="c1"># stop generating the moment this text appears</span>
+<span class="p">)</span>
+</code></pre></div>
+
+<p>A <strong>stop sequence</strong> is a piece of text that tells the model "stop writing as soon as you produce this." Here it makes the model stop right after it closes the <code>&lt;/response&gt;</code> tag, which keeps the output tidy.</p>
+<blockquote>
+<p>💡 If your output is more complicated (for example <strong>JSON</strong>, a common machine readable text format that uses braces and quotes), use a feature called <strong>structured outputs</strong>, which forces the answer into a fixed shape automatically. As Margo puts it, the prompt "is not always the most effective way of handling issues," so change the harness too.</p>
+</blockquote>
+<p>After cleanup, two of the five cases pass reliably. Three problems remain: <strong>hotspot</strong>, <strong>proration</strong>, and <strong>billing error</strong>. Now fix them one at a time.</p>
+<hr />
+<h2 id="part-3-fixing-failures-one-at-a-time">Part 3: fixing failures one at a time</h2>
+<h3 id="failure-31-the-model-hides-information-it-actually-has-the-hotspot-case">Failure 3.1: the model hides information it actually has (the "hotspot" case)</h3>
+<p>"Hotspot" here means using your phone as a wireless internet source for other devices, and plans include a data allowance for it.</p>
+<p><strong>Question:</strong> "How much hotspot data is on my unlimited plan?"
+<strong>The customer's reality:</strong> they are on a grandfathered (old) plan, and their account record clearly says <strong>5 GB</strong>.
+<strong>The bug:</strong> the bot ignores that and answers with the generic "4 GB," then tells the customer to "go check this out yourself" by sending them to a web link, instead of giving the answer it already has.</p>
+<p>The instruction causing this:</p>
+<div class="codehilite"><pre><span></span><code>We changed our plans recently. The policy doc shows current plan data, and
+customers on grandfathered plans have different rates. NEVER give a customer
+the wrong plan details, instead point them to the URL.
+</code></pre></div>
+
+<p>That "never give wrong details, send them to the URL" line is an old patch written for a weaker model. Newer models follow instructions more literally, so the patch is now <strong>overfitted</strong>. (<strong>Overfitting</strong> means following a rule so rigidly that it backfires. Here the bot suppresses the correct answer just to avoid any risk of being "wrong.") The fix is to state the balanced truth and trust the data:</p>
+<div class="codehilite"><pre><span></span><code>Customers on grandfathered plans may have different allowances. The customer&#39;s
+account context is the accurate source of truth, so use it to answer directly.
+</code></pre></div>
+
+<blockquote>
+<p>🔑 <strong>Lesson:</strong> everyone worries about the model <strong>inventing</strong> facts (this is called <strong>hallucination</strong>, when an AI states something untrue as if it were true). But the opposite also happens: the model <strong>withholds</strong> information it genuinely has, usually because of a defensive patch like this one.
+✅ <strong>Best practice: keep a record of your defensive changes.</strong> <strong>Version control</strong> (a system like Git that tracks every edit and why it was made) lets you note why each patch was added. A newer model can turn an old patch harmful, and you will want to find it and remove it.</p>
+</blockquote>
+<h3 id="failure-32-doing-maths-in-its-head-the-proration-case">Failure 3.2: doing maths in its head (the "proration" case)</h3>
+<p><strong>Proration</strong> means charging only for the part of a billing period you actually used. If you upgrade your plan halfway through the month, proration works out the fair amount for the remaining days.</p>
+<p><strong>Question:</strong> "What if I upgrade to the 30 GB plan? What will my next bill be?"
+<strong>The bug:</strong> the model "reasons through it, does a little mental math" (works the sum out in its head), but never gives a concrete, trustworthy number.</p>
+<p>The instruction causing this only <em>nags</em> the model:</p>
+<div class="codehilite"><pre><span></span><code>Don&#39;t ever give a customer a vague answer. CRITICAL: always calculate any
+prorated amounts correctly.
+</code></pre></div>
+
+<blockquote>
+<p>🔑 <strong>Lesson (quote):</strong> "Instructions don't add capability. Telling the model it's critical to do a calculation right doesn't make it better at mental maths."</p>
+</blockquote>
+<p>The right fix is to give the model a <strong>tool</strong>. A <strong>tool</strong> is a small function (a piece of code) that the model can choose to run when it needs to, for example to do exact maths or look something up. <strong>Tool use</strong> is the general name for this ability. There are three steps.</p>
+<div class="codehilite"><pre><span></span><code># 1. In the prompt: tell it when to use the tool
+Whenever a calculation is required, use the calculate_proration tool. Do not
+do arithmetic yourself.
+</code></pre></div>
+
+<div class="codehilite"><pre><span></span><code><span class="c1"># 2. Describe the tool so the model knows what it does and when to call it.</span>
+<span class="c1">#    This description is called the &quot;tool schema&quot;.</span>
+<span class="n">calculate_proration_tool</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;calculate_proration&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;description&quot;</span><span class="p">:</span> <span class="s2">&quot;Calculate a prorated charge when a customer changes plan &quot;</span>
+                   <span class="s2">&quot;partway through a billing cycle. Use this for ANY billing math.&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;input_schema&quot;</span><span class="p">:</span> <span class="p">{</span>                       <span class="c1"># the inputs the tool expects</span>
+        <span class="s2">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;object&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;properties&quot;</span><span class="p">:</span> <span class="p">{</span>
+            <span class="s2">&quot;old_plan_price&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;number&quot;</span><span class="p">},</span>
+            <span class="s2">&quot;new_plan_price&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;number&quot;</span><span class="p">},</span>
+            <span class="s2">&quot;days_remaining&quot;</span><span class="p">:</span>  <span class="p">{</span><span class="s2">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;integer&quot;</span><span class="p">},</span>
+            <span class="s2">&quot;days_in_cycle&quot;</span><span class="p">:</span>   <span class="p">{</span><span class="s2">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;integer&quot;</span><span class="p">},</span>
+        <span class="p">},</span>
+        <span class="s2">&quot;required&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;old_plan_price&quot;</span><span class="p">,</span> <span class="s2">&quot;new_plan_price&quot;</span><span class="p">,</span>
+                     <span class="s2">&quot;days_remaining&quot;</span><span class="p">,</span> <span class="s2">&quot;days_in_cycle&quot;</span><span class="p">],</span>
+    <span class="p">},</span>
+<span class="p">}</span>
+
+<span class="n">response</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">messages</span><span class="o">.</span><span class="n">create</span><span class="p">(</span>
+    <span class="n">model</span><span class="o">=</span><span class="s2">&quot;claude-sonnet-4-6&quot;</span><span class="p">,</span>
+    <span class="n">max_tokens</span><span class="o">=</span><span class="mi">1024</span><span class="p">,</span>
+    <span class="n">system</span><span class="o">=</span><span class="n">system_prompt</span><span class="p">,</span>
+    <span class="n">tools</span><span class="o">=</span><span class="p">[</span><span class="n">calculate_proration_tool</span><span class="p">],</span>       <span class="c1"># hand the tool to the model</span>
+    <span class="n">messages</span><span class="o">=</span><span class="n">messages</span><span class="p">,</span>
+<span class="p">)</span>
+</code></pre></div>
+
+<div class="codehilite"><pre><span></span><code><span class="c1"># 3. Write the actual maths the tool runs.</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">calculate_proration</span><span class="p">(</span><span class="n">old_plan_price</span><span class="p">,</span> <span class="n">new_plan_price</span><span class="p">,</span> <span class="n">days_remaining</span><span class="p">,</span> <span class="n">days_in_cycle</span><span class="p">):</span>
+    <span class="n">daily_old</span> <span class="o">=</span> <span class="n">old_plan_price</span> <span class="o">/</span> <span class="n">days_in_cycle</span>
+    <span class="n">daily_new</span> <span class="o">=</span> <span class="n">new_plan_price</span> <span class="o">/</span> <span class="n">days_in_cycle</span>
+    <span class="n">credit</span>  <span class="o">=</span> <span class="n">daily_old</span> <span class="o">*</span> <span class="n">days_remaining</span>    <span class="c1"># money owed back for the unused old plan</span>
+    <span class="n">charge</span>  <span class="o">=</span> <span class="n">daily_new</span> <span class="o">*</span> <span class="n">days_remaining</span>    <span class="c1"># cost of the new plan for the remaining days</span>
+    <span class="k">return</span> <span class="nb">round</span><span class="p">(</span><span class="n">charge</span> <span class="o">-</span> <span class="n">credit</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+</code></pre></div>
+
+<p>(A <strong>tool schema</strong> is the written description of a tool: its name, what it does, and what inputs it needs. The model reads the schema to decide when and how to use the tool.) With the tool connected, the case passes. The model "does the maths using the tool in the background and returns the correct response."</p>
+<h3 id="failure-33-only-telling-one-side-of-the-story-the-billing-error-case">Failure 3.3: only telling one side of the story (the "billing error" case)</h3>
+<p><strong>Scenario:</strong> a genuine billing dispute that should be <strong>escalated</strong> (passed up) to a human staff member.
+<strong>The bug:</strong> the bot tries to diagnose and explain the problem itself instead of escalating.</p>
+<p>The instruction causing this tells only one side:</p>
+<div class="codehilite"><pre><span></span><code>Avoid escalating or transferring to a care specialist unless absolutely
+necessary, as it costs ~$8 and counts against our fast-resolution contract.
+</code></pre></div>
+
+<p>Because the prompt mentions only the <em>cost</em> of escalating, the model leans hard toward never escalating. State <strong>both</strong> sides so it can weigh them:</p>
+<div class="codehilite"><pre><span></span><code>Escalating to a care specialist costs ~$8 and counts against our fast-resolution
+target, so do not escalate trivially. However, if you get a billing error wrong,
+it can cost a refund AND the customer&#39;s trust. When there is a genuine billing
+conflict, escalate.
+</code></pre></div>
+
+<blockquote>
+<p>🔑 <strong>Lesson:</strong> the model "optimizes for a goal." (To <strong>optimise for</strong> something means to push as hard as possible toward it.) If you give it only one side of a <strong>trade-off</strong> (a choice where you gain one thing but give up another), it will overdo that side. As models get smarter they weigh trade-offs themselves, so state both sides and let the model balance them. This is the same shape of mistake as the hotspot patch.</p>
+</blockquote>
+<p>All five cases now pass. ✅</p>
+<hr />
+<h2 id="part-4-building-a-new-assistant-from-scratch">Part 4: building a new assistant from scratch</h2>
+<p>The second scenario is starting fresh. The goal is an assistant that builds a <strong>week long staff schedule</strong> for 8 retail employees while satisfying hard rules (enough people on each shift, only scheduling people when they are available, and so on). When you build from zero you choose three things, not one: the <strong>prompt</strong>, the <strong>model</strong>, and the <strong>harness</strong>.</p>
+<p>Because the rules are strict, you do not need another AI to judge the output. You can grade it with a plain <strong>Python function</strong> (a small block of code) that counts rule breaks. This is called a <strong>deterministic grader</strong>, where "deterministic" means it always gives the same answer for the same input, with no AI judgement involved.</p>
+<div class="codehilite"><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">count_violations</span><span class="p">(</span><span class="n">schedule</span><span class="p">,</span> <span class="n">employees</span><span class="p">,</span> <span class="n">requirements</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Return how many hard rules a generated schedule breaks.&quot;&quot;&quot;</span>
+    <span class="n">violations</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="k">for</span> <span class="n">shift</span> <span class="ow">in</span> <span class="n">requirements</span><span class="p">:</span>
+        <span class="n">assigned</span> <span class="o">=</span> <span class="n">schedule</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">shift</span><span class="o">.</span><span class="n">id</span><span class="p">,</span> <span class="p">[])</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">assigned</span><span class="p">)</span> <span class="o">&lt;</span> <span class="n">shift</span><span class="o">.</span><span class="n">required_headcount</span><span class="p">:</span>     <span class="c1"># not enough people on this shift</span>
+            <span class="n">violations</span> <span class="o">+=</span> <span class="mi">1</span>
+        <span class="k">for</span> <span class="n">emp_id</span> <span class="ow">in</span> <span class="n">assigned</span><span class="p">:</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">employees</span><span class="p">[</span><span class="n">emp_id</span><span class="p">]</span><span class="o">.</span><span class="n">is_available</span><span class="p">(</span><span class="n">shift</span><span class="p">):</span> <span class="c1"># person scheduled when unavailable</span>
+                <span class="n">violations</span> <span class="o">+=</span> <span class="mi">1</span>
+    <span class="k">return</span> <span class="n">violations</span>
+</code></pre></div>
+
+<p>This kind of "satisfy a set of strict rules" problem has a name: <strong>constraint satisfaction</strong>. A <strong>constraint</strong> is just a rule that must hold.</p>
+<p>The talk then climbs a ladder of approaches, getting better each time. Watch which lever changes at each step:</p>
+<table>
+<thead>
+<tr>
+<th style="text-align: right;">Step</th>
+<th>Approach</th>
+<th>Result</th>
+<th>Cost and latency</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: right;">1</td>
+<td><strong>Sonnet 4.6</strong>, simple prompt</td>
+<td>All 5 fail. Burns tokens and does not check its work.</td>
+<td>baseline</td>
+</tr>
+<tr>
+<td style="text-align: right;">2</td>
+<td><strong>Opus 4.7</strong>, same prompt</td>
+<td>Still fails, but <strong>far fewer rule breaks</strong>. More reasoning power helps.</td>
+<td>similar</td>
+</tr>
+<tr>
+<td style="text-align: right;">3</td>
+<td><strong>Opus 4.7 with adaptive thinking</strong> (a harness change only)</td>
+<td><strong>Passes reliably</strong></td>
+<td>about 3x the tokens, about 3x the latency (~100 seconds)</td>
+</tr>
+<tr>
+<td style="text-align: right;">4</td>
+<td><strong>Sonnet 4.6 with a better prompt</strong> ("check your work before answering")</td>
+<td>Passes 2 of 5. The failures are now answers cut off by the length limit, not rule breaks.</td>
+<td>even more tokens if you raise the limit</td>
+</tr>
+<tr>
+<td style="text-align: right;">5</td>
+<td><strong>A generate, evaluate, repair loop</strong> (3 small prompts working together)</td>
+<td><strong>All 5 pass</strong></td>
+<td><strong>lower</strong> tokens and latency than step 4</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Adaptive thinking</strong> (step 3) means letting the model decide for itself how much private "scratch work" to do before answering. More thinking usually means a better answer, but it costs more tokens and time. It is just a harness change:</p>
+<div class="codehilite"><pre><span></span><code><span class="c1"># Same prompt as before. Just let Opus decide how much to think.</span>
+<span class="n">response</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">messages</span><span class="o">.</span><span class="n">create</span><span class="p">(</span>
+    <span class="n">model</span><span class="o">=</span><span class="s2">&quot;claude-opus-4-7&quot;</span><span class="p">,</span>
+    <span class="n">max_tokens</span><span class="o">=</span><span class="mi">4096</span><span class="p">,</span>
+    <span class="n">thinking</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;adaptive&quot;</span><span class="p">},</span>   <span class="c1"># the model chooses its own reasoning depth</span>
+    <span class="n">system</span><span class="o">=</span><span class="n">system_prompt</span><span class="p">,</span>
+    <span class="n">messages</span><span class="o">=</span><span class="n">messages</span><span class="p">,</span>
+<span class="p">)</span>
+</code></pre></div>
+
+<p>Step 5 splits one big prompt into <strong>three small prompts</strong>, each with a single job. Running smaller, focused steps in sequence is what people mean by an <strong>agentic loop</strong> (an "agent" is an AI that takes a series of actions on its own toward a goal, rather than answering in one shot).</p>
+<div class="codehilite"><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">schedule_agent</span><span class="p">(</span><span class="n">problem</span><span class="p">,</span> <span class="n">max_rounds</span><span class="o">=</span><span class="mi">3</span><span class="p">):</span>
+    <span class="n">schedule</span> <span class="o">=</span> <span class="n">generate</span><span class="p">(</span><span class="n">problem</span><span class="p">)</span>                  <span class="c1"># 1. draft a schedule</span>
+    <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">max_rounds</span><span class="p">):</span>
+        <span class="n">violations</span> <span class="o">=</span> <span class="n">evaluate</span><span class="p">(</span><span class="n">schedule</span><span class="p">,</span> <span class="n">problem</span><span class="p">)</span>  <span class="c1"># 2. another prompt lists exactly what is broken</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">violations</span><span class="p">:</span>
+            <span class="k">break</span>
+        <span class="n">schedule</span> <span class="o">=</span> <span class="n">repair</span><span class="p">(</span><span class="n">schedule</span><span class="p">,</span> <span class="n">violations</span><span class="p">)</span>   <span class="c1"># 3. a third prompt fixes only those problems</span>
+    <span class="k">return</span> <span class="n">schedule</span>
+</code></pre></div>
+
+<blockquote>
+<p>🔑 <strong>Two good winners:</strong> "Opus 4.7 with adaptive thinking," or the "generate, evaluate, repair loop." The loop has a bonus: you can add <strong>soft constraints</strong> at run time. (A <strong>soft constraint</strong> is a nice to have preference rather than a strict rule, for example "try to keep Harry and Sally on different shifts" or "add a third shift on Wednesday.") You add these in the evaluate step in plain English, without touching the deterministic grader.</p>
+<p>💡 <strong>Design principle:</strong> when steps are "easy and repeatable to separate out," split them into their own prompts instead of asking one giant prompt to do everything.</p>
+</blockquote>
+<hr />
+<h2 id="key-takeaways">Key takeaways</h2>
+<ol>
+<li><strong>Evals first.</strong> A set of test cases is the only honest way to know whether a change helped or just got lucky. Cover control, edge, and capability or handoff cases.</li>
+<li><strong>Clean up before anything clever.</strong> Add structure with tags, delete copied in junk, and define the output. This is often a free win.</li>
+<li><strong>Change one thing at a time.</strong> Isolate each failing case so you can see exactly what your change did.</li>
+<li><strong>Instructions do not add capability.</strong> If the model genuinely cannot do a task, give it a <strong>tool</strong>, a <strong>stronger model</strong>, more <strong>thinking</strong>, or a <strong>multi step loop</strong>. Do not just tell it to "be careful."</li>
+<li><strong>Watch out for old patches and one sided rules.</strong> Leftover "never do X" or "always do Y" instructions can make a smarter model hide information or refuse to act. State both sides of a trade-off and let the model decide.</li>
+<li><strong>Record your defensive changes</strong> with version control, so you can find and remove them when a new model makes them harmful.</li>
+</ol>
+<h2 id="common-pitfalls">Common pitfalls</h2>
+<ul>
+<li>❌ Telling the model to "do better" instead of giving it the means to do better.</li>
+<li>❌ Long lists of "never do this" rules that the next model will over apply.</li>
+<li>❌ Stating only the cost of an action and never the cost of doing nothing.</li>
+<li>❌ Leaving website boilerplate (hero images, cookie notices) in a prompt.</li>
+<li>❌ Changing several things at once, so you cannot tell what actually helped.</li>
+<li>❌ Trusting the prompt alone for output format when a stop sequence or structured outputs would be more reliable.</li>
+</ul>
+<hr />
+<h2 id="capstone" class="capstone-h">🛠️ Capstone Project: build PromptLab</h2>
+<blockquote>
+<p>This is the main hands on project for the lesson, and the best way to make everything above stick. You are going to build the very tool Margo used in the talk. In her words: "I five-coded this web app so that we can iterate on the prompt together... I can run my evals on all five test cases and inspect the results." We will build this out together, so do not worry about size. Start as small as a single script and grow it as far as you like.</p>
+</blockquote>
+<h3 id="what-you-will-build">What you will build</h3>
+<p><strong>PromptLab</strong> is a small workbench for improving prompts the eval driven way, plus the assistant you develop inside it. It has two halves that line up exactly with the two halves of this lesson:</p>
+<ol>
+<li><strong>The harness:</strong> a way to define test cases, run a prompt against all of them, and see a simple pass or fail grid (green and red), just like Margo's web app.</li>
+<li><strong>The assistant:</strong> a support assistant for a company you choose, which you take from a broken first version to all green by applying every technique in this lesson.</li>
+</ol>
+<blockquote>
+<p>🎯 <strong>Pick your world.</strong> Reuse <strong>Meridian Mobile</strong> (the phone company) so it matches the lesson, or swap in something you find fun, such as a <strong>gym chain</strong>, a <strong>streaming service</strong>, or a <strong>co-working space</strong>. You just need a world that has: tiered plans, an upgrade partway through the month (so you need proration maths), an old "grandfathered" plan (an edge case), and a dispute that must go to a human (a handoff case). That one world naturally exercises every skill below.</p>
+</blockquote>
+<h3 id="why-this-is-the-perfect-practice">Why this is the perfect practice</h3>
+<table>
+<thead>
+<tr>
+<th>Lesson skill</th>
+<th>Where you use it in PromptLab</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Building an eval (control, edge, capability)</td>
+<td>Milestone 1, you cannot move on without it</td>
+</tr>
+<tr>
+<td>Prompt cleanup (tags, output contract)</td>
+<td>Milestone 3, measure the free win</td>
+</tr>
+<tr>
+<td>Removing overfitted patches</td>
+<td>Milestone 4a, the "hidden information" bug</td>
+</tr>
+<tr>
+<td>Tools beat instructions</td>
+<td>Milestone 4b, the proration tool</td>
+</tr>
+<tr>
+<td>Stating both sides of a trade-off</td>
+<td>Milestone 4c, the escalation bug</td>
+</tr>
+<tr>
+<td>Choosing model and thinking effort</td>
+<td>Milestone 5, the from scratch feature</td>
+</tr>
+<tr>
+<td>The generate, evaluate, repair loop</td>
+<td>Milestone 5, solving the schedule</td>
+</tr>
+</tbody>
+</table>
+<h3 id="milestones-build-them-in-order-each-one-works-on-its-own">Milestones (build them in order, each one works on its own)</h3>
+<ol>
+<li><strong>Scaffold.</strong> Set up a project, connect the Anthropic SDK (the official code library for calling Claude), and create a <code>cases.json</code> file with 5 test cases: 1 control, 2 edge, 1 capability or handoff, and 1 of your own. (Smallest version: a single Python script. Bigger version: a small web page with a results grid.)</li>
+<li><strong>Eval runner.</strong> Write code that runs the current prompt against every test case and prints a <strong>pass or fail grid</strong>. This is your dashboard for everything that follows.</li>
+<li><strong>The broken version 0.</strong> Write a deliberately messy prompt on purpose (one big paragraph, copied in junk, and an old "never give wrong info, send them to the URL" patch). Run the eval to get a red baseline.</li>
+<li><strong>Clean up.</strong> Restructure with <code>&lt;role&gt;</code>, <code>&lt;guidelines&gt;</code>, <code>&lt;policy&gt;</code>, and <code>&lt;tone&gt;</code> tags, delete the junk, and add an output contract plus a stop sequence. Re-run and record the improvement.</li>
+<li><strong>Fix the failures one at a time.</strong>
+   - <strong>(a)</strong> Fix the hidden information bug by removing the old patch and trusting the account data.
+   - <strong>(b)</strong> Add a <code>calculate_proration</code> tool (schema plus the maths) so the model stops doing sums in its head.
+   - <strong>(c)</strong> Fix the escalation bug by stating both sides of the cost versus benefit.</li>
+<li><strong>Add a from scratch feature.</strong> Give the assistant a second skill: a <strong>weekly staff scheduler</strong> with hard rules. Write a deterministic <code>count_violations</code> grader, then climb the ladder yourself: simple prompt, then a stronger model, then adaptive thinking, then the generate, evaluate, repair loop. Note the tokens and latency at each step.</li>
+<li><strong>Stretch goals.</strong> Save every prompt version and show a leaderboard of them. Add an AI based grader for tone. Allow soft constraints at run time ("keep Harry and Sally on different shifts") without changing the deterministic grader.</li>
+</ol>
+<h3 id="how-you-will-know-you-are-done">How you will know you are done</h3>
+<ul>
+<li>✅ Every test case passes <strong>consistently</strong> (run each a few times, since results vary slightly).</li>
+<li>✅ You can point to <strong>each change</strong> and show, from the grid, the exact failure it fixed.</li>
+<li>✅ At least one case is fixed by a <strong>tool</strong>, and one by <strong>stating both sides of a trade-off</strong>, proving you did not just "add more instructions."</li>
+<li>✅ The scheduler passes using the <strong>loop</strong> at lower cost and latency than forcing one giant prompt to do it all.</li>
+</ul>
+<blockquote>
+<p>💡 <strong>Keep yourself honest:</strong> change one thing at a time and re-run. If you cannot say which change caused an improvement, you changed too much at once.</p>
+</blockquote>
+<hr />
+<h2 id="practice-exercises-optional-extra-reps">Practice exercises (optional extra reps)</h2>
+<blockquote>
+<p><strong>What these are:</strong> five small, self contained coding tasks. Each one asks you to <em>do</em> one specific thing (they are not quiz questions), so you get focused practice on a single skill. They are optional and independent of each other. The <strong>Capstone Project above is the main build</strong>, and it already includes all of these skills in one place, so feel free to skip straight to it if you would rather build one bigger thing. Each exercise is labelled by difficulty. A tiny test setup is enough, even a single notebook with 5 test cases that prints pass or fail.</p>
+</blockquote>
+<h3 id="exercise-1-build-the-eval-first-foundational">Exercise 1: build the eval first (foundational)</h3>
+<p>Write a 5 case eval for a support assistant in a topic you know well (for example a software billing assistant). Make sure you include <strong>one control case, two edge cases, and one capability or handoff case</strong> (where the assistant must pass the user to a human or refuse). Write down the answer you expect for each case before you write any prompt.</p>
+<h3 id="exercise-2-cleanup-pass-foundational">Exercise 2: cleanup pass (foundational)</h3>
+<p>Take this deliberately messy prompt and restructure it with <code>&lt;role&gt;</code>, <code>&lt;guidelines&gt;</code>, <code>&lt;policy&gt;</code>, and <code>&lt;output_format&gt;</code> tags, removing anything that does not belong:</p>
+<div class="codehilite"><pre><span></span><code>You are a helpful human agent. Our homepage hero banner says &quot;Switch &amp; Save!&quot;.
+Be nice. Never quote a wrong price, send them to /pricing instead. We accept
+cookies. Plans: Lite $10/10GB, Pro $30/50GB. Always get the math right.
+</code></pre></div>
+
+<p>Run your eval before and after. What changed, and why?</p>
+<h3 id="exercise-3-tool-versus-instruction-intermediate">Exercise 3: tool versus instruction (intermediate)</h3>
+<p>Your assistant keeps doing arithmetic in its head and getting it slightly wrong. Without changing the model: (a) write the prompt instruction that points it to a tool, (b) write the tool schema, and (c) write the tool's code. Confirm the failing case flips to passing. Then answer: why could a stronger instruction alone never fix this?</p>
+<h3 id="exercise-4-fix-a-one-sided-rule-intermediate">Exercise 4: fix a one sided rule (intermediate)</h3>
+<p>Find a "never / always / avoid unless absolutely necessary" line in one of your real prompts. Rewrite it to state <strong>both sides of the trade-off</strong>. Predict how a smarter model would behave under the old wording versus the new wording, then test it.</p>
+<h3 id="exercise-5-climb-the-ladder-on-a-from-scratch-assistant-advanced">Exercise 5: climb the ladder on a from scratch assistant (advanced)</h3>
+<p>Pick a constraint satisfaction task (scheduling, a seating chart, packing a bag). Build a deterministic grader, then climb the ladder yourself: simple prompt, then stronger model, then adaptive thinking, then the generate, evaluate, repair loop. Record rule breaks, tokens, and latency at each step. Which approach is best for <em>your</em> budget? Finally, add a soft constraint at run time in the evaluate step and confirm you did not have to touch the grader.</p>
+<hr />
+<h2 id="cheat-sheet">Cheat sheet</h2>
+<div class="codehilite"><pre><span></span><code>WHEN A PROMPT GETS WORSE
+  1. Do you have an eval? If not, build one (control + edge + capability).
+  2. Clean up: structure with tags, delete junk, define the output (+ stop sequence).
+  3. Fix ONE failure at a time, and re-run after each change.
+
+CHOOSE THE RIGHT FIX (not &quot;more instructions&quot;)
+  Wrong or hidden facts ....... remove the old patch; trust the data source
+  Bad maths / unreliable step . give it a TOOL
+  Will not act / too cautious . state BOTH sides of the trade-off
+  Not capable enough .......... stronger model OR adaptive thinking
+  One prompt doing too much ... split into generate -&gt; evaluate -&gt; repair
+
+ALWAYS REMEMBER
+  - Instructions do not add capability.
+  - Record your defensive patches so you can remove them later.
+  - Smarter models weigh their own trade-offs, so give them both sides.
+</code></pre></div>
+
+<h2 id="how-this-connects-to-the-rest-of-the-course">How this connects to the rest of the course</h2>
+<ul>
+<li><strong>Earlier, Module 2 · Lesson 4 (Picking the right model):</strong> the "stronger model versus adaptive thinking" choices here are made rigorously, with evals, there.</li>
+<li><strong>Earlier, Module 2 · Lesson 5 (The thinking lever):</strong> a deeper look at adaptive thinking and reasoning effort, the lever used in Part 4.</li>
+<li><strong>Next, Module 3 (Evals for taste):</strong> builds out the eval idea this whole lesson rests on, including AI based graders versus code based graders.</li>
+<li><strong>Later, Module 5 (Claude Managed Agents):</strong> the generate, evaluate, repair pattern grows into multi agent systems and a feature called "outcomes."</li>
+</ul>
+<hr />
+<p><em>Source: "The prompting playbook" by Margo van Laar (Anthropic), Code with Claude 2026, London. Code snippets are illustrative reconstructions of the approaches shown in the talk. Adapt the model names and API details to the current SDK.</em></p>
+    </article>
+    <nav class="lessonnav"><a class="ln prev" href="../module-1-foundations/02-the-capability-curve.html"><span class="dir">&#8592; Previous</span><b>The Capability Curve</b></a><a class="ln home" href="../index.html"><b>All lessons</b></a><a class="ln next" href="04-picking-the-right-model.html"><span class="dir">Next &#8594;</span><b>Picking the Right Model</b></a></nav>
+  </main>
+</div>
+
+<footer class="site"><div class="wrap">
+  <a class="logo" href="../index.html">Building with Claude<span class="dot">.</span></a>
+  <span class="fnote">A self-paced course generated from the Code with Claude 2026 (London) talks. Code snippets are illustrative reconstructions of the approaches shown. Adapt them to the current SDK.</span>
+</div></footer>
+
+<style>pre { line-height: 125%; }
+td.linenos .normal { color: inherit; background-color: transparent; padding-left: 5px; padding-right: 5px; }
+span.linenos { color: inherit; background-color: transparent; padding-left: 5px; padding-right: 5px; }
+td.linenos .special { color: #000000; background-color: #ffffc0; padding-left: 5px; padding-right: 5px; }
+span.linenos.special { color: #000000; background-color: #ffffc0; padding-left: 5px; padding-right: 5px; }
+.codehilite .hll { background-color: #ffffcc }
+.codehilite { background: #282C34; color: #ABB2BF }
+.codehilite .c { color: #7F848E } /* Comment */
+.codehilite .err { color: #ABB2BF } /* Error */
+.codehilite .esc { color: #ABB2BF } /* Escape */
+.codehilite .g { color: #ABB2BF } /* Generic */
+.codehilite .k { color: #C678DD } /* Keyword */
+.codehilite .l { color: #ABB2BF } /* Literal */
+.codehilite .n { color: #E06C75 } /* Name */
+.codehilite .o { color: #56B6C2 } /* Operator */
+.codehilite .x { color: #ABB2BF } /* Other */
+.codehilite .p { color: #ABB2BF } /* Punctuation */
+.codehilite .ch { color: #7F848E } /* Comment.Hashbang */
+.codehilite .cm { color: #7F848E } /* Comment.Multiline */
+.codehilite .cp { color: #7F848E } /* Comment.Preproc */
+.codehilite .cpf { color: #7F848E } /* Comment.PreprocFile */
+.codehilite .c1 { color: #7F848E } /* Comment.Single */
+.codehilite .cs { color: #7F848E } /* Comment.Special */
+.codehilite .gd { color: #E06C75 } /* Generic.Deleted */
+.codehilite .ge { color: #ABB2BF; font-style: italic } /* Generic.Emph */
+.codehilite .ges { color: #ABB2BF } /* Generic.EmphStrong */
+.codehilite .gr { color: #E06C75 } /* Generic.Error */
+.codehilite .gh { color: #ABB2BF; font-weight: bold } /* Generic.Heading */
+.codehilite .gi { color: #98C379 } /* Generic.Inserted */
+.codehilite .go { color: #E06C75 } /* Generic.Output */
+.codehilite .gp { color: #ABB2BF } /* Generic.Prompt */
+.codehilite .gs { color: #ABB2BF; font-weight: bold } /* Generic.Strong */
+.codehilite .gu { color: #ABB2BF; font-weight: bold } /* Generic.Subheading */
+.codehilite .gt { color: #E06C75 } /* Generic.Traceback */
+.codehilite .kc { color: #E5C07B } /* Keyword.Constant */
+.codehilite .kd { color: #C678DD } /* Keyword.Declaration */
+.codehilite .kn { color: #C678DD } /* Keyword.Namespace */
+.codehilite .kp { color: #C678DD } /* Keyword.Pseudo */
+.codehilite .kr { color: #C678DD } /* Keyword.Reserved */
+.codehilite .kt { color: #E5C07B } /* Keyword.Type */
+.codehilite .ld { color: #ABB2BF } /* Literal.Date */
+.codehilite .m { color: #D19A66 } /* Literal.Number */
+.codehilite .s { color: #98C379 } /* Literal.String */
+.codehilite .na { color: #E06C75 } /* Name.Attribute */
+.codehilite .nb { color: #E5C07B } /* Name.Builtin */
+.codehilite .nc { color: #E5C07B } /* Name.Class */
+.codehilite .no { color: #E06C75 } /* Name.Constant */
+.codehilite .nd { color: #61AFEF } /* Name.Decorator */
+.codehilite .ni { color: #E06C75 } /* Name.Entity */
+.codehilite .ne { color: #E06C75 } /* Name.Exception */
+.codehilite .nf { color: #61AFEF; font-weight: bold } /* Name.Function */
+.codehilite .nl { color: #E06C75 } /* Name.Label */
+.codehilite .nn { color: #E06C75 } /* Name.Namespace */
+.codehilite .nx { color: #E06C75 } /* Name.Other */
+.codehilite .py { color: #E06C75 } /* Name.Property */
+.codehilite .nt { color: #E06C75 } /* Name.Tag */
+.codehilite .nv { color: #E06C75 } /* Name.Variable */
+.codehilite .ow { color: #56B6C2 } /* Operator.Word */
+.codehilite .pm { color: #ABB2BF } /* Punctuation.Marker */
+.codehilite .w { color: #ABB2BF } /* Text.Whitespace */
+.codehilite .mb { color: #D19A66 } /* Literal.Number.Bin */
+.codehilite .mf { color: #D19A66 } /* Literal.Number.Float */
+.codehilite .mh { color: #D19A66 } /* Literal.Number.Hex */
+.codehilite .mi { color: #D19A66 } /* Literal.Number.Integer */
+.codehilite .mo { color: #D19A66 } /* Literal.Number.Oct */
+.codehilite .sa { color: #98C379 } /* Literal.String.Affix */
+.codehilite .sb { color: #98C379 } /* Literal.String.Backtick */
+.codehilite .sc { color: #98C379 } /* Literal.String.Char */
+.codehilite .dl { color: #98C379 } /* Literal.String.Delimiter */
+.codehilite .sd { color: #98C379 } /* Literal.String.Doc */
+.codehilite .s2 { color: #98C379 } /* Literal.String.Double */
+.codehilite .se { color: #98C379 } /* Literal.String.Escape */
+.codehilite .sh { color: #98C379 } /* Literal.String.Heredoc */
+.codehilite .si { color: #98C379 } /* Literal.String.Interpol */
+.codehilite .sx { color: #98C379 } /* Literal.String.Other */
+.codehilite .sr { color: #98C379 } /* Literal.String.Regex */
+.codehilite .s1 { color: #98C379 } /* Literal.String.Single */
+.codehilite .ss { color: #98C379 } /* Literal.String.Symbol */
+.codehilite .bp { color: #E5C07B } /* Name.Builtin.Pseudo */
+.codehilite .fm { color: #56B6C2; font-weight: bold } /* Name.Function.Magic */
+.codehilite .vc { color: #E06C75 } /* Name.Variable.Class */
+.codehilite .vg { color: #E06C75 } /* Name.Variable.Global */
+.codehilite .vi { color: #E06C75 } /* Name.Variable.Instance */
+.codehilite .vm { color: #E06C75 } /* Name.Variable.Magic */
+.codehilite .il { color: #D19A66 } /* Literal.Number.Integer.Long */</style>
+<script>
+// mobile menu
+const sb=document.getElementById('sidebar'),mb=document.getElementById('menuBtn');
+if(mb){mb.onclick=()=>sb.classList.toggle('open');sb.addEventListener('click',e=>{if(e.target.tagName==='A')sb.classList.remove('open')});}
+const tc=document.getElementById('tocClose');if(tc){tc.onclick=()=>sb.classList.remove('open');}
+// progress
+const prog=document.getElementById('progress');
+addEventListener('scroll',()=>{const h=document.body.scrollHeight-innerHeight;prog.style.width=(h>0?scrollY/h*100:0)+'%'});
+// code chrome + copy
+document.querySelectorAll('.codehilite, pre').forEach(block=>{
+  if(block.parentElement.classList.contains('codehilite'))return;
+  const bar=document.createElement('div');bar.className='code-bar';
+  bar.innerHTML='<span class="dot r"></span><span class="dot y"></span><span class="dot g"></span>';
+  block.appendChild(bar);
+  const btn=document.createElement('button');btn.className='copy-btn';btn.textContent='Copy';
+  btn.onclick=()=>{const t=block.querySelector('code')?.innerText||block.innerText;
+    navigator.clipboard.writeText(t.replace(/\nCopy$/,''));btn.textContent='Copied!';btn.classList.add('done');
+    setTimeout(()=>{btn.textContent='Copy';btn.classList.remove('done')},1500)};
+  block.appendChild(btn);
+});
+// callouts by leading emoji
+const map={'🔑':'cl-key','💡':'cl-tip','✅':'cl-ok','❌':'cl-no','🎯':'cl-goal','🛠':'cl-goal'};
+document.querySelectorAll('blockquote').forEach(q=>{const t=(q.textContent||'').trim();for(const e in map){if(t.startsWith(e)){q.classList.add(map[e]);break}}});
+// check-off
+function makeCheckable(rx){document.querySelectorAll('h2,h3').forEach(h=>{if(!rx.test(h.textContent))return;let el=h.nextElementSibling;
+  while(el&&!/^H[1-3]$/.test(el.tagName)){if(el.tagName==='OL'||el.tagName==='UL'){el.classList.add('checkable');
+    el.querySelectorAll(':scope>li').forEach(li=>{const key='cwc:'+location.pathname+':'+li.textContent.slice(0,60);
+      if(localStorage.getItem(key))li.classList.add('checked');
+      li.addEventListener('click',ev=>{if(ev.target.tagName==='A')return;li.classList.toggle('checked');
+        li.classList.contains('checked')?localStorage.setItem(key,'1'):localStorage.removeItem(key)});});}el=el.nextElementSibling;}});}
+makeCheckable(/learning objectives|milestones/i);
+// scrollspy
+const links=[...document.querySelectorAll('.toc a')];
+const heads=links.map(a=>a.getAttribute('href')).filter(h=>h&&h.startsWith('#')).map(h=>document.getElementById(h.slice(1))).filter(Boolean);
+const spy=()=>{let cur=heads[0]?.id;for(const h of heads){if(h.getBoundingClientRect().top<150)cur=h.id}
+  links.forEach(a=>a.classList.toggle('active',a.getAttribute('href')==='#'+cur))};
+addEventListener('scroll',spy);spy();
+</script>
+</body>
+</html>
