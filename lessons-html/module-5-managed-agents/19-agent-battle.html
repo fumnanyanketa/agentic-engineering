@@ -1,0 +1,793 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Module 5 · Lesson 19: Agent Battle: Mine the Most Diamonds | Building with Claude</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@500;600;700;800&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --navy:#0a1a2f; --navy-2:#0f243d; --navy-3:#15314f;
+  --teal:#18c4a0; --teal-d:#0fa385; --teal-soft:#e4f8f2;
+  --coral:#f24d63; --coral-d:#d83a50; --coral-soft:#feecee;
+  --ink:#152230; --muted:#5f6c7b; --line:#e9eef2; --bg:#ffffff;
+  --soft:#f4fbf9; --card:#ffffff; --code-bg:#21252b; --max:780px;
+  --k:#2f8fb3; --k-bg:#e8f4f9; --tip:#c4881f; --tip-bg:#fdf4e3; --ok:#1f9d6b; --ok-bg:#e6f6ef;
+  --no:#e0533f; --no-bg:#fdecea; --goal:#7b54c9; --goal-bg:#f1ebfb;
+  --shadow:0 10px 30px rgba(13,30,52,.08); --shadow-sm:0 4px 14px rgba(13,30,52,.07);
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,sans-serif;line-height:1.72;font-size:17px;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+#progress{position:fixed;top:0;left:0;height:4px;width:0;background:linear-gradient(90deg,var(--teal),var(--coral));z-index:200;transition:width .1s linear}
+a{color:var(--teal-d);text-decoration:none}
+a:hover{color:var(--coral)}
+h1,h2,h3{font-family:Poppins,sans-serif;color:var(--ink);letter-spacing:-.01em}
+.accent{color:var(--coral)}
+.wrap{max-width:1200px;margin:0 auto;padding:0 28px}
+
+/* ---------- Top welcome strip ---------- */
+.topbar{background:var(--navy);color:#cdd8e4;font-size:13.5px}
+.topbar .wrap{display:flex;justify-content:space-between;align-items:center;height:42px;gap:18px}
+.topbar b{color:#fff;font-weight:600}
+.topbar .right{display:flex;gap:18px;align-items:center}
+.topbar a{color:#cdd8e4}.topbar a:hover{color:var(--teal)}
+
+/* ---------- Nav ---------- */
+nav.bar{background:var(--navy-2);position:sticky;top:0;z-index:120;box-shadow:0 2px 20px rgba(0,0,0,.25)}
+nav.bar .wrap{display:flex;align-items:center;height:68px;gap:26px}
+.logo{font-family:Poppins;font-weight:800;font-size:22px;color:#fff;letter-spacing:.02em;cursor:pointer;text-decoration:none}
+a.logo:hover{color:var(--teal)}
+.lessonnav{display:flex;gap:14px;align-items:stretch;margin:60px 0 0;flex-wrap:wrap}
+.lessonnav .ln{flex:1;min-width:200px;display:flex;flex-direction:column;gap:3px;border:1px solid var(--line);border-radius:14px;padding:16px 18px;color:var(--muted);transition:.15s;background:#fff}
+.lessonnav .ln:hover{border-color:var(--teal);box-shadow:var(--shadow-sm);transform:translateY(-1px)}
+.lessonnav .ln .dir{font-size:13px;font-weight:600;color:var(--teal-d)}
+.lessonnav .ln b{color:var(--ink);font-family:Poppins;font-size:15px}
+.lessonnav .ln.next{text-align:right}
+.lessonnav .ln.home{flex:0 0 auto;justify-content:center;align-items:center;text-align:center;background:var(--soft)}
+.lessonnav .ln.home b{color:var(--teal-d)}
+.logo .dot{color:var(--teal)}
+.navlinks{display:flex;gap:24px;margin-left:8px}
+.navlinks a{color:#dde6ef;font-weight:500;font-size:15px}
+.navlinks a:hover{color:var(--teal)}
+.nav-cta{margin-left:auto;display:flex;gap:12px;align-items:center}
+.btn{display:inline-flex;align-items:center;gap:9px;border:none;cursor:pointer;font-family:Inter;font-weight:600;border-radius:999px;transition:.18s;font-size:15px;text-decoration:none}
+.btn-primary{background:var(--teal);color:#04231c;padding:12px 22px}
+.btn-primary:hover{background:var(--teal-d);color:#fff;transform:translateY(-1px)}
+.btn-outline{background:transparent;color:#fff;border:1.5px solid rgba(255,255,255,.35);padding:10px 20px}
+.btn-outline:hover{border-color:var(--teal);color:var(--teal)}
+.btn-coral{background:var(--coral);color:#fff;padding:12px 22px}
+.btn-coral:hover{background:var(--coral-d);color:#fff;transform:translateY(-1px)}
+
+/* ---------- Hero ---------- */
+.hero{position:relative;background:radial-gradient(120% 120% at 80% 0%,var(--navy-3),var(--navy) 60%);color:#eaf1f8;overflow:hidden}
+.hero::before{content:"";position:absolute;inset:0;background-image:radial-gradient(rgba(255,255,255,.12) 1.3px,transparent 1.3px);background-size:22px 22px;opacity:.25;mask:radial-gradient(60% 60% at 20% 30%,#000,transparent)}
+.blob{position:absolute;border-radius:50%;filter:blur(8px);opacity:.5;z-index:0}
+.blob.t{width:230px;height:230px;background:rgba(24,196,160,.30);top:-60px;right:8%}
+.blob.c{width:160px;height:160px;background:rgba(242,77,99,.28);bottom:-40px;left:42%}
+.squiggle{position:absolute;z-index:1;opacity:.85}
+.hero .wrap{position:relative;z-index:2;display:grid;grid-template-columns:1.15fr .85fr;gap:48px;align-items:center;padding:70px 28px 90px}
+.eyebrow{display:inline-flex;align-items:center;gap:8px;color:var(--teal);font-weight:600;font-size:14px;letter-spacing:.03em;text-transform:uppercase;margin-bottom:18px}
+.hero h1{font-size:54px;line-height:1.08;font-weight:800;margin:0 0 20px;color:#fff}
+.hero .lead{font-size:18px;color:#b9c6d6;max-width:34em;margin:0 0 30px}
+.hero-actions{display:flex;align-items:center;gap:18px;flex-wrap:wrap;margin-bottom:30px}
+.play{display:inline-flex;align-items:center;gap:12px;color:#fff;font-weight:600}
+.play .circ{width:52px;height:52px;border-radius:50%;background:var(--coral);display:grid;place-items:center;box-shadow:0 8px 22px rgba(242,77,99,.45);font-size:16px;animation:pulse 2.4s infinite}
+@keyframes pulse{0%{box-shadow:0 0 0 0 rgba(242,77,99,.45)}70%{box-shadow:0 0 0 16px rgba(242,77,99,0)}100%{box-shadow:0 0 0 0 rgba(242,77,99,0)}}
+.chips{display:flex;gap:10px;flex-wrap:wrap}
+.chip{display:inline-flex;align-items:center;gap:7px;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.12);color:#dce6f0;padding:8px 14px;border-radius:999px;font-size:13.5px;font-weight:500}
+.chip b{color:#fff}
+/* hero card */
+.hero-card{position:relative;background:#fff;color:var(--ink);border-radius:22px;padding:26px;box-shadow:0 24px 60px rgba(0,0,0,.35)}
+.hero-card .ring{position:absolute;top:-26px;right:-18px;width:96px;height:96px;background:#fff;border-radius:50%;box-shadow:var(--shadow);display:grid;place-items:center}
+.hero-card .ring svg{transform:rotate(-90deg)}
+.hero-card .ring .lab{position:absolute;font-family:Poppins;font-weight:700;font-size:18px;color:var(--teal-d)}
+.hero-card h3{margin:4px 0 14px;font-size:19px}
+.hero-card ul{list-style:none;margin:0 0 18px;padding:0}
+.hero-card li{display:flex;gap:11px;align-items:flex-start;padding:9px 0;border-bottom:1px dashed var(--line);font-size:14.5px;color:#36424f}
+.hero-card li:last-child{border-bottom:none}
+.hero-card li .ic{font-size:17px;line-height:1.4}
+.float-badge{position:absolute;left:18px;bottom:-26px;background:#fff;border-radius:14px;box-shadow:var(--shadow);padding:12px 16px;display:flex;gap:10px;align-items:center;font-size:13px;font-weight:600;color:var(--ink)}
+.float-badge .n{font-family:Poppins;font-weight:800;color:var(--coral);font-size:20px}
+
+/* ---------- Content layout ---------- */
+.layout{display:grid;grid-template-columns:268px minmax(0,1fr);gap:46px;max-width:1200px;margin:0 auto;padding:0 28px}
+aside{position:sticky;top:84px;align-self:start;height:calc(100vh - 100px);overflow-y:auto;padding:26px 0}
+.toc-card{background:var(--soft);border:1px solid var(--line);border-radius:18px;padding:18px}
+.toc-close{display:none;position:absolute;top:-6px;right:-4px;width:36px;height:36px;border:none;background:var(--navy-2);color:#fff;border-radius:50%;font-size:22px;line-height:1;cursor:pointer}
+.toc-close:hover{background:var(--coral)}
+.toc-title{font-family:Poppins;font-size:12px;text-transform:uppercase;letter-spacing:.1em;color:var(--teal-d);margin:0 0 10px;font-weight:700}
+.toc ul{list-style:none;margin:0;padding:0}
+.toc a{display:block;color:var(--muted);font-size:14px;padding:6px 12px;border-radius:8px;border-left:2px solid transparent;line-height:1.4}
+.toc a:hover{color:var(--ink);background:#fff}
+.toc a.active{color:var(--teal-d);background:#fff;border-left-color:var(--teal);font-weight:600}
+.toc .toc li li a{padding-left:24px;font-size:13px}
+.toc a.toc-capstone{color:var(--coral);font-weight:600}
+main{padding:54px 0 120px;min-width:0}
+article{max-width:var(--max)}
+
+/* typography */
+article h2{font-size:30px;margin:56px 0 16px;font-weight:700;position:relative}
+article h2::before{content:"\2726";color:var(--teal);font-size:18px;margin-right:10px;vertical-align:2px}
+article h3{font-size:21px;margin:34px 0 10px;font-weight:600}
+article h2+h3{margin-top:18px}
+article p,article li{font-size:16.5px}
+article ul,article ol{padding-left:24px}
+article li{margin:7px 0}
+article strong{font-weight:700;color:#0f1b28}
+hr{border:none;height:1px;background:var(--line);margin:42px 0}
+
+/* tables */
+table{border-collapse:separate;border-spacing:0;width:100%;margin:24px 0;font-size:15px;border:1px solid var(--line);border-radius:14px;overflow:hidden;display:block;overflow-x:auto}
+th,td{padding:12px 15px;text-align:left;vertical-align:top;border-bottom:1px solid var(--line)}
+th{background:var(--navy-2);color:#eaf1f8;font-family:Poppins;font-weight:600;font-size:14px}
+tr:last-child td{border-bottom:none}
+tbody tr:nth-child(even){background:var(--soft)}
+
+/* inline + block code */
+code{font-family:"JetBrains Mono",ui-monospace,Menlo,monospace;font-size:.86em;background:var(--teal-soft);color:#0c6a55;padding:.13em .42em;border-radius:6px}
+.codehilite,pre{position:relative;background:var(--code-bg);border-radius:14px;margin:22px 0;overflow:hidden;box-shadow:var(--shadow-sm)}
+.codehilite pre{margin:0;border-radius:0;box-shadow:none;background:transparent}
+.codehilite pre,pre>code{display:block;padding:42px 18px 18px;overflow-x:auto}
+.codehilite code,pre code{background:none;color:#dfe6ee;padding:0;font-size:13.5px;line-height:1.7}
+.code-bar{position:absolute;top:0;left:0;right:0;height:34px;display:flex;align-items:center;gap:7px;padding:0 15px;background:rgba(255,255,255,.05);border-bottom:1px solid rgba(255,255,255,.07)}
+.code-bar .dot{width:11px;height:11px;border-radius:50%}
+.dot.r{background:#ff5f57}.dot.y{background:#febc2e}.dot.g{background:#28c840}
+.copy-btn{position:absolute;top:5px;right:9px;z-index:3;background:rgba(255,255,255,.08);color:#dfe6ee;border:1px solid rgba(255,255,255,.14);border-radius:8px;font-size:12px;padding:4px 11px;cursor:pointer;font-family:Inter;transition:.15s}
+.copy-btn:hover{background:var(--teal);border-color:var(--teal);color:#04231c}
+.copy-btn.done{background:var(--teal);color:#04231c;border-color:var(--teal)}
+
+/* callouts */
+blockquote{margin:24px 0;padding:16px 20px;border-radius:14px;background:var(--soft);border:1px solid var(--line);border-left:5px solid var(--teal)}
+blockquote p{margin:7px 0}blockquote p:first-child{margin-top:0}blockquote p:last-child{margin-bottom:0}
+blockquote.cl-key{background:var(--k-bg);border-left-color:var(--k);border-color:transparent}
+blockquote.cl-tip{background:var(--tip-bg);border-left-color:var(--tip);border-color:transparent}
+blockquote.cl-ok{background:var(--ok-bg);border-left-color:var(--ok);border-color:transparent}
+blockquote.cl-no{background:var(--no-bg);border-left-color:var(--no);border-color:transparent}
+blockquote.cl-goal{background:var(--goal-bg);border-left-color:var(--goal);border-color:transparent}
+
+/* capstone banner */
+h2.capstone-h{background:linear-gradient(115deg,var(--navy),var(--navy-3));color:#fff;border-radius:20px;padding:30px 28px 26px;margin-top:64px;box-shadow:0 20px 50px rgba(10,26,47,.3);overflow:hidden;position:relative}
+h2.capstone-h::before{content:"\1F6E0  HANDS-ON PROJECT";display:block;font-family:Poppins;font-size:12px;font-weight:700;letter-spacing:.14em;color:var(--teal);margin:0 0 8px}
+h2.capstone-h::after{content:"";position:absolute;width:150px;height:150px;border-radius:50%;background:rgba(24,196,160,.25);filter:blur(10px);top:-50px;right:-30px}
+
+/* check-off */
+.checkable{list-style:none;padding-left:0}
+.checkable li{position:relative;padding-left:36px;cursor:pointer;margin:9px 0}
+.checkable li::before{content:"";position:absolute;left:0;top:3px;width:22px;height:22px;border:2px solid var(--teal);border-radius:7px;background:#fff;transition:.15s}
+.checkable li.checked::before{background:var(--teal);border-color:var(--teal)}
+.checkable li.checked::after{content:"\2713";position:absolute;left:5px;top:1px;color:#fff;font-weight:800;font-size:15px}
+.checkable li.checked{color:var(--muted)}
+
+/* footer */
+footer.site{background:var(--navy);color:#aebccb;margin-top:90px}
+footer.site .wrap{padding:46px 28px;display:flex;justify-content:space-between;gap:26px;flex-wrap:wrap;align-items:center}
+footer.site .logo{font-size:20px}
+footer.site .fnote{max-width:46em;font-size:13.5px;line-height:1.7}
+
+#menuBtn{display:none}
+@media(max-width:920px){
+  .topbar{display:none}
+  .nav-cta{display:none}
+  .float-badge{display:none}
+  nav.bar .wrap{gap:14px;height:60px}
+  .wrap{padding:0 20px}
+  .logo{font-size:18px;white-space:nowrap}
+  .hero .wrap{grid-template-columns:1fr;gap:30px;padding:42px 20px 56px}
+  .hero h1{font-size:33px}
+  .hero .lead{font-size:16.5px}
+  .hero-actions{gap:14px}
+  .hero-actions .btn-primary{flex:1;justify-content:center}
+  .layout{grid-template-columns:1fr;gap:0}
+  aside{position:fixed;top:0;left:0;width:84vw;max-width:320px;height:100vh;background:#fff;z-index:130;transform:translateX(-100%);transition:.25s;box-shadow:var(--shadow);padding:24px}
+  aside.open{transform:none}
+  #menuBtn{display:inline-flex}
+  .toc-close{display:block}
+  .navlinks{display:none}
+  main{padding:34px 0 80px}
+  body{font-size:16px}
+  article h2{font-size:25px}
+  h2.capstone-h{padding:24px 20px}
+}
+@media(max-width:420px){
+  .hero h1{font-size:29px}
+  .hero-actions{flex-direction:column;align-items:stretch}
+  .hero-actions .play{justify-content:center}
+}
+</style>
+</head>
+<body>
+<div id="progress"></div>
+
+<div class="topbar"><div class="wrap">
+  <div>&#10024; Welcome to <b>Building with Claude</b> &middot; a self-paced course</div>
+  <div class="right"><span>Code with Claude 2026 &middot; London</span></div>
+</div></div>
+
+<nav class="bar"><div class="wrap">
+  <button class="btn btn-outline" id="menuBtn" style="padding:8px 14px">&#9776;</button>
+  <a class="logo" href="../index.html">Building with Claude<span class="dot">.</span></a>
+  <div class="navlinks">
+    <a href="../index.html">All lessons</a>
+    <a href="#overview">Overview</a>
+    <a href="#capstone">Capstone</a>
+  </div>
+  <div class="nav-cta">
+    <a class="btn btn-primary" href="#start">Start the lesson &#8594;</a>
+  </div>
+</div></nav>
+
+<header class="hero">
+  <span class="blob t"></span><span class="blob c"></span>
+  <svg class="squiggle" style="top:120px;left:46%;" width="90" height="26" viewBox="0 0 90 26" fill="none"><path d="M2 13c8-14 16 14 24 0s16 14 24 0 16 14 24 0" stroke="#18c4a0" stroke-width="4" stroke-linecap="round"/></svg>
+  <svg class="squiggle" style="bottom:60px;right:40%;" width="70" height="22" viewBox="0 0 90 26" fill="none"><path d="M2 13c8-14 16 14 24 0s16 14 24 0 16 14 24 0" stroke="#f24d63" stroke-width="4" stroke-linecap="round"/></svg>
+  <div class="wrap" id="overview">
+    <div>
+      <span class="eyebrow">&#10022; Module 5 · Lesson 19</span>
+      <h1>Agent Battle: Mine the Most <span class="accent">Diamonds</span></h1>
+      <p class="lead">This lesson turns agent building into a competitive game: you deploy a managed agent to mine diamonds in Minecraft, then improve it by tuning four levers (system prompt, model, skills, and tools), measuring each change against a fast eval, and chasing not just the most diamonds but the best diamonds-to-tokens ratio.</p>
+      <div class="hero-actions">
+        <a class="btn btn-primary" href="#start">Start the lesson &#8594;</a>
+        <a class="play" href="https://www.youtube.com/watch?v=dxqX_6ciVQA" target="_blank" rel="noopener"><span class="circ">&#9654;</span> Watch the talk</a>
+      </div>
+      <div class="chips">
+        <span class="chip">&#127908; <b>Ben and Jeff</b></span>
+        <span class="chip">&#9201; <b>45 to 60 minutes</b></span>
+        <span class="chip">&#128296; <b>Hands-on capstone</b></span>
+      </div>
+    </div>
+    <div style="position:relative">
+      <div class="hero-card">
+        <div class="ring">
+          <svg width="74" height="74"><circle cx="37" cy="37" r="31" stroke="#eef2f5" stroke-width="7" fill="none"/><circle cx="37" cy="37" r="31" stroke="#18c4a0" stroke-width="7" fill="none" stroke-linecap="round" stroke-dasharray="195" stroke-dashoffset="40"/></svg>
+          <span class="lab">&#10022;</span>
+        </div>
+        <h3>What you&#39;ll get</h3>
+        <ul>
+          <li><span class="ic">&#9989;</span><span>Plain-language teaching with every term defined</span></li>
+          <li><span class="ic">&#128221;</span><span>Code snippets pulled from the talk</span></li>
+          <li><span class="ic">&#128296;</span><span>A hands-on capstone you build step by step</span></li>
+          <li><span class="ic">&#127919;</span><span>Optional practice drills to reinforce each skill</span></li>
+        </ul>
+        <a class="btn btn-coral" href="#capstone" style="width:100%;justify-content:center">Jump to the project</a>
+      </div>
+    </div>
+  </div>
+</header>
+
+<div class="layout">
+  <aside id="sidebar"><div class="toc-card">
+    <button class="toc-close" id="tocClose" aria-label="Close menu">&times;</button>
+    <p class="toc-title">On this page</p>
+    <div class="toc">
+<ul>
+<li><a href="#in-one-sentence">In one sentence</a></li>
+<li><a href="#first-principles-companion">First-principles companion</a></li>
+<li><a href="#a-few-plain-language-basics-first">A few plain-language basics first</a></li>
+<li><a href="#why-this-lesson-matters">Why this lesson matters</a></li>
+<li><a href="#learning-objectives">Learning objectives</a></li>
+<li><a href="#prerequisites">Prerequisites</a></li>
+<li><a href="#part-1-the-game-and-the-goal">Part 1: the game and the goal</a></li>
+<li><a href="#part-2-the-rules-of-the-battle">Part 2: the rules of the battle</a></li>
+<li><a href="#part-3-the-harness-what-is-shipped-for-you">Part 3: the harness, what is shipped for you</a></li>
+<li><a href="#part-4-the-four-levers-you-actually-control">Part 4: the four levers you actually control</a></li>
+<li><a href="#part-5-the-hill-climbing-loop-in-practice">Part 5: the hill-climbing loop in practice</a></li>
+<li><a href="#part-6-lessons-that-transfer-beyond-minecraft">Part 6: lessons that transfer beyond Minecraft</a></li>
+<li><a href="#key-takeaways">Key takeaways</a></li>
+<li><a href="#common-pitfalls">Common pitfalls</a></li>
+<li><a href="#capstone" class="toc-capstone">🛠️ Capstone Project: DiamondForge</a><ul>
+<li><a href="#what-you-will-build">What you will build</a></li>
+<li><a href="#why-this-is-the-perfect-practice">Why this is the perfect practice</a></li>
+<li><a href="#milestones-build-them-in-order-each-one-works-on-its-own">Milestones (build them in order, each one works on its own)</a></li>
+<li><a href="#how-you-will-know-you-are-done">How you will know you are done</a></li>
+</ul>
+</li>
+<li><a href="#practice-exercises-optional-extra-reps">Practice exercises (optional extra reps)</a><ul>
+<li><a href="#exercise-1-write-the-first-system-prompt-foundational">Exercise 1: write the first system prompt (foundational)</a></li>
+<li><a href="#exercise-2-prompt-versus-model-foundational">Exercise 2: prompt versus model (foundational)</a></li>
+<li><a href="#exercise-3-design-an-efficiency-metric-intermediate">Exercise 3: design an efficiency metric (intermediate)</a></li>
+<li><a href="#exercise-4-read-the-behaviour-trail-intermediate">Exercise 4: read the behaviour trail (intermediate)</a></li>
+<li><a href="#exercise-5-catch-a-broken-metric-advanced">Exercise 5: catch a broken metric (advanced)</a></li>
+</ul>
+</li>
+<li><a href="#cheat-sheet">Cheat sheet</a></li>
+<li><a href="#how-this-connects-to-the-rest-of-the-course">How this connects to the rest of the course</a></li>
+</ul>
+</div>
+
+  </div></aside>
+  <main id="start">
+    <article>
+      <hr />
+<h2 id="in-one-sentence">In one sentence</h2>
+<p>This lesson turns agent building into a competitive game: you deploy a managed agent to mine diamonds in Minecraft, then improve it by tuning four levers (system prompt, model, skills, and tools), measuring each change against a fast eval, and chasing not just the most diamonds but the best diamonds-to-tokens ratio.</p>
+<blockquote>
+<p>🎯 <strong>Where this lesson is heading.</strong> It builds to a hands-on <strong>Capstone Project</strong> where you run your own <strong>DiamondForge Challenge</strong>: a deployed agent, a one-minute eval loop, a leaderboard, and a disciplined hill-climbing process to beat your own best score. Everything before the Capstone teaches the moves you will use. To see the finish line first, jump to <strong>"Capstone Project: DiamondForge"</strong> and come back.</p>
+</blockquote>
+<h2 id="first-principles-companion">First-principles companion</h2>
+<blockquote>
+<p>💡 <strong>The durable idea behind this lesson.</strong> The talk this lesson is built on is recent, but the underlying concept is not. For the timeless, tool-agnostic version, independent of any single product or model:</p>
+<ul>
+<li><strong><a href="https://arxiv.org/abs/2303.11366">Reflexion: Language Agents with Verbal Reinforcement Learning</a></strong> (paper). Frames iterative agent improvement as a measure, reflect, retry loop, the exact "hill-climb on a measurable objective" discipline this lesson is built around.</li>
+<li><strong><a href="https://web.stanford.edu/class/psych209/Readings/SuttonBartoIPRLBook2ndEd.pdf">Reinforcement Learning: An Introduction (Sutton &amp; Barto)</a></strong> (book). The bedrock text on the explore/exploit, planning, and reward framing behind optimizing an agent against a score.</li>
+</ul>
+</blockquote>
+<h2 id="a-few-plain-language-basics-first">A few plain-language basics first</h2>
+<p>This lesson is a competition with a few moving parts. Here they are in plain words:</p>
+<ul>
+<li><strong>Agent:</strong> an AI that takes a series of actions on its own toward a goal (here, mining diamonds), instead of answering in one shot.</li>
+<li><strong>Managed agent:</strong> an agent hosted on Anthropic's infrastructure (Claude Managed Agents). Most of the plumbing is set up for you; your job is to shape its behaviour.</li>
+<li><strong>System prompt:</strong> the standing instructions that define who the agent is and how it should behave. It is the single biggest lever you control here.</li>
+<li><strong>Model string:</strong> the name of the exact model you point the agent at (for example a Sonnet or an Opus version). Bigger models are more capable but cost more tokens.</li>
+<li><strong>Token:</strong> the unit the model reads and writes in, roughly three quarters of a word. You are billed per token, so "more tokens" means "more cost."</li>
+<li><strong>Skill:</strong> a reusable package of instructions and assets that bolts a specific capability onto the agent. You can use one shipped by Anthropic or write your own.</li>
+<li><strong>MCP (Model Context Protocol):</strong> a standard way to give an agent <strong>tools</strong> (actions it can call). Here the tools let the agent move and act in Minecraft, like "mine block," "jump," and "go near things."</li>
+<li><strong>Eval (evaluation):</strong> a test you run an agent against to measure how well it does. A fast eval lets you iterate quickly.</li>
+<li><strong>Hill climbing:</strong> improving step by step. You measure, change one thing, measure again, and keep whatever moves you uphill (a higher score).</li>
+</ul>
+<p>You do not need to memorise these. Each is explained again the first time it appears.</p>
+<h2 id="why-this-lesson-matters">Why this lesson matters</h2>
+<p>This is the loop that Anthropic's own teams use to improve every agent they ship. As Ben says, the workshop teaches "how we improve all of our agents internally." Anyone who has put an agent into production knows the real work is not the first version; it is the cycle of <strong>measuring impact, understanding behaviour, and making changes to iteratively improve</strong>.</p>
+<p>Minecraft is just a fun, measurable arena for that loop. The diamonds are a clear score, and the diamonds-to-tokens ratio forces you to be efficient instead of just throwing the heaviest model at the problem. The skill you walk away with (disciplined hill climbing on a real eval) transfers to any agent you build.</p>
+<h2 id="learning-objectives">Learning objectives</h2>
+<p>By the end of this lesson you will be able to:</p>
+<ol>
+<li><strong>Build and deploy a managed agent</strong> on hosted infrastructure where the configuration is mostly set up for you.</li>
+<li>Understand the <strong>impact of agent configuration</strong>: the system prompt, the model string, and the skills and MCP tools you plug in.</li>
+<li><strong>Hill-climb on evals</strong>: measure, change one lever, re-measure, and keep what helps.</li>
+<li>Optimise for <strong>efficiency</strong>, not just raw score, by tracking the diamonds-to-tokens ratio.</li>
+</ol>
+<h2 id="prerequisites">Prerequisites</h2>
+<ul>
+<li>Earlier Module 5 lessons on Claude Managed Agents (what an agent is, and how it is deployed and run).</li>
+<li>Comfort editing a Python file and running commands in a terminal.</li>
+<li>Helpful but optional: Module 2 · Lesson 3 (The Prompting Playbook), since system-prompt craft is the main lever here.</li>
+</ul>
+<hr />
+<h2 id="part-1-the-game-and-the-goal">Part 1: the game and the goal</h2>
+<p>The challenge is simple to state: have an agent <strong>mine the most diamonds in Minecraft</strong> within a time box. (Minecraft is a block-based world game; "mining" means digging through blocks to find rare resources like diamonds.) In the 2020s, as Ben jokes, we have agents play it for us.</p>
+<p>Three things the workshop is really teaching:</p>
+<ol>
+<li><strong>Build and deploy a managed agent.</strong> It runs on Anthropic's infrastructure with most configuration pre-set, so you focus on getting it into "peak diamond-mining condition."</li>
+<li><strong>Understand the impact of configuration.</strong> The system prompt, model string, and the skills and MCP tools you attach all shape behaviour.</li>
+<li><strong>Hill-climb on evals.</strong> Measure impact, understand behaviour, change, repeat. This is how Anthropic improves agents internally.</li>
+</ol>
+<blockquote>
+<p>🔑 <strong>Key idea: building the agent is the easy part; tuning it is the job.</strong> The infrastructure is handed to you. Your real work is the iterative loop of measuring, understanding, and improving.</p>
+</blockquote>
+<hr />
+<h2 id="part-2-the-rules-of-the-battle">Part 2: the rules of the battle</h2>
+<p>The competition has tight constraints, and the constraints are the lesson. Here they are:</p>
+<table>
+<thead>
+<tr>
+<th>Rule</th>
+<th>Detail</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Time box</strong></td>
+<td>About 35 minutes to build and experiment.</td>
+</tr>
+<tr>
+<td><strong>Submissions</strong></td>
+<td>Submit as many runs as you like, but only your <strong>top run</strong> counts.</td>
+</tr>
+<tr>
+<td><strong>A run</strong></td>
+<td>Five minutes of the agent mining. You can kill a run anytime with Control-C in the terminal.</td>
+</tr>
+<tr>
+<td><strong>Fast eval</strong></td>
+<td>An eval set that takes about <strong>one minute</strong>, for quick iteration between full runs.</td>
+</tr>
+<tr>
+<td><strong>Winning</strong></td>
+<td>Most diamonds at the end wins, shown on a live <strong>leaderboard</strong>.</td>
+</tr>
+<tr>
+<td><strong>Tie-breaker</strong></td>
+<td>Ties are settled by <strong>token efficiency</strong> (diamonds-to-tokens ratio).</td>
+</tr>
+<tr>
+<td><strong>Bonus</strong></td>
+<td>A chat where agents can talk to one another.</td>
+</tr>
+</tbody>
+</table>
+<p>That tie-breaker changes everything. As Ben puts it, "this is not just mine the most diamonds, it is get the best diamonds-to-tokens ratio."</p>
+<blockquote>
+<p>🔑 <strong>Key idea: efficiency is a first-class goal.</strong> Because ties are broken on tokens, you cannot win by simply "throwing in the heaviest weight model you can." You have to hone the system prompt so a leaner setup gets more done per token.</p>
+<p>💡 The two-tier feedback (a fast one-minute eval plus a slower five-minute scored run) is itself the lesson in disguise: iterate cheaply on the fast eval, and only spend a full run when you think you have a real improvement.</p>
+</blockquote>
+<hr />
+<h2 id="part-3-the-harness-what-is-shipped-for-you">Part 3: the harness, what is shipped for you</h2>
+<p>Jeff walks through what comes in the box so you can spend your time on behaviour, not plumbing. (A <strong>harness</strong> is all the code and infrastructure around the model: the loop that runs it, the tools it can call, and the connections to the world.)</p>
+<div class="codehilite"><pre><span></span><code>┌──────────────────────────────────────────────────────┐
+│  my_agent.py   &lt;- YOU edit this                        │
+│    - model string        (which model to use)          │
+│    - system prompt        (currently empty)            │
+│    - skill                (Anthropic&#39;s, or your own)    │
+└───────────────┬──────────────────────────────────────┘
+                │ uses
+                ▼
+┌──────────────────────────────────────────────────────┐
+│  MCP tools  -&gt;  Mineflare bot  -&gt;  Minecraft clone     │
+│    mine block, jump, go near things, ...               │
+│    (no visuals; the agent acts through tool calls)     │
+└──────────────────────────────────────────────────────┘
+</code></pre></div>
+
+<p>Key points about the setup:</p>
+<ul>
+<li>You work primarily in a single file, <strong><code>my_agent.py</code></strong>, found in the workshop repo.</li>
+<li>The agent drives a <strong>Mineflare</strong> bot connected to a Minecraft clone. There are <strong>no visuals</strong>: the agent does not see the screen, it acts entirely through MCP tool calls like "mine block," "jump," and "go near things."</li>
+<li><strong>Everyone starts from the same seed.</strong> (A <strong>seed</strong> is the number that generates the world layout. Same seed means same starting world, so there is no luck-of-the-map advantage and no map optimisation to chase.) Every reset gives the same start kit and seed.</li>
+<li>A <strong>Claude Code skill</strong> is included in the repo to help with setup if you hit snags.</li>
+</ul>
+<blockquote>
+<p>✅ <strong>Best practice: a fair test isolates the variable.</strong> Because the seed and start kit are fixed, any change in your score comes from your <strong>configuration</strong>, not from a luckier world. That is exactly what makes the eval trustworthy for hill climbing.</p>
+</blockquote>
+<hr />
+<h2 id="part-4-the-four-levers-you-actually-control">Part 4: the four levers you actually control</h2>
+<p>Everything you can change lives in <code>my_agent.py</code>. There are four levers, and learning which to pull when is the whole skill.</p>
+<div class="codehilite"><pre><span></span><code><span class="c1"># my_agent.py  (illustrative shape of what you tune)</span>
+
+<span class="n">MODEL</span> <span class="o">=</span> <span class="s2">&quot;claude-sonnet-4-6&quot;</span>          <span class="c1"># Lever 1: capability vs token cost</span>
+
+<span class="n">SYSTEM_PROMPT</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;                   # Lever 2: the biggest behaviour lever</span>
+<span class="s2">You are a focused Minecraft mining agent. Your sole goal is to mine</span>
+<span class="s2">as many diamonds as possible in five minutes.</span>
+
+<span class="s2">Strategy:</span>
+<span class="s2">- Diamonds are found deep underground. Dig down efficiently to the</span>
+<span class="s2">  depth where diamonds appear, then branch-mine sideways.</span>
+<span class="s2">- Do not waste actions wandering on the surface.</span>
+<span class="s2">- Prefer the fewest tool calls that make progress (token efficiency).</span>
+<span class="s2">&quot;&quot;&quot;</span>
+
+<span class="n">SKILL</span> <span class="o">=</span> <span class="s2">&quot;anthropic/minecraft-mining&quot;</span>  <span class="c1"># Lever 3: shipped skill OR your own</span>
+
+<span class="n">MCP_SERVERS</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;mineflare&quot;</span><span class="p">]</span>           <span class="c1"># Lever 4: the tools the agent can call</span>
+</code></pre></div>
+
+<p>Here is how to think about each lever:</p>
+<table>
+<thead>
+<tr>
+<th>Lever</th>
+<th>What it changes</th>
+<th>When to reach for it</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>System prompt</strong></td>
+<td>Who the agent is and its strategy.</td>
+<td>First and most often. Cheap to change, huge impact, and it is what protects your token efficiency.</td>
+</tr>
+<tr>
+<td><strong>Model string</strong></td>
+<td>Raw capability per token.</td>
+<td>When the prompt is well honed but the agent still cannot reason well enough. Watch the token cost.</td>
+</tr>
+<tr>
+<td><strong>Skill</strong></td>
+<td>A reusable bundle of mining know-how. Use Anthropic's or write your own.</td>
+<td>When you have a repeatable strategy worth packaging, or want to override the default behaviour.</td>
+</tr>
+<tr>
+<td><strong>MCP tools</strong></td>
+<td>The actions available to the agent.</td>
+<td>When the agent needs an action it does not have, or you want to adjust how tools behave.</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p>🔑 <strong>Key idea: pull the cheap lever first.</strong> The system prompt starts empty, costs nothing to change, and most directly improves your diamonds-to-tokens ratio. Reach for a heavier model only when prompt work has run out of room, because the model lever quietly costs you on the tie-breaker.</p>
+</blockquote>
+<hr />
+<h2 id="part-5-the-hill-climbing-loop-in-practice">Part 5: the hill-climbing loop in practice</h2>
+<p>This is the heartbeat of the whole workshop. With a fixed seed and a fast eval, the loop is:</p>
+<div class="codehilite"><pre><span></span><code>1. Make ONE change in my_agent.py  (start with the system prompt)
+2. Run the ~1-minute eval           -&gt; quick read on whether it helped
+3. If promising, do a full 5-minute scored run
+4. Read behaviour: where did the agent waste actions or tokens?
+5. Keep what climbs, revert what does not. Repeat.
+</code></pre></div>
+
+<p>The competition itself shows the loop working. The leaderboard moves over the session: an early run posts 10 diamonds, scores creep up, and 19 emerges as roughly the upper echelon. Then, late in the session, someone breaks past 19 with only 1 minute 20 seconds left, prompting Jeff to ask them to "reveal your technique." That jump is hill climbing paying off: enough fast iterations found a configuration that pulled clearly ahead.</p>
+<blockquote>
+<p>💡 <strong>Read the behaviour, not just the score.</strong> A run with no visuals still leaves a trail of tool calls. The fastest improvements come from spotting <em>why</em> the agent underperformed (wandering on the surface, repeating failed digs, over-explaining itself) and fixing that one thing in the prompt.</p>
+<p>❌ A cautionary note from the leaderboard: one top run showed <strong>zero tokens</strong>, which Jeff called "highly suspicious." If your metric looks too good to be true, your measurement is probably broken. Trust a number only when you understand how it was produced.</p>
+</blockquote>
+<hr />
+<h2 id="part-6-lessons-that-transfer-beyond-minecraft">Part 6: lessons that transfer beyond Minecraft</h2>
+<p>Strip away the diamonds and this is the exact discipline for improving any production agent:</p>
+<ul>
+<li><strong>Fix the test conditions</strong> (same seed, same start kit) so changes are comparable.</li>
+<li><strong>Iterate on a cheap, fast eval</strong> before spending an expensive full run.</li>
+<li><strong>Tune the cheapest, highest-impact lever first</strong> (the prompt), and treat the model as a last resort because of its cost.</li>
+<li><strong>Optimise for an efficiency metric</strong>, not just a raw score, so your agent is sustainable at scale.</li>
+<li><strong>Distrust suspicious numbers</strong> and verify how every metric is computed.</li>
+</ul>
+<blockquote>
+<p>🎯 <strong>The whole point.</strong> Whether the goal is diamonds, resolved support tickets, or fixed incidents, the winning move is the same: measure, change one lever, measure again, and let the eval tell you the truth.</p>
+</blockquote>
+<hr />
+<h2 id="key-takeaways">Key takeaways</h2>
+<ol>
+<li><strong>Deploying a managed agent is the easy part.</strong> The infrastructure is set up for you; tuning behaviour is the job.</li>
+<li><strong>You have four levers:</strong> system prompt, model string, skills, and MCP tools.</li>
+<li><strong>The system prompt is the cheap, high-impact lever.</strong> Pull it first and pull it most.</li>
+<li><strong>Efficiency matters as much as score.</strong> A diamonds-to-tokens tie-breaker means a honed prompt beats a heavy model.</li>
+<li><strong>Hill-climb on a fast eval.</strong> A fixed seed plus a one-minute eval makes every change comparable and cheap to test.</li>
+<li><strong>Read behaviour and distrust weird numbers.</strong> A zero-token "win" is a broken measurement, not a triumph.</li>
+</ol>
+<h2 id="common-pitfalls">Common pitfalls</h2>
+<ul>
+<li>❌ Reaching for the biggest model first, then losing the tie-breaker on tokens.</li>
+<li>❌ Changing several levers at once, so you cannot tell what helped.</li>
+<li>❌ Only running the slow five-minute run and never using the fast eval to iterate.</li>
+<li>❌ Leaving the system prompt empty or vague when it is your most powerful lever.</li>
+<li>❌ Trusting a score without checking how it was measured (the zero-token trap).</li>
+<li>❌ Looking for map or seed tricks when the seed is fixed and gains can only come from configuration.</li>
+</ul>
+<hr />
+<h2 id="capstone" class="capstone-h">🛠️ Capstone Project: DiamondForge</h2>
+<blockquote>
+<p>This is the main hands-on project for the lesson. You will recreate the battle's full loop yourself: a deployed agent, a fast eval, a leaderboard of your own attempts, and a disciplined hill-climbing process that beats your own best score on an efficiency metric. Start with the smallest working version and improve it.</p>
+</blockquote>
+<h3 id="what-you-will-build">What you will build</h3>
+<p><strong>DiamondForge</strong> is your personal agent-tuning arena. It has three parts that mirror the workshop:</p>
+<ol>
+<li><strong>A deployed managed agent</strong> driven by a single config file (model, system prompt, skill, tools).</li>
+<li><strong>A two-tier eval</strong>: a fast check for quick iteration and a longer scored run for real results.</li>
+<li><strong>A leaderboard of your own runs</strong> that records score <em>and</em> tokens, so you can chase the best ratio.</li>
+</ol>
+<blockquote>
+<p>🎯 <strong>Pick your arena.</strong> Use the Minecraft mining task if you have access, or swap in any task with a clear numeric score and a fixed starting condition: a maze-solving agent counting steps to the exit, a web-scraping agent counting correct records, or a puzzle agent counting solved puzzles. You just need a fixed seed (same start every time), a measurable score, and a token count.</p>
+</blockquote>
+<h3 id="why-this-is-the-perfect-practice">Why this is the perfect practice</h3>
+<table>
+<thead>
+<tr>
+<th>Lesson skill</th>
+<th>Where you use it in DiamondForge</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Deploy a managed agent</td>
+<td>Milestone 1</td>
+</tr>
+<tr>
+<td>Fix test conditions (seed/start kit)</td>
+<td>Milestone 2</td>
+</tr>
+<tr>
+<td>Build a fast eval</td>
+<td>Milestone 2</td>
+</tr>
+<tr>
+<td>Tune the system prompt first</td>
+<td>Milestone 3</td>
+</tr>
+<tr>
+<td>Track diamonds-to-tokens efficiency</td>
+<td>Milestone 4, the leaderboard</td>
+</tr>
+<tr>
+<td>Decide when to change model/skill/tools</td>
+<td>Milestone 5</td>
+</tr>
+<tr>
+<td>Hill-climb and read behaviour</td>
+<td>Milestone 6</td>
+</tr>
+</tbody>
+</table>
+<h3 id="milestones-build-them-in-order-each-one-works-on-its-own">Milestones (build them in order, each one works on its own)</h3>
+<ol>
+<li><strong>Deploy.</strong> Stand up a managed agent driven by a <code>my_agent.py</code>-style config with a model string, an empty system prompt, a skill slot, and an MCP tool connection. Get one full run to complete end to end, even with a low score.</li>
+<li><strong>Lock the conditions and add a fast eval.</strong> Fix the seed and start kit so every run is comparable. Write a ~1-minute eval that returns a quick, rough score so you can iterate cheaply.</li>
+<li><strong>Write a real system prompt.</strong> Replace the empty prompt with a clear role and strategy. Re-run the eval and record the jump. This is your cheapest, biggest win.</li>
+<li><strong>Build the leaderboard.</strong> Log every run with its score <strong>and</strong> its token count, and compute a score-to-tokens ratio. Sort by the ratio, not just the score.</li>
+<li><strong>Decide on the heavier levers.</strong> Only now experiment with a stronger model, a custom skill, or an extra tool. For each, check whether it improves the <em>ratio</em>, not just the raw score, and keep it only if it does.</li>
+<li><strong>Hill-climb to a personal best.</strong> Run at least eight tuning cycles (change one lever, eval, keep or revert). Read the agent's behaviour each time to find the next fix. Beat your Milestone 3 ratio by a clear margin.</li>
+</ol>
+<h3 id="how-you-will-know-you-are-done">How you will know you are done</h3>
+<ul>
+<li>✅ Your agent completes a full scored run reliably from the fixed start.</li>
+<li>✅ The fast eval lets you test a change in about a minute, and you actually use it before full runs.</li>
+<li>✅ Your leaderboard ranks runs by <strong>score-to-tokens ratio</strong>, and your best entry came from a prompt change, not just a bigger model.</li>
+<li>✅ You can point to at least three changes and say, from the data, exactly what each one did to score and tokens.</li>
+</ul>
+<blockquote>
+<p>💡 <strong>Keep yourself honest:</strong> change one lever at a time and re-run. And before you celebrate a high score, verify the token count is real (no zero-token "wins").</p>
+</blockquote>
+<hr />
+<h2 id="practice-exercises-optional-extra-reps">Practice exercises (optional extra reps)</h2>
+<blockquote>
+<p><strong>What these are:</strong> small, self-contained tasks, each focused on one skill. Optional and independent. The <strong>Capstone above is the main build</strong> and covers all of these together.</p>
+</blockquote>
+<h3 id="exercise-1-write-the-first-system-prompt-foundational">Exercise 1: write the first system prompt (foundational)</h3>
+<p>Take an empty agent for a scored task and write a system prompt with a clear role and a step-by-step strategy. Run the eval before and after and record the difference.</p>
+<h3 id="exercise-2-prompt-versus-model-foundational">Exercise 2: prompt versus model (foundational)</h3>
+<p>Hold the model fixed and improve only the prompt until gains flatten. Then bump the model once. Compare the score gain to the token-cost increase. Which change earns its keep?</p>
+<h3 id="exercise-3-design-an-efficiency-metric-intermediate">Exercise 3: design an efficiency metric (intermediate)</h3>
+<p>Define a score-to-tokens ratio for your task and build a tiny leaderboard that sorts by it. Run three configurations and explain why the highest score is not always the winner.</p>
+<h3 id="exercise-4-read-the-behaviour-trail-intermediate">Exercise 4: read the behaviour trail (intermediate)</h3>
+<p>Pick a run that underperformed and inspect its tool calls. Identify the single biggest source of wasted actions or tokens, fix it in the prompt, and confirm the ratio improves.</p>
+<h3 id="exercise-5-catch-a-broken-metric-advanced">Exercise 5: catch a broken metric (advanced)</h3>
+<p>Deliberately introduce a measurement bug (for example a run that reports zero tokens) and have a teammate or your future self spot it. Then write a small check that flags suspicious metrics automatically before they reach the leaderboard.</p>
+<hr />
+<h2 id="cheat-sheet">Cheat sheet</h2>
+<div class="codehilite"><pre><span></span><code>THE GAME
+  Most diamonds wins. Ties broken by diamonds-to-tokens ratio.
+  Same seed + start kit for everyone -&gt; only CONFIG changes the score.
+
+THE FOUR LEVERS (edit my_agent.py)
+  1. system prompt  &lt;- cheapest, biggest impact. Pull FIRST and MOST.
+  2. model string   &lt;- more capability per token, but costs you on ties.
+  3. skill          &lt;- Anthropic&#39;s, or write your own.
+  4. MCP tools      &lt;- actions the agent can call (mine, jump, go near).
+
+THE LOOP (hill climbing)
+  change ONE lever -&gt; ~1-min eval -&gt; if promising, 5-min scored run
+  -&gt; read the behaviour -&gt; keep what climbs, revert what doesn&#39;t -&gt; repeat.
+
+DISCIPLINE
+  - Fix the test conditions so changes are comparable.
+  - Iterate on the cheap eval before the expensive run.
+  - Optimise the EFFICIENCY metric, not just raw score.
+  - Distrust suspicious numbers (zero tokens = broken measurement).
+</code></pre></div>
+
+<h2 id="how-this-connects-to-the-rest-of-the-course">How this connects to the rest of the course</h2>
+<ul>
+<li><strong>Earlier, Module 2 · Lesson 3 (The Prompting Playbook):</strong> the "change one thing, re-run the eval" method and the system-prompt craft used here are taught in depth there.</li>
+<li><strong>Earlier in Module 5:</strong> deploying agents on Claude Managed Agents, the infrastructure this battle runs on.</li>
+<li><strong>Companion, Module 5 · Lessons 17 and 18 (memory and dreaming):</strong> the same hill-climbing discipline is how you would improve a memory-and-dreaming agent over time.</li>
+<li><strong>Across the course:</strong> the measure, change, re-measure loop is the single most transferable skill for any agent you ship.</li>
+</ul>
+<hr />
+<p><em>Source: "Agent Battle: Mine the most diamonds in 45 minutes" by Ben and Jeff (Anthropic), Code with Claude 2026, London. The <code>my_agent.py</code> snippet and the harness diagram are illustrative reconstructions of the setup described in the talk; the workshop rules, leaderboard moments, and four configurable levers are as presented by the speakers.</em></p>
+    </article>
+    <nav class="lessonnav"><a class="ln prev" href="18-memory-and-dreaming.html"><span class="dir">&#8592; Previous</span><b>Memory and Dreaming for Self-Learning Agents</b></a><a class="ln home" href="../index.html"><b>All lessons</b></a><a class="ln next" href="../module-6-advanced-agents/20-trustworthy-workflows-custom-dsl.html"><span class="dir">Next &#8594;</span><b>Making Agentic Workflows Trustworthy with a Custom DSL</b></a></nav>
+  </main>
+</div>
+
+<footer class="site"><div class="wrap">
+  <a class="logo" href="../index.html">Building with Claude<span class="dot">.</span></a>
+  <span class="fnote">A self-paced course generated from the Code with Claude 2026 (London) talks. Code snippets are illustrative reconstructions of the approaches shown. Adapt them to the current SDK.</span>
+</div></footer>
+
+<style>pre { line-height: 125%; }
+td.linenos .normal { color: inherit; background-color: transparent; padding-left: 5px; padding-right: 5px; }
+span.linenos { color: inherit; background-color: transparent; padding-left: 5px; padding-right: 5px; }
+td.linenos .special { color: #000000; background-color: #ffffc0; padding-left: 5px; padding-right: 5px; }
+span.linenos.special { color: #000000; background-color: #ffffc0; padding-left: 5px; padding-right: 5px; }
+.codehilite .hll { background-color: #ffffcc }
+.codehilite { background: #282C34; color: #ABB2BF }
+.codehilite .c { color: #7F848E } /* Comment */
+.codehilite .err { color: #ABB2BF } /* Error */
+.codehilite .esc { color: #ABB2BF } /* Escape */
+.codehilite .g { color: #ABB2BF } /* Generic */
+.codehilite .k { color: #C678DD } /* Keyword */
+.codehilite .l { color: #ABB2BF } /* Literal */
+.codehilite .n { color: #E06C75 } /* Name */
+.codehilite .o { color: #56B6C2 } /* Operator */
+.codehilite .x { color: #ABB2BF } /* Other */
+.codehilite .p { color: #ABB2BF } /* Punctuation */
+.codehilite .ch { color: #7F848E } /* Comment.Hashbang */
+.codehilite .cm { color: #7F848E } /* Comment.Multiline */
+.codehilite .cp { color: #7F848E } /* Comment.Preproc */
+.codehilite .cpf { color: #7F848E } /* Comment.PreprocFile */
+.codehilite .c1 { color: #7F848E } /* Comment.Single */
+.codehilite .cs { color: #7F848E } /* Comment.Special */
+.codehilite .gd { color: #E06C75 } /* Generic.Deleted */
+.codehilite .ge { color: #ABB2BF; font-style: italic } /* Generic.Emph */
+.codehilite .ges { color: #ABB2BF } /* Generic.EmphStrong */
+.codehilite .gr { color: #E06C75 } /* Generic.Error */
+.codehilite .gh { color: #ABB2BF; font-weight: bold } /* Generic.Heading */
+.codehilite .gi { color: #98C379 } /* Generic.Inserted */
+.codehilite .go { color: #E06C75 } /* Generic.Output */
+.codehilite .gp { color: #ABB2BF } /* Generic.Prompt */
+.codehilite .gs { color: #ABB2BF; font-weight: bold } /* Generic.Strong */
+.codehilite .gu { color: #ABB2BF; font-weight: bold } /* Generic.Subheading */
+.codehilite .gt { color: #E06C75 } /* Generic.Traceback */
+.codehilite .kc { color: #E5C07B } /* Keyword.Constant */
+.codehilite .kd { color: #C678DD } /* Keyword.Declaration */
+.codehilite .kn { color: #C678DD } /* Keyword.Namespace */
+.codehilite .kp { color: #C678DD } /* Keyword.Pseudo */
+.codehilite .kr { color: #C678DD } /* Keyword.Reserved */
+.codehilite .kt { color: #E5C07B } /* Keyword.Type */
+.codehilite .ld { color: #ABB2BF } /* Literal.Date */
+.codehilite .m { color: #D19A66 } /* Literal.Number */
+.codehilite .s { color: #98C379 } /* Literal.String */
+.codehilite .na { color: #E06C75 } /* Name.Attribute */
+.codehilite .nb { color: #E5C07B } /* Name.Builtin */
+.codehilite .nc { color: #E5C07B } /* Name.Class */
+.codehilite .no { color: #E06C75 } /* Name.Constant */
+.codehilite .nd { color: #61AFEF } /* Name.Decorator */
+.codehilite .ni { color: #E06C75 } /* Name.Entity */
+.codehilite .ne { color: #E06C75 } /* Name.Exception */
+.codehilite .nf { color: #61AFEF; font-weight: bold } /* Name.Function */
+.codehilite .nl { color: #E06C75 } /* Name.Label */
+.codehilite .nn { color: #E06C75 } /* Name.Namespace */
+.codehilite .nx { color: #E06C75 } /* Name.Other */
+.codehilite .py { color: #E06C75 } /* Name.Property */
+.codehilite .nt { color: #E06C75 } /* Name.Tag */
+.codehilite .nv { color: #E06C75 } /* Name.Variable */
+.codehilite .ow { color: #56B6C2 } /* Operator.Word */
+.codehilite .pm { color: #ABB2BF } /* Punctuation.Marker */
+.codehilite .w { color: #ABB2BF } /* Text.Whitespace */
+.codehilite .mb { color: #D19A66 } /* Literal.Number.Bin */
+.codehilite .mf { color: #D19A66 } /* Literal.Number.Float */
+.codehilite .mh { color: #D19A66 } /* Literal.Number.Hex */
+.codehilite .mi { color: #D19A66 } /* Literal.Number.Integer */
+.codehilite .mo { color: #D19A66 } /* Literal.Number.Oct */
+.codehilite .sa { color: #98C379 } /* Literal.String.Affix */
+.codehilite .sb { color: #98C379 } /* Literal.String.Backtick */
+.codehilite .sc { color: #98C379 } /* Literal.String.Char */
+.codehilite .dl { color: #98C379 } /* Literal.String.Delimiter */
+.codehilite .sd { color: #98C379 } /* Literal.String.Doc */
+.codehilite .s2 { color: #98C379 } /* Literal.String.Double */
+.codehilite .se { color: #98C379 } /* Literal.String.Escape */
+.codehilite .sh { color: #98C379 } /* Literal.String.Heredoc */
+.codehilite .si { color: #98C379 } /* Literal.String.Interpol */
+.codehilite .sx { color: #98C379 } /* Literal.String.Other */
+.codehilite .sr { color: #98C379 } /* Literal.String.Regex */
+.codehilite .s1 { color: #98C379 } /* Literal.String.Single */
+.codehilite .ss { color: #98C379 } /* Literal.String.Symbol */
+.codehilite .bp { color: #E5C07B } /* Name.Builtin.Pseudo */
+.codehilite .fm { color: #56B6C2; font-weight: bold } /* Name.Function.Magic */
+.codehilite .vc { color: #E06C75 } /* Name.Variable.Class */
+.codehilite .vg { color: #E06C75 } /* Name.Variable.Global */
+.codehilite .vi { color: #E06C75 } /* Name.Variable.Instance */
+.codehilite .vm { color: #E06C75 } /* Name.Variable.Magic */
+.codehilite .il { color: #D19A66 } /* Literal.Number.Integer.Long */</style>
+<script>
+// mobile menu
+const sb=document.getElementById('sidebar'),mb=document.getElementById('menuBtn');
+if(mb){mb.onclick=()=>sb.classList.toggle('open');sb.addEventListener('click',e=>{if(e.target.tagName==='A')sb.classList.remove('open')});}
+const tc=document.getElementById('tocClose');if(tc){tc.onclick=()=>sb.classList.remove('open');}
+// progress
+const prog=document.getElementById('progress');
+addEventListener('scroll',()=>{const h=document.body.scrollHeight-innerHeight;prog.style.width=(h>0?scrollY/h*100:0)+'%'});
+// code chrome + copy
+document.querySelectorAll('.codehilite, pre').forEach(block=>{
+  if(block.parentElement.classList.contains('codehilite'))return;
+  const bar=document.createElement('div');bar.className='code-bar';
+  bar.innerHTML='<span class="dot r"></span><span class="dot y"></span><span class="dot g"></span>';
+  block.appendChild(bar);
+  const btn=document.createElement('button');btn.className='copy-btn';btn.textContent='Copy';
+  btn.onclick=()=>{const t=block.querySelector('code')?.innerText||block.innerText;
+    navigator.clipboard.writeText(t.replace(/\nCopy$/,''));btn.textContent='Copied!';btn.classList.add('done');
+    setTimeout(()=>{btn.textContent='Copy';btn.classList.remove('done')},1500)};
+  block.appendChild(btn);
+});
+// callouts by leading emoji
+const map={'🔑':'cl-key','💡':'cl-tip','✅':'cl-ok','❌':'cl-no','🎯':'cl-goal','🛠':'cl-goal'};
+document.querySelectorAll('blockquote').forEach(q=>{const t=(q.textContent||'').trim();for(const e in map){if(t.startsWith(e)){q.classList.add(map[e]);break}}});
+// check-off
+function makeCheckable(rx){document.querySelectorAll('h2,h3').forEach(h=>{if(!rx.test(h.textContent))return;let el=h.nextElementSibling;
+  while(el&&!/^H[1-3]$/.test(el.tagName)){if(el.tagName==='OL'||el.tagName==='UL'){el.classList.add('checkable');
+    el.querySelectorAll(':scope>li').forEach(li=>{const key='cwc:'+location.pathname+':'+li.textContent.slice(0,60);
+      if(localStorage.getItem(key))li.classList.add('checked');
+      li.addEventListener('click',ev=>{if(ev.target.tagName==='A')return;li.classList.toggle('checked');
+        li.classList.contains('checked')?localStorage.setItem(key,'1'):localStorage.removeItem(key)});});}el=el.nextElementSibling;}});}
+makeCheckable(/learning objectives|milestones/i);
+// scrollspy
+const links=[...document.querySelectorAll('.toc a')];
+const heads=links.map(a=>a.getAttribute('href')).filter(h=>h&&h.startsWith('#')).map(h=>document.getElementById(h.slice(1))).filter(Boolean);
+const spy=()=>{let cur=heads[0]?.id;for(const h of heads){if(h.getBoundingClientRect().top<150)cur=h.id}
+  links.forEach(a=>a.classList.toggle('active',a.getAttribute('href')==='#'+cur))};
+addEventListener('scroll',spy);spy();
+</script>
+</body>
+</html>

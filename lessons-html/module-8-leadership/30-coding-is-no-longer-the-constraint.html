@@ -1,0 +1,740 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Module 8 · Lesson 30: Coding Is No Longer the Constraint, Scaling Devex at Spotify | Building with Claude</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@500;600;700;800&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --navy:#0a1a2f; --navy-2:#0f243d; --navy-3:#15314f;
+  --teal:#18c4a0; --teal-d:#0fa385; --teal-soft:#e4f8f2;
+  --coral:#f24d63; --coral-d:#d83a50; --coral-soft:#feecee;
+  --ink:#152230; --muted:#5f6c7b; --line:#e9eef2; --bg:#ffffff;
+  --soft:#f4fbf9; --card:#ffffff; --code-bg:#21252b; --max:780px;
+  --k:#2f8fb3; --k-bg:#e8f4f9; --tip:#c4881f; --tip-bg:#fdf4e3; --ok:#1f9d6b; --ok-bg:#e6f6ef;
+  --no:#e0533f; --no-bg:#fdecea; --goal:#7b54c9; --goal-bg:#f1ebfb;
+  --shadow:0 10px 30px rgba(13,30,52,.08); --shadow-sm:0 4px 14px rgba(13,30,52,.07);
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,sans-serif;line-height:1.72;font-size:17px;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+#progress{position:fixed;top:0;left:0;height:4px;width:0;background:linear-gradient(90deg,var(--teal),var(--coral));z-index:200;transition:width .1s linear}
+a{color:var(--teal-d);text-decoration:none}
+a:hover{color:var(--coral)}
+h1,h2,h3{font-family:Poppins,sans-serif;color:var(--ink);letter-spacing:-.01em}
+.accent{color:var(--coral)}
+.wrap{max-width:1200px;margin:0 auto;padding:0 28px}
+
+/* ---------- Top welcome strip ---------- */
+.topbar{background:var(--navy);color:#cdd8e4;font-size:13.5px}
+.topbar .wrap{display:flex;justify-content:space-between;align-items:center;height:42px;gap:18px}
+.topbar b{color:#fff;font-weight:600}
+.topbar .right{display:flex;gap:18px;align-items:center}
+.topbar a{color:#cdd8e4}.topbar a:hover{color:var(--teal)}
+
+/* ---------- Nav ---------- */
+nav.bar{background:var(--navy-2);position:sticky;top:0;z-index:120;box-shadow:0 2px 20px rgba(0,0,0,.25)}
+nav.bar .wrap{display:flex;align-items:center;height:68px;gap:26px}
+.logo{font-family:Poppins;font-weight:800;font-size:22px;color:#fff;letter-spacing:.02em;cursor:pointer;text-decoration:none}
+a.logo:hover{color:var(--teal)}
+.lessonnav{display:flex;gap:14px;align-items:stretch;margin:60px 0 0;flex-wrap:wrap}
+.lessonnav .ln{flex:1;min-width:200px;display:flex;flex-direction:column;gap:3px;border:1px solid var(--line);border-radius:14px;padding:16px 18px;color:var(--muted);transition:.15s;background:#fff}
+.lessonnav .ln:hover{border-color:var(--teal);box-shadow:var(--shadow-sm);transform:translateY(-1px)}
+.lessonnav .ln .dir{font-size:13px;font-weight:600;color:var(--teal-d)}
+.lessonnav .ln b{color:var(--ink);font-family:Poppins;font-size:15px}
+.lessonnav .ln.next{text-align:right}
+.lessonnav .ln.home{flex:0 0 auto;justify-content:center;align-items:center;text-align:center;background:var(--soft)}
+.lessonnav .ln.home b{color:var(--teal-d)}
+.logo .dot{color:var(--teal)}
+.navlinks{display:flex;gap:24px;margin-left:8px}
+.navlinks a{color:#dde6ef;font-weight:500;font-size:15px}
+.navlinks a:hover{color:var(--teal)}
+.nav-cta{margin-left:auto;display:flex;gap:12px;align-items:center}
+.btn{display:inline-flex;align-items:center;gap:9px;border:none;cursor:pointer;font-family:Inter;font-weight:600;border-radius:999px;transition:.18s;font-size:15px;text-decoration:none}
+.btn-primary{background:var(--teal);color:#04231c;padding:12px 22px}
+.btn-primary:hover{background:var(--teal-d);color:#fff;transform:translateY(-1px)}
+.btn-outline{background:transparent;color:#fff;border:1.5px solid rgba(255,255,255,.35);padding:10px 20px}
+.btn-outline:hover{border-color:var(--teal);color:var(--teal)}
+.btn-coral{background:var(--coral);color:#fff;padding:12px 22px}
+.btn-coral:hover{background:var(--coral-d);color:#fff;transform:translateY(-1px)}
+
+/* ---------- Hero ---------- */
+.hero{position:relative;background:radial-gradient(120% 120% at 80% 0%,var(--navy-3),var(--navy) 60%);color:#eaf1f8;overflow:hidden}
+.hero::before{content:"";position:absolute;inset:0;background-image:radial-gradient(rgba(255,255,255,.12) 1.3px,transparent 1.3px);background-size:22px 22px;opacity:.25;mask:radial-gradient(60% 60% at 20% 30%,#000,transparent)}
+.blob{position:absolute;border-radius:50%;filter:blur(8px);opacity:.5;z-index:0}
+.blob.t{width:230px;height:230px;background:rgba(24,196,160,.30);top:-60px;right:8%}
+.blob.c{width:160px;height:160px;background:rgba(242,77,99,.28);bottom:-40px;left:42%}
+.squiggle{position:absolute;z-index:1;opacity:.85}
+.hero .wrap{position:relative;z-index:2;display:grid;grid-template-columns:1.15fr .85fr;gap:48px;align-items:center;padding:70px 28px 90px}
+.eyebrow{display:inline-flex;align-items:center;gap:8px;color:var(--teal);font-weight:600;font-size:14px;letter-spacing:.03em;text-transform:uppercase;margin-bottom:18px}
+.hero h1{font-size:54px;line-height:1.08;font-weight:800;margin:0 0 20px;color:#fff}
+.hero .lead{font-size:18px;color:#b9c6d6;max-width:34em;margin:0 0 30px}
+.hero-actions{display:flex;align-items:center;gap:18px;flex-wrap:wrap;margin-bottom:30px}
+.play{display:inline-flex;align-items:center;gap:12px;color:#fff;font-weight:600}
+.play .circ{width:52px;height:52px;border-radius:50%;background:var(--coral);display:grid;place-items:center;box-shadow:0 8px 22px rgba(242,77,99,.45);font-size:16px;animation:pulse 2.4s infinite}
+@keyframes pulse{0%{box-shadow:0 0 0 0 rgba(242,77,99,.45)}70%{box-shadow:0 0 0 16px rgba(242,77,99,0)}100%{box-shadow:0 0 0 0 rgba(242,77,99,0)}}
+.chips{display:flex;gap:10px;flex-wrap:wrap}
+.chip{display:inline-flex;align-items:center;gap:7px;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.12);color:#dce6f0;padding:8px 14px;border-radius:999px;font-size:13.5px;font-weight:500}
+.chip b{color:#fff}
+/* hero card */
+.hero-card{position:relative;background:#fff;color:var(--ink);border-radius:22px;padding:26px;box-shadow:0 24px 60px rgba(0,0,0,.35)}
+.hero-card .ring{position:absolute;top:-26px;right:-18px;width:96px;height:96px;background:#fff;border-radius:50%;box-shadow:var(--shadow);display:grid;place-items:center}
+.hero-card .ring svg{transform:rotate(-90deg)}
+.hero-card .ring .lab{position:absolute;font-family:Poppins;font-weight:700;font-size:18px;color:var(--teal-d)}
+.hero-card h3{margin:4px 0 14px;font-size:19px}
+.hero-card ul{list-style:none;margin:0 0 18px;padding:0}
+.hero-card li{display:flex;gap:11px;align-items:flex-start;padding:9px 0;border-bottom:1px dashed var(--line);font-size:14.5px;color:#36424f}
+.hero-card li:last-child{border-bottom:none}
+.hero-card li .ic{font-size:17px;line-height:1.4}
+.float-badge{position:absolute;left:18px;bottom:-26px;background:#fff;border-radius:14px;box-shadow:var(--shadow);padding:12px 16px;display:flex;gap:10px;align-items:center;font-size:13px;font-weight:600;color:var(--ink)}
+.float-badge .n{font-family:Poppins;font-weight:800;color:var(--coral);font-size:20px}
+
+/* ---------- Content layout ---------- */
+.layout{display:grid;grid-template-columns:268px minmax(0,1fr);gap:46px;max-width:1200px;margin:0 auto;padding:0 28px}
+aside{position:sticky;top:84px;align-self:start;height:calc(100vh - 100px);overflow-y:auto;padding:26px 0}
+.toc-card{background:var(--soft);border:1px solid var(--line);border-radius:18px;padding:18px}
+.toc-close{display:none;position:absolute;top:-6px;right:-4px;width:36px;height:36px;border:none;background:var(--navy-2);color:#fff;border-radius:50%;font-size:22px;line-height:1;cursor:pointer}
+.toc-close:hover{background:var(--coral)}
+.toc-title{font-family:Poppins;font-size:12px;text-transform:uppercase;letter-spacing:.1em;color:var(--teal-d);margin:0 0 10px;font-weight:700}
+.toc ul{list-style:none;margin:0;padding:0}
+.toc a{display:block;color:var(--muted);font-size:14px;padding:6px 12px;border-radius:8px;border-left:2px solid transparent;line-height:1.4}
+.toc a:hover{color:var(--ink);background:#fff}
+.toc a.active{color:var(--teal-d);background:#fff;border-left-color:var(--teal);font-weight:600}
+.toc .toc li li a{padding-left:24px;font-size:13px}
+.toc a.toc-capstone{color:var(--coral);font-weight:600}
+main{padding:54px 0 120px;min-width:0}
+article{max-width:var(--max)}
+
+/* typography */
+article h2{font-size:30px;margin:56px 0 16px;font-weight:700;position:relative}
+article h2::before{content:"\2726";color:var(--teal);font-size:18px;margin-right:10px;vertical-align:2px}
+article h3{font-size:21px;margin:34px 0 10px;font-weight:600}
+article h2+h3{margin-top:18px}
+article p,article li{font-size:16.5px}
+article ul,article ol{padding-left:24px}
+article li{margin:7px 0}
+article strong{font-weight:700;color:#0f1b28}
+hr{border:none;height:1px;background:var(--line);margin:42px 0}
+
+/* tables */
+table{border-collapse:separate;border-spacing:0;width:100%;margin:24px 0;font-size:15px;border:1px solid var(--line);border-radius:14px;overflow:hidden;display:block;overflow-x:auto}
+th,td{padding:12px 15px;text-align:left;vertical-align:top;border-bottom:1px solid var(--line)}
+th{background:var(--navy-2);color:#eaf1f8;font-family:Poppins;font-weight:600;font-size:14px}
+tr:last-child td{border-bottom:none}
+tbody tr:nth-child(even){background:var(--soft)}
+
+/* inline + block code */
+code{font-family:"JetBrains Mono",ui-monospace,Menlo,monospace;font-size:.86em;background:var(--teal-soft);color:#0c6a55;padding:.13em .42em;border-radius:6px}
+.codehilite,pre{position:relative;background:var(--code-bg);border-radius:14px;margin:22px 0;overflow:hidden;box-shadow:var(--shadow-sm)}
+.codehilite pre{margin:0;border-radius:0;box-shadow:none;background:transparent}
+.codehilite pre,pre>code{display:block;padding:42px 18px 18px;overflow-x:auto}
+.codehilite code,pre code{background:none;color:#dfe6ee;padding:0;font-size:13.5px;line-height:1.7}
+.code-bar{position:absolute;top:0;left:0;right:0;height:34px;display:flex;align-items:center;gap:7px;padding:0 15px;background:rgba(255,255,255,.05);border-bottom:1px solid rgba(255,255,255,.07)}
+.code-bar .dot{width:11px;height:11px;border-radius:50%}
+.dot.r{background:#ff5f57}.dot.y{background:#febc2e}.dot.g{background:#28c840}
+.copy-btn{position:absolute;top:5px;right:9px;z-index:3;background:rgba(255,255,255,.08);color:#dfe6ee;border:1px solid rgba(255,255,255,.14);border-radius:8px;font-size:12px;padding:4px 11px;cursor:pointer;font-family:Inter;transition:.15s}
+.copy-btn:hover{background:var(--teal);border-color:var(--teal);color:#04231c}
+.copy-btn.done{background:var(--teal);color:#04231c;border-color:var(--teal)}
+
+/* callouts */
+blockquote{margin:24px 0;padding:16px 20px;border-radius:14px;background:var(--soft);border:1px solid var(--line);border-left:5px solid var(--teal)}
+blockquote p{margin:7px 0}blockquote p:first-child{margin-top:0}blockquote p:last-child{margin-bottom:0}
+blockquote.cl-key{background:var(--k-bg);border-left-color:var(--k);border-color:transparent}
+blockquote.cl-tip{background:var(--tip-bg);border-left-color:var(--tip);border-color:transparent}
+blockquote.cl-ok{background:var(--ok-bg);border-left-color:var(--ok);border-color:transparent}
+blockquote.cl-no{background:var(--no-bg);border-left-color:var(--no);border-color:transparent}
+blockquote.cl-goal{background:var(--goal-bg);border-left-color:var(--goal);border-color:transparent}
+
+/* capstone banner */
+h2.capstone-h{background:linear-gradient(115deg,var(--navy),var(--navy-3));color:#fff;border-radius:20px;padding:30px 28px 26px;margin-top:64px;box-shadow:0 20px 50px rgba(10,26,47,.3);overflow:hidden;position:relative}
+h2.capstone-h::before{content:"\1F6E0  HANDS-ON PROJECT";display:block;font-family:Poppins;font-size:12px;font-weight:700;letter-spacing:.14em;color:var(--teal);margin:0 0 8px}
+h2.capstone-h::after{content:"";position:absolute;width:150px;height:150px;border-radius:50%;background:rgba(24,196,160,.25);filter:blur(10px);top:-50px;right:-30px}
+
+/* check-off */
+.checkable{list-style:none;padding-left:0}
+.checkable li{position:relative;padding-left:36px;cursor:pointer;margin:9px 0}
+.checkable li::before{content:"";position:absolute;left:0;top:3px;width:22px;height:22px;border:2px solid var(--teal);border-radius:7px;background:#fff;transition:.15s}
+.checkable li.checked::before{background:var(--teal);border-color:var(--teal)}
+.checkable li.checked::after{content:"\2713";position:absolute;left:5px;top:1px;color:#fff;font-weight:800;font-size:15px}
+.checkable li.checked{color:var(--muted)}
+
+/* footer */
+footer.site{background:var(--navy);color:#aebccb;margin-top:90px}
+footer.site .wrap{padding:46px 28px;display:flex;justify-content:space-between;gap:26px;flex-wrap:wrap;align-items:center}
+footer.site .logo{font-size:20px}
+footer.site .fnote{max-width:46em;font-size:13.5px;line-height:1.7}
+
+#menuBtn{display:none}
+@media(max-width:920px){
+  .topbar{display:none}
+  .nav-cta{display:none}
+  .float-badge{display:none}
+  nav.bar .wrap{gap:14px;height:60px}
+  .wrap{padding:0 20px}
+  .logo{font-size:18px;white-space:nowrap}
+  .hero .wrap{grid-template-columns:1fr;gap:30px;padding:42px 20px 56px}
+  .hero h1{font-size:33px}
+  .hero .lead{font-size:16.5px}
+  .hero-actions{gap:14px}
+  .hero-actions .btn-primary{flex:1;justify-content:center}
+  .layout{grid-template-columns:1fr;gap:0}
+  aside{position:fixed;top:0;left:0;width:84vw;max-width:320px;height:100vh;background:#fff;z-index:130;transform:translateX(-100%);transition:.25s;box-shadow:var(--shadow);padding:24px}
+  aside.open{transform:none}
+  #menuBtn{display:inline-flex}
+  .toc-close{display:block}
+  .navlinks{display:none}
+  main{padding:34px 0 80px}
+  body{font-size:16px}
+  article h2{font-size:25px}
+  h2.capstone-h{padding:24px 20px}
+}
+@media(max-width:420px){
+  .hero h1{font-size:29px}
+  .hero-actions{flex-direction:column;align-items:stretch}
+  .hero-actions .play{justify-content:center}
+}
+</style>
+</head>
+<body>
+<div id="progress"></div>
+
+<div class="topbar"><div class="wrap">
+  <div>&#10024; Welcome to <b>Building with Claude</b> &middot; a self-paced course</div>
+  <div class="right"><span>Code with Claude 2026 &middot; London</span></div>
+</div></div>
+
+<nav class="bar"><div class="wrap">
+  <button class="btn btn-outline" id="menuBtn" style="padding:8px 14px">&#9776;</button>
+  <a class="logo" href="../index.html">Building with Claude<span class="dot">.</span></a>
+  <div class="navlinks">
+    <a href="../index.html">All lessons</a>
+    <a href="#overview">Overview</a>
+    <a href="#capstone">Capstone</a>
+  </div>
+  <div class="nav-cta">
+    <a class="btn btn-primary" href="#start">Start the lesson &#8594;</a>
+  </div>
+</div></nav>
+
+<header class="hero">
+  <span class="blob t"></span><span class="blob c"></span>
+  <svg class="squiggle" style="top:120px;left:46%;" width="90" height="26" viewBox="0 0 90 26" fill="none"><path d="M2 13c8-14 16 14 24 0s16 14 24 0 16 14 24 0" stroke="#18c4a0" stroke-width="4" stroke-linecap="round"/></svg>
+  <svg class="squiggle" style="bottom:60px;right:40%;" width="70" height="22" viewBox="0 0 90 26" fill="none"><path d="M2 13c8-14 16 14 24 0s16 14 24 0 16 14 24 0" stroke="#f24d63" stroke-width="4" stroke-linecap="round"/></svg>
+  <div class="wrap" id="overview">
+    <div>
+      <span class="eyebrow">&#10022; Module 8 · Lesson 30</span>
+      <h1>Coding Is No Longer the Constraint, Scaling Devex at <span class="accent">Spotify</span></h1>
+      <p class="lead">When an organisation of 3,000 engineers adopts AI coding tools faster than anything before, coding stops being the bottleneck, so the winning moves are automating routine maintenance across the whole code base, making your code base consistent so agents work better, verifying everything, measuring everything, and figuring out where human judgment now matters most.</p>
+      <div class="hero-actions">
+        <a class="btn btn-primary" href="#start">Start the lesson &#8594;</a>
+        <a class="play" href="https://www.youtube.com/watch?v=zFslvuvYifQ" target="_blank" rel="noopener"><span class="circ">&#9654;</span> Watch the talk</a>
+      </div>
+      <div class="chips">
+        <span class="chip">&#127908; <b>Nicklaus</b></span>
+        <span class="chip">&#9201; <b>45 to 60 minutes</b></span>
+        <span class="chip">&#128296; <b>Hands-on capstone</b></span>
+      </div>
+    </div>
+    <div style="position:relative">
+      <div class="hero-card">
+        <div class="ring">
+          <svg width="74" height="74"><circle cx="37" cy="37" r="31" stroke="#eef2f5" stroke-width="7" fill="none"/><circle cx="37" cy="37" r="31" stroke="#18c4a0" stroke-width="7" fill="none" stroke-linecap="round" stroke-dasharray="195" stroke-dashoffset="40"/></svg>
+          <span class="lab">&#10022;</span>
+        </div>
+        <h3>What you&#39;ll get</h3>
+        <ul>
+          <li><span class="ic">&#9989;</span><span>Plain-language teaching with every term defined</span></li>
+          <li><span class="ic">&#128221;</span><span>Code snippets pulled from the talk</span></li>
+          <li><span class="ic">&#128296;</span><span>A hands-on capstone you build step by step</span></li>
+          <li><span class="ic">&#127919;</span><span>Optional practice drills to reinforce each skill</span></li>
+        </ul>
+        <a class="btn btn-coral" href="#capstone" style="width:100%;justify-content:center">Jump to the project</a>
+      </div>
+    </div>
+  </div>
+</header>
+
+<div class="layout">
+  <aside id="sidebar"><div class="toc-card">
+    <button class="toc-close" id="tocClose" aria-label="Close menu">&times;</button>
+    <p class="toc-title">On this page</p>
+    <div class="toc">
+<ul>
+<li><a href="#in-one-sentence">In one sentence</a></li>
+<li><a href="#first-principles-companion">First-principles companion</a></li>
+<li><a href="#a-few-plain-language-basics-first">A few plain-language basics first</a></li>
+<li><a href="#why-this-lesson-matters">Why this lesson matters</a></li>
+<li><a href="#learning-objectives">Learning objectives</a></li>
+<li><a href="#prerequisites">Prerequisites</a></li>
+<li><a href="#part-1-the-explosion-of-code-and-a-maintenance-problem-you-must-plan-for">Part 1: the explosion of code, and a maintenance problem you must plan for</a></li>
+<li><a href="#part-2-from-brittle-scripts-to-agents-the-honk-story">Part 2: from brittle scripts to agents (the Honk story)</a></li>
+<li><a href="#part-3-make-your-code-base-agent-friendly">Part 3: make your code base agent friendly</a><ul>
+<li><a href="#the-platform-that-drives-consistency-backstage">The platform that drives consistency: Backstage</a></li>
+</ul>
+</li>
+<li><a href="#part-4-verify-measure-and-relocate-human-judgment">Part 4: verify, measure, and relocate human judgment</a><ul>
+<li><a href="#verification-has-not-gone-away">Verification has not gone away</a></li>
+<li><a href="#measure-everything">Measure everything</a></li>
+<li><a href="#relocate-human-judgment">Relocate human judgment</a></li>
+<li><a href="#coding-is-less-of-a-bottleneck-so-the-constraints-move">Coding is less of a bottleneck, so the constraints move</a></li>
+</ul>
+</li>
+<li><a href="#key-takeaways">Key takeaways</a></li>
+<li><a href="#common-pitfalls">Common pitfalls</a></li>
+<li><a href="#capstone" class="toc-capstone">🛠️ Capstone Project: Mini Fleet Shift</a><ul>
+<li><a href="#what-you-will-build">What you will build</a></li>
+<li><a href="#why-this-is-the-perfect-practice">Why this is the perfect practice</a></li>
+<li><a href="#milestones-build-them-in-order-each-one-is-shippable">Milestones (build them in order, each one is shippable)</a></li>
+<li><a href="#how-you-will-know-you-are-done">How you will know you are done</a></li>
+</ul>
+</li>
+<li><a href="#practice-exercises-optional-extra-reps">Practice exercises (optional extra reps)</a><ul>
+<li><a href="#exercise-1-find-the-maintenance-burden-foundational">Exercise 1: find the maintenance burden (foundational)</a></li>
+<li><a href="#exercise-2-the-wide-surface-foundational">Exercise 2: the wide surface (foundational)</a></li>
+<li><a href="#exercise-3-agent-with-verification-intermediate">Exercise 3: agent with verification (intermediate)</a></li>
+<li><a href="#exercise-4-expose-a-tool-intermediate">Exercise 4: expose a tool (intermediate)</a></li>
+<li><a href="#exercise-5-relocate-review-advanced">Exercise 5: relocate review (advanced)</a></li>
+</ul>
+</li>
+<li><a href="#cheat-sheet">Cheat sheet</a></li>
+<li><a href="#how-this-connects-to-the-rest-of-the-course">How this connects to the rest of the course</a></li>
+</ul>
+</div>
+
+  </div></aside>
+  <main id="start">
+    <article>
+      <hr />
+<h2 id="in-one-sentence">In one sentence</h2>
+<p>When an organisation of 3,000 engineers adopts AI coding tools faster than anything before, coding stops being the bottleneck, so the winning moves are automating routine maintenance across the whole code base, making your code base consistent so agents work better, verifying everything, measuring everything, and figuring out where human judgment now matters most.</p>
+<blockquote>
+<p>🎯 <strong>Where this lesson is heading.</strong> It builds to a hands on <strong>Capstone Project</strong> where you build a small "fleet maintenance" tool: an agent that applies one routine change across many code repositories, verifies each change, and reports results, the same shape as Spotify's system, at a size you can run yourself. Everything before the Capstone teaches the ideas behind it. If you want to see the finish line first, jump to the <strong>"Capstone Project"</strong> section, then come back.</p>
+</blockquote>
+<h2 id="first-principles-companion">First-principles companion</h2>
+<blockquote>
+<p>💡 <strong>The durable idea behind this lesson.</strong> The talk this lesson is built on is recent, but the underlying concept is not. For the timeless, tool-agnostic version, independent of any single product or model:</p>
+<ul>
+<li><strong><a href="https://en.wikipedia.org/wiki/Accelerate_(book)">Accelerate (Forsgren, Humble, Kim / DORA)</a></strong> (book). The research-backed account of what makes software delivery fast and what to measure (lead time, deploy frequency, change-fail rate, MTTR), the foundation under "measure everything, automate maintenance."</li>
+<li><strong><a href="https://www.microsoft.com/en-us/research/publication/the-space-of-developer-productivity-theres-more-to-it-than-you-think/">The SPACE of Developer Productivity</a></strong> (paper). The authoritative answer to "don't fixate on one throughput number": productivity is multidimensional.</li>
+</ul>
+</blockquote>
+<h2 id="a-few-plain-language-basics-first">A few plain-language basics first</h2>
+<p>This is a platform engineering talk at large scale. Here are the terms in plain words:</p>
+<ul>
+<li><strong>Devex (developer experience):</strong> how easy and pleasant it is for engineers to build, test, and ship. A devex team works to make that easier.</li>
+<li><strong>Deployment:</strong> pushing a change live to real users. Spotify does around 4,500 deployments a day.</li>
+<li><strong>Monorepo vs polyrepo:</strong> a <em>monorepo</em> is one giant code repository holding lots of code (Spotify's backend is a 40 million line monorepo). <em>Polyrepos</em> are many small separate repositories (Spotify has thousands).</li>
+<li><strong>PR (Pull Request):</strong> a proposed code change that gets reviewed before being merged (accepted).</li>
+<li><strong>Migration:</strong> updating code from an old version or pattern to a new one (for example, a new Java version, deprecating an old API, or fixing a security hole). Often dull, repetitive, and spread across many components.</li>
+<li><strong>CI (Continuous Integration):</strong> the automated system that builds and tests every change.</li>
+<li><strong>Auto-merge:</strong> accepting a PR automatically, with no human review, when automation has verified it is safe.</li>
+<li><strong>Agent SDK:</strong> Anthropic's toolkit for building agents (AI that takes a series of actions toward a goal).</li>
+<li><strong>Harness:</strong> the code and infrastructure around the model: the API call, the tools you give it, the loop that runs it. The prompt is what you say; the harness is everything around it.</li>
+<li><strong>MCP (Model Context Protocol):</strong> an open standard that lets agents connect to your internal tools and data.</li>
+<li><strong>Lint / static analysis:</strong> automated checks that read your code and flag problems or rule violations without running it.</li>
+<li><strong>Prototype:</strong> a quick, rough working version of an idea you can try out before building the real thing.</li>
+</ul>
+<p>You do not need to memorise these. Each one is explained again the first time it matters below.</p>
+<h2 id="why-this-lesson-matters">Why this lesson matters</h2>
+<p>Most teams are small. Spotify is not: close to 3,000 engineers, a 40 million line backend monorepo, thousands of smaller repositories, and 4,500 production deployments a day. When something works at that scale, the underlying principle is usually solid. Nicklaus shows what happens when coding stops being the constraint in a huge, mature organisation: the explosion of code that follows, the maintenance burden it creates, and the platform investments that turn that flood into an advantage instead of a crisis. The lessons (automate the dull maintenance, make your code base consistent for agents, verify and measure everything, and relocate human judgment) apply whether you have 3 engineers or 3,000.</p>
+<blockquote>
+<p>🔑 <strong>The headline:</strong> "More than 99% of our engineers use AI coding tools every week," and "94% report that using AI tooling has helped them become more productive," at a record high self assessed productivity. PR frequency is up 76% and still climbing. The adoption curve for Claude Code, in particular, "completely exploded" around the Opus 4.5 release.</p>
+</blockquote>
+<h2 id="learning-objectives">Learning objectives</h2>
+<p>By the end of this lesson you will be able to:</p>
+<ol>
+<li>Recognise the "explosion of code" that follows AI adoption, and why maintenance becomes the new burden.</li>
+<li>Use an agent (not a brittle script) to apply a non trivial change across many repositories, with verification.</li>
+<li>Explain why a consistent, standardised code base makes agents perform better, and how to drive that consistency.</li>
+<li>Build the supporting practices agents need: strong tests, verification tools, and a catalog of your software exposed as tools (MCPs).</li>
+<li>Decide where human judgment now matters most, especially in reviewing a flood of PRs.</li>
+</ol>
+<h2 id="prerequisites">Prerequisites</h2>
+<ul>
+<li>A basic understanding of how software gets built, tested, and shipped (PRs, CI, deployments). No coding required to follow the ideas.</li>
+<li>Helpful but optional: Module 8 · Lesson 27 (Running an AI-native engineering org), which frames the same "bottleneck has moved" idea.</li>
+</ul>
+<hr />
+<h2 id="part-1-the-explosion-of-code-and-a-maintenance-problem-you-must-plan-for">Part 1: the explosion of code, and a maintenance problem you must plan for</h2>
+<p>The AI transition at Spotify has been "a journey of very rapid adoption curves." They roll out internal tools all the time, but had "never seen the rate of adoption" they saw with AI coding tools. Claude Code in particular "completely exploded" around the Opus 4.5 release. The numbers: 99%+ weekly use, 94% reporting higher productivity, PR frequency up 76% (a number that "keeps growing all the time"), and most PRs now authored by an AI agent together with a developer.</p>
+<p>More throughput means more code. And here is the crucial part: this was <em>not</em> a new problem caused by AI. Spotify saw it coming.</p>
+<blockquote>
+<p>🔑 <strong>The warning sign, from before AI:</strong> a few years ago Spotify noticed their production code base "was growing seven times faster than the number of engineers." That meant engineers spent more and more time <em>maintaining</em> existing code rather than building new value. AI accelerates this, so you must plan for maintenance, not just creation.</p>
+</blockquote>
+<p>A lot of maintenance is dull and necessary: migrate from one version to another, deprecate an API, fix a security vulnerability. The old way was to send a migration path to hundreds of teams ("upgrade from this Java version to that one"), and wait. One upgrade across thousands of components took months. In their engineering survey, "migrations was the top thing developers were frustrated about."</p>
+<p>So they reframed the problem: instead of doing it component by component, could they "mutate our entire fleet of components" at once? They built infrastructure for this called <strong>fleet management</strong>, with an underlying system named <strong>Fleet Shift</strong>.</p>
+<blockquote>
+<p>💡 <strong>The result, pre-AI:</strong> they have merged 2.5 million automated maintenance PRs, "work that our developers did not have to do." The vast majority were <strong>auto-merged</strong> (no human in the loop): automation creates the PR, automation validates it is safe, automation merges it. Thousands ship every day.</p>
+</blockquote>
+<hr />
+<h2 id="part-2-from-brittle-scripts-to-agents-the-honk-story">Part 2: from brittle scripts to agents (the Honk story)</h2>
+<p>Fleet Shift worked great for <em>simple</em> changes: configuration tweaks, bumping a dependency version. But more complex changes (like replacing API calls) made the migration scripts "incredibly complicated."</p>
+<p>Why? Because code has a very wide surface. There are many ways to call the same method, and when you run one script across millions of lines and thousands of components, "you are going to find every corner case." There is even a name for this: <strong>Hiram's Law</strong> (from a Google engineer), which observes that with enough users of an interface, every observable behavior of it will be depended on by somebody, so any change breaks someone.</p>
+<p>So, early on, they asked: instead of writing brittle deterministic scripts, can we use an LLM (a Large Language Model, the kind of AI that reads and writes text) to do these code changes? Early attempts were hard: "the models were just too stupid, the way we were trying to do it was just too stupid." But over many iterations, as the patterns improved and the models got better, this became a tool called <strong>Honk</strong>.</p>
+<p>How Honk works today:</p>
+<div class="codehilite"><pre><span></span><code>HONK (Spotify&#39;s fleet code-change agent)
+  - Claude under the hood, via the Agent SDK.
+  - Wrapped in Spotify&#39;s own harness, inside a Kubernetes pod
+    (so many can run in parallel in the cloud).
+  - Given access to a set of TRUSTED tools, including verification tools.
+  - Verification = running real builds in CI, across multiple operating
+    systems (Spotify&#39;s clients run on many OSes).
+  - Orchestrated across thousands of repos by Fleet Shift.
+</code></pre></div>
+
+<p>Fleet Shift schedules and orchestrates the changes across thousands of repositories; Honk "sits in the middle doing the actual code changes." A team owning a migration can see its status: how many PRs created, how many merged, how many failed in CI and need a look.</p>
+<blockquote>
+<p>🔑 <strong>The payoff:</strong> what used to take hundreds of teams weeks or months "now can be done by a single engineer in a few days." The latest Java migration across their JVM backend "took three days using these tools." (Spotify now offers this commercially through their Backstage developer portal.)</p>
+</blockquote>
+<p>And developers being resourceful, they quickly found new uses. Someone figured out how to call Honk over Slack. Now it is common to have a Slack conversation, then "@mention Honk," and Honk goes off, works, and comes back with a PR. They have since shipped <strong>Honk V2</strong> (during a Hack Week), which makes it more interactive: integrated with their agent orchestration tool <strong>Chirp</strong> (which runs many agent sessions at once, similar to Claude agents), with shared sessions where multiple developers collaborate on the same agent session "like Google Docs, but for Claude," grouped into larger projects.</p>
+<blockquote>
+<p>💡 Nicklaus is personally most excited about the <strong>multiplayer</strong> features: imagining how agents actually collaborate with multiple developers and teams, not just one person in front of one terminal.</p>
+</blockquote>
+<hr />
+<h2 id="part-3-make-your-code-base-agent-friendly">Part 3: make your code base agent friendly</h2>
+<p>The second half of the talk is about optimising the <em>code base itself</em> so agents are as effective as possible. The core belief at Spotify, held for more than 15 years and predating AI: <strong>the fewer technologies you use, the faster you go.</strong></p>
+<p>Why standardisation helps (and now helps agents too):</p>
+<table>
+<thead>
+<tr>
+<th>Benefit of fewer technologies</th>
+<th>For humans</th>
+<th>For agents</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Deep expertise</td>
+<td>You build better things on a stack you know deeply.</td>
+<td>Claude has lots of similar code to learn from.</td>
+</tr>
+<tr>
+<td>Fewer decisions</td>
+<td>Teams do not pick a technology for everything; a ready set is available.</td>
+<td>Less ambiguity about how to do something.</td>
+</tr>
+<tr>
+<td>Easier collaboration</td>
+<td>Other teams' components look like yours, so you can contribute.</td>
+<td>Consistent patterns are easier to extend correctly.</td>
+</tr>
+<tr>
+<td>Easier moves</td>
+<td>Components and people move between teams smoothly.</td>
+<td>Agents generalise across a uniform code base.</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p>🔑 <strong>The agent-specific finding (paraphrased from Nicklaus):</strong> "If Claude has a lot of other code to look at, and that code looks roughly consistent, Claude will do a better job." They can <em>see</em> Claude perform <em>worse</em> in their more fragmented code bases. Consistency is not just tidy; it measurably improves agent output.</p>
+</blockquote>
+<p>They are deliberate, not rigid: they still want some variance to experiment with and evaluate new technologies, but "we don't want to do that willy-nilly. We want to be intentional about it."</p>
+<h3 id="the-platform-that-drives-consistency-backstage">The platform that drives consistency: Backstage</h3>
+<p><strong>Backstage</strong> is Spotify's developer portal (a single place for developers to do everything). Before it, developers used roughly 100 different tools (one for deployments, one for CI, one for A/B tests), and "all of those tools were kind of shit." Backstage started as a <strong>catalog</strong> of all their software, just to answer "who owns this component?" so they could page the right team during an incident. It grew into a hub with tools around every component.</p>
+<blockquote>
+<p>✅ <strong>Best practice: expose your platform to agents as tools.</strong> Everything a human does in Backstage, they expose as MCPs (the open standard for connecting agents to tools) or command line tools. So Claude can look up who owns something, and even ping that team on Slack to ask a question. The catalog you built for humans becomes equally useful for agents.</p>
+</blockquote>
+<p>How they drive standardisation through Backstage:</p>
+<ul>
+<li>A <strong>technology radar</strong>: a list of all technologies and their status (recommended, not recommended, and so on), as many companies have.</li>
+<li><strong>Golden state</strong>: for a given type of component (a kind of backend service, a kind of iOS view), the specific technologies and practices they recommend you use.</li>
+<li><strong>Soundcheck</strong>: a UI where a team can self assess against those requirements (for example, "define a valid owner").</li>
+</ul>
+<p>They combine this with <strong>static analysis and linting</strong> (automated checks built into the code bases). So when Claude works in their code, it gets immediate feedback. If Claude calls gRPC (a way services talk to each other) in a way Spotify knows is not optimal, "Claude will get feedback from our Lint system to correct that." Nicklaus sees this constantly: "Claude run into these Lint checks all the time and correct itself." It is a powerful, automatic way to drive standardisation for both developers and agents.</p>
+<hr />
+<h2 id="part-4-verify-measure-and-relocate-human-judgment">Part 4: verify, measure, and relocate human judgment</h2>
+<p>Nicklaus sums up with four points. The throughline is that strong engineering practices matter <em>more</em> now, not less.</p>
+<h3 id="verification-has-not-gone-away">Verification has not gone away</h3>
+<blockquote>
+<p>🔑 <strong>Quote (paraphrased):</strong> the need for strong engineering practices "has not gone away with agents. It remains as important as it was before." Having well tested code, and agents that can <em>invoke</em> those tests (Claude locally, or Honk with its verification tools), "is the way to make your agents be much more autonomous and come up with better solutions."</p>
+</blockquote>
+<p>This is exactly why Honk runs real builds in CI across multiple operating systems before a change is trusted. Verification is what lets automation safely auto merge.</p>
+<h3 id="measure-everything">Measure everything</h3>
+<p>Spotify instruments all their infrastructure and all their PRs, collecting "tons and tons of metrics." The numbers in this talk come from that instrumentation. You cannot manage a transition you cannot see.</p>
+<h3 id="relocate-human-judgment">Relocate human judgment</h3>
+<blockquote>
+<p>🔑 <strong>The flip side of speed:</strong> "human judgment matters just as much as it did before, or even more." But you must figure out <em>where</em> to apply it. The 76% increase in PR frequency means "76% more PRs to review," and "there's just too many PRs to review" is one of their most frequent complaints.</p>
+</blockquote>
+<p>So they are already auto approving PRs they judge safe enough, and focusing human review where it matters most. Where exactly the line sits will keep shifting, "both prior to invoking the agent and post invoking the agent."</p>
+<h3 id="coding-is-less-of-a-bottleneck-so-the-constraints-move">Coding is less of a bottleneck, so the constraints move</h3>
+<p>As coding loosens up, the bottleneck moves to <strong>human decision making</strong>: deciding what to ship, which ideas to explore. Two examples:</p>
+<ul>
+<li><strong>Prototyping</strong> used to be expensive (you had to convince developers to build something). Now anyone, including a CEO, can open Claude in the client monorepo and, through a set of skills and some infrastructure, "prompt Claude to build out any feature." You get back an installable app to test on your device and share internally. Prototyping went "from something that could take days or weeks to literally taking minutes."</li>
+<li><strong>Building for production</strong> is faster too. But the constraint moves to the human decisions: which of Spotify's "too many ideas" to validate and ship.</li>
+</ul>
+<blockquote>
+<p>💡 Nicklaus is honest that this is "very much an ongoing learning," with experiments running. His prediction: in roughly six months, Spotify will have "a very, very different way of building products" as they figure out how to make those decisions better and faster.</p>
+</blockquote>
+<hr />
+<h2 id="key-takeaways">Key takeaways</h2>
+<ol>
+<li><strong>Plan for the maintenance flood.</strong> AI multiplies code, and code grows faster than headcount. Automate the dull maintenance (migrations, deprecations, security fixes) across your whole fleet.</li>
+<li><strong>Agents beat brittle scripts for non trivial changes.</strong> Code has a huge surface (Hiram's Law). An agent with verification tools handles corner cases that scripts cannot.</li>
+<li><strong>Consistency makes agents better.</strong> A standardised code base measurably improves agent output. Drive it intentionally with a radar, golden state, self assessment, and lint.</li>
+<li><strong>Expose your platform to agents.</strong> Turn your developer portal and catalog into MCPs and CLI tools so agents can look up owners, run builds, and ask teams questions.</li>
+<li><strong>Verify and measure everything.</strong> Tests an agent can invoke are what make it autonomous. Instrument your infrastructure and PRs so you can see the transition.</li>
+<li><strong>Relocate human judgment.</strong> Auto approve the safe PRs, focus humans on the risky ones, and accept that the bottleneck has moved to human decisions about what to build.</li>
+</ol>
+<h2 id="common-pitfalls">Common pitfalls</h2>
+<ul>
+<li>❌ Assuming AI removes the maintenance burden; it accelerates it, so plan for it.</li>
+<li>❌ Writing ever more complicated deterministic scripts to handle every corner case, instead of using a verifying agent.</li>
+<li>❌ Letting your code base stay fragmented, then wondering why the agent performs worse there.</li>
+<li>❌ Building great human tools but never exposing them to agents as MCPs or CLI tools.</li>
+<li>❌ Trusting agent output without tests the agent can run to verify itself.</li>
+<li>❌ Trying to keep human reviewing every PR when volume is up 76%, instead of focusing humans where risk is highest.</li>
+</ul>
+<hr />
+<h2 id="capstone" class="capstone-h">🛠️ Capstone Project: Mini Fleet Shift</h2>
+<blockquote>
+<p>This is the main hands on project for the lesson. You will build a small version of Spotify's fleet maintenance system: an agent that applies one routine change across several code repositories, verifies each change by running tests, and reports results. It is the same shape as Honk plus Fleet Shift, sized so you can run it yourself.</p>
+</blockquote>
+<h3 id="what-you-will-build">What you will build</h3>
+<p>A small command line tool (or script) that takes one routine code change, applies it across 3 to 10 repositories (real ones you own, or copies you create), verifies each by running the build and tests, opens a PR (or a local branch) for each, and prints a status report: created, verified, failed.</p>
+<blockquote>
+<p>🎯 <strong>Pick a boring, repetitive change.</strong> The best fleet changes are dull: bump a dependency version, rename a deprecated function call, add a missing config field, or fix one lint rule everywhere. Choose one that is annoying to do by hand across many repos.</p>
+</blockquote>
+<h3 id="why-this-is-the-perfect-practice">Why this is the perfect practice</h3>
+<table>
+<thead>
+<tr>
+<th>Lesson skill</th>
+<th>Where you use it in Mini Fleet Shift</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Automate fleet maintenance</td>
+<td>The whole project</td>
+</tr>
+<tr>
+<td>Agent beats brittle script</td>
+<td>Milestone 3, the agent handles corner cases</td>
+</tr>
+<tr>
+<td>Verify everything</td>
+<td>Milestone 4, run real builds and tests</td>
+</tr>
+<tr>
+<td>Auto-merge the safe ones</td>
+<td>Milestone 5, the safety gate</td>
+</tr>
+<tr>
+<td>Measure everything</td>
+<td>Milestone 6, the status report and metrics</td>
+</tr>
+<tr>
+<td>Consistency helps agents</td>
+<td>Stretch goal, add a lint check</td>
+</tr>
+</tbody>
+</table>
+<h3 id="milestones-build-them-in-order-each-one-is-shippable">Milestones (build them in order, each one is shippable)</h3>
+<ol>
+<li><strong>Pick the change and the repos.</strong> Choose one routine change and 3 to 10 repositories. Write one sentence describing exactly what "done correctly" looks like for each repo.</li>
+<li><strong>Try the brittle script first.</strong> Write a simple find and replace script to make the change. Run it on all repos. Note where it breaks or misses corner cases. This is your "why scripts are not enough" evidence (Hiram's Law in miniature).</li>
+<li><strong>Replace the script with an agent.</strong> Use the Agent SDK to give Claude the change instruction and the tools to edit files. Let it handle each repo, including the corner cases the script missed.</li>
+<li><strong>Add verification.</strong> For each repo, have the agent run the build and tests after its change. Only changes that pass verification count as successful.</li>
+<li><strong>Add a safety gate (auto-merge logic).</strong> Decide a rule for which changes are safe enough to auto merge (for example, all tests pass and the diff matches an expected shape) versus which need human review. Implement the gate.</li>
+<li><strong>Report and measure.</strong> Print a status table: per repo, was the change created, verified, auto merged, or flagged for review? Record how long the whole run took versus your estimate of doing it by hand.</li>
+</ol>
+<h3 id="how-you-will-know-you-are-done">How you will know you are done</h3>
+<ul>
+<li>✅ The agent applied the change across <strong>all your repos</strong>, including at least one corner case the brittle script missed.</li>
+<li>✅ Every successful change was <strong>verified</strong> by a real build and test run.</li>
+<li>✅ Your <strong>safety gate</strong> correctly separates auto merge from "needs a human."</li>
+<li>✅ Your <strong>status report</strong> shows created / verified / merged / flagged per repo.</li>
+<li>✅ You can state the <strong>time saved</strong> versus doing it by hand, the way Nicklaus cited "three days" for a Java migration.</li>
+</ul>
+<blockquote>
+<p>💡 <strong>Keep yourself honest:</strong> if the agent ever merges something the tests did not verify, your safety gate is broken. Verification is what makes auto merge safe; do not skip it.</p>
+</blockquote>
+<hr />
+<h2 id="practice-exercises-optional-extra-reps">Practice exercises (optional extra reps)</h2>
+<blockquote>
+<p><strong>What these are:</strong> small, independent reps, each focused on one move from the talk. Optional. The Capstone above exercises all of them together.</p>
+</blockquote>
+<h3 id="exercise-1-find-the-maintenance-burden-foundational">Exercise 1: find the maintenance burden (foundational)</h3>
+<p>List the dull, repetitive maintenance tasks your team does across many components (version bumps, deprecations, security fixes). Which one is the most frustrating, and how often does it recur?</p>
+<h3 id="exercise-2-the-wide-surface-foundational">Exercise 2: the wide surface (foundational)</h3>
+<p>Take one simple "replace this call with that call" change. Write the naive script, run it across a few files, and list every corner case it gets wrong. This is Hiram's Law in action.</p>
+<h3 id="exercise-3-agent-with-verification-intermediate">Exercise 3: agent with verification (intermediate)</h3>
+<p>Give Claude one code change to make in a repo, plus the command to run the tests. Require it to run the tests and only report success if they pass. Confirm it self corrects when a test fails.</p>
+<h3 id="exercise-4-expose-a-tool-intermediate">Exercise 4: expose a tool (intermediate)</h3>
+<p>Pick one internal lookup your team does by hand (who owns this component, what is its deploy status). Wrap it as a small CLI tool or MCP so an agent could call it. Have Claude use it.</p>
+<h3 id="exercise-5-relocate-review-advanced">Exercise 5: relocate review (advanced)</h3>
+<p>Take a batch of recent PRs. Define a rule for which are "safe enough" to auto approve and which need a human. Apply it. What fraction could be auto approved, and where would you focus human review?</p>
+<hr />
+<h2 id="cheat-sheet">Cheat sheet</h2>
+<div class="codehilite"><pre><span></span><code>WHEN CODING STOPS BEING THE CONSTRAINT (at scale)
+  Code grows faster than headcount. Maintenance becomes the burden.
+  Plan for it: automate dull maintenance across the whole fleet.
+
+FLEET MAINTENANCE
+  Simple changes (config, version bumps): deterministic scripts + auto-merge.
+  Complex changes (API calls): an AGENT with verification tools.
+    Why: code has a huge surface (Hiram&#39;s Law); scripts hit every corner case.
+
+MAKE THE CODE BASE AGENT-FRIENDLY
+  Fewer technologies = faster humans AND better agents.
+  Drive consistency: tech radar, golden state, self-assessment, lint.
+  Fragmented code bases -&gt; Claude performs worse there.
+
+GIVE AGENTS WHAT HUMANS HAVE
+  Expose your portal/catalog as MCPs and CLI tools.
+  Agents can look up owners, run builds, ping teams.
+
+VERIFY, MEASURE, RELOCATE JUDGMENT
+  Tests the agent can run = autonomy. Verification enables auto-merge.
+  Instrument infra and PRs; measure everything.
+  Auto-approve safe PRs; focus humans where risk is highest.
+  The bottleneck moved to human decisions about WHAT to build.
+</code></pre></div>
+
+<h2 id="how-this-connects-to-the-rest-of-the-course">How this connects to the rest of the course</h2>
+<ul>
+<li><strong>Earlier, Module 8 · Lesson 27 (Running an AI-native engineering org):</strong> the same "bottleneck has moved" idea, here at 3,000 engineer scale with concrete fleet automation.</li>
+<li><strong>Earlier, Module 2 (Core skills) and skills:</strong> the prompting, tools, and skills that power agents like Honk and the in monorepo prototyping flow.</li>
+<li><strong>Next, Module 8 · Lesson 31 (Building AI-native at enterprise scale):</strong> other large companies (monday.com, Doctolib, Delivery Hero) tackling the same code base consistency and verification problems.</li>
+<li><strong>Earlier, Module 3 (Evals):</strong> the measurement discipline behind "measure everything" and verifying agent output.</li>
+</ul>
+<hr />
+<p><em>Source: "Coding is no longer the constraint: Scaling devex to teams and agents at Spotify" by Nicklaus (Spotify), Code with Claude 2026, London. The Honk and cheat-sheet boxes are faithful paraphrases of what Nicklaus described; they are illustrative reconstructions, not verbatim slides.</em></p>
+    </article>
+    <nav class="lessonnav"><a class="ln prev" href="29-from-one-person-to-80.html"><span class="dir">&#8592; Previous</span><b>From One Person to 80, Scaling a Hypergrowth Engineering Org</b></a><a class="ln home" href="../index.html"><b>All lessons</b></a><a class="ln next" href="31-enterprise-scale-panel.html"><span class="dir">Next &#8594;</span><b>Building AI-Native at Enterprise Scale</b></a></nav>
+  </main>
+</div>
+
+<footer class="site"><div class="wrap">
+  <a class="logo" href="../index.html">Building with Claude<span class="dot">.</span></a>
+  <span class="fnote">A self-paced course generated from the Code with Claude 2026 (London) talks. Code snippets are illustrative reconstructions of the approaches shown. Adapt them to the current SDK.</span>
+</div></footer>
+
+<style>pre { line-height: 125%; }
+td.linenos .normal { color: inherit; background-color: transparent; padding-left: 5px; padding-right: 5px; }
+span.linenos { color: inherit; background-color: transparent; padding-left: 5px; padding-right: 5px; }
+td.linenos .special { color: #000000; background-color: #ffffc0; padding-left: 5px; padding-right: 5px; }
+span.linenos.special { color: #000000; background-color: #ffffc0; padding-left: 5px; padding-right: 5px; }
+.codehilite .hll { background-color: #ffffcc }
+.codehilite { background: #282C34; color: #ABB2BF }
+.codehilite .c { color: #7F848E } /* Comment */
+.codehilite .err { color: #ABB2BF } /* Error */
+.codehilite .esc { color: #ABB2BF } /* Escape */
+.codehilite .g { color: #ABB2BF } /* Generic */
+.codehilite .k { color: #C678DD } /* Keyword */
+.codehilite .l { color: #ABB2BF } /* Literal */
+.codehilite .n { color: #E06C75 } /* Name */
+.codehilite .o { color: #56B6C2 } /* Operator */
+.codehilite .x { color: #ABB2BF } /* Other */
+.codehilite .p { color: #ABB2BF } /* Punctuation */
+.codehilite .ch { color: #7F848E } /* Comment.Hashbang */
+.codehilite .cm { color: #7F848E } /* Comment.Multiline */
+.codehilite .cp { color: #7F848E } /* Comment.Preproc */
+.codehilite .cpf { color: #7F848E } /* Comment.PreprocFile */
+.codehilite .c1 { color: #7F848E } /* Comment.Single */
+.codehilite .cs { color: #7F848E } /* Comment.Special */
+.codehilite .gd { color: #E06C75 } /* Generic.Deleted */
+.codehilite .ge { color: #ABB2BF; font-style: italic } /* Generic.Emph */
+.codehilite .ges { color: #ABB2BF } /* Generic.EmphStrong */
+.codehilite .gr { color: #E06C75 } /* Generic.Error */
+.codehilite .gh { color: #ABB2BF; font-weight: bold } /* Generic.Heading */
+.codehilite .gi { color: #98C379 } /* Generic.Inserted */
+.codehilite .go { color: #E06C75 } /* Generic.Output */
+.codehilite .gp { color: #ABB2BF } /* Generic.Prompt */
+.codehilite .gs { color: #ABB2BF; font-weight: bold } /* Generic.Strong */
+.codehilite .gu { color: #ABB2BF; font-weight: bold } /* Generic.Subheading */
+.codehilite .gt { color: #E06C75 } /* Generic.Traceback */
+.codehilite .kc { color: #E5C07B } /* Keyword.Constant */
+.codehilite .kd { color: #C678DD } /* Keyword.Declaration */
+.codehilite .kn { color: #C678DD } /* Keyword.Namespace */
+.codehilite .kp { color: #C678DD } /* Keyword.Pseudo */
+.codehilite .kr { color: #C678DD } /* Keyword.Reserved */
+.codehilite .kt { color: #E5C07B } /* Keyword.Type */
+.codehilite .ld { color: #ABB2BF } /* Literal.Date */
+.codehilite .m { color: #D19A66 } /* Literal.Number */
+.codehilite .s { color: #98C379 } /* Literal.String */
+.codehilite .na { color: #E06C75 } /* Name.Attribute */
+.codehilite .nb { color: #E5C07B } /* Name.Builtin */
+.codehilite .nc { color: #E5C07B } /* Name.Class */
+.codehilite .no { color: #E06C75 } /* Name.Constant */
+.codehilite .nd { color: #61AFEF } /* Name.Decorator */
+.codehilite .ni { color: #E06C75 } /* Name.Entity */
+.codehilite .ne { color: #E06C75 } /* Name.Exception */
+.codehilite .nf { color: #61AFEF; font-weight: bold } /* Name.Function */
+.codehilite .nl { color: #E06C75 } /* Name.Label */
+.codehilite .nn { color: #E06C75 } /* Name.Namespace */
+.codehilite .nx { color: #E06C75 } /* Name.Other */
+.codehilite .py { color: #E06C75 } /* Name.Property */
+.codehilite .nt { color: #E06C75 } /* Name.Tag */
+.codehilite .nv { color: #E06C75 } /* Name.Variable */
+.codehilite .ow { color: #56B6C2 } /* Operator.Word */
+.codehilite .pm { color: #ABB2BF } /* Punctuation.Marker */
+.codehilite .w { color: #ABB2BF } /* Text.Whitespace */
+.codehilite .mb { color: #D19A66 } /* Literal.Number.Bin */
+.codehilite .mf { color: #D19A66 } /* Literal.Number.Float */
+.codehilite .mh { color: #D19A66 } /* Literal.Number.Hex */
+.codehilite .mi { color: #D19A66 } /* Literal.Number.Integer */
+.codehilite .mo { color: #D19A66 } /* Literal.Number.Oct */
+.codehilite .sa { color: #98C379 } /* Literal.String.Affix */
+.codehilite .sb { color: #98C379 } /* Literal.String.Backtick */
+.codehilite .sc { color: #98C379 } /* Literal.String.Char */
+.codehilite .dl { color: #98C379 } /* Literal.String.Delimiter */
+.codehilite .sd { color: #98C379 } /* Literal.String.Doc */
+.codehilite .s2 { color: #98C379 } /* Literal.String.Double */
+.codehilite .se { color: #98C379 } /* Literal.String.Escape */
+.codehilite .sh { color: #98C379 } /* Literal.String.Heredoc */
+.codehilite .si { color: #98C379 } /* Literal.String.Interpol */
+.codehilite .sx { color: #98C379 } /* Literal.String.Other */
+.codehilite .sr { color: #98C379 } /* Literal.String.Regex */
+.codehilite .s1 { color: #98C379 } /* Literal.String.Single */
+.codehilite .ss { color: #98C379 } /* Literal.String.Symbol */
+.codehilite .bp { color: #E5C07B } /* Name.Builtin.Pseudo */
+.codehilite .fm { color: #56B6C2; font-weight: bold } /* Name.Function.Magic */
+.codehilite .vc { color: #E06C75 } /* Name.Variable.Class */
+.codehilite .vg { color: #E06C75 } /* Name.Variable.Global */
+.codehilite .vi { color: #E06C75 } /* Name.Variable.Instance */
+.codehilite .vm { color: #E06C75 } /* Name.Variable.Magic */
+.codehilite .il { color: #D19A66 } /* Literal.Number.Integer.Long */</style>
+<script>
+// mobile menu
+const sb=document.getElementById('sidebar'),mb=document.getElementById('menuBtn');
+if(mb){mb.onclick=()=>sb.classList.toggle('open');sb.addEventListener('click',e=>{if(e.target.tagName==='A')sb.classList.remove('open')});}
+const tc=document.getElementById('tocClose');if(tc){tc.onclick=()=>sb.classList.remove('open');}
+// progress
+const prog=document.getElementById('progress');
+addEventListener('scroll',()=>{const h=document.body.scrollHeight-innerHeight;prog.style.width=(h>0?scrollY/h*100:0)+'%'});
+// code chrome + copy
+document.querySelectorAll('.codehilite, pre').forEach(block=>{
+  if(block.parentElement.classList.contains('codehilite'))return;
+  const bar=document.createElement('div');bar.className='code-bar';
+  bar.innerHTML='<span class="dot r"></span><span class="dot y"></span><span class="dot g"></span>';
+  block.appendChild(bar);
+  const btn=document.createElement('button');btn.className='copy-btn';btn.textContent='Copy';
+  btn.onclick=()=>{const t=block.querySelector('code')?.innerText||block.innerText;
+    navigator.clipboard.writeText(t.replace(/\nCopy$/,''));btn.textContent='Copied!';btn.classList.add('done');
+    setTimeout(()=>{btn.textContent='Copy';btn.classList.remove('done')},1500)};
+  block.appendChild(btn);
+});
+// callouts by leading emoji
+const map={'🔑':'cl-key','💡':'cl-tip','✅':'cl-ok','❌':'cl-no','🎯':'cl-goal','🛠':'cl-goal'};
+document.querySelectorAll('blockquote').forEach(q=>{const t=(q.textContent||'').trim();for(const e in map){if(t.startsWith(e)){q.classList.add(map[e]);break}}});
+// check-off
+function makeCheckable(rx){document.querySelectorAll('h2,h3').forEach(h=>{if(!rx.test(h.textContent))return;let el=h.nextElementSibling;
+  while(el&&!/^H[1-3]$/.test(el.tagName)){if(el.tagName==='OL'||el.tagName==='UL'){el.classList.add('checkable');
+    el.querySelectorAll(':scope>li').forEach(li=>{const key='cwc:'+location.pathname+':'+li.textContent.slice(0,60);
+      if(localStorage.getItem(key))li.classList.add('checked');
+      li.addEventListener('click',ev=>{if(ev.target.tagName==='A')return;li.classList.toggle('checked');
+        li.classList.contains('checked')?localStorage.setItem(key,'1'):localStorage.removeItem(key)});});}el=el.nextElementSibling;}});}
+makeCheckable(/learning objectives|milestones/i);
+// scrollspy
+const links=[...document.querySelectorAll('.toc a')];
+const heads=links.map(a=>a.getAttribute('href')).filter(h=>h&&h.startsWith('#')).map(h=>document.getElementById(h.slice(1))).filter(Boolean);
+const spy=()=>{let cur=heads[0]?.id;for(const h of heads){if(h.getBoundingClientRect().top<150)cur=h.id}
+  links.forEach(a=>a.classList.toggle('active',a.getAttribute('href')==='#'+cur))};
+addEventListener('scroll',spy);spy();
+</script>
+</body>
+</html>

@@ -1,0 +1,771 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Module 8 · Lesson 28: Designing with Claude, From Prompt to Production | Building with Claude</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@500;600;700;800&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --navy:#0a1a2f; --navy-2:#0f243d; --navy-3:#15314f;
+  --teal:#18c4a0; --teal-d:#0fa385; --teal-soft:#e4f8f2;
+  --coral:#f24d63; --coral-d:#d83a50; --coral-soft:#feecee;
+  --ink:#152230; --muted:#5f6c7b; --line:#e9eef2; --bg:#ffffff;
+  --soft:#f4fbf9; --card:#ffffff; --code-bg:#21252b; --max:780px;
+  --k:#2f8fb3; --k-bg:#e8f4f9; --tip:#c4881f; --tip-bg:#fdf4e3; --ok:#1f9d6b; --ok-bg:#e6f6ef;
+  --no:#e0533f; --no-bg:#fdecea; --goal:#7b54c9; --goal-bg:#f1ebfb;
+  --shadow:0 10px 30px rgba(13,30,52,.08); --shadow-sm:0 4px 14px rgba(13,30,52,.07);
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,sans-serif;line-height:1.72;font-size:17px;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+#progress{position:fixed;top:0;left:0;height:4px;width:0;background:linear-gradient(90deg,var(--teal),var(--coral));z-index:200;transition:width .1s linear}
+a{color:var(--teal-d);text-decoration:none}
+a:hover{color:var(--coral)}
+h1,h2,h3{font-family:Poppins,sans-serif;color:var(--ink);letter-spacing:-.01em}
+.accent{color:var(--coral)}
+.wrap{max-width:1200px;margin:0 auto;padding:0 28px}
+
+/* ---------- Top welcome strip ---------- */
+.topbar{background:var(--navy);color:#cdd8e4;font-size:13.5px}
+.topbar .wrap{display:flex;justify-content:space-between;align-items:center;height:42px;gap:18px}
+.topbar b{color:#fff;font-weight:600}
+.topbar .right{display:flex;gap:18px;align-items:center}
+.topbar a{color:#cdd8e4}.topbar a:hover{color:var(--teal)}
+
+/* ---------- Nav ---------- */
+nav.bar{background:var(--navy-2);position:sticky;top:0;z-index:120;box-shadow:0 2px 20px rgba(0,0,0,.25)}
+nav.bar .wrap{display:flex;align-items:center;height:68px;gap:26px}
+.logo{font-family:Poppins;font-weight:800;font-size:22px;color:#fff;letter-spacing:.02em;cursor:pointer;text-decoration:none}
+a.logo:hover{color:var(--teal)}
+.lessonnav{display:flex;gap:14px;align-items:stretch;margin:60px 0 0;flex-wrap:wrap}
+.lessonnav .ln{flex:1;min-width:200px;display:flex;flex-direction:column;gap:3px;border:1px solid var(--line);border-radius:14px;padding:16px 18px;color:var(--muted);transition:.15s;background:#fff}
+.lessonnav .ln:hover{border-color:var(--teal);box-shadow:var(--shadow-sm);transform:translateY(-1px)}
+.lessonnav .ln .dir{font-size:13px;font-weight:600;color:var(--teal-d)}
+.lessonnav .ln b{color:var(--ink);font-family:Poppins;font-size:15px}
+.lessonnav .ln.next{text-align:right}
+.lessonnav .ln.home{flex:0 0 auto;justify-content:center;align-items:center;text-align:center;background:var(--soft)}
+.lessonnav .ln.home b{color:var(--teal-d)}
+.logo .dot{color:var(--teal)}
+.navlinks{display:flex;gap:24px;margin-left:8px}
+.navlinks a{color:#dde6ef;font-weight:500;font-size:15px}
+.navlinks a:hover{color:var(--teal)}
+.nav-cta{margin-left:auto;display:flex;gap:12px;align-items:center}
+.btn{display:inline-flex;align-items:center;gap:9px;border:none;cursor:pointer;font-family:Inter;font-weight:600;border-radius:999px;transition:.18s;font-size:15px;text-decoration:none}
+.btn-primary{background:var(--teal);color:#04231c;padding:12px 22px}
+.btn-primary:hover{background:var(--teal-d);color:#fff;transform:translateY(-1px)}
+.btn-outline{background:transparent;color:#fff;border:1.5px solid rgba(255,255,255,.35);padding:10px 20px}
+.btn-outline:hover{border-color:var(--teal);color:var(--teal)}
+.btn-coral{background:var(--coral);color:#fff;padding:12px 22px}
+.btn-coral:hover{background:var(--coral-d);color:#fff;transform:translateY(-1px)}
+
+/* ---------- Hero ---------- */
+.hero{position:relative;background:radial-gradient(120% 120% at 80% 0%,var(--navy-3),var(--navy) 60%);color:#eaf1f8;overflow:hidden}
+.hero::before{content:"";position:absolute;inset:0;background-image:radial-gradient(rgba(255,255,255,.12) 1.3px,transparent 1.3px);background-size:22px 22px;opacity:.25;mask:radial-gradient(60% 60% at 20% 30%,#000,transparent)}
+.blob{position:absolute;border-radius:50%;filter:blur(8px);opacity:.5;z-index:0}
+.blob.t{width:230px;height:230px;background:rgba(24,196,160,.30);top:-60px;right:8%}
+.blob.c{width:160px;height:160px;background:rgba(242,77,99,.28);bottom:-40px;left:42%}
+.squiggle{position:absolute;z-index:1;opacity:.85}
+.hero .wrap{position:relative;z-index:2;display:grid;grid-template-columns:1.15fr .85fr;gap:48px;align-items:center;padding:70px 28px 90px}
+.eyebrow{display:inline-flex;align-items:center;gap:8px;color:var(--teal);font-weight:600;font-size:14px;letter-spacing:.03em;text-transform:uppercase;margin-bottom:18px}
+.hero h1{font-size:54px;line-height:1.08;font-weight:800;margin:0 0 20px;color:#fff}
+.hero .lead{font-size:18px;color:#b9c6d6;max-width:34em;margin:0 0 30px}
+.hero-actions{display:flex;align-items:center;gap:18px;flex-wrap:wrap;margin-bottom:30px}
+.play{display:inline-flex;align-items:center;gap:12px;color:#fff;font-weight:600}
+.play .circ{width:52px;height:52px;border-radius:50%;background:var(--coral);display:grid;place-items:center;box-shadow:0 8px 22px rgba(242,77,99,.45);font-size:16px;animation:pulse 2.4s infinite}
+@keyframes pulse{0%{box-shadow:0 0 0 0 rgba(242,77,99,.45)}70%{box-shadow:0 0 0 16px rgba(242,77,99,0)}100%{box-shadow:0 0 0 0 rgba(242,77,99,0)}}
+.chips{display:flex;gap:10px;flex-wrap:wrap}
+.chip{display:inline-flex;align-items:center;gap:7px;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.12);color:#dce6f0;padding:8px 14px;border-radius:999px;font-size:13.5px;font-weight:500}
+.chip b{color:#fff}
+/* hero card */
+.hero-card{position:relative;background:#fff;color:var(--ink);border-radius:22px;padding:26px;box-shadow:0 24px 60px rgba(0,0,0,.35)}
+.hero-card .ring{position:absolute;top:-26px;right:-18px;width:96px;height:96px;background:#fff;border-radius:50%;box-shadow:var(--shadow);display:grid;place-items:center}
+.hero-card .ring svg{transform:rotate(-90deg)}
+.hero-card .ring .lab{position:absolute;font-family:Poppins;font-weight:700;font-size:18px;color:var(--teal-d)}
+.hero-card h3{margin:4px 0 14px;font-size:19px}
+.hero-card ul{list-style:none;margin:0 0 18px;padding:0}
+.hero-card li{display:flex;gap:11px;align-items:flex-start;padding:9px 0;border-bottom:1px dashed var(--line);font-size:14.5px;color:#36424f}
+.hero-card li:last-child{border-bottom:none}
+.hero-card li .ic{font-size:17px;line-height:1.4}
+.float-badge{position:absolute;left:18px;bottom:-26px;background:#fff;border-radius:14px;box-shadow:var(--shadow);padding:12px 16px;display:flex;gap:10px;align-items:center;font-size:13px;font-weight:600;color:var(--ink)}
+.float-badge .n{font-family:Poppins;font-weight:800;color:var(--coral);font-size:20px}
+
+/* ---------- Content layout ---------- */
+.layout{display:grid;grid-template-columns:268px minmax(0,1fr);gap:46px;max-width:1200px;margin:0 auto;padding:0 28px}
+aside{position:sticky;top:84px;align-self:start;height:calc(100vh - 100px);overflow-y:auto;padding:26px 0}
+.toc-card{background:var(--soft);border:1px solid var(--line);border-radius:18px;padding:18px}
+.toc-close{display:none;position:absolute;top:-6px;right:-4px;width:36px;height:36px;border:none;background:var(--navy-2);color:#fff;border-radius:50%;font-size:22px;line-height:1;cursor:pointer}
+.toc-close:hover{background:var(--coral)}
+.toc-title{font-family:Poppins;font-size:12px;text-transform:uppercase;letter-spacing:.1em;color:var(--teal-d);margin:0 0 10px;font-weight:700}
+.toc ul{list-style:none;margin:0;padding:0}
+.toc a{display:block;color:var(--muted);font-size:14px;padding:6px 12px;border-radius:8px;border-left:2px solid transparent;line-height:1.4}
+.toc a:hover{color:var(--ink);background:#fff}
+.toc a.active{color:var(--teal-d);background:#fff;border-left-color:var(--teal);font-weight:600}
+.toc .toc li li a{padding-left:24px;font-size:13px}
+.toc a.toc-capstone{color:var(--coral);font-weight:600}
+main{padding:54px 0 120px;min-width:0}
+article{max-width:var(--max)}
+
+/* typography */
+article h2{font-size:30px;margin:56px 0 16px;font-weight:700;position:relative}
+article h2::before{content:"\2726";color:var(--teal);font-size:18px;margin-right:10px;vertical-align:2px}
+article h3{font-size:21px;margin:34px 0 10px;font-weight:600}
+article h2+h3{margin-top:18px}
+article p,article li{font-size:16.5px}
+article ul,article ol{padding-left:24px}
+article li{margin:7px 0}
+article strong{font-weight:700;color:#0f1b28}
+hr{border:none;height:1px;background:var(--line);margin:42px 0}
+
+/* tables */
+table{border-collapse:separate;border-spacing:0;width:100%;margin:24px 0;font-size:15px;border:1px solid var(--line);border-radius:14px;overflow:hidden;display:block;overflow-x:auto}
+th,td{padding:12px 15px;text-align:left;vertical-align:top;border-bottom:1px solid var(--line)}
+th{background:var(--navy-2);color:#eaf1f8;font-family:Poppins;font-weight:600;font-size:14px}
+tr:last-child td{border-bottom:none}
+tbody tr:nth-child(even){background:var(--soft)}
+
+/* inline + block code */
+code{font-family:"JetBrains Mono",ui-monospace,Menlo,monospace;font-size:.86em;background:var(--teal-soft);color:#0c6a55;padding:.13em .42em;border-radius:6px}
+.codehilite,pre{position:relative;background:var(--code-bg);border-radius:14px;margin:22px 0;overflow:hidden;box-shadow:var(--shadow-sm)}
+.codehilite pre{margin:0;border-radius:0;box-shadow:none;background:transparent}
+.codehilite pre,pre>code{display:block;padding:42px 18px 18px;overflow-x:auto}
+.codehilite code,pre code{background:none;color:#dfe6ee;padding:0;font-size:13.5px;line-height:1.7}
+.code-bar{position:absolute;top:0;left:0;right:0;height:34px;display:flex;align-items:center;gap:7px;padding:0 15px;background:rgba(255,255,255,.05);border-bottom:1px solid rgba(255,255,255,.07)}
+.code-bar .dot{width:11px;height:11px;border-radius:50%}
+.dot.r{background:#ff5f57}.dot.y{background:#febc2e}.dot.g{background:#28c840}
+.copy-btn{position:absolute;top:5px;right:9px;z-index:3;background:rgba(255,255,255,.08);color:#dfe6ee;border:1px solid rgba(255,255,255,.14);border-radius:8px;font-size:12px;padding:4px 11px;cursor:pointer;font-family:Inter;transition:.15s}
+.copy-btn:hover{background:var(--teal);border-color:var(--teal);color:#04231c}
+.copy-btn.done{background:var(--teal);color:#04231c;border-color:var(--teal)}
+
+/* callouts */
+blockquote{margin:24px 0;padding:16px 20px;border-radius:14px;background:var(--soft);border:1px solid var(--line);border-left:5px solid var(--teal)}
+blockquote p{margin:7px 0}blockquote p:first-child{margin-top:0}blockquote p:last-child{margin-bottom:0}
+blockquote.cl-key{background:var(--k-bg);border-left-color:var(--k);border-color:transparent}
+blockquote.cl-tip{background:var(--tip-bg);border-left-color:var(--tip);border-color:transparent}
+blockquote.cl-ok{background:var(--ok-bg);border-left-color:var(--ok);border-color:transparent}
+blockquote.cl-no{background:var(--no-bg);border-left-color:var(--no);border-color:transparent}
+blockquote.cl-goal{background:var(--goal-bg);border-left-color:var(--goal);border-color:transparent}
+
+/* capstone banner */
+h2.capstone-h{background:linear-gradient(115deg,var(--navy),var(--navy-3));color:#fff;border-radius:20px;padding:30px 28px 26px;margin-top:64px;box-shadow:0 20px 50px rgba(10,26,47,.3);overflow:hidden;position:relative}
+h2.capstone-h::before{content:"\1F6E0  HANDS-ON PROJECT";display:block;font-family:Poppins;font-size:12px;font-weight:700;letter-spacing:.14em;color:var(--teal);margin:0 0 8px}
+h2.capstone-h::after{content:"";position:absolute;width:150px;height:150px;border-radius:50%;background:rgba(24,196,160,.25);filter:blur(10px);top:-50px;right:-30px}
+
+/* check-off */
+.checkable{list-style:none;padding-left:0}
+.checkable li{position:relative;padding-left:36px;cursor:pointer;margin:9px 0}
+.checkable li::before{content:"";position:absolute;left:0;top:3px;width:22px;height:22px;border:2px solid var(--teal);border-radius:7px;background:#fff;transition:.15s}
+.checkable li.checked::before{background:var(--teal);border-color:var(--teal)}
+.checkable li.checked::after{content:"\2713";position:absolute;left:5px;top:1px;color:#fff;font-weight:800;font-size:15px}
+.checkable li.checked{color:var(--muted)}
+
+/* footer */
+footer.site{background:var(--navy);color:#aebccb;margin-top:90px}
+footer.site .wrap{padding:46px 28px;display:flex;justify-content:space-between;gap:26px;flex-wrap:wrap;align-items:center}
+footer.site .logo{font-size:20px}
+footer.site .fnote{max-width:46em;font-size:13.5px;line-height:1.7}
+
+#menuBtn{display:none}
+@media(max-width:920px){
+  .topbar{display:none}
+  .nav-cta{display:none}
+  .float-badge{display:none}
+  nav.bar .wrap{gap:14px;height:60px}
+  .wrap{padding:0 20px}
+  .logo{font-size:18px;white-space:nowrap}
+  .hero .wrap{grid-template-columns:1fr;gap:30px;padding:42px 20px 56px}
+  .hero h1{font-size:33px}
+  .hero .lead{font-size:16.5px}
+  .hero-actions{gap:14px}
+  .hero-actions .btn-primary{flex:1;justify-content:center}
+  .layout{grid-template-columns:1fr;gap:0}
+  aside{position:fixed;top:0;left:0;width:84vw;max-width:320px;height:100vh;background:#fff;z-index:130;transform:translateX(-100%);transition:.25s;box-shadow:var(--shadow);padding:24px}
+  aside.open{transform:none}
+  #menuBtn{display:inline-flex}
+  .toc-close{display:block}
+  .navlinks{display:none}
+  main{padding:34px 0 80px}
+  body{font-size:16px}
+  article h2{font-size:25px}
+  h2.capstone-h{padding:24px 20px}
+}
+@media(max-width:420px){
+  .hero h1{font-size:29px}
+  .hero-actions{flex-direction:column;align-items:stretch}
+  .hero-actions .play{justify-content:center}
+}
+</style>
+</head>
+<body>
+<div id="progress"></div>
+
+<div class="topbar"><div class="wrap">
+  <div>&#10024; Welcome to <b>Building with Claude</b> &middot; a self-paced course</div>
+  <div class="right"><span>Code with Claude 2026 &middot; London</span></div>
+</div></div>
+
+<nav class="bar"><div class="wrap">
+  <button class="btn btn-outline" id="menuBtn" style="padding:8px 14px">&#9776;</button>
+  <a class="logo" href="../index.html">Building with Claude<span class="dot">.</span></a>
+  <div class="navlinks">
+    <a href="../index.html">All lessons</a>
+    <a href="#overview">Overview</a>
+    <a href="#capstone">Capstone</a>
+  </div>
+  <div class="nav-cta">
+    <a class="btn btn-primary" href="#start">Start the lesson &#8594;</a>
+  </div>
+</div></nav>
+
+<header class="hero">
+  <span class="blob t"></span><span class="blob c"></span>
+  <svg class="squiggle" style="top:120px;left:46%;" width="90" height="26" viewBox="0 0 90 26" fill="none"><path d="M2 13c8-14 16 14 24 0s16 14 24 0 16 14 24 0" stroke="#18c4a0" stroke-width="4" stroke-linecap="round"/></svg>
+  <svg class="squiggle" style="bottom:60px;right:40%;" width="70" height="22" viewBox="0 0 90 26" fill="none"><path d="M2 13c8-14 16 14 24 0s16 14 24 0 16 14 24 0" stroke="#f24d63" stroke-width="4" stroke-linecap="round"/></svg>
+  <div class="wrap" id="overview">
+    <div>
+      <span class="eyebrow">&#10022; Module 8 · Lesson 28</span>
+      <h1>Designing with Claude, From Prompt to <span class="accent">Production</span></h1>
+      <p class="lead">A tiny team built and launched a real product (Claude Design) in about ten weeks by replacing planning documents with working prototypes, keeping the team small enough that everyone does everything, and obsessively optimising every step of a tight &quot;talk, design, ship, learn&quot; loop they ran 50 to 100 times.</p>
+      <div class="hero-actions">
+        <a class="btn btn-primary" href="#start">Start the lesson &#8594;</a>
+        <a class="play" href="https://www.youtube.com/watch?v=Uvl-tRga98g" target="_blank" rel="noopener"><span class="circ">&#9654;</span> Watch the talk</a>
+      </div>
+      <div class="chips">
+        <span class="chip">&#127908; <b>Dan Carey</b></span>
+        <span class="chip">&#9201; <b>45 to 60 minutes</b></span>
+        <span class="chip">&#128296; <b>Hands-on capstone</b></span>
+      </div>
+    </div>
+    <div style="position:relative">
+      <div class="hero-card">
+        <div class="ring">
+          <svg width="74" height="74"><circle cx="37" cy="37" r="31" stroke="#eef2f5" stroke-width="7" fill="none"/><circle cx="37" cy="37" r="31" stroke="#18c4a0" stroke-width="7" fill="none" stroke-linecap="round" stroke-dasharray="195" stroke-dashoffset="40"/></svg>
+          <span class="lab">&#10022;</span>
+        </div>
+        <h3>What you&#39;ll get</h3>
+        <ul>
+          <li><span class="ic">&#9989;</span><span>Plain-language teaching with every term defined</span></li>
+          <li><span class="ic">&#128221;</span><span>Code snippets pulled from the talk</span></li>
+          <li><span class="ic">&#128296;</span><span>A hands-on capstone you build step by step</span></li>
+          <li><span class="ic">&#127919;</span><span>Optional practice drills to reinforce each skill</span></li>
+        </ul>
+        <a class="btn btn-coral" href="#capstone" style="width:100%;justify-content:center">Jump to the project</a>
+      </div>
+    </div>
+  </div>
+</header>
+
+<div class="layout">
+  <aside id="sidebar"><div class="toc-card">
+    <button class="toc-close" id="tocClose" aria-label="Close menu">&times;</button>
+    <p class="toc-title">On this page</p>
+    <div class="toc">
+<ul>
+<li><a href="#in-one-sentence">In one sentence</a></li>
+<li><a href="#first-principles-companion">First-principles companion</a></li>
+<li><a href="#a-few-plain-language-basics-first">A few plain-language basics first</a></li>
+<li><a href="#why-this-lesson-matters">Why this lesson matters</a></li>
+<li><a href="#learning-objectives">Learning objectives</a></li>
+<li><a href="#prerequisites">Prerequisites</a></li>
+<li><a href="#part-1-what-anthropic-labs-is-a-bet-factory">Part 1: what Anthropic Labs is, a bet factory</a></li>
+<li><a href="#part-2-prototypes-beat-documents">Part 2: prototypes beat documents</a></li>
+<li><a href="#part-3-tiny-teams-everyone-does-everything">Part 3: tiny teams, everyone does everything</a></li>
+<li><a href="#part-4-optimise-every-step-of-your-loop">Part 4: optimise every step of your loop</a></li>
+<li><a href="#part-5-going-fast-does-not-mean-being-right">Part 5: going fast does not mean being right</a></li>
+<li><a href="#part-6-prototype-the-thing-that-almost-works">Part 6: prototype the thing that almost works</a></li>
+<li><a href="#key-takeaways">Key takeaways</a></li>
+<li><a href="#common-pitfalls">Common pitfalls</a></li>
+<li><a href="#capstone" class="toc-capstone">🛠️ Capstone Project: The 10-Loop Sprint</a><ul>
+<li><a href="#what-you-will-build">What you will build</a></li>
+<li><a href="#why-this-is-the-perfect-practice">Why this is the perfect practice</a></li>
+<li><a href="#milestones-build-them-in-order-each-one-is-shippable">Milestones (build them in order, each one is shippable)</a></li>
+<li><a href="#how-you-will-know-you-are-done">How you will know you are done</a></li>
+</ul>
+</li>
+<li><a href="#practice-exercises-optional-extra-reps">Practice exercises (optional extra reps)</a><ul>
+<li><a href="#exercise-1-the-prototype-not-the-prd-foundational">Exercise 1: the prototype, not the PRD (foundational)</a></li>
+<li><a href="#exercise-2-scratch-your-own-itch-foundational">Exercise 2: scratch your own itch (foundational)</a></li>
+<li><a href="#exercise-3-dissolve-a-role-boundary-intermediate">Exercise 3: dissolve a role boundary (intermediate)</a></li>
+<li><a href="#exercise-4-the-wrong-bet-drill-intermediate">Exercise 4: the wrong bet drill (intermediate)</a></li>
+<li><a href="#exercise-5-the-24-hour-turnaround-advanced">Exercise 5: the 24-hour turnaround (advanced)</a></li>
+</ul>
+</li>
+<li><a href="#cheat-sheet">Cheat sheet</a></li>
+<li><a href="#how-this-connects-to-the-rest-of-the-course">How this connects to the rest of the course</a></li>
+</ul>
+</div>
+
+  </div></aside>
+  <main id="start">
+    <article>
+      <hr />
+<h2 id="in-one-sentence">In one sentence</h2>
+<p>A tiny team built and launched a real product (Claude Design) in about ten weeks by replacing planning documents with working prototypes, keeping the team small enough that everyone does everything, and obsessively optimising every step of a tight "talk, design, ship, learn" loop they ran 50 to 100 times.</p>
+<blockquote>
+<p>🎯 <strong>Where this lesson is heading.</strong> It builds to a hands on <strong>Capstone Project</strong> where you run your own fast product loop on a small idea: you replace a planning doc with a prototype, build one tool to scratch your own itch, and turn one real user request around in 24 hours. Everything before the Capstone teaches the moves you will use there. If you want to see the finish line first, jump to the <strong>"Capstone Project"</strong> section near the end, then come back.</p>
+</blockquote>
+<h2 id="first-principles-companion">First-principles companion</h2>
+<blockquote>
+<p>💡 <strong>The durable idea behind this lesson.</strong> The talk this lesson is built on is recent, but the underlying concept is not. For the timeless, tool-agnostic version, independent of any single product or model:</p>
+<ul>
+<li><strong><a href="https://en.wikipedia.org/wiki/Design_thinking">Design thinking</a></strong> (essay). The lesson's prototype, test, learn, iterate loop is textbook design thinking, the durable discipline behind "prototypes beat PRDs."</li>
+<li><strong><a href="https://en.wikipedia.org/wiki/Lean_startup">Lean startup</a></strong> (essay). Build-Measure-Learn and the MVP are the first-principles version of the daily ship-and-learn loop.</li>
+</ul>
+</blockquote>
+<h2 id="a-few-plain-language-basics-first">A few plain-language basics first</h2>
+<p>This is a product and team talk. Here are the everyday terms it uses, in plain words:</p>
+<ul>
+<li><strong>Prototype:</strong> a quick, rough working version of a feature you can actually click and feel, as opposed to a description of it on paper.</li>
+<li><strong>PRD (Product Requirements Document):</strong> a written document that describes what a product or feature should do, usually written before any building starts. Dan's whole argument is that prototypes often beat PRDs.</li>
+<li><strong>Lean startup:</strong> a way of building products by shipping small, watching how people use it, and learning fast, instead of planning everything up front.</li>
+<li><strong>Bet:</strong> in Anthropic Labs, a small exploratory project that might or might not work. Most bets are "folded" (stopped) early; a few become real products.</li>
+<li><strong>Ship:</strong> to release something to real users.</li>
+<li><strong>Dogfooding:</strong> using your own product yourself, every day, the way a customer would.</li>
+<li><strong>Power user:</strong> a customer with advanced, demanding needs who wants fine grained control. Vocal power users can mislead you about what most users want.</li>
+<li><strong>MCP (Model Context Protocol):</strong> an open standard that lets different tools and products plug into each other, so (for example) an outside design tool can connect to Claude Design.</li>
+<li><strong>Claude Design:</strong> the product this talk is about. It lets you collaborate with Claude to create polished visual artifacts: designs, prototypes, slides, one pagers, and more. <strong>Claude Code</strong> is the sister tool that lets Claude write and run code.</li>
+</ul>
+<p>You do not need to memorise these. Each one is explained again the first time it matters below.</p>
+<h2 id="why-this-lesson-matters">Why this lesson matters</h2>
+<p>Dan's team faced a problem you may already feel: "Cloud Code made engineers really, really fast, and the rest of us had to keep up." When engineers can build a feature in hours instead of months, the slow part is no longer building. It becomes <em>figuring out the right thing to build</em>. Designers and product managers became the new bottleneck. This lesson is the playbook a real team used to speed up the non coding parts of product development, and almost every move in it is something you could try tomorrow. As Dan put it, "There is no real secret sauce. These are all things that work well for us."</p>
+<blockquote>
+<p>🔑 <strong>The core shift:</strong> when building gets cheap, the bottleneck moves from "can we build it?" to "do we know the right thing to build?" Everything in this lesson is about answering that second question faster and more cheaply.</p>
+</blockquote>
+<h2 id="learning-objectives">Learning objectives</h2>
+<p>By the end of this lesson you will be able to:</p>
+<ol>
+<li>Replace a planning document with a prototype, and explain why prototypes beat docs.</li>
+<li>Run a tight build loop (talk to users, design, ship, read feedback) and find the steps worth optimising.</li>
+<li>Keep coordination overhead near zero by keeping teams small and letting everyone do everything.</li>
+<li>Recognise when vocal power users are steering you wrong, and recover from a wrong bet quickly.</li>
+<li>Apply the "prototype the thing that almost works" principle so the next model release does the hard part for you.</li>
+</ol>
+<h2 id="prerequisites">Prerequisites</h2>
+<ul>
+<li>A basic sense of how products get built (someone has an idea, it gets designed, built, shipped). No coding required.</li>
+<li>Helpful but optional: Module 2 (Core skills) and Module 8 · Lesson 27 (Running an AI-native engineering org), which describes the same bottleneck shift from an engineering leader's view.</li>
+</ul>
+<hr />
+<h2 id="part-1-what-anthropic-labs-is-a-bet-factory">Part 1: what Anthropic Labs is, a bet factory</h2>
+<p>Dan describes Anthropic Labs as "a lab inside a frontier lab," which he calls a <strong>bet factory</strong>. A "bet" is a small exploratory project. Very small teams explore the frontier of what the models can do, run experiments, double down on what works, and "fold" (stop) what does not. At any time there might be a dozen tiny teams exploring different ideas. The output is lots of exploration and a small number of high conviction releases. Several products you may know came from Labs: Claude Code, Claude Design, MCP, skills, the Claude Chrome extension, and hands free audio work.</p>
+<blockquote>
+<p>💡 The mental model is a funnel: many cheap bets in, most folded, a few "moonshots" out. The point of the factory is not to be right every time; it is to find out quickly which bets are worth it.</p>
+</blockquote>
+<p>How a bet operates day to day looks a lot like lean startup methods. Dan is clear they "did not invent any of these things." The big difference is <em>speed</em>:</p>
+<ul>
+<li><strong>They spend time with users and researchers every single day.</strong> Dan's two favorite questions: to users, "please complain at me"; to researchers, "what have you been surprised by lately?" Both are sources of new bets.</li>
+<li><strong>They aim to ship to users every day or two.</strong> When someone gives feedback, they often ship the response the same day, sometimes the next.</li>
+<li><strong>They do not try to predict the future.</strong> Instead of forecasting "in ten years we will have...", they ship, watch, learn, and repeat. For Claude Design they ran that loop "somewhere between 50 and 100 times" in ten weeks.</li>
+</ul>
+<hr />
+<h2 id="part-2-prototypes-beat-documents">Part 2: prototypes beat documents</h2>
+<p>Why did the team start Claude Design at all? Because Claude Code compressed timelines. "Product development timelines that used to be six months, and then they would be a month, and then a week, and now a day." Once building stopped being the bottleneck, the team needed its own accelerator for the non coding work. A designer named Nate, who had watched engineering teams speed up, hacked together a prototype over a weekend: the Agent SDK (Anthropic's toolkit for building agents), a thin IDE wrapper (a minimal code editor around it), and an existing skill he already used. He posted it in Slack, and people chimed in with what was promising and what was broken. That feedback became the roadmap for the first couple of weeks.</p>
+<blockquote>
+<p>🔑 <strong>How a Labs bet starts:</strong> "one person, one weekend, one screen recording." Someone hacks something together and just shares it. You do not need permission or a plan to begin.</p>
+</blockquote>
+<p>Dan lists what they deliberately did <em>not</em> do, and this is the heart of Part 2:</p>
+<blockquote>
+<p>❌ <strong>Skip these when you do not yet know exactly what you are building:</strong> a PRD written in advance, vision docs, OKR meetings, an annual staffing plan, a two year plan, or a press release written in advance. "Those things are great if you know exactly what you are building. We did not know exactly what we were building. All we knew is that we had a spark."</p>
+</blockquote>
+<p>Dan ran a live poll: most of the room had written or worked off a PRD in the last month. Then he asked who would rather work off a <em>prototype that worked and showed the feature fully</em>. The exact same hands went up.</p>
+<blockquote>
+<p>🔑 <strong>Why prototypes win (quote, paraphrased):</strong> "Documents are imprecise. It is so easy for two people to look at the same doc and have two different products in mind." Prototypes are concrete and visceral. You get hands on with the thing and feel the experience yourself.</p>
+</blockquote>
+<p>The team got their prototyping cycle down to a couple of minutes. Here is the flow Dan now uses instead of writing PRDs:</p>
+<div class="codehilite"><pre><span></span><code>PROTOTYPE INSTEAD OF A PRD (Dan&#39;s flow)
+  1. Talk through the idea with a teammate. Record it. Transcribe it.
+  2. Focus the talk on: what is the problem? what does a good solution do?
+     why do you care about solving it? (NOT specific buttons or screens.)
+  3. Hand the transcript to Claude Design and say: &quot;give me a few options
+     for this.&quot;
+  4. Click the options. Feel them. Keep the one with a spark.
+</code></pre></div>
+
+<p>This has "effectively replaced PRDs" for Dan after nearly two decades of writing them.</p>
+<p>The proof point that convinced them to take Claude Design to market came from a Labs ritual called a <strong>pitch off</strong> (people brainstorm and try to recruit each other onto their idea). The first time they ran one using Claude Design, "by the second half of it, 100% of the pitches were prototypes or slides made with Claude Design," built live in the meeting. That was the heat they needed.</p>
+<hr />
+<h2 id="part-3-tiny-teams-everyone-does-everything">Part 3: tiny teams, everyone does everything</h2>
+<p>The second unusual thing about Labs is team size. Almost every bet starts as a single person, "just one person with their good buddy Claude." At this stage you are not trying to build the best product in the world. You are "looking for that little hint of heat," a sparkly glimmer worth building on. Most bets get folded before they ever pass this point, and that is fine.</p>
+<p>The scaling is deliberately tiny:</p>
+<table>
+<thead>
+<tr>
+<th>Stage</th>
+<th>Team size</th>
+<th>Goal</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Early exploration</td>
+<td>1 person</td>
+<td>Find the spark. Hours to a few days.</td>
+</tr>
+<tr>
+<td>Promising spark</td>
+<td>~3 people (a "300% scale up")</td>
+<td>Explore together with very little coordination overhead.</td>
+</tr>
+<tr>
+<td>Heading to launch</td>
+<td>~5 people</td>
+<td>Polish and ship.</td>
+</tr>
+</tbody>
+</table>
+<p>For most of Claude Design's development it was three people plus Claude. What makes that possible is that <strong>everyone does everything</strong>: "the engineers talk to users, PMs write code, designers do data analysis," all enabled by Claude. The lines between roles "have essentially dissolved." You still bring your own specialization and perspective, but any one person can talk to ten users, see the underlying problem, design a fix, ship it, and keep iterating solo. Most features happen exactly that way.</p>
+<blockquote>
+<p>🔑 <strong>Why small wins:</strong> small teams minimise coordination overhead. When you do need the whole team, "that is as easy as talking to the person on your left and the person on your right and you are done." No alignment meeting, no scheduling, no waiting.</p>
+</blockquote>
+<hr />
+<h2 id="part-4-optimise-every-step-of-your-loop">Part 4: optimise every step of your loop</h2>
+<p>Minimising planning and keeping teams small already makes you fast. But the team went faster by aggressively optimising every other step of their loop. Dan stresses the loop itself is not the lesson ("this may not be the right loop for you... if you are working on hardware, this is probably the wrong loop"). The lesson is the <em>thought process</em>: ask of every step, "why are you doing this work that Claude could do for you?" and "why have you not built your own tooling?"</p>
+<blockquote>
+<p>💡 <strong>The math of optimisation:</strong> "Every little bit of optimisation that you do on your loop is going to pay you back if you are running it 50 to 100 times in a project." A small saving per loop, multiplied by 50 to 100 loops, is huge.</p>
+</blockquote>
+<p>Their loop is: talk to users, design features, ship code, read feedback, repeat. Here is how they optimised each step, and notice that most of these optimisations later became <em>features customers asked for</em>:</p>
+<table>
+<thead>
+<tr>
+<th>Loop step</th>
+<th>The friction</th>
+<th>What they built</th>
+<th>The twist</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Talk to users</strong></td>
+<td>They wanted this to be the easiest thing in the world, because "we do things that are easy."</td>
+<td>Shared Slack channels with every user, heavy dogfooding, and Claude reading all customer conversations to find commonalities across them.</td>
+<td>They keep the human in the conversation; Claude does the analysis they were already doing.</td>
+</tr>
+<tr>
+<td><strong>Design features</strong></td>
+<td>When sharing a prototype, they had to record a video or ask people to pull a branch.</td>
+<td>They used Claude Design to design Claude Design.</td>
+<td>"If you are using your own developer tool to improve your developer tool, it is the best situation in the world."</td>
+</tr>
+<tr>
+<td><strong>Ship code</strong></td>
+<td>Exporting designs and re typing all the context into Claude Code was slow.</td>
+<td>A handoff from Claude Design straight to Claude Code that carries the context.</td>
+<td>Built for themselves; the first user request after multiplayer was "now how do I get this into production?"</td>
+</tr>
+<tr>
+<td><strong>Read feedback</strong></td>
+<td>Too much feedback for one person; you would miss small issues.</td>
+<td>A feedback clustering tool built in one afternoon, with Claude matching feedback to system traces, spotting trends, and suggesting fixes (one click to send a fix to dev tooling).</td>
+<td>Built because they "needed to have this," not as a planned project.</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Multiplayer</strong> is a great example. The team kept hitting a pattern: one person prototypes, shares it, another suggests a change, and the first person types it in by hand. They removed that step by letting multiple people edit the same design at once. They built it for themselves to go faster. "As soon as we brought the product over to users, the very first request was: can I use this with the rest of the people on my team in real time." So it became a first class part of the product.</p>
+<blockquote>
+<p>✅ <strong>Best practice: scratch your own itch.</strong> Internal tooling is now fast to build (often an afternoon). The optimisations you build for your own loop are frequently the exact features your users will ask for next.</p>
+</blockquote>
+<hr />
+<h2 id="part-5-going-fast-does-not-mean-being-right">Part 5: going fast does not mean being right</h2>
+<p>"Just because you are really fast does not mean you are always really right." Dan tells one clear failure. Early on they built <strong>advanced controls</strong> giving fine control over every pixel, aimed at power users. Their early testers included a few vocal power users who loved these tools, so the team thought they had a winner. But when they dug into actual usage, "everybody else hated them." Not disliked, <em>hated</em>. The controls were confusing and "actively harmful to the product." So they ripped them out.</p>
+<p>The recovery took one week.</p>
+<blockquote>
+<p>🔑 <strong>The real benefit of a tight loop (quote, paraphrased):</strong> "It is not necessarily can you always go fast, it is can you always iterate in a small enough cycle that you are able to very quickly find out when you are wrong." If they had planned this over a quarter, they would have been off track for an entire quarter, on a product that shipped in less than one.</p>
+</blockquote>
+<p>Two lasting lessons came from that mistake:</p>
+<ol>
+<li><strong>Lift the floor, not just the ceiling.</strong> Be a tool that raises the level of craft for <em>everybody</em>, not one that only adds power for experts.</li>
+<li><strong>Be as open as possible.</strong> There will always be a power user with a need you cannot meet directly. So when you export from Claude Design you get HTML, CSS, and JavaScript, and the team is enabling any design tool to integrate via its existing MCPs (the open standard that lets tools plug into each other). Lift capability for everyone, and let the specialists take their work into their tool of choice.</li>
+</ol>
+<p>The before and after slide drives it home. The first prototype was "a terminal and a browser and that's about it," not shiny, just a hint of promise. The launched product was vastly more. Dan's estimate: "99% of the value came from those ten weeks of iterating and shipping and talking to users every single day." The value was in the experimentation, in figuring out the right shape, not in knowing the answer up front.</p>
+<p>To show the sustained pace: Claude Design shipped on a Friday, and "by the following Monday we had shipped 62 improvements," all based on launch day feedback. That was not heroics or all nighters. It was natural, because the team had built the muscle of doing this every day for ten weeks.</p>
+<blockquote>
+<p>🔑 <strong>The shape is the thing.</strong> "The shape is the most important thing and the thing we all get wrong when we first start." Early on you are not chasing completeness; you are chasing the right overall shape of the product.</p>
+</blockquote>
+<hr />
+<h2 id="part-6-prototype-the-thing-that-almost-works">Part 6: prototype the thing that almost works</h2>
+<p>Dan closes with the most counterintuitive lesson: <strong>do not work on the thing that already works. Prototype the thing that almost works.</strong> Because the models are improving so rapidly, the next model may simply fix the issues you cannot solve with engineering.</p>
+<blockquote>
+<p>🔑 <strong>Quote (paraphrased):</strong> Claude Design had real problems in the early prototype that they "did not fix with clever engineering... We fixed them with Opus 4.7 coming out." Model releases are "a tide that lifts all boats."</p>
+</blockquote>
+<p>So early on, you are looking for "that hint of magic," not something that handles every edge case. You are looking for something that <em>could</em> become great once the next model lands. When you find that spark, start building, start showing users, and start figuring out the shape.</p>
+<p>Dan ends with three things you can try tomorrow. He recommends layering them on one at a time, not all at once:</p>
+<ol>
+<li><strong>Skip the next PRD.</strong> Talk with Claude or a teammate, take the transcript, focus on <em>why</em> you are solving the problem and what a good solution looks like (not specific buttons), and ask Claude Design for three prototype variations.</li>
+<li><strong>Build the tool you have been waiting for.</strong> Feedback clustering, a new analysis tool, whatever. Build it in one afternoon and "scratch your own itch."</li>
+<li><strong>Turn one real feature request around in 24 hours.</strong> Not a small bug fix, a real request. Get the idea in front of the user and follow up. The point is not speed for its own sake. "The first time you do this... you will find a bunch of roadblocks in your existing process," from your deploy steps to your code review flow. Going through it once exposes them.</li>
+</ol>
+<hr />
+<h2 id="key-takeaways">Key takeaways</h2>
+<ol>
+<li><strong>The bottleneck moved to knowing what to build.</strong> When building is cheap, speed up the non coding steps: discovery, design, feedback.</li>
+<li><strong>Prototypes beat documents.</strong> Docs are imprecise; prototypes are concrete and let you feel the experience. Replace PRDs with prototype variations from a recorded problem conversation.</li>
+<li><strong>Keep teams tiny.</strong> One person to find the spark, three to explore, five to launch. Everyone does everything, so coordination overhead nearly vanishes.</li>
+<li><strong>Optimise every step of your loop.</strong> A small saving times 50 to 100 loops is huge. Your internal optimisations often become the features users request.</li>
+<li><strong>Fast means you find mistakes fast.</strong> The win is a cycle short enough to catch a wrong bet in a week, not a quarter.</li>
+<li><strong>Lift the floor and stay open.</strong> Raise craft for everyone, and let power users take work into their own tools.</li>
+<li><strong>Prototype the thing that almost works.</strong> Let the next model release do the hard part.</li>
+</ol>
+<h2 id="common-pitfalls">Common pitfalls</h2>
+<ul>
+<li>❌ Writing a detailed PRD before you know what you are building, then defending it instead of the user's real need.</li>
+<li>❌ Growing the team to "go faster" and drowning in coordination overhead instead.</li>
+<li>❌ Trusting vocal power users as if they speak for everyone; check actual usage.</li>
+<li>❌ Planning a risky idea over a whole quarter, so a wrong turn costs a quarter to correct.</li>
+<li>❌ Doing analysis and feedback triage by hand when Claude could do the first pass.</li>
+<li>❌ Polishing the thing that already works instead of betting on the thing that almost works.</li>
+</ul>
+<hr />
+<h2 id="capstone" class="capstone-h">🛠️ Capstone Project: The 10-Loop Sprint</h2>
+<blockquote>
+<p>This is the main hands on project for the lesson, and it turns Dan's three "try tomorrow" actions into one connected build. You will pick a small real idea and run the Labs loop on it ten times in a short window, replacing documents with prototypes and building your own tooling along the way.</p>
+</blockquote>
+<h3 id="what-you-will-build">What you will build</h3>
+<p>A small, shipped feature or tool, <em>plus</em> a one page "loop log" showing the ten iterations: what you tried, what users said, and what you changed. The deliverable is the evidence that you ran a tight loop, not a polished masterpiece.</p>
+<blockquote>
+<p>🎯 <strong>Pick the thing that almost works.</strong> Choose an idea where today's model gets you maybe 80% of the way, with a spark of magic but rough edges. That is the sweet spot: you can ship something useful now, and the next model may close the gap.</p>
+</blockquote>
+<h3 id="why-this-is-the-perfect-practice">Why this is the perfect practice</h3>
+<table>
+<thead>
+<tr>
+<th>Lesson skill</th>
+<th>Where you use it in the Capstone</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Prototype instead of a PRD</td>
+<td>Milestone 1, the recorded problem conversation</td>
+</tr>
+<tr>
+<td>Tiny team, everyone does everything</td>
+<td>Milestone 2, solo or pair</td>
+</tr>
+<tr>
+<td>Optimise the loop</td>
+<td>Milestone 3, build one tool for yourself</td>
+</tr>
+<tr>
+<td>Talk to users every cycle</td>
+<td>Milestone 4, the ten loops</td>
+</tr>
+<tr>
+<td>Find mistakes fast</td>
+<td>Milestone 5, kill one wrong bet in a week</td>
+</tr>
+<tr>
+<td>Turn a request around in 24 hours</td>
+<td>Milestone 6, the speed test</td>
+</tr>
+</tbody>
+</table>
+<h3 id="milestones-build-them-in-order-each-one-is-shippable">Milestones (build them in order, each one is shippable)</h3>
+<ol>
+<li><strong>Record, do not write.</strong> Talk through your idea with a teammate (or out loud to yourself). Record and transcribe it, focusing only on the problem, what a good solution does, and why you care. Hand it to Claude (or Claude Design) and ask for three prototype variations. Keep the one with a spark. (No PRD allowed.)</li>
+<li><strong>Set up a tiny team and a feedback channel.</strong> Work solo or in a pair. Create a shared channel with 3 to 5 people who will actually use the thing. Dogfood it yourself daily.</li>
+<li><strong>Build one tool for yourself in an afternoon.</strong> Scratch your own itch. Easiest version: have Claude read all your feedback channel messages and cluster them into themes each morning. This becomes your dashboard for the loops.</li>
+<li><strong>Run ten loops.</strong> Talk to users, change one thing, ship, read the clustered feedback, repeat. Aim to ship something every day or two. Log each loop in one or two lines.</li>
+<li><strong>Kill a wrong bet fast.</strong> Somewhere in the ten loops you will build something users do not want. When usage (not the loudest voice) tells you so, rip it out within a week. Record what you learned.</li>
+<li><strong>The 24-hour test.</strong> Take one real request from a user, turn it around in 24 hours, and follow up with them. Write down every roadblock you hit in your own process (deploys, reviews, approvals). Those roadblocks are your next thing to fix.</li>
+</ol>
+<h3 id="how-you-will-know-you-are-done">How you will know you are done</h3>
+<ul>
+<li>✅ You shipped something real to at least a few users, starting from a prototype, <strong>never a PRD</strong>.</li>
+<li>✅ Your loop log shows <strong>ten iterations</strong> with what changed and why.</li>
+<li>✅ You built <strong>one tool for yourself</strong> that saved time across the loops.</li>
+<li>✅ You <strong>killed one feature</strong> because usage (not a vocal power user) told you to, and it took about a week or less.</li>
+<li>✅ You turned one real request around in <strong>24 hours</strong> and listed the process roadblocks it exposed.</li>
+</ul>
+<blockquote>
+<p>💡 <strong>Keep yourself honest:</strong> if you find yourself writing a long planning doc, stop and prototype instead. If you find yourself believing one loud user, go check what everyone else actually does.</p>
+</blockquote>
+<hr />
+<h2 id="practice-exercises-optional-extra-reps">Practice exercises (optional extra reps)</h2>
+<blockquote>
+<p><strong>What these are:</strong> small, independent reps, each focused on one move from the talk. Optional. The Capstone above already exercises all of them together.</p>
+</blockquote>
+<h3 id="exercise-1-the-prototype-not-the-prd-foundational">Exercise 1: the prototype, not the PRD (foundational)</h3>
+<p>Take a feature you would normally spec. Record a five minute problem conversation, transcribe it, and ask Claude for three prototype options. Compare how much clearer the prototypes are than your usual doc.</p>
+<h3 id="exercise-2-scratch-your-own-itch-foundational">Exercise 2: scratch your own itch (foundational)</h3>
+<p>Pick one tool you have been waiting for (a feedback clusterer, a quick analysis script). Build it in a single afternoon. Note how long you had been waiting versus how long it took.</p>
+<h3 id="exercise-3-dissolve-a-role-boundary-intermediate">Exercise 3: dissolve a role boundary (intermediate)</h3>
+<p>Do one task this week that is outside your usual role (a PM writes code, an engineer talks to five users, a designer does data analysis), using Claude to help. What did you learn that you would have missed?</p>
+<h3 id="exercise-4-the-wrong-bet-drill-intermediate">Exercise 4: the wrong bet drill (intermediate)</h3>
+<p>Look at a feature you shipped that few people use. Was it driven by vocal power users? Decide, today, whether to rip it out, and estimate how long that would take.</p>
+<h3 id="exercise-5-the-24-hour-turnaround-advanced">Exercise 5: the 24-hour turnaround (advanced)</h3>
+<p>Take one genuine user request and ship a response within 24 hours. Keep a list of every step in your process that slowed you down. Pick the worst one and fix it.</p>
+<hr />
+<h2 id="cheat-sheet">Cheat sheet</h2>
+<div class="codehilite"><pre><span></span><code>WHEN BUILDING IS CHEAP
+  The bottleneck moves from &quot;can we build it?&quot; to &quot;what should we build?&quot;
+  Speed up discovery, design, and feedback, not just coding.
+
+PROTOTYPE &gt; DOCUMENT
+  Record a problem conversation -&gt; transcribe -&gt; ask Claude for 3 options.
+  Talk about WHY and what a good solution does. Not buttons, not screens.
+  Docs are imprecise. Prototypes are concrete. Pick the one with a spark.
+
+TEAM SIZE
+  1 to find the spark, ~3 to explore, ~5 to launch. Everyone does everything.
+
+OPTIMISE THE LOOP (talk -&gt; design -&gt; ship -&gt; read feedback -&gt; repeat)
+  Small saving x 50-100 loops = huge. Build your own tooling in an afternoon.
+  Your internal optimisations often become user-requested features.
+
+GOING FAST
+  Fast = you find mistakes fast. Catch a wrong bet in a week, not a quarter.
+  Trust usage, not the loudest user. Lift the floor; stay open.
+  Prototype the thing that ALMOST works; let the next model fix the rest.
+
+TRY TOMORROW (layer them on)
+  1. Skip the next PRD; prototype instead.
+  2. Build the tool you&#39;ve been waiting for, in one afternoon.
+  3. Turn one real request around in 24 hours.
+</code></pre></div>
+
+<h2 id="how-this-connects-to-the-rest-of-the-course">How this connects to the rest of the course</h2>
+<ul>
+<li><strong>Earlier, Module 8 · Lesson 27 (Running an AI-native engineering org):</strong> the same bottleneck shift from an engineering leader's chair; this lesson is the product and design side of it.</li>
+<li><strong>Earlier, Module 2 (Core skills) and skills:</strong> Claude Design and these loops are built from skills, the Agent SDK, and good prompting.</li>
+<li><strong>Next, Module 8 · Lesson 29 (From one person to 80):</strong> another small team scaling fast by keeping processes radically simple and dogfooding their own product.</li>
+<li><strong>Later, Module 8 · Lesson 31 (Building AI-native at enterprise scale):</strong> how big companies apply the same "prototype to validate, then ship" idea inside large, older code bases.</li>
+</ul>
+<hr />
+<p><em>Source: "Designing with Claude: From prompt to production" by Dan Carey (Anthropic Labs), Code with Claude 2026, London. The flow boxes and tables are faithful paraphrases of what Dan described on stage; they are illustrative reconstructions, not verbatim slides.</em></p>
+    </article>
+    <nav class="lessonnav"><a class="ln prev" href="27-running-an-ai-native-org.html"><span class="dir">&#8592; Previous</span><b>Running an AI-Native Engineering Org</b></a><a class="ln home" href="../index.html"><b>All lessons</b></a><a class="ln next" href="29-from-one-person-to-80.html"><span class="dir">Next &#8594;</span><b>From One Person to 80, Scaling a Hypergrowth Engineering Org</b></a></nav>
+  </main>
+</div>
+
+<footer class="site"><div class="wrap">
+  <a class="logo" href="../index.html">Building with Claude<span class="dot">.</span></a>
+  <span class="fnote">A self-paced course generated from the Code with Claude 2026 (London) talks. Code snippets are illustrative reconstructions of the approaches shown. Adapt them to the current SDK.</span>
+</div></footer>
+
+<style>pre { line-height: 125%; }
+td.linenos .normal { color: inherit; background-color: transparent; padding-left: 5px; padding-right: 5px; }
+span.linenos { color: inherit; background-color: transparent; padding-left: 5px; padding-right: 5px; }
+td.linenos .special { color: #000000; background-color: #ffffc0; padding-left: 5px; padding-right: 5px; }
+span.linenos.special { color: #000000; background-color: #ffffc0; padding-left: 5px; padding-right: 5px; }
+.codehilite .hll { background-color: #ffffcc }
+.codehilite { background: #282C34; color: #ABB2BF }
+.codehilite .c { color: #7F848E } /* Comment */
+.codehilite .err { color: #ABB2BF } /* Error */
+.codehilite .esc { color: #ABB2BF } /* Escape */
+.codehilite .g { color: #ABB2BF } /* Generic */
+.codehilite .k { color: #C678DD } /* Keyword */
+.codehilite .l { color: #ABB2BF } /* Literal */
+.codehilite .n { color: #E06C75 } /* Name */
+.codehilite .o { color: #56B6C2 } /* Operator */
+.codehilite .x { color: #ABB2BF } /* Other */
+.codehilite .p { color: #ABB2BF } /* Punctuation */
+.codehilite .ch { color: #7F848E } /* Comment.Hashbang */
+.codehilite .cm { color: #7F848E } /* Comment.Multiline */
+.codehilite .cp { color: #7F848E } /* Comment.Preproc */
+.codehilite .cpf { color: #7F848E } /* Comment.PreprocFile */
+.codehilite .c1 { color: #7F848E } /* Comment.Single */
+.codehilite .cs { color: #7F848E } /* Comment.Special */
+.codehilite .gd { color: #E06C75 } /* Generic.Deleted */
+.codehilite .ge { color: #ABB2BF; font-style: italic } /* Generic.Emph */
+.codehilite .ges { color: #ABB2BF } /* Generic.EmphStrong */
+.codehilite .gr { color: #E06C75 } /* Generic.Error */
+.codehilite .gh { color: #ABB2BF; font-weight: bold } /* Generic.Heading */
+.codehilite .gi { color: #98C379 } /* Generic.Inserted */
+.codehilite .go { color: #E06C75 } /* Generic.Output */
+.codehilite .gp { color: #ABB2BF } /* Generic.Prompt */
+.codehilite .gs { color: #ABB2BF; font-weight: bold } /* Generic.Strong */
+.codehilite .gu { color: #ABB2BF; font-weight: bold } /* Generic.Subheading */
+.codehilite .gt { color: #E06C75 } /* Generic.Traceback */
+.codehilite .kc { color: #E5C07B } /* Keyword.Constant */
+.codehilite .kd { color: #C678DD } /* Keyword.Declaration */
+.codehilite .kn { color: #C678DD } /* Keyword.Namespace */
+.codehilite .kp { color: #C678DD } /* Keyword.Pseudo */
+.codehilite .kr { color: #C678DD } /* Keyword.Reserved */
+.codehilite .kt { color: #E5C07B } /* Keyword.Type */
+.codehilite .ld { color: #ABB2BF } /* Literal.Date */
+.codehilite .m { color: #D19A66 } /* Literal.Number */
+.codehilite .s { color: #98C379 } /* Literal.String */
+.codehilite .na { color: #E06C75 } /* Name.Attribute */
+.codehilite .nb { color: #E5C07B } /* Name.Builtin */
+.codehilite .nc { color: #E5C07B } /* Name.Class */
+.codehilite .no { color: #E06C75 } /* Name.Constant */
+.codehilite .nd { color: #61AFEF } /* Name.Decorator */
+.codehilite .ni { color: #E06C75 } /* Name.Entity */
+.codehilite .ne { color: #E06C75 } /* Name.Exception */
+.codehilite .nf { color: #61AFEF; font-weight: bold } /* Name.Function */
+.codehilite .nl { color: #E06C75 } /* Name.Label */
+.codehilite .nn { color: #E06C75 } /* Name.Namespace */
+.codehilite .nx { color: #E06C75 } /* Name.Other */
+.codehilite .py { color: #E06C75 } /* Name.Property */
+.codehilite .nt { color: #E06C75 } /* Name.Tag */
+.codehilite .nv { color: #E06C75 } /* Name.Variable */
+.codehilite .ow { color: #56B6C2 } /* Operator.Word */
+.codehilite .pm { color: #ABB2BF } /* Punctuation.Marker */
+.codehilite .w { color: #ABB2BF } /* Text.Whitespace */
+.codehilite .mb { color: #D19A66 } /* Literal.Number.Bin */
+.codehilite .mf { color: #D19A66 } /* Literal.Number.Float */
+.codehilite .mh { color: #D19A66 } /* Literal.Number.Hex */
+.codehilite .mi { color: #D19A66 } /* Literal.Number.Integer */
+.codehilite .mo { color: #D19A66 } /* Literal.Number.Oct */
+.codehilite .sa { color: #98C379 } /* Literal.String.Affix */
+.codehilite .sb { color: #98C379 } /* Literal.String.Backtick */
+.codehilite .sc { color: #98C379 } /* Literal.String.Char */
+.codehilite .dl { color: #98C379 } /* Literal.String.Delimiter */
+.codehilite .sd { color: #98C379 } /* Literal.String.Doc */
+.codehilite .s2 { color: #98C379 } /* Literal.String.Double */
+.codehilite .se { color: #98C379 } /* Literal.String.Escape */
+.codehilite .sh { color: #98C379 } /* Literal.String.Heredoc */
+.codehilite .si { color: #98C379 } /* Literal.String.Interpol */
+.codehilite .sx { color: #98C379 } /* Literal.String.Other */
+.codehilite .sr { color: #98C379 } /* Literal.String.Regex */
+.codehilite .s1 { color: #98C379 } /* Literal.String.Single */
+.codehilite .ss { color: #98C379 } /* Literal.String.Symbol */
+.codehilite .bp { color: #E5C07B } /* Name.Builtin.Pseudo */
+.codehilite .fm { color: #56B6C2; font-weight: bold } /* Name.Function.Magic */
+.codehilite .vc { color: #E06C75 } /* Name.Variable.Class */
+.codehilite .vg { color: #E06C75 } /* Name.Variable.Global */
+.codehilite .vi { color: #E06C75 } /* Name.Variable.Instance */
+.codehilite .vm { color: #E06C75 } /* Name.Variable.Magic */
+.codehilite .il { color: #D19A66 } /* Literal.Number.Integer.Long */</style>
+<script>
+// mobile menu
+const sb=document.getElementById('sidebar'),mb=document.getElementById('menuBtn');
+if(mb){mb.onclick=()=>sb.classList.toggle('open');sb.addEventListener('click',e=>{if(e.target.tagName==='A')sb.classList.remove('open')});}
+const tc=document.getElementById('tocClose');if(tc){tc.onclick=()=>sb.classList.remove('open');}
+// progress
+const prog=document.getElementById('progress');
+addEventListener('scroll',()=>{const h=document.body.scrollHeight-innerHeight;prog.style.width=(h>0?scrollY/h*100:0)+'%'});
+// code chrome + copy
+document.querySelectorAll('.codehilite, pre').forEach(block=>{
+  if(block.parentElement.classList.contains('codehilite'))return;
+  const bar=document.createElement('div');bar.className='code-bar';
+  bar.innerHTML='<span class="dot r"></span><span class="dot y"></span><span class="dot g"></span>';
+  block.appendChild(bar);
+  const btn=document.createElement('button');btn.className='copy-btn';btn.textContent='Copy';
+  btn.onclick=()=>{const t=block.querySelector('code')?.innerText||block.innerText;
+    navigator.clipboard.writeText(t.replace(/\nCopy$/,''));btn.textContent='Copied!';btn.classList.add('done');
+    setTimeout(()=>{btn.textContent='Copy';btn.classList.remove('done')},1500)};
+  block.appendChild(btn);
+});
+// callouts by leading emoji
+const map={'🔑':'cl-key','💡':'cl-tip','✅':'cl-ok','❌':'cl-no','🎯':'cl-goal','🛠':'cl-goal'};
+document.querySelectorAll('blockquote').forEach(q=>{const t=(q.textContent||'').trim();for(const e in map){if(t.startsWith(e)){q.classList.add(map[e]);break}}});
+// check-off
+function makeCheckable(rx){document.querySelectorAll('h2,h3').forEach(h=>{if(!rx.test(h.textContent))return;let el=h.nextElementSibling;
+  while(el&&!/^H[1-3]$/.test(el.tagName)){if(el.tagName==='OL'||el.tagName==='UL'){el.classList.add('checkable');
+    el.querySelectorAll(':scope>li').forEach(li=>{const key='cwc:'+location.pathname+':'+li.textContent.slice(0,60);
+      if(localStorage.getItem(key))li.classList.add('checked');
+      li.addEventListener('click',ev=>{if(ev.target.tagName==='A')return;li.classList.toggle('checked');
+        li.classList.contains('checked')?localStorage.setItem(key,'1'):localStorage.removeItem(key)});});}el=el.nextElementSibling;}});}
+makeCheckable(/learning objectives|milestones/i);
+// scrollspy
+const links=[...document.querySelectorAll('.toc a')];
+const heads=links.map(a=>a.getAttribute('href')).filter(h=>h&&h.startsWith('#')).map(h=>document.getElementById(h.slice(1))).filter(Boolean);
+const spy=()=>{let cur=heads[0]?.id;for(const h of heads){if(h.getBoundingClientRect().top<150)cur=h.id}
+  links.forEach(a=>a.classList.toggle('active',a.getAttribute('href')==='#'+cur))};
+addEventListener('scroll',spy);spy();
+</script>
+</body>
+</html>

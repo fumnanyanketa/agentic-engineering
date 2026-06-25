@@ -1,0 +1,866 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Module 4 · Lesson 10: Beyond the Basics with Claude Code | Building with Claude</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@500;600;700;800&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --navy:#0a1a2f; --navy-2:#0f243d; --navy-3:#15314f;
+  --teal:#18c4a0; --teal-d:#0fa385; --teal-soft:#e4f8f2;
+  --coral:#f24d63; --coral-d:#d83a50; --coral-soft:#feecee;
+  --ink:#152230; --muted:#5f6c7b; --line:#e9eef2; --bg:#ffffff;
+  --soft:#f4fbf9; --card:#ffffff; --code-bg:#21252b; --max:780px;
+  --k:#2f8fb3; --k-bg:#e8f4f9; --tip:#c4881f; --tip-bg:#fdf4e3; --ok:#1f9d6b; --ok-bg:#e6f6ef;
+  --no:#e0533f; --no-bg:#fdecea; --goal:#7b54c9; --goal-bg:#f1ebfb;
+  --shadow:0 10px 30px rgba(13,30,52,.08); --shadow-sm:0 4px 14px rgba(13,30,52,.07);
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,sans-serif;line-height:1.72;font-size:17px;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+#progress{position:fixed;top:0;left:0;height:4px;width:0;background:linear-gradient(90deg,var(--teal),var(--coral));z-index:200;transition:width .1s linear}
+a{color:var(--teal-d);text-decoration:none}
+a:hover{color:var(--coral)}
+h1,h2,h3{font-family:Poppins,sans-serif;color:var(--ink);letter-spacing:-.01em}
+.accent{color:var(--coral)}
+.wrap{max-width:1200px;margin:0 auto;padding:0 28px}
+
+/* ---------- Top welcome strip ---------- */
+.topbar{background:var(--navy);color:#cdd8e4;font-size:13.5px}
+.topbar .wrap{display:flex;justify-content:space-between;align-items:center;height:42px;gap:18px}
+.topbar b{color:#fff;font-weight:600}
+.topbar .right{display:flex;gap:18px;align-items:center}
+.topbar a{color:#cdd8e4}.topbar a:hover{color:var(--teal)}
+
+/* ---------- Nav ---------- */
+nav.bar{background:var(--navy-2);position:sticky;top:0;z-index:120;box-shadow:0 2px 20px rgba(0,0,0,.25)}
+nav.bar .wrap{display:flex;align-items:center;height:68px;gap:26px}
+.logo{font-family:Poppins;font-weight:800;font-size:22px;color:#fff;letter-spacing:.02em;cursor:pointer;text-decoration:none}
+a.logo:hover{color:var(--teal)}
+.lessonnav{display:flex;gap:14px;align-items:stretch;margin:60px 0 0;flex-wrap:wrap}
+.lessonnav .ln{flex:1;min-width:200px;display:flex;flex-direction:column;gap:3px;border:1px solid var(--line);border-radius:14px;padding:16px 18px;color:var(--muted);transition:.15s;background:#fff}
+.lessonnav .ln:hover{border-color:var(--teal);box-shadow:var(--shadow-sm);transform:translateY(-1px)}
+.lessonnav .ln .dir{font-size:13px;font-weight:600;color:var(--teal-d)}
+.lessonnav .ln b{color:var(--ink);font-family:Poppins;font-size:15px}
+.lessonnav .ln.next{text-align:right}
+.lessonnav .ln.home{flex:0 0 auto;justify-content:center;align-items:center;text-align:center;background:var(--soft)}
+.lessonnav .ln.home b{color:var(--teal-d)}
+.logo .dot{color:var(--teal)}
+.navlinks{display:flex;gap:24px;margin-left:8px}
+.navlinks a{color:#dde6ef;font-weight:500;font-size:15px}
+.navlinks a:hover{color:var(--teal)}
+.nav-cta{margin-left:auto;display:flex;gap:12px;align-items:center}
+.btn{display:inline-flex;align-items:center;gap:9px;border:none;cursor:pointer;font-family:Inter;font-weight:600;border-radius:999px;transition:.18s;font-size:15px;text-decoration:none}
+.btn-primary{background:var(--teal);color:#04231c;padding:12px 22px}
+.btn-primary:hover{background:var(--teal-d);color:#fff;transform:translateY(-1px)}
+.btn-outline{background:transparent;color:#fff;border:1.5px solid rgba(255,255,255,.35);padding:10px 20px}
+.btn-outline:hover{border-color:var(--teal);color:var(--teal)}
+.btn-coral{background:var(--coral);color:#fff;padding:12px 22px}
+.btn-coral:hover{background:var(--coral-d);color:#fff;transform:translateY(-1px)}
+
+/* ---------- Hero ---------- */
+.hero{position:relative;background:radial-gradient(120% 120% at 80% 0%,var(--navy-3),var(--navy) 60%);color:#eaf1f8;overflow:hidden}
+.hero::before{content:"";position:absolute;inset:0;background-image:radial-gradient(rgba(255,255,255,.12) 1.3px,transparent 1.3px);background-size:22px 22px;opacity:.25;mask:radial-gradient(60% 60% at 20% 30%,#000,transparent)}
+.blob{position:absolute;border-radius:50%;filter:blur(8px);opacity:.5;z-index:0}
+.blob.t{width:230px;height:230px;background:rgba(24,196,160,.30);top:-60px;right:8%}
+.blob.c{width:160px;height:160px;background:rgba(242,77,99,.28);bottom:-40px;left:42%}
+.squiggle{position:absolute;z-index:1;opacity:.85}
+.hero .wrap{position:relative;z-index:2;display:grid;grid-template-columns:1.15fr .85fr;gap:48px;align-items:center;padding:70px 28px 90px}
+.eyebrow{display:inline-flex;align-items:center;gap:8px;color:var(--teal);font-weight:600;font-size:14px;letter-spacing:.03em;text-transform:uppercase;margin-bottom:18px}
+.hero h1{font-size:54px;line-height:1.08;font-weight:800;margin:0 0 20px;color:#fff}
+.hero .lead{font-size:18px;color:#b9c6d6;max-width:34em;margin:0 0 30px}
+.hero-actions{display:flex;align-items:center;gap:18px;flex-wrap:wrap;margin-bottom:30px}
+.play{display:inline-flex;align-items:center;gap:12px;color:#fff;font-weight:600}
+.play .circ{width:52px;height:52px;border-radius:50%;background:var(--coral);display:grid;place-items:center;box-shadow:0 8px 22px rgba(242,77,99,.45);font-size:16px;animation:pulse 2.4s infinite}
+@keyframes pulse{0%{box-shadow:0 0 0 0 rgba(242,77,99,.45)}70%{box-shadow:0 0 0 16px rgba(242,77,99,0)}100%{box-shadow:0 0 0 0 rgba(242,77,99,0)}}
+.chips{display:flex;gap:10px;flex-wrap:wrap}
+.chip{display:inline-flex;align-items:center;gap:7px;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.12);color:#dce6f0;padding:8px 14px;border-radius:999px;font-size:13.5px;font-weight:500}
+.chip b{color:#fff}
+/* hero card */
+.hero-card{position:relative;background:#fff;color:var(--ink);border-radius:22px;padding:26px;box-shadow:0 24px 60px rgba(0,0,0,.35)}
+.hero-card .ring{position:absolute;top:-26px;right:-18px;width:96px;height:96px;background:#fff;border-radius:50%;box-shadow:var(--shadow);display:grid;place-items:center}
+.hero-card .ring svg{transform:rotate(-90deg)}
+.hero-card .ring .lab{position:absolute;font-family:Poppins;font-weight:700;font-size:18px;color:var(--teal-d)}
+.hero-card h3{margin:4px 0 14px;font-size:19px}
+.hero-card ul{list-style:none;margin:0 0 18px;padding:0}
+.hero-card li{display:flex;gap:11px;align-items:flex-start;padding:9px 0;border-bottom:1px dashed var(--line);font-size:14.5px;color:#36424f}
+.hero-card li:last-child{border-bottom:none}
+.hero-card li .ic{font-size:17px;line-height:1.4}
+.float-badge{position:absolute;left:18px;bottom:-26px;background:#fff;border-radius:14px;box-shadow:var(--shadow);padding:12px 16px;display:flex;gap:10px;align-items:center;font-size:13px;font-weight:600;color:var(--ink)}
+.float-badge .n{font-family:Poppins;font-weight:800;color:var(--coral);font-size:20px}
+
+/* ---------- Content layout ---------- */
+.layout{display:grid;grid-template-columns:268px minmax(0,1fr);gap:46px;max-width:1200px;margin:0 auto;padding:0 28px}
+aside{position:sticky;top:84px;align-self:start;height:calc(100vh - 100px);overflow-y:auto;padding:26px 0}
+.toc-card{background:var(--soft);border:1px solid var(--line);border-radius:18px;padding:18px}
+.toc-close{display:none;position:absolute;top:-6px;right:-4px;width:36px;height:36px;border:none;background:var(--navy-2);color:#fff;border-radius:50%;font-size:22px;line-height:1;cursor:pointer}
+.toc-close:hover{background:var(--coral)}
+.toc-title{font-family:Poppins;font-size:12px;text-transform:uppercase;letter-spacing:.1em;color:var(--teal-d);margin:0 0 10px;font-weight:700}
+.toc ul{list-style:none;margin:0;padding:0}
+.toc a{display:block;color:var(--muted);font-size:14px;padding:6px 12px;border-radius:8px;border-left:2px solid transparent;line-height:1.4}
+.toc a:hover{color:var(--ink);background:#fff}
+.toc a.active{color:var(--teal-d);background:#fff;border-left-color:var(--teal);font-weight:600}
+.toc .toc li li a{padding-left:24px;font-size:13px}
+.toc a.toc-capstone{color:var(--coral);font-weight:600}
+main{padding:54px 0 120px;min-width:0}
+article{max-width:var(--max)}
+
+/* typography */
+article h2{font-size:30px;margin:56px 0 16px;font-weight:700;position:relative}
+article h2::before{content:"\2726";color:var(--teal);font-size:18px;margin-right:10px;vertical-align:2px}
+article h3{font-size:21px;margin:34px 0 10px;font-weight:600}
+article h2+h3{margin-top:18px}
+article p,article li{font-size:16.5px}
+article ul,article ol{padding-left:24px}
+article li{margin:7px 0}
+article strong{font-weight:700;color:#0f1b28}
+hr{border:none;height:1px;background:var(--line);margin:42px 0}
+
+/* tables */
+table{border-collapse:separate;border-spacing:0;width:100%;margin:24px 0;font-size:15px;border:1px solid var(--line);border-radius:14px;overflow:hidden;display:block;overflow-x:auto}
+th,td{padding:12px 15px;text-align:left;vertical-align:top;border-bottom:1px solid var(--line)}
+th{background:var(--navy-2);color:#eaf1f8;font-family:Poppins;font-weight:600;font-size:14px}
+tr:last-child td{border-bottom:none}
+tbody tr:nth-child(even){background:var(--soft)}
+
+/* inline + block code */
+code{font-family:"JetBrains Mono",ui-monospace,Menlo,monospace;font-size:.86em;background:var(--teal-soft);color:#0c6a55;padding:.13em .42em;border-radius:6px}
+.codehilite,pre{position:relative;background:var(--code-bg);border-radius:14px;margin:22px 0;overflow:hidden;box-shadow:var(--shadow-sm)}
+.codehilite pre{margin:0;border-radius:0;box-shadow:none;background:transparent}
+.codehilite pre,pre>code{display:block;padding:42px 18px 18px;overflow-x:auto}
+.codehilite code,pre code{background:none;color:#dfe6ee;padding:0;font-size:13.5px;line-height:1.7}
+.code-bar{position:absolute;top:0;left:0;right:0;height:34px;display:flex;align-items:center;gap:7px;padding:0 15px;background:rgba(255,255,255,.05);border-bottom:1px solid rgba(255,255,255,.07)}
+.code-bar .dot{width:11px;height:11px;border-radius:50%}
+.dot.r{background:#ff5f57}.dot.y{background:#febc2e}.dot.g{background:#28c840}
+.copy-btn{position:absolute;top:5px;right:9px;z-index:3;background:rgba(255,255,255,.08);color:#dfe6ee;border:1px solid rgba(255,255,255,.14);border-radius:8px;font-size:12px;padding:4px 11px;cursor:pointer;font-family:Inter;transition:.15s}
+.copy-btn:hover{background:var(--teal);border-color:var(--teal);color:#04231c}
+.copy-btn.done{background:var(--teal);color:#04231c;border-color:var(--teal)}
+
+/* callouts */
+blockquote{margin:24px 0;padding:16px 20px;border-radius:14px;background:var(--soft);border:1px solid var(--line);border-left:5px solid var(--teal)}
+blockquote p{margin:7px 0}blockquote p:first-child{margin-top:0}blockquote p:last-child{margin-bottom:0}
+blockquote.cl-key{background:var(--k-bg);border-left-color:var(--k);border-color:transparent}
+blockquote.cl-tip{background:var(--tip-bg);border-left-color:var(--tip);border-color:transparent}
+blockquote.cl-ok{background:var(--ok-bg);border-left-color:var(--ok);border-color:transparent}
+blockquote.cl-no{background:var(--no-bg);border-left-color:var(--no);border-color:transparent}
+blockquote.cl-goal{background:var(--goal-bg);border-left-color:var(--goal);border-color:transparent}
+
+/* capstone banner */
+h2.capstone-h{background:linear-gradient(115deg,var(--navy),var(--navy-3));color:#fff;border-radius:20px;padding:30px 28px 26px;margin-top:64px;box-shadow:0 20px 50px rgba(10,26,47,.3);overflow:hidden;position:relative}
+h2.capstone-h::before{content:"\1F6E0  HANDS-ON PROJECT";display:block;font-family:Poppins;font-size:12px;font-weight:700;letter-spacing:.14em;color:var(--teal);margin:0 0 8px}
+h2.capstone-h::after{content:"";position:absolute;width:150px;height:150px;border-radius:50%;background:rgba(24,196,160,.25);filter:blur(10px);top:-50px;right:-30px}
+
+/* check-off */
+.checkable{list-style:none;padding-left:0}
+.checkable li{position:relative;padding-left:36px;cursor:pointer;margin:9px 0}
+.checkable li::before{content:"";position:absolute;left:0;top:3px;width:22px;height:22px;border:2px solid var(--teal);border-radius:7px;background:#fff;transition:.15s}
+.checkable li.checked::before{background:var(--teal);border-color:var(--teal)}
+.checkable li.checked::after{content:"\2713";position:absolute;left:5px;top:1px;color:#fff;font-weight:800;font-size:15px}
+.checkable li.checked{color:var(--muted)}
+
+/* footer */
+footer.site{background:var(--navy);color:#aebccb;margin-top:90px}
+footer.site .wrap{padding:46px 28px;display:flex;justify-content:space-between;gap:26px;flex-wrap:wrap;align-items:center}
+footer.site .logo{font-size:20px}
+footer.site .fnote{max-width:46em;font-size:13.5px;line-height:1.7}
+
+#menuBtn{display:none}
+@media(max-width:920px){
+  .topbar{display:none}
+  .nav-cta{display:none}
+  .float-badge{display:none}
+  nav.bar .wrap{gap:14px;height:60px}
+  .wrap{padding:0 20px}
+  .logo{font-size:18px;white-space:nowrap}
+  .hero .wrap{grid-template-columns:1fr;gap:30px;padding:42px 20px 56px}
+  .hero h1{font-size:33px}
+  .hero .lead{font-size:16.5px}
+  .hero-actions{gap:14px}
+  .hero-actions .btn-primary{flex:1;justify-content:center}
+  .layout{grid-template-columns:1fr;gap:0}
+  aside{position:fixed;top:0;left:0;width:84vw;max-width:320px;height:100vh;background:#fff;z-index:130;transform:translateX(-100%);transition:.25s;box-shadow:var(--shadow);padding:24px}
+  aside.open{transform:none}
+  #menuBtn{display:inline-flex}
+  .toc-close{display:block}
+  .navlinks{display:none}
+  main{padding:34px 0 80px}
+  body{font-size:16px}
+  article h2{font-size:25px}
+  h2.capstone-h{padding:24px 20px}
+}
+@media(max-width:420px){
+  .hero h1{font-size:29px}
+  .hero-actions{flex-direction:column;align-items:stretch}
+  .hero-actions .play{justify-content:center}
+}
+</style>
+</head>
+<body>
+<div id="progress"></div>
+
+<div class="topbar"><div class="wrap">
+  <div>&#10024; Welcome to <b>Building with Claude</b> &middot; a self-paced course</div>
+  <div class="right"><span>Code with Claude 2026 &middot; London</span></div>
+</div></div>
+
+<nav class="bar"><div class="wrap">
+  <button class="btn btn-outline" id="menuBtn" style="padding:8px 14px">&#9776;</button>
+  <a class="logo" href="../index.html">Building with Claude<span class="dot">.</span></a>
+  <div class="navlinks">
+    <a href="../index.html">All lessons</a>
+    <a href="#overview">Overview</a>
+    <a href="#capstone">Capstone</a>
+  </div>
+  <div class="nav-cta">
+    <a class="btn btn-primary" href="#start">Start the lesson &#8594;</a>
+  </div>
+</div></nav>
+
+<header class="hero">
+  <span class="blob t"></span><span class="blob c"></span>
+  <svg class="squiggle" style="top:120px;left:46%;" width="90" height="26" viewBox="0 0 90 26" fill="none"><path d="M2 13c8-14 16 14 24 0s16 14 24 0 16 14 24 0" stroke="#18c4a0" stroke-width="4" stroke-linecap="round"/></svg>
+  <svg class="squiggle" style="bottom:60px;right:40%;" width="70" height="22" viewBox="0 0 90 26" fill="none"><path d="M2 13c8-14 16 14 24 0s16 14 24 0 16 14 24 0" stroke="#f24d63" stroke-width="4" stroke-linecap="round"/></svg>
+  <div class="wrap" id="overview">
+    <div>
+      <span class="eyebrow">&#10022; Module 4 · Lesson 10</span>
+      <h1>Beyond the Basics with Claude <span class="accent">Code</span></h1>
+      <p class="lead">To make Claude Code do real software engineering (not just toy programming), you give it the same access, knowledge, and tooling you have, and you customize it with abstractions that scale, because every customization has to fit inside a fixed context window, so you want ones that cost almost nothing when they are not being used.</p>
+      <div class="hero-actions">
+        <a class="btn btn-primary" href="#start">Start the lesson &#8594;</a>
+        <a class="play" href="https://www.youtube.com/watch?v=tuY2ChJIx48" target="_blank" rel="noopener"><span class="circ">&#9654;</span> Watch the talk</a>
+      </div>
+      <div class="chips">
+        <span class="chip">&#127908; <b>Daisy Holman</b></span>
+        <span class="chip">&#9201; <b>45 to 60 minutes</b></span>
+        <span class="chip">&#128296; <b>Hands-on capstone</b></span>
+      </div>
+    </div>
+    <div style="position:relative">
+      <div class="hero-card">
+        <div class="ring">
+          <svg width="74" height="74"><circle cx="37" cy="37" r="31" stroke="#eef2f5" stroke-width="7" fill="none"/><circle cx="37" cy="37" r="31" stroke="#18c4a0" stroke-width="7" fill="none" stroke-linecap="round" stroke-dasharray="195" stroke-dashoffset="40"/></svg>
+          <span class="lab">&#10022;</span>
+        </div>
+        <h3>What you&#39;ll get</h3>
+        <ul>
+          <li><span class="ic">&#9989;</span><span>Plain-language teaching with every term defined</span></li>
+          <li><span class="ic">&#128221;</span><span>Code snippets pulled from the talk</span></li>
+          <li><span class="ic">&#128296;</span><span>A hands-on capstone you build step by step</span></li>
+          <li><span class="ic">&#127919;</span><span>Optional practice drills to reinforce each skill</span></li>
+        </ul>
+        <a class="btn btn-coral" href="#capstone" style="width:100%;justify-content:center">Jump to the project</a>
+      </div>
+    </div>
+  </div>
+</header>
+
+<div class="layout">
+  <aside id="sidebar"><div class="toc-card">
+    <button class="toc-close" id="tocClose" aria-label="Close menu">&times;</button>
+    <p class="toc-title">On this page</p>
+    <div class="toc">
+<ul>
+<li><a href="#in-one-sentence">In one sentence</a></li>
+<li><a href="#first-principles-companion">First-principles companion</a></li>
+<li><a href="#a-few-plain-language-basics-first">A few plain-language basics first</a></li>
+<li><a href="#why-this-lesson-matters">Why this lesson matters</a></li>
+<li><a href="#learning-objectives">Learning objectives</a></li>
+<li><a href="#prerequisites">Prerequisites</a></li>
+<li><a href="#part-1-the-three-things-an-agent-needs-access-knowledge-tooling">Part 1: the three things an agent needs (access, knowledge, tooling)</a><ul>
+<li><a href="#access-connect-claude-to-everywhere-you-work">Access: connect Claude to everywhere you work</a></li>
+<li><a href="#knowledge-you-cannot-train-it-in-so-it-goes-in-context">Knowledge: you cannot train it in, so it goes in context</a></li>
+<li><a href="#tooling-build-the-red-squigglies-for-your-agent">Tooling: build the "red squigglies" for your agent</a></li>
+</ul>
+</li>
+<li><a href="#part-2-the-context-window-is-the-real-constraint">Part 2: the context window is the real constraint</a><ul>
+<li><a href="#the-twist-the-kv-cache-makes-early-changes-very-expensive">The twist: the KV cache makes early changes very expensive</a></li>
+</ul>
+</li>
+<li><a href="#part-3-the-four-plugin-building-blocks-and-which-ones-scale">Part 3: the four plugin building blocks, and which ones scale</a><ul>
+<li><a href="#block-1-mcp-model-context-protocol">Block 1: MCP (Model Context Protocol)</a></li>
+<li><a href="#block-2-skills">Block 2: skills</a></li>
+<li><a href="#block-3-hooks">Block 3: hooks</a></li>
+<li><a href="#block-4-sub-agents">Block 4: sub agents</a></li>
+<li><a href="#the-abstraction-daisy-refuses-to-add-and-why">The abstraction Daisy refuses to add (and why)</a></li>
+</ul>
+</li>
+<li><a href="#part-4-working-in-parallel-and-not-babysitting">Part 4: working in parallel, and not babysitting</a><ul>
+<li><a href="#git-worktrees-one-checkout-per-agent">Git worktrees: one checkout per agent</a></li>
+<li><a href="#let-agents-talk-loop-and-run-with-fewer-prompts">Let agents talk, loop, and run with fewer prompts</a></li>
+</ul>
+</li>
+<li><a href="#key-takeaways">Key takeaways</a></li>
+<li><a href="#common-pitfalls">Common pitfalls</a></li>
+<li><a href="#capstone" class="toc-capstone">🛠️ Capstone Project: Scaling Harness Lab</a><ul>
+<li><a href="#what-you-will-build">What you will build</a></li>
+<li><a href="#why-this-is-the-perfect-practice">Why this is the perfect practice</a></li>
+<li><a href="#milestones-build-them-in-order-each-one-works-on-its-own">Milestones (build them in order, each one works on its own)</a></li>
+<li><a href="#how-you-will-know-you-are-done">How you will know you are done</a></li>
+</ul>
+</li>
+<li><a href="#practice-exercises-optional-extra-reps">Practice exercises (optional extra reps)</a><ul>
+<li><a href="#exercise-1-the-one-day-access-test-foundational">Exercise 1: the one day access test (foundational)</a></li>
+<li><a href="#exercise-2-nudge-vs-cage-foundational">Exercise 2: nudge vs cage (foundational)</a></li>
+<li><a href="#exercise-3-skill-vs-mcp-intermediate">Exercise 3: skill vs MCP (intermediate)</a></li>
+<li><a href="#exercise-4-zero-overhead-hook-intermediate">Exercise 4: zero overhead hook (intermediate)</a></li>
+<li><a href="#exercise-5-front-vs-end-layout-advanced">Exercise 5: front vs end layout (advanced)</a></li>
+</ul>
+</li>
+<li><a href="#cheat-sheet">Cheat sheet</a></li>
+<li><a href="#how-this-connects-to-the-rest-of-the-course">How this connects to the rest of the course</a></li>
+</ul>
+</div>
+
+  </div></aside>
+  <main id="start">
+    <article>
+      <hr />
+<h2 id="in-one-sentence">In one sentence</h2>
+<p>To make Claude Code do real software engineering (not just toy programming), you give it the same access, knowledge, and tooling you have, and you customize it with abstractions that scale, because every customization has to fit inside a fixed context window, so you want ones that cost almost nothing when they are not being used.</p>
+<blockquote>
+<p>🎯 <strong>Where this lesson is heading.</strong> It builds to a hands on <strong>Capstone Project</strong> where you build a <strong>Scaling Harness Lab</strong>: a small, realistic repo that you wire up with the four plugin building blocks (MCP, skills, hooks, sub agents), then deliberately stress test which ones survive when you imagine thousands of them. Everything before the Capstone teaches the skills you will use there. If you want to see the finish line first, jump to the <strong>"Capstone Project"</strong> section near the end, then come back.</p>
+</blockquote>
+<h2 id="first-principles-companion">First-principles companion</h2>
+<blockquote>
+<p>💡 <strong>The durable idea behind this lesson.</strong> The talk this lesson is built on is recent, but the underlying concept is not. For the timeless, tool-agnostic version, independent of any single product or model:</p>
+<ul>
+<li><strong><a href="https://www.anthropic.com/engineering/effective-context-engineering-for-ai-agents">Effective context engineering for AI agents (Anthropic)</a></strong> (essay). Treats context as a finite "attention budget" and shows how to engineer the smallest high-signal token set, the lesson's central design rule, framed tool-agnostically.</li>
+<li><strong><a href="https://jalammar.github.io/illustrated-transformer/">The Illustrated Transformer (Jay Alammar)</a></strong> (essay). Explains keys/queries/values from the ground up, so you understand why a KV cache exists and why editing early tokens forces expensive recomputation.</li>
+</ul>
+</blockquote>
+<h2 id="a-few-plain-language-basics-first">A few plain-language basics first</h2>
+<p>This lesson uses some everyday AI and engineering terms. Here they are in simple words, so nothing below is confusing:</p>
+<ul>
+<li><strong>Agent:</strong> an AI that takes a series of actions on its own toward a goal, instead of answering in one shot. Claude Code is an agent that can read files, run commands, and edit code.</li>
+<li><strong>Agentic harness:</strong> all the code and settings wrapped around the model that turn it into a working agent: the loop that calls the model, the tools it can use, and the information it sees. Claude Code is one such harness. The model is the brain, the harness is the body.</li>
+<li><strong>Context window:</strong> the total amount of text (the prompt, the files, the tool descriptions, the conversation so far) that the model can "see" at once. It is measured in <strong>tokens</strong> (a token is roughly three quarters of a word). It is a fixed size, so space is precious.</li>
+<li><strong>System prompt:</strong> the always present block of instructions and tool descriptions at the very start of the context window. Everything here is loaded every single time, so it is expensive.</li>
+<li><strong>MCP (Model Context Protocol):</strong> an open standard for connecting an agent to an outside service (Slack, email, a database) by running a small "server" that exposes tools. More on this in Part 4.</li>
+<li><strong>Skill:</strong> a folder with a markdown (text) file that teaches Claude how to do one specific thing, loaded only when needed.</li>
+<li><strong>Hook:</strong> a small script on your computer that runs automatically when something happens in the agent (for example, right after Claude edits a file).</li>
+<li><strong>Sub agent:</strong> a separate Claude session that the main Claude can hand a focused task to, with its own separate context window.</li>
+<li><strong>Monorepo:</strong> one giant code repository that holds many projects and is shared by a large number of engineers. "Repo" is short for repository, the folder tracked by version control.</li>
+<li><strong>In context learning (ICL):</strong> teaching the model by putting text into its context window, rather than by retraining the model itself. Daisy jokes it is "a fancy word for text files."</li>
+</ul>
+<p>You do not need to memorise these. Every term is also explained again the first time it appears below.</p>
+<h2 id="why-this-lesson-matters">Why this lesson matters</h2>
+<p>Out of the box, Claude Code "just sees a repo and a shell" (a shell is the command line where you type commands). That is plenty for what Daisy calls a <strong>zero to one project</strong>: a brand new thing with no history, no conventions, and no other people depending on it. But most professional software engineering is the opposite. There are old decisions, internal jargon, external teams who depend on your code, and most of the important context lives outside the source code entirely: in Slack threads, design docs, emails, and dashboards.</p>
+<p>Daisy's one big thesis is blunt:</p>
+<blockquote>
+<p>"If Claude can't do everything you can do, it can't do your job with you." (Daisy Holman)</p>
+</blockquote>
+<p>Your job, she argues, is now to "make little clones of yourself" so you can scale your work across many agents. This lesson is about giving those clones everything they need, and doing it in a way that does not blow up your context window.</p>
+<h2 id="learning-objectives">Learning objectives</h2>
+<p>By the end of this lesson you will be able to:</p>
+<ol>
+<li>Identify the three things an agent needs to do real engineering work: <strong>access</strong>, <strong>knowledge</strong>, and <strong>tooling</strong>.</li>
+<li>Explain why the context window is a hard, fixed constraint, and why <strong>not paying for what you do not use</strong> is the central design rule.</li>
+<li>Tell the four plugin building blocks apart (<strong>MCP, skills, hooks, sub agents</strong>) and judge how well each one <strong>scales</strong> to thousands of instances.</li>
+<li>Set up a tighter feedback loop for your agent (the "red squigglies" idea) using hooks.</li>
+<li>Use parallel workflows (git worktrees, loops, agent views) to stop babysitting one agent at a time.</li>
+</ol>
+<h2 id="prerequisites">Prerequisites</h2>
+<ul>
+<li>You have used Claude Code at least a little: you can start a session, ask it to make a change, and approve a tool call.</li>
+<li>Helpful but optional: Module 2 (Core skills) for prompting and context basics.</li>
+<li>Lessons 11 and 12 of this module go deeper on the proactive and parallel workflows touched on at the end here.</li>
+</ul>
+<hr />
+<h2 id="part-1-the-three-things-an-agent-needs-access-knowledge-tooling">Part 1: the three things an agent needs (access, knowledge, tooling)</h2>
+<p>Daisy frames every customization as filling one of three gaps.</p>
+<table>
+<thead>
+<tr>
+<th>Need</th>
+<th>What it means</th>
+<th>Why vanilla Claude Code lacks it</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Access</strong></td>
+<td>The ability to reach the places where your real work lives.</td>
+<td>Out of the box, Claude sees only the repo and the shell, not Slack, email, dashboards, or design docs.</td>
+</tr>
+<tr>
+<td><strong>Knowledge</strong></td>
+<td>Your code base's conventions, internal vocabulary, institutional memory, and recent changes.</td>
+<td>This cannot be trained into the model, so it has to be supplied as text.</td>
+</tr>
+<tr>
+<td><strong>Tooling</strong></td>
+<td>The equivalent of an IDE for an agent: linters, type checkers, completion, and "nudges."</td>
+<td>Out of the box Claude has a plain edit tool and not much else.</td>
+</tr>
+</tbody>
+</table>
+<h3 id="access-connect-claude-to-everywhere-you-work">Access: connect Claude to everywhere you work</h3>
+<p>The source code rarely explains the <strong>why</strong> of a change. That "why" is in your head, and it got there from somewhere Claude cannot see. Daisy's list of things worth connecting:</p>
+<ul>
+<li><strong>Team chat (Slack):</strong> where decisions are actually made. If Claude can read the thread, it understands why one approach was chosen over another.</li>
+<li><strong>CI and CD:</strong> the systems that automatically build and test (CI, continuous integration) and deploy (CD, continuous delivery) your code. Daisy is emphatic: "You should not be fixing CI failures yourself at this point in time."</li>
+<li><strong>Dashboards:</strong> when production breaks, you need to pull in a lot of information fast, and you are competing with companies doing it agentically.</li>
+<li><strong>Internal documents:</strong> design docs, run books (step by step recovery guides), and meeting notes.</li>
+</ul>
+<blockquote>
+<p>💡 <strong>A concrete habit from the talk.</strong> Daisy records and transcribes meetings, then feeds the notes to Claude and asks: "Is there any low hanging fruit from this meeting that you can address?" The result is "two or three PRs per meeting." (A <strong>PR</strong>, or pull request, is a proposed code change submitted for review.)</p>
+<p>🔑 <strong>The one day test.</strong> Try to do a full day of work without leaving the Claude Code terminal. Every time you have to alt tab to another tool and copy paste into Claude, write it down. At the end of the day, connect Claude to all of those things. As Daisy puts it, "the gap is much bigger than you notice until you make all of the connections."</p>
+</blockquote>
+<h3 id="knowledge-you-cannot-train-it-in-so-it-goes-in-context">Knowledge: you cannot train it in, so it goes in context</h3>
+<p>You might wish you could <strong>fine tune</strong> a model (retrain it on your private data) to know your code base. Daisy advises against it for this purpose, for two reasons. First, research from late 2025 suggests fine tuning on narrow, specialized information can actually cause more <strong>hallucinations</strong> (the model stating something untrue as if it were true). Second, frontier models improve so fast that fine tuning is rarely cost efficient: by the time you finish, there is a better base model.</p>
+<p>So all your knowledge customization happens through <strong>in context learning</strong>: skills, tools, and <code>CLAUDE.md</code> (a special markdown file Claude reads automatically). The upside is that you never have to touch model weights, and everything is just text files, so it is easy to start. The catch, which the rest of the lesson is about, is fitting it all into a fixed context window.</p>
+<blockquote>
+<p>🔑 <strong>The bitter lesson.</strong> General AI beats specialized AI in the long run. So instead of trying to bake your specifics into the model, give a general model the right text at the right time.</p>
+</blockquote>
+<h3 id="tooling-build-the-red-squigglies-for-your-agent">Tooling: build the "red squigglies" for your agent</h3>
+<p>Think back to writing code by hand. You had syntax highlighting, code completion, and <strong>red squigglies</strong>: the little red underlines that appear when you misspell a variable or pass the wrong number of arguments. Claude has almost none of this by default. Its edit tool is so basic that Daisy compares it to <strong>ed</strong>, an ancient line editor from before modern text editing existed.</p>
+<p>The key insight is what red squigglies do to your brain: they <strong>nudge</strong> you to think twice without <strong>blocking</strong> you. You can ignore one when you know better (for example, you will define that function later).</p>
+<blockquote>
+<p>🔑 <strong>The fastest way to make your agent better at your code base is not a smarter model, it is a tighter feedback loop.</strong> And most of the pieces already exist: you already have linters and type checkers from setting up environments for human developers. You just need to hook them up.</p>
+</blockquote>
+<p>Daisy splits tools into two kinds, and this distinction matters:</p>
+<table>
+<thead>
+<tr>
+<th>Kind of tool</th>
+<th>What it does</th>
+<th>Example</th>
+<th>Does it scale with smarter models?</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Scales with intelligence</strong></td>
+<td>An overridable nudge. The smarter the model, the better it uses the hint.</td>
+<td>A reminder that "this is a generated file, do not commit it"</td>
+<td>Yes. A smarter model uses the nudge more wisely.</td>
+</tr>
+<tr>
+<td><strong>Compensates for lack of intelligence</strong></td>
+<td>A hard block that forces a rigid behavior.</td>
+<td>Forbidding Claude from ever using an undefined variable</td>
+<td>No. It forces an unnatural order of work and limits a capable model.</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p>💡 Daisy asked Claude for examples of tools that compensate for a lack of intelligence (the bad kind). Claude replied that it did not like having its tools taken away. The lesson: prefer nudges over cages, and let the model's growing intelligence work for you.</p>
+</blockquote>
+<hr />
+<h2 id="part-2-the-context-window-is-the-real-constraint">Part 2: the context window is the real constraint</h2>
+<p>Every customization you add, in some form, has to fit in the context window. And here is the surprising part: context windows are <strong>not</strong> growing much. A year ago the frontier was mostly 1 million token models with a few 200,000 token ones. Today (with Opus 4.7 at roughly 1 million tokens) the frontier is about the same size, even though the models are far more capable in every other way.</p>
+<blockquote>
+<p>🔑 <strong>You are aiming at a fixed target.</strong> The models keep getting smarter, but the space you have to put information into stays roughly constant. So getting good at context engineering is a durable skill, not a temporary workaround.</p>
+</blockquote>
+<p>Daisy offers two memorable analogies.</p>
+<p><strong>Running npm on an Arduino.</strong> An Arduino is a tiny computer with very little memory. Trying to install lots of packages on it would leave no room for your own code. The context window is the same: be ruthless about what goes in, and put the smallest useful version of each thing.</p>
+<div class="codehilite"><pre><span></span><code>Mental model: the context window is a tiny memory budget.
+
+  [ stable, shared stuff ]  &lt;- put at the FRONT (cached, cheap to reuse)
+  [ ...                  ]
+  [ volatile, per-task   ]  &lt;- put at the END (cheap to swap out)
+</code></pre></div>
+
+<p><strong>Don't pay for what you don't use.</strong> This is a famous C++ principle (the zero overhead abstraction principle), and Daisy says it is not just a nice to have here, it is a hard limit. Since the window will not get bigger, the only way to fit more is to stop spending tokens on things the model is not currently using.</p>
+<h3 id="the-twist-the-kv-cache-makes-early-changes-very-expensive">The twist: the KV cache makes early changes very expensive</h3>
+<p>There is a second constraint that breaks the simple "just evict what you haven't used" idea. The model uses a <strong>KV cache</strong> (key value cache): saved internal computation for the tokens it has already processed, so it does not have to redo the work. Cached tokens are cheap. Uncached tokens can cost about <strong>ten times</strong> as much.</p>
+<p>The catch: if you change something <strong>early</strong> in the prompt, you invalidate the cache for <strong>everything after it</strong>. So you cannot just swap a rarely used tool out of the tools block near the top, because that would force the model to recompute the entire rest of the context at the expensive, uncached rate.</p>
+<blockquote>
+<p>🔑 <strong>Layout rule.</strong> Put <strong>stable, shared</strong> information at the very front (it stays cached). Put <strong>volatile, per task</strong> information near the end (you can swap it cheaply). Early LRU style eviction (LRU means "least recently used") made sense when context windows were tiny, but not anymore.</p>
+</blockquote>
+<hr />
+<h2 id="part-3-the-four-plugin-building-blocks-and-which-ones-scale">Part 3: the four plugin building blocks, and which ones scale</h2>
+<p>A <strong>plugin</strong> in Claude Code is a packaged bundle of customizations. Daisy examines four building blocks (she calls them primitives) and asks one question of each: <strong>what happens if you have 10,000 or 100,000 of them in a giant monorepo?</strong> That is the real test of whether an abstraction scales. Throughout, "pay" means cost in <strong>context window space</strong>, not just money.</p>
+<blockquote>
+<p>🔑 <strong>The scaling question.</strong> A great abstraction is one whose cost stays near zero when it is not being used. Daisy wants you to picture 100,000 of each thing and ask: does my context window survive?</p>
+</blockquote>
+<h3 id="block-1-mcp-model-context-protocol">Block 1: MCP (Model Context Protocol)</h3>
+<p><strong>MCP</strong> is a standard for connecting an agent to an outside service through a small server that exposes tools. It was designed in an earlier era for chatbots that have no shell, no file access, and cannot run commands, so MCP injects tools and handles things like authentication (proving who you are) and transport for you.</p>
+<p><strong>When it is the right choice:</strong> when you ship a public integration to people who may not be technical, or when you need to connect to a service you do not own. You will still need MCP servers for <strong>Slack, email, dashboards</strong>, and the like.</p>
+<p><strong>When it is the wrong choice:</strong> Claude Code <strong>does</strong> have a shell. So if you already have a command line tool (a CLI), wrapping it in MCP usually makes little sense for your own developers. A <strong>skill</strong> that just tells Claude how to use the existing CLI is easier.</p>
+<p><strong>Does it scale?</strong> Poorly, by default. Each tool's name, description, and <strong>schema</strong> (the structured description of its inputs) must sit in the system prompt so Claude knows how to call it. With even 20 servers of 15 tools each, "most of your context window starts to be tool definitions."</p>
+<blockquote>
+<p>💡 <strong>Tool search</strong> is a newer approach that helps. Only the tool <strong>names</strong> go in the system prompt, plus one tool Claude can call to <strong>search</strong> for the right tool and load its full description later (this is called <strong>lazy loading</strong>). The limit: unless the user says something specific like "Slack," Claude may not know it should search, so generic tools (edit, bash) still need full descriptions up front. "There is not a free lunch here. It is a slightly less expensive lunch."</p>
+</blockquote>
+<h3 id="block-2-skills">Block 2: skills</h3>
+<p>A <strong>skill</strong> is, in Daisy's words, "a lazy system prompt." It is just a folder with a markdown file and an optional set of scripts. A one line description in the file's <strong>front matter</strong> (the small header at the top) goes into the system prompt; the full file is loaded only when Claude decides it is relevant.</p>
+<div class="codehilite"><pre><span></span><code>my-skill/
+  SKILL.md        &lt;- one-line description in front matter + full instructions
+  helper.py       &lt;- optional scripts and resources
+</code></pre></div>
+
+<p><strong>Does it scale?</strong> Mostly. The <strong>body</strong> is pay per use (good), but the <strong>description is always loaded</strong>, so you always pay a small fraction. Reliably triggering a skill can still take a 300 to 400 token paragraph, and the shorter you make the description, the less reliably it triggers without the user naming it. There is also no built in way yet to nest <strong>sub skills</strong> hierarchically (Daisy hints an announcement is coming). So skills "kind of scale," but a monorepo with 100,000 skills strains them.</p>
+<blockquote>
+<p>❌ Because skills are so easy to create, quality control becomes a real problem in a large monorepo. Easy to make also means easy to make badly.</p>
+</blockquote>
+<h3 id="block-3-hooks">Block 3: hooks</h3>
+<p>A <strong>hook</strong> is a script on your computer that Claude Code runs when a specific event happens in the agent loop (for example, right after a tool is used). Claude passes the script some JSON (a structured text format), and the script can return JSON deciding whether to insert anything into the context window.</p>
+<div class="codehilite"><pre><span></span><code>Event happens (e.g. file edited)
+        |
+        v
+  your hook script runs ON YOUR MACHINE  (zero tokens)
+        |
+        +-- returns nothing  -&gt; context window untouched (you pay nothing)
+        +-- returns text     -&gt; a small nudge is inserted (&quot;this is a generated file&quot;)
+</code></pre></div>
+
+<p><strong>Does it scale?</strong> This is the one true zero overhead abstraction in the list. If you have 100,000 hooks and 99,995 of them do not match the current situation, they simply run, return nothing, and cost you no tokens at all. Your only limit is your computer's speed. "You have taken a very constrained resource and blown it out into a much less constrained resource."</p>
+<p>This is exactly where Daisy's <strong>red squigglies</strong> live: run a linter or type checker after an edit, and feed back an overridable nudge.</p>
+<blockquote>
+<p>❌ Hooks are not magic. They are not the most intelligent option, so you often end up parsing words or matching patterns out of commands, which has limits. You can use a sub agent inside a hook to decide whether to inject something, but that gets expensive again.</p>
+</blockquote>
+<h3 id="block-4-sub-agents">Block 4: sub agents</h3>
+<p>A <strong>sub agent</strong> is a separate Claude session that the main Claude hands a focused task to. Its description goes in the parent system prompt; its own instructions and work happen in a <strong>separate context window</strong>. The parent only pays (in its own window) for the tool call and the result that comes back.</p>
+<p><strong>Why that is powerful:</strong> a sub agent can read 50 files so the main loop does not have to, keeping the main context clean.</p>
+<p><strong>Does it scale?</strong> Same catch as skills: each sub agent's one line description still sits in the parent prompt, so 100,000 sub agents means 100,000 one liners. Anthropic is experimenting with doing better here too.</p>
+<h3 id="the-abstraction-daisy-refuses-to-add-and-why">The abstraction Daisy refuses to add (and why)</h3>
+<p>The most frequent plugin request she gets is: "Why can't my plugin provide a <code>CLAUDE.md</code> file?" That is, a chunk of text that loads <strong>unconditionally</strong> into the user's context whenever the plugin is enabled.</p>
+<p>She pushes back hard, and after Part 2 you can see why. It <strong>looks</strong> cheap (it is one little file), but it is one of the most expensive abstractions possible: every plugin would add one, and "that doesn't scale, it really doesn't scale, and it looks like it does." The compromise: if you truly need it, you can return text from a <strong>session start hook</strong>. That makes the cost visible and deliberate, because it is obvious you are charging every user something on every session.</p>
+<blockquote>
+<p>🔑 <strong>Think of plugins as a context engineering primitive,</strong> which Daisy describes as "another way of saying text file, but with more funding." They are designed, evaluated, and iterated on. That is different from <strong>memory</strong>, which is low quality, low cost, short lived information an agent jots down on the fly. Memory has its place, but it is not the tool for deliberate, scalable customization.</p>
+</blockquote>
+<table>
+<thead>
+<tr>
+<th>Building block</th>
+<th>Token cost when unused</th>
+<th>Scales to 100,000?</th>
+<th>Best for</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>MCP</strong></td>
+<td>High (name + description + schema in system prompt)</td>
+<td>Poorly (tool search helps a bit)</td>
+<td>Public integrations; services you do not own (Slack, email)</td>
+</tr>
+<tr>
+<td><strong>Skill</strong></td>
+<td>Small (one line description always loaded)</td>
+<td>Mostly</td>
+<td>Teaching Claude how to use existing CLIs and procedures</td>
+</tr>
+<tr>
+<td><strong>Hook</strong></td>
+<td>Zero (runs off context)</td>
+<td>Yes</td>
+<td>Feedback loops, linters, "red squiggly" nudges</td>
+</tr>
+<tr>
+<td><strong>Sub agent</strong></td>
+<td>Small (one line description) plus a separate window</td>
+<td>Mostly</td>
+<td>Offloading big reads and focused tasks to keep the main context clean</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="part-4-working-in-parallel-and-not-babysitting">Part 4: working in parallel, and not babysitting</h2>
+<p>The last stretch of the talk is about two themes: <strong>asynchrony</strong> (start work, walk away, come back later) and <strong>parallelism</strong> (run several agents at once). Together they mean you become a kind of technical lead managing multiple Claudes, and the hard part becomes <strong>context switching</strong> between them efficiently.</p>
+<h3 id="git-worktrees-one-checkout-per-agent">Git worktrees: one checkout per agent</h3>
+<p>A <strong>git worktree</strong> is simply a second (or third, or tenth) checkout of the same repository in a different folder on your machine. Git is clever about sharing storage so you do not waste disk space. Put a separate Claude Code instance on each worktree and the agents stop stepping on each other, exactly like human colleagues each having their own checkout.</p>
+<p>Daisy keeps long lived worktrees that each track the upstream main branch, with a persistent agent that "owns" each directory. Because they are long lived, she does not have to re run setup (like <code>npm init</code>) every time.</p>
+<blockquote>
+<p>💡 <strong>A tiny trick that pays off.</strong> Rename your sessions and set a color (<code>/color</code>). Color triggers memory efficiently, so it acts as "syntax highlighting for humans," letting you click your brain back into what a session was doing. Rename helps too, especially if you are colorblind.</p>
+</blockquote>
+<h3 id="let-agents-talk-loop-and-run-with-fewer-prompts">Let agents talk, loop, and run with fewer prompts</h3>
+<ul>
+<li><strong>Claude to Claude messages.</strong> A <code>send message</code> tool lets one Claude pass information to another running on the same account (with your permission). One of the places you now work is another Claude, so that Claude needs access to the relevant conversation.</li>
+<li><strong><code>/loop</code>.</strong> Runs a prompt every fixed interval (say, every 10 minutes). Internally the tool is called <code>crontool</code> (after <strong>cron</strong>, the classic Unix job scheduler), and <code>/loop</code> is the friendly command. Claude can turn the loop off when the prompt is no longer relevant.</li>
+</ul>
+<div class="codehilite"><pre><span></span><code>/loop 10m babysit my open PRs
+# Every 10 minutes Claude wakes up, runs this prompt, and stops when done.
+</code></pre></div>
+
+<blockquote>
+<p>💡 Daisy calls <strong>babysitting PRs with <code>/loop</code></strong> a game changer. Even if your CI takes two hours, you can leave it overnight and Claude will keep fixing CI bugs until they are green.</p>
+</blockquote>
+<ul>
+<li><strong>Auto permissions mode.</strong> Instead of approving every tool call, auto mode uses a classifier agent plus an adversarial checker that inspects each tool call for anything dangerous. This is what makes loops, agent teams, and overnight work usable. It is not "dangerously skip permissions." It costs extra tokens (Daisy roughly estimates on the order of 30 to 40 percent more, and says not to quote her on the exact figure), and the team is working to lower it.</li>
+<li><strong>Claude Agents view and Remote control.</strong> A single view shows every running agent, which are working and which are blocked, so you can peek in, jump in, or start new sessions. <strong>Remote control</strong> surfaces sessions on your phone and desktop, perfect for a 30 second check in after dinner to make sure nothing is stuck.</li>
+</ul>
+<blockquote>
+<p>🎯 <strong>Daisy's three take homes:</strong> give Claude <strong>access</strong>, <strong>mind the box</strong> (respect the context window), and <strong>pick abstractions that scale</strong>. Picture 100,000 of each customization before you commit to it.</p>
+</blockquote>
+<hr />
+<h2 id="key-takeaways">Key takeaways</h2>
+<ol>
+<li><strong>Access, knowledge, tooling.</strong> If Claude cannot reach what you reach, it cannot do your job with you. Connect it to Slack, CI/CD, dashboards, and docs.</li>
+<li><strong>The context window is fixed and not growing.</strong> Getting good at fitting information into it is a durable skill, not a temporary hack.</li>
+<li><strong>Don't pay for what you don't use.</strong> And because of the KV cache, put stable shared things at the front and volatile per task things at the end.</li>
+<li><strong>Hooks are the only true zero overhead abstraction.</strong> They cost nothing when they do not fire, so 100,000 of them is fine. Use them for "red squiggly" feedback loops.</li>
+<li><strong>MCP, skills, and sub agents all carry a system prompt tax</strong> (a description that is always loaded), so they scale less cleanly. Prefer skills over MCP for your own CLIs.</li>
+<li><strong>Prefer tools that scale with intelligence</strong> (overridable nudges) over tools that compensate for a lack of it (hard blocks).</li>
+<li><strong>Work in parallel like a technical lead:</strong> worktrees, named and colored sessions, <code>/loop</code>, auto mode, and remote control let you stop babysitting one agent at a time.</li>
+</ol>
+<h2 id="common-pitfalls">Common pitfalls</h2>
+<ul>
+<li>❌ Leaving Claude with only the repo and the shell when your real context lives in Slack, docs, and dashboards.</li>
+<li>❌ Trying to fine tune a model to learn your code base, which is costly and can increase hallucinations.</li>
+<li>❌ Dumping your whole wiki or code base into context and hoping it fits.</li>
+<li>❌ Editing something early in the prompt to "save space," which invalidates the KV cache and makes everything after it ten times more expensive.</li>
+<li>❌ Wrapping an existing CLI in an MCP server for your own developers when a skill would be simpler.</li>
+<li>❌ Adding a <code>CLAUDE.md</code>-style unconditional block to every plugin: it looks cheap and is not.</li>
+<li>❌ Hard blocking the agent (caging it) when an overridable nudge would scale better with smarter models.</li>
+</ul>
+<hr />
+<h2 id="capstone" class="capstone-h">🛠️ Capstone Project: Scaling Harness Lab</h2>
+<blockquote>
+<p>This is the main hands on project for the lesson, and the best way to make everything above stick. You are going to take a small but realistic repo and customize Claude Code with all four building blocks, then stress test which ones survive at scale. Start tiny and grow it as far as you like.</p>
+</blockquote>
+<h3 id="what-you-will-build">What you will build</h3>
+<p><strong>Scaling Harness Lab</strong> is a practice repo plus a set of customizations that you build, measure, and judge through Daisy's lens: access, knowledge, tooling, and "what happens at 100,000?" By the end you will have hands on intuition for which abstraction to reach for and why.</p>
+<blockquote>
+<p>🎯 <strong>Pick your world.</strong> Use any small full stack-ish project you have, or scaffold a fresh one (a to do API, a tiny blog, a CLI tool). It just needs: a linter or type checker you can run, a fake "external service" you can pretend lives outside the repo, and a couple of code conventions a newcomer would not know.</p>
+</blockquote>
+<h3 id="why-this-is-the-perfect-practice">Why this is the perfect practice</h3>
+<table>
+<thead>
+<tr>
+<th>Lesson skill</th>
+<th>Where you use it in Scaling Harness Lab</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Access (connect everywhere you work)</td>
+<td>Milestone 2, the access audit and one real connection</td>
+</tr>
+<tr>
+<td>Knowledge via in context learning</td>
+<td>Milestone 3, the <code>CLAUDE.md</code> and one skill</td>
+</tr>
+<tr>
+<td>Tooling as a feedback loop ("red squigglies")</td>
+<td>Milestone 4, the post edit hook</td>
+</tr>
+<tr>
+<td>The four building blocks</td>
+<td>Milestones 3 to 5, one of each</td>
+</tr>
+<tr>
+<td>The scaling question (cost when unused)</td>
+<td>Milestone 6, the stress test table</td>
+</tr>
+<tr>
+<td>KV cache friendly layout</td>
+<td>Milestone 6, the front vs end exercise</td>
+</tr>
+<tr>
+<td>Parallel workflow</td>
+<td>Milestone 7, worktrees plus <code>/loop</code></td>
+</tr>
+</tbody>
+</table>
+<h3 id="milestones-build-them-in-order-each-one-works-on-its-own">Milestones (build them in order, each one works on its own)</h3>
+<ol>
+<li><strong>Scaffold and baseline.</strong> Set up the repo and run Claude Code on it with <strong>no</strong> customization. Ask it to make one small change. Note where it struggles or asks you for context it could not find. This is your "vanilla" baseline.</li>
+<li><strong>Access audit (the one day test).</strong> For 30 minutes of real work, write down every time you alt tab away from Claude. Pick the single most painful gap (often Slack or your issue tracker) and connect it with an <strong>MCP server</strong>. Re run a task that needed that context.</li>
+<li><strong>Knowledge layer.</strong> Write a focused <code>CLAUDE.md</code> capturing 3 to 5 conventions a newcomer would not know. Then add <strong>one skill</strong>: a folder with a <code>SKILL.md</code> that teaches Claude how to use one of your existing CLIs or scripts. Confirm the skill triggers only when relevant.</li>
+<li><strong>The red squiggly hook.</strong> Add a <strong>post tool use hook</strong> that runs your linter or type checker after Claude edits a file and feeds back an overridable nudge (not a hard block). Confirm it returns nothing (and costs nothing) when the edited file is irrelevant.</li>
+<li><strong>A sub agent.</strong> Add a <strong>sub agent</strong> whose job is a big read (for example, "summarize how the auth module works") so the main session stays clean. Notice that only the result comes back to the main context.</li>
+<li><strong>The scaling stress test.</strong> For each of your four customizations, fill in a table: token cost when unused, and "what happens if I have 100,000 of these?" Then do the KV cache exercise: list what belongs at the <strong>front</strong> (stable, shared) and what belongs at the <strong>end</strong> (volatile, per task) of your context.</li>
+<li><strong>Go parallel.</strong> Create two <strong>git worktrees</strong>, put a separate Claude on each, and name and color the sessions. Then set up a <code>/loop</code> to babysit one repetitive task (for example, keep CI green or update docs) and let it run while you do something else.</li>
+<li><strong>Stretch goals.</strong> Replace your MCP wrapped CLI with a plain <strong>skill</strong> and compare context cost. Try <strong>tool search</strong> if you have many tools. Try <strong>remote control</strong> and check in from your phone.</li>
+</ol>
+<h3 id="how-you-will-know-you-are-done">How you will know you are done</h3>
+<ul>
+<li>✅ You can point to <strong>one customization per building block</strong> (MCP, skill, hook, sub agent) and say what need it fills (access, knowledge, or tooling).</li>
+<li>✅ Your hook <strong>returns nothing and costs nothing</strong> when it does not apply, and you have verified this.</li>
+<li>✅ Your scaling table clearly shows <strong>why the hook scales to 100,000 and the others carry a system prompt tax</strong>.</li>
+<li>✅ You can name what belongs at the <strong>front</strong> vs the <strong>end</strong> of your context and why (KV cache).</li>
+<li>✅ Two agents run in parallel without stepping on each other, and a <code>/loop</code> handles one task without you babysitting it.</li>
+</ul>
+<blockquote>
+<p>💡 <strong>Keep yourself honest:</strong> for every customization, ask Daisy's question out loud before you commit to it: "What happens if I have 100,000 of these?"</p>
+</blockquote>
+<hr />
+<h2 id="practice-exercises-optional-extra-reps">Practice exercises (optional extra reps)</h2>
+<blockquote>
+<p><strong>What these are:</strong> five small, self contained tasks. Each one targets a single skill from the lesson. They are optional and independent. The <strong>Capstone Project above is the main build</strong>, and it already includes all of these skills in one place, so feel free to skip straight to it.</p>
+</blockquote>
+<h3 id="exercise-1-the-one-day-access-test-foundational">Exercise 1: the one day access test (foundational)</h3>
+<p>For one real work session, log every time you leave Claude to use another tool. Group the gaps into access, knowledge, or tooling. Which single connection would save you the most context switches?</p>
+<h3 id="exercise-2-nudge-vs-cage-foundational">Exercise 2: nudge vs cage (foundational)</h3>
+<p>Take a rule you wish Claude followed (for example, "do not edit generated files"). Write it twice: once as a <strong>hard block</strong> and once as an <strong>overridable nudge</strong>. Explain which one scales with a smarter model and why.</p>
+<h3 id="exercise-3-skill-vs-mcp-intermediate">Exercise 3: skill vs MCP (intermediate)</h3>
+<p>Pick a CLI you already have. Write a tiny <strong>skill</strong> that teaches Claude how to use it, then describe what an MCP wrapper would have cost in system prompt space. When would the MCP version actually be the right call?</p>
+<h3 id="exercise-4-zero-overhead-hook-intermediate">Exercise 4: zero overhead hook (intermediate)</h3>
+<p>Write a post edit <strong>hook</strong> that runs your linter and returns a nudge only on relevant files. Test it on a file it should ignore and confirm it inserts nothing into context.</p>
+<h3 id="exercise-5-front-vs-end-layout-advanced">Exercise 5: front vs end layout (advanced)</h3>
+<p>List everything currently in one of your Claude sessions' context. Sort each item into "stable and shared" (belongs at the front) or "volatile and per task" (belongs at the end). Explain, using the KV cache, why this ordering saves money.</p>
+<hr />
+<h2 id="cheat-sheet">Cheat sheet</h2>
+<div class="codehilite"><pre><span></span><code>THE THREE NEEDS
+  Access ...... connect Claude to Slack, CI/CD, dashboards, docs (where the &quot;why&quot; lives)
+  Knowledge ... conventions + institutional memory, supplied as text (in context learning)
+  Tooling ..... linters/checkers as feedback loops (&quot;red squigglies&quot;)
+
+THE CONTEXT WINDOW IS FIXED
+  - Don&#39;t pay for what you don&#39;t use.
+  - KV cache: stable+shared at the FRONT, volatile+per-task at the END.
+  - Changing something early invalidates the cache for everything after it (~10x cost).
+
+PICK ABSTRACTIONS THAT SCALE (imagine 100,000 of them)
+  Hook ........ zero token cost when unused .......... scales BEST (feedback loops)
+  Skill ....... small always-on description .......... mostly scales (teach CLIs/procedures)
+  Sub agent ... small description + separate window ... mostly scales (offload big reads)
+  MCP ......... full name+desc+schema in prompt ...... scales worst (public/3rd-party only)
+
+TOOLS
+  Prefer: overridable NUDGES that scale with intelligence
+  Avoid:  hard BLOCKS that compensate for a lack of it
+
+WORK IN PARALLEL
+  git worktrees (one Claude each) + /color + rename
+  /loop &lt;interval&gt; &lt;prompt&gt;   (babysit PRs, keep CI green)
+  auto permissions mode + remote control
+</code></pre></div>
+
+<h2 id="how-this-connects-to-the-rest-of-the-course">How this connects to the rest of the course</h2>
+<ul>
+<li><strong>Earlier, Module 2 (Core skills):</strong> prompting and context basics that this lesson scales up to a full engineering harness.</li>
+<li><strong>Next, Module 4 · Lesson 11 (Build a Proactive Agent Workflow):</strong> turns the asynchrony idea here into <strong>routines</strong>, scheduled and event triggered Claude Code sessions.</li>
+<li><strong>Next, Module 4 · Lesson 12 (Stop Babysitting Your Agents):</strong> goes deep on verification loops, multi Claude work, and <code>/loop</code>, the parallel workflows introduced at the end of this lesson.</li>
+</ul>
+<hr />
+<p><em>Source: "Beyond the basics with Claude Code" by Daisy Holman (Anthropic), Code with Claude 2026, London. Code blocks and the folder layout are illustrative reconstructions of the ideas shown in the talk. Adapt commands and model names to the current version of Claude Code.</em></p>
+    </article>
+    <nav class="lessonnav"><a class="ln prev" href="09-how-we-claude-code.html"><span class="dir">&#8592; Previous</span><b>How We Claude Code</b></a><a class="ln home" href="../index.html"><b>All lessons</b></a><a class="ln next" href="11-build-a-proactive-agent-workflow.html"><span class="dir">Next &#8594;</span><b>Build a Proactive Agent Workflow with Claude Code</b></a></nav>
+  </main>
+</div>
+
+<footer class="site"><div class="wrap">
+  <a class="logo" href="../index.html">Building with Claude<span class="dot">.</span></a>
+  <span class="fnote">A self-paced course generated from the Code with Claude 2026 (London) talks. Code snippets are illustrative reconstructions of the approaches shown. Adapt them to the current SDK.</span>
+</div></footer>
+
+<style>pre { line-height: 125%; }
+td.linenos .normal { color: inherit; background-color: transparent; padding-left: 5px; padding-right: 5px; }
+span.linenos { color: inherit; background-color: transparent; padding-left: 5px; padding-right: 5px; }
+td.linenos .special { color: #000000; background-color: #ffffc0; padding-left: 5px; padding-right: 5px; }
+span.linenos.special { color: #000000; background-color: #ffffc0; padding-left: 5px; padding-right: 5px; }
+.codehilite .hll { background-color: #ffffcc }
+.codehilite { background: #282C34; color: #ABB2BF }
+.codehilite .c { color: #7F848E } /* Comment */
+.codehilite .err { color: #ABB2BF } /* Error */
+.codehilite .esc { color: #ABB2BF } /* Escape */
+.codehilite .g { color: #ABB2BF } /* Generic */
+.codehilite .k { color: #C678DD } /* Keyword */
+.codehilite .l { color: #ABB2BF } /* Literal */
+.codehilite .n { color: #E06C75 } /* Name */
+.codehilite .o { color: #56B6C2 } /* Operator */
+.codehilite .x { color: #ABB2BF } /* Other */
+.codehilite .p { color: #ABB2BF } /* Punctuation */
+.codehilite .ch { color: #7F848E } /* Comment.Hashbang */
+.codehilite .cm { color: #7F848E } /* Comment.Multiline */
+.codehilite .cp { color: #7F848E } /* Comment.Preproc */
+.codehilite .cpf { color: #7F848E } /* Comment.PreprocFile */
+.codehilite .c1 { color: #7F848E } /* Comment.Single */
+.codehilite .cs { color: #7F848E } /* Comment.Special */
+.codehilite .gd { color: #E06C75 } /* Generic.Deleted */
+.codehilite .ge { color: #ABB2BF; font-style: italic } /* Generic.Emph */
+.codehilite .ges { color: #ABB2BF } /* Generic.EmphStrong */
+.codehilite .gr { color: #E06C75 } /* Generic.Error */
+.codehilite .gh { color: #ABB2BF; font-weight: bold } /* Generic.Heading */
+.codehilite .gi { color: #98C379 } /* Generic.Inserted */
+.codehilite .go { color: #E06C75 } /* Generic.Output */
+.codehilite .gp { color: #ABB2BF } /* Generic.Prompt */
+.codehilite .gs { color: #ABB2BF; font-weight: bold } /* Generic.Strong */
+.codehilite .gu { color: #ABB2BF; font-weight: bold } /* Generic.Subheading */
+.codehilite .gt { color: #E06C75 } /* Generic.Traceback */
+.codehilite .kc { color: #E5C07B } /* Keyword.Constant */
+.codehilite .kd { color: #C678DD } /* Keyword.Declaration */
+.codehilite .kn { color: #C678DD } /* Keyword.Namespace */
+.codehilite .kp { color: #C678DD } /* Keyword.Pseudo */
+.codehilite .kr { color: #C678DD } /* Keyword.Reserved */
+.codehilite .kt { color: #E5C07B } /* Keyword.Type */
+.codehilite .ld { color: #ABB2BF } /* Literal.Date */
+.codehilite .m { color: #D19A66 } /* Literal.Number */
+.codehilite .s { color: #98C379 } /* Literal.String */
+.codehilite .na { color: #E06C75 } /* Name.Attribute */
+.codehilite .nb { color: #E5C07B } /* Name.Builtin */
+.codehilite .nc { color: #E5C07B } /* Name.Class */
+.codehilite .no { color: #E06C75 } /* Name.Constant */
+.codehilite .nd { color: #61AFEF } /* Name.Decorator */
+.codehilite .ni { color: #E06C75 } /* Name.Entity */
+.codehilite .ne { color: #E06C75 } /* Name.Exception */
+.codehilite .nf { color: #61AFEF; font-weight: bold } /* Name.Function */
+.codehilite .nl { color: #E06C75 } /* Name.Label */
+.codehilite .nn { color: #E06C75 } /* Name.Namespace */
+.codehilite .nx { color: #E06C75 } /* Name.Other */
+.codehilite .py { color: #E06C75 } /* Name.Property */
+.codehilite .nt { color: #E06C75 } /* Name.Tag */
+.codehilite .nv { color: #E06C75 } /* Name.Variable */
+.codehilite .ow { color: #56B6C2 } /* Operator.Word */
+.codehilite .pm { color: #ABB2BF } /* Punctuation.Marker */
+.codehilite .w { color: #ABB2BF } /* Text.Whitespace */
+.codehilite .mb { color: #D19A66 } /* Literal.Number.Bin */
+.codehilite .mf { color: #D19A66 } /* Literal.Number.Float */
+.codehilite .mh { color: #D19A66 } /* Literal.Number.Hex */
+.codehilite .mi { color: #D19A66 } /* Literal.Number.Integer */
+.codehilite .mo { color: #D19A66 } /* Literal.Number.Oct */
+.codehilite .sa { color: #98C379 } /* Literal.String.Affix */
+.codehilite .sb { color: #98C379 } /* Literal.String.Backtick */
+.codehilite .sc { color: #98C379 } /* Literal.String.Char */
+.codehilite .dl { color: #98C379 } /* Literal.String.Delimiter */
+.codehilite .sd { color: #98C379 } /* Literal.String.Doc */
+.codehilite .s2 { color: #98C379 } /* Literal.String.Double */
+.codehilite .se { color: #98C379 } /* Literal.String.Escape */
+.codehilite .sh { color: #98C379 } /* Literal.String.Heredoc */
+.codehilite .si { color: #98C379 } /* Literal.String.Interpol */
+.codehilite .sx { color: #98C379 } /* Literal.String.Other */
+.codehilite .sr { color: #98C379 } /* Literal.String.Regex */
+.codehilite .s1 { color: #98C379 } /* Literal.String.Single */
+.codehilite .ss { color: #98C379 } /* Literal.String.Symbol */
+.codehilite .bp { color: #E5C07B } /* Name.Builtin.Pseudo */
+.codehilite .fm { color: #56B6C2; font-weight: bold } /* Name.Function.Magic */
+.codehilite .vc { color: #E06C75 } /* Name.Variable.Class */
+.codehilite .vg { color: #E06C75 } /* Name.Variable.Global */
+.codehilite .vi { color: #E06C75 } /* Name.Variable.Instance */
+.codehilite .vm { color: #E06C75 } /* Name.Variable.Magic */
+.codehilite .il { color: #D19A66 } /* Literal.Number.Integer.Long */</style>
+<script>
+// mobile menu
+const sb=document.getElementById('sidebar'),mb=document.getElementById('menuBtn');
+if(mb){mb.onclick=()=>sb.classList.toggle('open');sb.addEventListener('click',e=>{if(e.target.tagName==='A')sb.classList.remove('open')});}
+const tc=document.getElementById('tocClose');if(tc){tc.onclick=()=>sb.classList.remove('open');}
+// progress
+const prog=document.getElementById('progress');
+addEventListener('scroll',()=>{const h=document.body.scrollHeight-innerHeight;prog.style.width=(h>0?scrollY/h*100:0)+'%'});
+// code chrome + copy
+document.querySelectorAll('.codehilite, pre').forEach(block=>{
+  if(block.parentElement.classList.contains('codehilite'))return;
+  const bar=document.createElement('div');bar.className='code-bar';
+  bar.innerHTML='<span class="dot r"></span><span class="dot y"></span><span class="dot g"></span>';
+  block.appendChild(bar);
+  const btn=document.createElement('button');btn.className='copy-btn';btn.textContent='Copy';
+  btn.onclick=()=>{const t=block.querySelector('code')?.innerText||block.innerText;
+    navigator.clipboard.writeText(t.replace(/\nCopy$/,''));btn.textContent='Copied!';btn.classList.add('done');
+    setTimeout(()=>{btn.textContent='Copy';btn.classList.remove('done')},1500)};
+  block.appendChild(btn);
+});
+// callouts by leading emoji
+const map={'🔑':'cl-key','💡':'cl-tip','✅':'cl-ok','❌':'cl-no','🎯':'cl-goal','🛠':'cl-goal'};
+document.querySelectorAll('blockquote').forEach(q=>{const t=(q.textContent||'').trim();for(const e in map){if(t.startsWith(e)){q.classList.add(map[e]);break}}});
+// check-off
+function makeCheckable(rx){document.querySelectorAll('h2,h3').forEach(h=>{if(!rx.test(h.textContent))return;let el=h.nextElementSibling;
+  while(el&&!/^H[1-3]$/.test(el.tagName)){if(el.tagName==='OL'||el.tagName==='UL'){el.classList.add('checkable');
+    el.querySelectorAll(':scope>li').forEach(li=>{const key='cwc:'+location.pathname+':'+li.textContent.slice(0,60);
+      if(localStorage.getItem(key))li.classList.add('checked');
+      li.addEventListener('click',ev=>{if(ev.target.tagName==='A')return;li.classList.toggle('checked');
+        li.classList.contains('checked')?localStorage.setItem(key,'1'):localStorage.removeItem(key)});});}el=el.nextElementSibling;}});}
+makeCheckable(/learning objectives|milestones/i);
+// scrollspy
+const links=[...document.querySelectorAll('.toc a')];
+const heads=links.map(a=>a.getAttribute('href')).filter(h=>h&&h.startsWith('#')).map(h=>document.getElementById(h.slice(1))).filter(Boolean);
+const spy=()=>{let cur=heads[0]?.id;for(const h of heads){if(h.getBoundingClientRect().top<150)cur=h.id}
+  links.forEach(a=>a.classList.toggle('active',a.getAttribute('href')==='#'+cur))};
+addEventListener('scroll',spy);spy();
+</script>
+</body>
+</html>

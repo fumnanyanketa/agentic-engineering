@@ -1,0 +1,818 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Module 5 · Lesson 13: Get to Production Faster with Claude Managed Agents | Building with Claude</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@500;600;700;800&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --navy:#0a1a2f; --navy-2:#0f243d; --navy-3:#15314f;
+  --teal:#18c4a0; --teal-d:#0fa385; --teal-soft:#e4f8f2;
+  --coral:#f24d63; --coral-d:#d83a50; --coral-soft:#feecee;
+  --ink:#152230; --muted:#5f6c7b; --line:#e9eef2; --bg:#ffffff;
+  --soft:#f4fbf9; --card:#ffffff; --code-bg:#21252b; --max:780px;
+  --k:#2f8fb3; --k-bg:#e8f4f9; --tip:#c4881f; --tip-bg:#fdf4e3; --ok:#1f9d6b; --ok-bg:#e6f6ef;
+  --no:#e0533f; --no-bg:#fdecea; --goal:#7b54c9; --goal-bg:#f1ebfb;
+  --shadow:0 10px 30px rgba(13,30,52,.08); --shadow-sm:0 4px 14px rgba(13,30,52,.07);
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,sans-serif;line-height:1.72;font-size:17px;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+#progress{position:fixed;top:0;left:0;height:4px;width:0;background:linear-gradient(90deg,var(--teal),var(--coral));z-index:200;transition:width .1s linear}
+a{color:var(--teal-d);text-decoration:none}
+a:hover{color:var(--coral)}
+h1,h2,h3{font-family:Poppins,sans-serif;color:var(--ink);letter-spacing:-.01em}
+.accent{color:var(--coral)}
+.wrap{max-width:1200px;margin:0 auto;padding:0 28px}
+
+/* ---------- Top welcome strip ---------- */
+.topbar{background:var(--navy);color:#cdd8e4;font-size:13.5px}
+.topbar .wrap{display:flex;justify-content:space-between;align-items:center;height:42px;gap:18px}
+.topbar b{color:#fff;font-weight:600}
+.topbar .right{display:flex;gap:18px;align-items:center}
+.topbar a{color:#cdd8e4}.topbar a:hover{color:var(--teal)}
+
+/* ---------- Nav ---------- */
+nav.bar{background:var(--navy-2);position:sticky;top:0;z-index:120;box-shadow:0 2px 20px rgba(0,0,0,.25)}
+nav.bar .wrap{display:flex;align-items:center;height:68px;gap:26px}
+.logo{font-family:Poppins;font-weight:800;font-size:22px;color:#fff;letter-spacing:.02em;cursor:pointer;text-decoration:none}
+a.logo:hover{color:var(--teal)}
+.lessonnav{display:flex;gap:14px;align-items:stretch;margin:60px 0 0;flex-wrap:wrap}
+.lessonnav .ln{flex:1;min-width:200px;display:flex;flex-direction:column;gap:3px;border:1px solid var(--line);border-radius:14px;padding:16px 18px;color:var(--muted);transition:.15s;background:#fff}
+.lessonnav .ln:hover{border-color:var(--teal);box-shadow:var(--shadow-sm);transform:translateY(-1px)}
+.lessonnav .ln .dir{font-size:13px;font-weight:600;color:var(--teal-d)}
+.lessonnav .ln b{color:var(--ink);font-family:Poppins;font-size:15px}
+.lessonnav .ln.next{text-align:right}
+.lessonnav .ln.home{flex:0 0 auto;justify-content:center;align-items:center;text-align:center;background:var(--soft)}
+.lessonnav .ln.home b{color:var(--teal-d)}
+.logo .dot{color:var(--teal)}
+.navlinks{display:flex;gap:24px;margin-left:8px}
+.navlinks a{color:#dde6ef;font-weight:500;font-size:15px}
+.navlinks a:hover{color:var(--teal)}
+.nav-cta{margin-left:auto;display:flex;gap:12px;align-items:center}
+.btn{display:inline-flex;align-items:center;gap:9px;border:none;cursor:pointer;font-family:Inter;font-weight:600;border-radius:999px;transition:.18s;font-size:15px;text-decoration:none}
+.btn-primary{background:var(--teal);color:#04231c;padding:12px 22px}
+.btn-primary:hover{background:var(--teal-d);color:#fff;transform:translateY(-1px)}
+.btn-outline{background:transparent;color:#fff;border:1.5px solid rgba(255,255,255,.35);padding:10px 20px}
+.btn-outline:hover{border-color:var(--teal);color:var(--teal)}
+.btn-coral{background:var(--coral);color:#fff;padding:12px 22px}
+.btn-coral:hover{background:var(--coral-d);color:#fff;transform:translateY(-1px)}
+
+/* ---------- Hero ---------- */
+.hero{position:relative;background:radial-gradient(120% 120% at 80% 0%,var(--navy-3),var(--navy) 60%);color:#eaf1f8;overflow:hidden}
+.hero::before{content:"";position:absolute;inset:0;background-image:radial-gradient(rgba(255,255,255,.12) 1.3px,transparent 1.3px);background-size:22px 22px;opacity:.25;mask:radial-gradient(60% 60% at 20% 30%,#000,transparent)}
+.blob{position:absolute;border-radius:50%;filter:blur(8px);opacity:.5;z-index:0}
+.blob.t{width:230px;height:230px;background:rgba(24,196,160,.30);top:-60px;right:8%}
+.blob.c{width:160px;height:160px;background:rgba(242,77,99,.28);bottom:-40px;left:42%}
+.squiggle{position:absolute;z-index:1;opacity:.85}
+.hero .wrap{position:relative;z-index:2;display:grid;grid-template-columns:1.15fr .85fr;gap:48px;align-items:center;padding:70px 28px 90px}
+.eyebrow{display:inline-flex;align-items:center;gap:8px;color:var(--teal);font-weight:600;font-size:14px;letter-spacing:.03em;text-transform:uppercase;margin-bottom:18px}
+.hero h1{font-size:54px;line-height:1.08;font-weight:800;margin:0 0 20px;color:#fff}
+.hero .lead{font-size:18px;color:#b9c6d6;max-width:34em;margin:0 0 30px}
+.hero-actions{display:flex;align-items:center;gap:18px;flex-wrap:wrap;margin-bottom:30px}
+.play{display:inline-flex;align-items:center;gap:12px;color:#fff;font-weight:600}
+.play .circ{width:52px;height:52px;border-radius:50%;background:var(--coral);display:grid;place-items:center;box-shadow:0 8px 22px rgba(242,77,99,.45);font-size:16px;animation:pulse 2.4s infinite}
+@keyframes pulse{0%{box-shadow:0 0 0 0 rgba(242,77,99,.45)}70%{box-shadow:0 0 0 16px rgba(242,77,99,0)}100%{box-shadow:0 0 0 0 rgba(242,77,99,0)}}
+.chips{display:flex;gap:10px;flex-wrap:wrap}
+.chip{display:inline-flex;align-items:center;gap:7px;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.12);color:#dce6f0;padding:8px 14px;border-radius:999px;font-size:13.5px;font-weight:500}
+.chip b{color:#fff}
+/* hero card */
+.hero-card{position:relative;background:#fff;color:var(--ink);border-radius:22px;padding:26px;box-shadow:0 24px 60px rgba(0,0,0,.35)}
+.hero-card .ring{position:absolute;top:-26px;right:-18px;width:96px;height:96px;background:#fff;border-radius:50%;box-shadow:var(--shadow);display:grid;place-items:center}
+.hero-card .ring svg{transform:rotate(-90deg)}
+.hero-card .ring .lab{position:absolute;font-family:Poppins;font-weight:700;font-size:18px;color:var(--teal-d)}
+.hero-card h3{margin:4px 0 14px;font-size:19px}
+.hero-card ul{list-style:none;margin:0 0 18px;padding:0}
+.hero-card li{display:flex;gap:11px;align-items:flex-start;padding:9px 0;border-bottom:1px dashed var(--line);font-size:14.5px;color:#36424f}
+.hero-card li:last-child{border-bottom:none}
+.hero-card li .ic{font-size:17px;line-height:1.4}
+.float-badge{position:absolute;left:18px;bottom:-26px;background:#fff;border-radius:14px;box-shadow:var(--shadow);padding:12px 16px;display:flex;gap:10px;align-items:center;font-size:13px;font-weight:600;color:var(--ink)}
+.float-badge .n{font-family:Poppins;font-weight:800;color:var(--coral);font-size:20px}
+
+/* ---------- Content layout ---------- */
+.layout{display:grid;grid-template-columns:268px minmax(0,1fr);gap:46px;max-width:1200px;margin:0 auto;padding:0 28px}
+aside{position:sticky;top:84px;align-self:start;height:calc(100vh - 100px);overflow-y:auto;padding:26px 0}
+.toc-card{background:var(--soft);border:1px solid var(--line);border-radius:18px;padding:18px}
+.toc-close{display:none;position:absolute;top:-6px;right:-4px;width:36px;height:36px;border:none;background:var(--navy-2);color:#fff;border-radius:50%;font-size:22px;line-height:1;cursor:pointer}
+.toc-close:hover{background:var(--coral)}
+.toc-title{font-family:Poppins;font-size:12px;text-transform:uppercase;letter-spacing:.1em;color:var(--teal-d);margin:0 0 10px;font-weight:700}
+.toc ul{list-style:none;margin:0;padding:0}
+.toc a{display:block;color:var(--muted);font-size:14px;padding:6px 12px;border-radius:8px;border-left:2px solid transparent;line-height:1.4}
+.toc a:hover{color:var(--ink);background:#fff}
+.toc a.active{color:var(--teal-d);background:#fff;border-left-color:var(--teal);font-weight:600}
+.toc .toc li li a{padding-left:24px;font-size:13px}
+.toc a.toc-capstone{color:var(--coral);font-weight:600}
+main{padding:54px 0 120px;min-width:0}
+article{max-width:var(--max)}
+
+/* typography */
+article h2{font-size:30px;margin:56px 0 16px;font-weight:700;position:relative}
+article h2::before{content:"\2726";color:var(--teal);font-size:18px;margin-right:10px;vertical-align:2px}
+article h3{font-size:21px;margin:34px 0 10px;font-weight:600}
+article h2+h3{margin-top:18px}
+article p,article li{font-size:16.5px}
+article ul,article ol{padding-left:24px}
+article li{margin:7px 0}
+article strong{font-weight:700;color:#0f1b28}
+hr{border:none;height:1px;background:var(--line);margin:42px 0}
+
+/* tables */
+table{border-collapse:separate;border-spacing:0;width:100%;margin:24px 0;font-size:15px;border:1px solid var(--line);border-radius:14px;overflow:hidden;display:block;overflow-x:auto}
+th,td{padding:12px 15px;text-align:left;vertical-align:top;border-bottom:1px solid var(--line)}
+th{background:var(--navy-2);color:#eaf1f8;font-family:Poppins;font-weight:600;font-size:14px}
+tr:last-child td{border-bottom:none}
+tbody tr:nth-child(even){background:var(--soft)}
+
+/* inline + block code */
+code{font-family:"JetBrains Mono",ui-monospace,Menlo,monospace;font-size:.86em;background:var(--teal-soft);color:#0c6a55;padding:.13em .42em;border-radius:6px}
+.codehilite,pre{position:relative;background:var(--code-bg);border-radius:14px;margin:22px 0;overflow:hidden;box-shadow:var(--shadow-sm)}
+.codehilite pre{margin:0;border-radius:0;box-shadow:none;background:transparent}
+.codehilite pre,pre>code{display:block;padding:42px 18px 18px;overflow-x:auto}
+.codehilite code,pre code{background:none;color:#dfe6ee;padding:0;font-size:13.5px;line-height:1.7}
+.code-bar{position:absolute;top:0;left:0;right:0;height:34px;display:flex;align-items:center;gap:7px;padding:0 15px;background:rgba(255,255,255,.05);border-bottom:1px solid rgba(255,255,255,.07)}
+.code-bar .dot{width:11px;height:11px;border-radius:50%}
+.dot.r{background:#ff5f57}.dot.y{background:#febc2e}.dot.g{background:#28c840}
+.copy-btn{position:absolute;top:5px;right:9px;z-index:3;background:rgba(255,255,255,.08);color:#dfe6ee;border:1px solid rgba(255,255,255,.14);border-radius:8px;font-size:12px;padding:4px 11px;cursor:pointer;font-family:Inter;transition:.15s}
+.copy-btn:hover{background:var(--teal);border-color:var(--teal);color:#04231c}
+.copy-btn.done{background:var(--teal);color:#04231c;border-color:var(--teal)}
+
+/* callouts */
+blockquote{margin:24px 0;padding:16px 20px;border-radius:14px;background:var(--soft);border:1px solid var(--line);border-left:5px solid var(--teal)}
+blockquote p{margin:7px 0}blockquote p:first-child{margin-top:0}blockquote p:last-child{margin-bottom:0}
+blockquote.cl-key{background:var(--k-bg);border-left-color:var(--k);border-color:transparent}
+blockquote.cl-tip{background:var(--tip-bg);border-left-color:var(--tip);border-color:transparent}
+blockquote.cl-ok{background:var(--ok-bg);border-left-color:var(--ok);border-color:transparent}
+blockquote.cl-no{background:var(--no-bg);border-left-color:var(--no);border-color:transparent}
+blockquote.cl-goal{background:var(--goal-bg);border-left-color:var(--goal);border-color:transparent}
+
+/* capstone banner */
+h2.capstone-h{background:linear-gradient(115deg,var(--navy),var(--navy-3));color:#fff;border-radius:20px;padding:30px 28px 26px;margin-top:64px;box-shadow:0 20px 50px rgba(10,26,47,.3);overflow:hidden;position:relative}
+h2.capstone-h::before{content:"\1F6E0  HANDS-ON PROJECT";display:block;font-family:Poppins;font-size:12px;font-weight:700;letter-spacing:.14em;color:var(--teal);margin:0 0 8px}
+h2.capstone-h::after{content:"";position:absolute;width:150px;height:150px;border-radius:50%;background:rgba(24,196,160,.25);filter:blur(10px);top:-50px;right:-30px}
+
+/* check-off */
+.checkable{list-style:none;padding-left:0}
+.checkable li{position:relative;padding-left:36px;cursor:pointer;margin:9px 0}
+.checkable li::before{content:"";position:absolute;left:0;top:3px;width:22px;height:22px;border:2px solid var(--teal);border-radius:7px;background:#fff;transition:.15s}
+.checkable li.checked::before{background:var(--teal);border-color:var(--teal)}
+.checkable li.checked::after{content:"\2713";position:absolute;left:5px;top:1px;color:#fff;font-weight:800;font-size:15px}
+.checkable li.checked{color:var(--muted)}
+
+/* footer */
+footer.site{background:var(--navy);color:#aebccb;margin-top:90px}
+footer.site .wrap{padding:46px 28px;display:flex;justify-content:space-between;gap:26px;flex-wrap:wrap;align-items:center}
+footer.site .logo{font-size:20px}
+footer.site .fnote{max-width:46em;font-size:13.5px;line-height:1.7}
+
+#menuBtn{display:none}
+@media(max-width:920px){
+  .topbar{display:none}
+  .nav-cta{display:none}
+  .float-badge{display:none}
+  nav.bar .wrap{gap:14px;height:60px}
+  .wrap{padding:0 20px}
+  .logo{font-size:18px;white-space:nowrap}
+  .hero .wrap{grid-template-columns:1fr;gap:30px;padding:42px 20px 56px}
+  .hero h1{font-size:33px}
+  .hero .lead{font-size:16.5px}
+  .hero-actions{gap:14px}
+  .hero-actions .btn-primary{flex:1;justify-content:center}
+  .layout{grid-template-columns:1fr;gap:0}
+  aside{position:fixed;top:0;left:0;width:84vw;max-width:320px;height:100vh;background:#fff;z-index:130;transform:translateX(-100%);transition:.25s;box-shadow:var(--shadow);padding:24px}
+  aside.open{transform:none}
+  #menuBtn{display:inline-flex}
+  .toc-close{display:block}
+  .navlinks{display:none}
+  main{padding:34px 0 80px}
+  body{font-size:16px}
+  article h2{font-size:25px}
+  h2.capstone-h{padding:24px 20px}
+}
+@media(max-width:420px){
+  .hero h1{font-size:29px}
+  .hero-actions{flex-direction:column;align-items:stretch}
+  .hero-actions .play{justify-content:center}
+}
+</style>
+</head>
+<body>
+<div id="progress"></div>
+
+<div class="topbar"><div class="wrap">
+  <div>&#10024; Welcome to <b>Building with Claude</b> &middot; a self-paced course</div>
+  <div class="right"><span>Code with Claude 2026 &middot; London</span></div>
+</div></div>
+
+<nav class="bar"><div class="wrap">
+  <button class="btn btn-outline" id="menuBtn" style="padding:8px 14px">&#9776;</button>
+  <a class="logo" href="../index.html">Building with Claude<span class="dot">.</span></a>
+  <div class="navlinks">
+    <a href="../index.html">All lessons</a>
+    <a href="#overview">Overview</a>
+    <a href="#capstone">Capstone</a>
+  </div>
+  <div class="nav-cta">
+    <a class="btn btn-primary" href="#start">Start the lesson &#8594;</a>
+  </div>
+</div></nav>
+
+<header class="hero">
+  <span class="blob t"></span><span class="blob c"></span>
+  <svg class="squiggle" style="top:120px;left:46%;" width="90" height="26" viewBox="0 0 90 26" fill="none"><path d="M2 13c8-14 16 14 24 0s16 14 24 0 16 14 24 0" stroke="#18c4a0" stroke-width="4" stroke-linecap="round"/></svg>
+  <svg class="squiggle" style="bottom:60px;right:40%;" width="70" height="22" viewBox="0 0 90 26" fill="none"><path d="M2 13c8-14 16 14 24 0s16 14 24 0 16 14 24 0" stroke="#f24d63" stroke-width="4" stroke-linecap="round"/></svg>
+  <div class="wrap" id="overview">
+    <div>
+      <span class="eyebrow">&#10022; Module 5 · Lesson 13</span>
+      <h1>Get to Production Faster with Claude Managed <span class="accent">Agents</span></h1>
+      <p class="lead">When you build an AI agent for real users, the hard part is no longer the model&#x27;s intelligence, it is the infrastructure around it (identity, security, scaling, memory, observability), and Claude Managed Agents is a hosted platform that hands you those pieces as ready-made building blocks so you can ship to production far faster.</p>
+      <div class="hero-actions">
+        <a class="btn btn-primary" href="#start">Start the lesson &#8594;</a>
+        <a class="play" href="https://www.youtube.com/watch?v=zenIB7XLZxQ" target="_blank" rel="noopener"><span class="circ">&#9654;</span> Watch the talk</a>
+      </div>
+      <div class="chips">
+        <span class="chip">&#127908; <b>Michael and Harrison</b></span>
+        <span class="chip">&#9201; <b>45 to 60 minutes</b></span>
+        <span class="chip">&#128296; <b>Hands-on capstone</b></span>
+      </div>
+    </div>
+    <div style="position:relative">
+      <div class="hero-card">
+        <div class="ring">
+          <svg width="74" height="74"><circle cx="37" cy="37" r="31" stroke="#eef2f5" stroke-width="7" fill="none"/><circle cx="37" cy="37" r="31" stroke="#18c4a0" stroke-width="7" fill="none" stroke-linecap="round" stroke-dasharray="195" stroke-dashoffset="40"/></svg>
+          <span class="lab">&#10022;</span>
+        </div>
+        <h3>What you&#39;ll get</h3>
+        <ul>
+          <li><span class="ic">&#9989;</span><span>Plain-language teaching with every term defined</span></li>
+          <li><span class="ic">&#128221;</span><span>Code snippets pulled from the talk</span></li>
+          <li><span class="ic">&#128296;</span><span>A hands-on capstone you build step by step</span></li>
+          <li><span class="ic">&#127919;</span><span>Optional practice drills to reinforce each skill</span></li>
+        </ul>
+        <a class="btn btn-coral" href="#capstone" style="width:100%;justify-content:center">Jump to the project</a>
+      </div>
+    </div>
+  </div>
+</header>
+
+<div class="layout">
+  <aside id="sidebar"><div class="toc-card">
+    <button class="toc-close" id="tocClose" aria-label="Close menu">&times;</button>
+    <p class="toc-title">On this page</p>
+    <div class="toc">
+<ul>
+<li><a href="#in-one-sentence">In one sentence</a></li>
+<li><a href="#first-principles-companion">First-principles companion</a></li>
+<li><a href="#a-few-plain-language-basics-first">A few plain-language basics first</a></li>
+<li><a href="#why-this-lesson-matters">Why this lesson matters</a></li>
+<li><a href="#learning-objectives">Learning objectives</a></li>
+<li><a href="#prerequisites">Prerequisites</a></li>
+<li><a href="#part-1-why-infrastructure-is-now-the-bottleneck">Part 1: why infrastructure is now the bottleneck</a></li>
+<li><a href="#part-2-what-claude-managed-agents-gives-you">Part 2: what Claude Managed Agents gives you</a><ul>
+<li><a href="#the-three-things-you-define">The three things you define</a></li>
+</ul>
+</li>
+<li><a href="#part-3-the-event-stream-how-you-watch-the-agent-work">Part 3: the event stream, how you watch the agent work</a><ul>
+<li><a href="#a-concrete-demo-pascal-the-grocery-agent">A concrete demo: Pascal the grocery agent</a></li>
+</ul>
+</li>
+<li><a href="#part-4-the-advanced-features-announced-in-the-talk">Part 4: the advanced features (announced in the talk)</a><ul>
+<li><a href="#what-the-partners-are-betting-on">What the partners are betting on</a></li>
+</ul>
+</li>
+<li><a href="#part-5-how-to-actually-get-started">Part 5: how to actually get started</a></li>
+<li><a href="#key-takeaways">Key takeaways</a></li>
+<li><a href="#common-pitfalls">Common pitfalls</a></li>
+<li><a href="#capstone" class="toc-capstone">🛠️ Capstone Project: build MissionControl</a><ul>
+<li><a href="#what-you-will-build">What you will build</a></li>
+<li><a href="#why-this-is-the-perfect-practice">Why this is the perfect practice</a></li>
+<li><a href="#milestones-build-them-in-order-each-one-works-on-its-own">Milestones (build them in order, each one works on its own)</a></li>
+<li><a href="#how-you-will-know-you-are-done">How you will know you are done</a></li>
+</ul>
+</li>
+<li><a href="#practice-exercises-optional-extra-reps">Practice exercises (optional extra reps)</a><ul>
+<li><a href="#exercise-1-name-the-events-foundational">Exercise 1: name the events (foundational)</a></li>
+<li><a href="#exercise-2-scope-the-access-foundational">Exercise 2: scope the access (foundational)</a></li>
+<li><a href="#exercise-3-agent-vs-environment-vs-session-foundational">Exercise 3: agent vs environment vs session (foundational)</a></li>
+<li><a href="#exercise-4-design-an-outcome-rubric-intermediate">Exercise 4: design an outcome rubric (intermediate)</a></li>
+<li><a href="#exercise-5-choose-your-infrastructure-intermediate">Exercise 5: choose your infrastructure (intermediate)</a></li>
+</ul>
+</li>
+<li><a href="#cheat-sheet">Cheat sheet</a></li>
+<li><a href="#how-this-connects-to-the-rest-of-the-course">How this connects to the rest of the course</a></li>
+</ul>
+</div>
+
+  </div></aside>
+  <main id="start">
+    <article>
+      <hr />
+<h2 id="in-one-sentence">In one sentence</h2>
+<p>When you build an AI agent for real users, the hard part is no longer the model's intelligence, it is the infrastructure around it (identity, security, scaling, memory, observability), and Claude Managed Agents is a hosted platform that hands you those pieces as ready-made building blocks so you can ship to production far faster.</p>
+<blockquote>
+<p>🎯 <strong>Where this lesson is heading.</strong> It builds to a hands on <strong>Capstone Project</strong> where you build a small agent control panel called <strong>MissionControl</strong> that defines an agent, runs it, and shows you everything it is doing through a live event stream. Everything before the Capstone teaches the ideas you will use there. If you want to see the finish line first, jump to the <strong>"Capstone Project: build MissionControl"</strong> section near the end, then come back.</p>
+</blockquote>
+<h2 id="first-principles-companion">First-principles companion</h2>
+<blockquote>
+<p>💡 <strong>The durable idea behind this lesson.</strong> The talk this lesson is built on is recent, but the underlying concept is not. For the timeless, tool-agnostic version, independent of any single product or model:</p>
+<ul>
+<li><strong><a href="https://www.anthropic.com/engineering/building-effective-agents">Building Effective Agents (Anthropic)</a></strong> (essay). The canonical "build with simple, composable, transparent patterns" framing behind taking an agent from demo to production.</li>
+<li><strong><a href="https://sre.google/sre-book/embracing-risk/">Embracing Risk (Google SRE Book)</a></strong> (essay). Production reliability from first principles: availability targets and error budgets that outlast any tooling.</li>
+</ul>
+</blockquote>
+<h2 id="a-few-plain-language-basics-first">A few plain-language basics first</h2>
+<p>This lesson uses some everyday AI terms. Here they are in simple words, so nothing below is confusing:</p>
+<ul>
+<li><strong>LLM (Large Language Model):</strong> the kind of AI that reads and writes text. "Claude" is an LLM. Think of it as a very capable text assistant.</li>
+<li><strong>Model:</strong> one specific version of that AI, for example "Sonnet 4.6" or "Opus 4.7." Newer models are smarter, and the talk mentions Opus 4.7 as the newest.</li>
+<li><strong>Agent:</strong> an AI that takes a series of actions on its own toward a goal (using tools, running code, calling other systems) rather than just answering in one shot.</li>
+<li><strong>Tool:</strong> a small piece of code the agent can choose to run, for example to look something up, send an email, or do exact maths.</li>
+<li><strong>Tool use:</strong> the general name for an agent's ability to call tools.</li>
+<li><strong>Harness:</strong> all the code and settings around the model: the loop that runs it, the tools it can call, the way state is stored. The model is the brain, the harness is everything else.</li>
+<li><strong>Sandbox:</strong> a safe, isolated computer (a container) where the agent can run code and use tools without touching your real systems.</li>
+<li><strong>Production:</strong> running software for real users at scale, reliably, as opposed to a quick demo on your laptop.</li>
+<li><strong>API (Application Programming Interface):</strong> the connection your code uses to talk to a service. An "API call" is one such request.</li>
+</ul>
+<p>You do not need to memorise these. Every term is also explained again the first time it appears below.</p>
+<h2 id="why-this-lesson-matters">Why this lesson matters</h2>
+<p>For the last few years the limit on what agents could do was raw intelligence. That has flipped. As Michael put it, the bottleneck towards increasing capabilities "is really the infrastructure around these models and not so much the intelligence for them." Two years ago Claude could write you a single test function while you approved every step. Today people clear their backlogs overnight and wake up to merge-ready pull requests. The next step is agents that run for hours and complete whole projects. To get there, an agent needs secure access to your systems, an identity of its own, somewhere safe to run, and a way for you to watch what it is doing. Building all of that yourself is slow and error-prone. This lesson shows you a platform that gives it to you out of the box.</p>
+<h2 id="learning-objectives">Learning objectives</h2>
+<p>By the end of this lesson you will be able to:</p>
+<ol>
+<li>Explain what <strong>Claude Managed Agents</strong> is and which problems it solves (infrastructure, agent primitives, observability).</li>
+<li>Define the core building blocks: an <strong>agent definition</strong>, an <strong>environment</strong>, and a <strong>session</strong>.</li>
+<li>Read an agent's <strong>event stream</strong> and name the four families of events (user, agent, session, span).</li>
+<li>Describe the advanced features the talk announced: <strong>multi-agent orchestration</strong>, <strong>outcomes</strong>, <strong>memory</strong>, <strong>dreaming</strong>, <strong>self-hosted sandboxes</strong>, and <strong>MCP tunnels</strong>.</li>
+<li>Get started fast using the Claude API skill, the CLI, or the cookbooks.</li>
+</ol>
+<h2 id="prerequisites">Prerequisites</h2>
+<ul>
+<li>Module 2 (Core skills): you know how to send a message to Claude and get a reply, and what a tool is.</li>
+<li>Helpful but optional: Module 2 · Lesson 3 (The prompting playbook), where the "generate, evaluate, repair" loop foreshadows the agent loops here.</li>
+</ul>
+<hr />
+<h2 id="part-1-why-infrastructure-is-now-the-bottleneck">Part 1: why infrastructure is now the bottleneck</h2>
+<p>The talk opens with a quick history. With the Claude 3 family you could get simple, short tasks done. With Opus 4 and the arrival of Claude Code (Anthropic's coding agent), Claude could drive an entire feature and open a pull request, though you steered it the whole way. (A <strong>pull request</strong>, or <strong>PR</strong>, is a proposed code change that a teammate reviews before it is merged in.) With the newest models, people clear whole backlogs while they sleep.</p>
+<blockquote>
+<p>🔑 <strong>Key idea: the limit moved.</strong> Once models are smart enough to work for hours, the thing standing between you and a useful product is no longer intelligence. It is everything that surrounds the model. As Harrison summed it up, for your agents "to be able to accomplish more, they need access to more."</p>
+</blockquote>
+<p>What does "more access" mean in practice? Imagine an agent team running a company acquisition end to end. It needs:</p>
+<ul>
+<li><strong>Secure credentials</strong> and access to <strong>internal systems</strong> (Slack, email, databases).</li>
+<li>Access to <strong>private code repositories</strong> if it is making code changes.</li>
+<li>An <strong>identity</strong> of its own. An agent needs to be a known "who," with its own permissions, just like a human employee has a login.</li>
+</ul>
+<p>The team also saw new ways people want to talk to agents, beyond the familiar "send text, get a reply":</p>
+<table>
+<thead>
+<tr>
+<th>Style of interaction</th>
+<th>What it means</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Conversational</strong></td>
+<td>You send a message, the agent replies. The familiar chat style.</td>
+</tr>
+<tr>
+<td><strong>Outcome-oriented</strong></td>
+<td>You hand the agent a whole task and it goes off, working on its own, coming back only when it is confident the job is done.</td>
+</tr>
+<tr>
+<td><strong>Long-running / resumable</strong></td>
+<td>You start an agent, then pick it up later (even weeks later) and it carries on right where it left off.</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p>💡 <strong>The four sticking points the team kept hearing about</strong> when researching what stops people from shipping agents:
+1. <strong>Context and memory.</strong> When they work, they work great. Get them wrong and they "completely destroy" how well your agent performs. (<strong>Context</strong> is the information the model is currently working with; <strong>memory</strong> is information kept across sessions.)
+2. <strong>Infrastructure.</strong> Reliability, scalability, security, and even latency (how fast it responds) all start to matter in production. This was cited as the number one blocker.
+3. <strong>Observability.</strong> If you cannot tell whether the agent is succeeding, nothing else matters.</p>
+</blockquote>
+<h2 id="part-2-what-claude-managed-agents-gives-you">Part 2: what Claude Managed Agents gives you</h2>
+<p>Claude Managed Agents (the talk often shortens this to "managed agents" or "CMA") is a set of API endpoints. Anthropic did the platform work so you do not have to. You pick the <strong>composable primitives</strong> you need and build your product on top. ("Primitive" just means a basic building block. "Composable" means you can mix and match them freely.) The pieces fall into three groups:</p>
+<ul>
+<li><strong>Infrastructure:</strong> reliability, scaling, security, low latency, sandboxing.</li>
+<li><strong>Agent primitives:</strong> the agent loop, tools, skills, memory, multi-agent coordination.</li>
+<li><strong>Observability:</strong> a live view of what the agent is doing and why.</li>
+</ul>
+<h3 id="the-three-things-you-define">The three things you define</h3>
+<p>To start building, you define three things:</p>
+<table>
+<thead>
+<tr>
+<th>Building block</th>
+<th>Plain meaning</th>
+<th>What goes in it</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Agent</strong></td>
+<td>The identity of the thing taking action. A bundle of configuration.</td>
+<td>System prompt, model, skills, tools, permissions.</td>
+</tr>
+<tr>
+<td><strong>Environment</strong></td>
+<td>The computer the agent runs on.</td>
+<td>A sandbox where you set the network allow-list and pre-installed packages.</td>
+</tr>
+<tr>
+<td><strong>Session</strong></td>
+<td>One ongoing run / conversation.</td>
+<td>Kicks off the work; you watch it through the event stream.</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p>🔑 <strong>The mental model.</strong> Define <strong>who</strong> the agent is (the agent), give it <strong>somewhere to run</strong> (the environment), then <strong>start it working</strong> (the session). A "network allow-list" is just a list of the only websites or services the agent is allowed to reach, which keeps it from wandering off to places it should not go.</p>
+</blockquote>
+<div class="codehilite"><pre><span></span><code>1. Define an agent      -&gt; system prompt + model + skills + tools + permissions
+2. Set up an environment -&gt; a sandbox with a network allow-list and packages
+3. Start a session       -&gt; ask the agent to do work; watch the event stream
+</code></pre></div>
+
+<h2 id="part-3-the-event-stream-how-you-watch-the-agent-work">Part 3: the event stream, how you watch the agent work</h2>
+<p>Every session is, in effect, a <strong>log of events</strong>: a running list of things that happened as you and the agent interacted. (An <strong>event</strong> is a single recorded thing: a message, a tool call, a status change.) Listening to this stream is how you observe the agent "cooking." The talk splits events into four families so each is easy to understand.</p>
+<table>
+<thead>
+<tr>
+<th>Event family</th>
+<th>What it covers</th>
+<th>Examples</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>User events</strong></td>
+<td>Things you (or your app, or your end users) send to the agent.</td>
+<td>Text messages, images, documents; an <strong>interrupt</strong> to steer the agent back on course; tool results for tools you run yourself; confirmations for human-in-the-loop steps.</td>
+</tr>
+<tr>
+<td><strong>Agent events</strong></td>
+<td>Anything Claude is doing on its side.</td>
+<td>Replying with a message, executing tools, coordinating with other agents.</td>
+</tr>
+<tr>
+<td><strong>Session events</strong></td>
+<td>The overall lifecycle of the session.</td>
+<td>Status changing from idle to running, error recovery, outcome processing.</td>
+</tr>
+<tr>
+<td><strong>Span events</strong></td>
+<td>Markers that say when a long-running thing starts and ends.</td>
+<td>Claude beginning a very long response, so you know it is not stuck.</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p>💡 An <strong>interrupt</strong> is you stepping in mid-run to cut the agent off, for example if it has gone "off course" and you want to redirect it. <strong>Human-in-the-loop</strong> means a person must approve certain actions before the agent is allowed to take them. These are your safety levers.</p>
+</blockquote>
+<h3 id="a-concrete-demo-pascal-the-grocery-agent">A concrete demo: Pascal the grocery agent</h3>
+<p>The talk demos <strong>Pascal</strong>, a fictitious agent that studies grocery-shopping habits. From a dashboard, they click "Analyze." In the developer console they watch the event stream in real time: tool runs, agent events, the agent's definition (system prompt, model, MCP tool configuration) on the right, and the environment's networking and installed packages. Claude reports findings (bananas are popular; Sunday is a bad day to shop), then runs a predictive reorder analysis. There is even an <strong>"Ask Claude"</strong> button that reads the session transcript and suggests how to improve the agent's configuration (for example, spotting a Python script that ran slowly and could be sped up).</p>
+<blockquote>
+<p>🔑 <strong>Observability is a first-class feature, not an afterthought.</strong> Because everything is an event exposed over an API, you can see exactly what the agent did, surface it in your own app, and even ask Claude to critique its own setup.</p>
+</blockquote>
+<h2 id="part-4-the-advanced-features-announced-in-the-talk">Part 4: the advanced features (announced in the talk)</h2>
+<p>The team highlighted several more powerful capabilities. You do not need all of them on day one, but knowing they exist shapes how you design.</p>
+<table>
+<thead>
+<tr>
+<th>Feature</th>
+<th>Plain-language explanation</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Multi-agent orchestration</strong></td>
+<td>Claude can spawn other agent threads, each with its own separate context window, and delegate work to them, passing messages back and forth. (A <strong>context window</strong> is the limited amount of text a single model instance can hold at once; giving each helper its own keeps things from getting crowded.)</td>
+</tr>
+<tr>
+<td><strong>Outcomes</strong></td>
+<td>You define a <strong>rubric</strong> (a checklist or set of goals). The agent does a first pass, then grades itself against the rubric and keeps iterating in a loop until it is satisfied.</td>
+</tr>
+<tr>
+<td><strong>Memory</strong></td>
+<td>The agent reads and writes from long-lived <strong>memory stores</strong>, so every session can be better than the last.</td>
+</tr>
+<tr>
+<td><strong>Dreaming</strong> (research preview)</td>
+<td>Claude reflects across thousands of past sessions at once to produce new memories, edit old ones, and keep its memory "top-notch."</td>
+</tr>
+<tr>
+<td><strong>Self-hosted sandboxes</strong></td>
+<td>Bring your own compute. Run the agent's tools inside your own network (your <strong>VPC</strong>, or virtual private cloud, meaning your private slice of the cloud) instead of on Anthropic's. Anthropic just signals when a new sandbox is needed; you control provisioning, network policies, and audit logs.</td>
+</tr>
+<tr>
+<td><strong>MCP tunnels</strong> (research preview)</td>
+<td>Expose your private <strong>MCP servers</strong> to Claude through a secure tunnel without ever putting them on the public internet.</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p>💡 <strong>What is MCP?</strong> MCP (Model Context Protocol) is a shared standard for connecting an AI to external tools and data. An <strong>MCP server</strong> is a service that offers tools over that standard. A "tunnel" is a secure private pipe, so Claude can reach a server that lives only inside your network.</p>
+</blockquote>
+<h3 id="what-the-partners-are-betting-on">What the partners are betting on</h3>
+<p>Four infrastructure partners joined for self-hosted sandboxes: <strong>Cloudflare, Daytona, Modal, and Vercel.</strong> A few themes worth carrying with you:</p>
+<ul>
+<li><strong>Agents need what humans need</strong> (Yvon, Daytona): not just code-execution boxes, but varied CPU, RAM, operating systems, even GPUs, plus pausing, resuming, and <strong>forking</strong> (cloning a run so the agent can try several paths at once), all at huge speed and scale.</li>
+<li><strong>Scale beyond the micro VM</strong> (Mike, Cloudflare): as intelligence gets cheaper, the world will run a massive number of agents, so lighter-weight isolation that spins up in milliseconds matters alongside full virtual machines.</li>
+<li><strong>Massive, fast scale</strong> (Akshat, Modal): spinning up hundreds of thousands of sandboxes in minutes, GPU sandboxes for jobs like optimising inference.</li>
+<li><strong>Resumability and "multiplayer"</strong> (Luke, Vercel): pausing a task and keeping your place, and rethinking how multiple agents and humans collaborate.</li>
+</ul>
+<blockquote>
+<p>🔑 <strong>A recurring theme across the whole panel:</strong> the <strong>human emulator</strong> idea. As Yvon put it, "anything that a human can do digitally... you can now have an agent do if you give it a sandbox." Give an agent a real computer and it can install an app, log into a legacy system, and produce an end-to-end result, not just answer a question.</p>
+</blockquote>
+<h2 id="part-5-how-to-actually-get-started">Part 5: how to actually get started</h2>
+<p>Three on-ramps, from easiest to most hands-on:</p>
+<ol>
+<li><strong>The Claude API skill in Claude Code.</strong> If you have Claude Code installed, use the built-in <strong>Claude API skill</strong>. A <strong>skill</strong> is packaged knowledge Claude can pull in when it needs it; this one knows all about managed agents and makes integration "an absolute breeze."</li>
+<li><strong>The CLI.</strong> A command-line tool to interact with your agents and sessions through simple commands. (A <strong>CLI</strong>, command-line interface, is a text-based way to run a tool by typing commands.)</li>
+<li><strong>The cookbooks.</strong> Copy-paste-ready example code you can adapt to your needs.</li>
+</ol>
+<div class="codehilite"><pre><span></span><code>FASTEST PATHS TO A FIRST AGENT
+  1. In Claude Code, use the Claude API skill  -&gt; it knows managed agents
+  2. Use the CMA CLI                            -&gt; create/run agents and sessions
+  3. Copy a cookbook example                    -&gt; adapt to your needs
+</code></pre></div>
+
+<blockquote>
+<p>💡 As Harrison said of Claude Code, it is "my favorite tool of all." The fastest way to build with managed agents is often to ask Claude itself to help you, using the skill that already understands the platform.</p>
+</blockquote>
+<hr />
+<h2 id="key-takeaways">Key takeaways</h2>
+<ol>
+<li><strong>Intelligence is no longer the bottleneck. Infrastructure is.</strong> Smart models can work for hours; what stops you is identity, security, scaling, memory, and observability.</li>
+<li><strong>Managed agents hands you those pieces as composable primitives.</strong> Pick the ones you need, ignore the rest, and build your product on top.</li>
+<li><strong>Three building blocks:</strong> an <strong>agent</strong> (who it is), an <strong>environment</strong> (where it runs), a <strong>session</strong> (one run you watch).</li>
+<li><strong>Everything is an event.</strong> The event stream (user, agent, session, span) is how you observe, steer, and debug your agent live.</li>
+<li><strong>The big levers</strong> are multi-agent orchestration, outcomes, memory, dreaming, self-hosted sandboxes, and MCP tunnels.</li>
+<li><strong>Start fast</strong> with the Claude API skill, the CLI, or the cookbooks. Let Claude help you build your Claude agent.</li>
+</ol>
+<h2 id="common-pitfalls">Common pitfalls</h2>
+<ul>
+<li>❌ Trying to build the agent loop, scaling, storage, and security yourself before you have even proven the agent is useful.</li>
+<li>❌ Giving an agent broad access with no network allow-list or human-in-the-loop checks.</li>
+<li>❌ Shipping with no observability, so you cannot tell whether the agent is actually succeeding.</li>
+<li>❌ Treating memory and context as afterthoughts; get them wrong and the agent's quality collapses.</li>
+<li>❌ Assuming you need every advanced feature on day one. Start small, add primitives as you need them.</li>
+</ul>
+<hr />
+<h2 id="capstone" class="capstone-h">🛠️ Capstone Project: build MissionControl</h2>
+<blockquote>
+<p>This is the main hands on project for the lesson, and the best way to make the ideas stick. You are going to build a small control panel for a managed agent: define it, run it, and watch it work through the event stream. Start as small as a single script and grow it as far as you like.</p>
+</blockquote>
+<h3 id="what-you-will-build">What you will build</h3>
+<p><strong>MissionControl</strong> is a tiny web app (or even just a script) that does three things, matching the three building blocks from the lesson:</p>
+<ol>
+<li><strong>Define</strong> an agent (system prompt, model, tools, permissions) and an environment (sandbox with a network allow-list).</li>
+<li><strong>Run</strong> a session: hand the agent a task and let it work.</li>
+<li><strong>Observe</strong> the live event stream, showing each event labelled by family (user, agent, session, span), with an interrupt button so you can steer.</li>
+</ol>
+<blockquote>
+<p>🎯 <strong>Pick your agent's job.</strong> Choose something small but real: a <strong>research assistant</strong> that summarises a topic from the web, a <strong>repo janitor</strong> that tidies a code project, or a <strong>shopping-habits analyst</strong> like Pascal in the talk. Pick one where you will clearly see tool calls and a final result.</p>
+</blockquote>
+<h3 id="why-this-is-the-perfect-practice">Why this is the perfect practice</h3>
+<table>
+<thead>
+<tr>
+<th>Lesson skill</th>
+<th>Where you use it in MissionControl</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Defining an agent (prompt, model, tools, permissions)</td>
+<td>Milestone 1</td>
+</tr>
+<tr>
+<td>Setting up an environment (sandbox, network allow-list)</td>
+<td>Milestone 2</td>
+</tr>
+<tr>
+<td>Starting and managing a session</td>
+<td>Milestone 3</td>
+</tr>
+<tr>
+<td>Reading the four event families</td>
+<td>Milestone 4, your live dashboard</td>
+</tr>
+<tr>
+<td>Human-in-the-loop and interrupts</td>
+<td>Milestone 5</td>
+</tr>
+<tr>
+<td>Outcomes (self-grading loop)</td>
+<td>Milestone 6</td>
+</tr>
+</tbody>
+</table>
+<h3 id="milestones-build-them-in-order-each-one-works-on-its-own">Milestones (build them in order, each one works on its own)</h3>
+<ol>
+<li><strong>Define the agent.</strong> Using the Anthropic SDK (the official code library for calling Claude) or the CLI, create an agent with a clear system prompt, a model (for example Opus 4.7), and a small set of tools. Print its unique ID.</li>
+<li><strong>Define the environment.</strong> Create an environment with a <strong>network allow-list</strong> (start with one or two domains the agent genuinely needs) and any packages it requires. Print its ID.</li>
+<li><strong>Start a session.</strong> Bind the agent and environment, send it a task, and confirm it begins running. (Smallest version: a script that prints the agent's final reply. Bigger version: a chat UI with a sidebar of sessions.)</li>
+<li><strong>Stream the events.</strong> Listen to the event stream and print each event labelled by family: user, agent, session, span. This is your live dashboard. You should be able to watch tool calls happen in real time.</li>
+<li><strong>Add control.</strong> Add an <strong>interrupt</strong> button (or command) that stops the agent mid-run, and a human-in-the-loop confirmation for one "risky" tool so the agent must ask before using it.</li>
+<li><strong>Add an outcome.</strong> Give the agent a <strong>rubric</strong> (a short checklist describing a good result) and let it self-grade and iterate until it passes. Show the outcome-processing events in your dashboard.</li>
+<li><strong>Stretch goals.</strong> Persist and resume sessions (close the app, reopen, continue). Add a <strong>memory store</strong> so the agent remembers preferences between runs. Try a <strong>multi-agent</strong> version where the main agent spawns one helper and you watch both threads.</li>
+</ol>
+<h3 id="how-you-will-know-you-are-done">How you will know you are done</h3>
+<ul>
+<li>✅ You can create an agent and an environment and get back IDs for each.</li>
+<li>✅ Starting a session runs the agent, and you can read its events live, correctly labelled by family.</li>
+<li>✅ You can <strong>interrupt</strong> a run and require a confirmation before one specific tool fires.</li>
+<li>✅ With an <strong>outcome</strong> rubric set, the agent loops and improves until it meets the rubric, and you can see that in the stream.</li>
+<li>✅ You can close the app and resume a session where it left off.</li>
+</ul>
+<blockquote>
+<p>💡 <strong>Keep yourself honest:</strong> if you cannot tell from your own dashboard what the agent just did and why, your observability is not done yet. That is the whole point of the event stream.</p>
+</blockquote>
+<hr />
+<h2 id="practice-exercises-optional-extra-reps">Practice exercises (optional extra reps)</h2>
+<blockquote>
+<p><strong>What these are:</strong> small, self-contained tasks, each focused on one idea from the lesson. They are optional and independent. The <strong>Capstone above is the main build</strong> and already exercises all of these, so feel free to skip straight to it.</p>
+</blockquote>
+<h3 id="exercise-1-name-the-events-foundational">Exercise 1: name the events (foundational)</h3>
+<p>Take a transcript of any agent run (your own, or imagine Pascal). Label each line as a <strong>user</strong>, <strong>agent</strong>, <strong>session</strong>, or <strong>span</strong> event. Where would an <strong>interrupt</strong> appear, and who sends it?</p>
+<h3 id="exercise-2-scope-the-access-foundational">Exercise 2: scope the access (foundational)</h3>
+<p>For an agent that books restaurant reservations, write its <strong>network allow-list</strong> (which domains it may reach) and decide which one tool should require <strong>human-in-the-loop</strong> approval. Justify each choice in one sentence.</p>
+<h3 id="exercise-3-agent-vs-environment-vs-session-foundational">Exercise 3: agent vs environment vs session (foundational)</h3>
+<p>Write one sentence each defining the <strong>agent</strong>, the <strong>environment</strong>, and the <strong>session</strong>, using a real agent idea of yours. Then say what would break if you confused two of them.</p>
+<h3 id="exercise-4-design-an-outcome-rubric-intermediate">Exercise 4: design an outcome rubric (intermediate)</h3>
+<p>Pick a task ("write a competitor analysis of three companies"). Write a 4 to 6 point <strong>rubric</strong> the agent should grade itself against. Make each point checkable, not vague.</p>
+<h3 id="exercise-5-choose-your-infrastructure-intermediate">Exercise 5: choose your infrastructure (intermediate)</h3>
+<p>Your agent needs GPUs and must keep all data inside your own network. Using the partner themes from Part 4, write a short paragraph on whether you would use Anthropic-managed sandboxes or a <strong>self-hosted sandbox</strong>, and why.</p>
+<hr />
+<h2 id="cheat-sheet">Cheat sheet</h2>
+<div class="codehilite"><pre><span></span><code>THE THREE BUILDING BLOCKS
+  Agent       = who it is   (system prompt, model, skills, tools, permissions)
+  Environment = where it runs (sandbox, network allow-list, packages)
+  Session     = one run you watch (kick off work, stream events)
+
+THE FOUR EVENT FAMILIES
+  User events     -&gt; what you/your users send (text, images, interrupts, confirmations)
+  Agent events    -&gt; what Claude does (messages, tools, coordinating agents)
+  Session events  -&gt; lifecycle (idle -&gt; running, errors, outcome processing)
+  Span events     -&gt; &quot;this long thing is starting / ending&quot;
+
+THE BIG LEVERS (add as you need them)
+  Multi-agent  -&gt; spawn helpers with their own context windows
+  Outcomes     -&gt; give a rubric; agent self-grades in a loop
+  Memory       -&gt; long-lived stores; each session better than the last
+  Dreaming     -&gt; reflect across many sessions to curate memory
+  Self-hosted sandboxes -&gt; run tools in your own network
+  MCP tunnels  -&gt; reach private MCP servers securely
+
+GET STARTED
+  Claude API skill in Claude Code  |  the CLI  |  the cookbooks
+</code></pre></div>
+
+<h2 id="how-this-connects-to-the-rest-of-the-course">How this connects to the rest of the course</h2>
+<ul>
+<li><strong>Earlier, Module 2 · Lesson 3 (The prompting playbook):</strong> the "generate, evaluate, repair" loop there is the small-scale ancestor of <strong>outcomes</strong> and multi-agent loops here.</li>
+<li><strong>Next, Module 5 · Lesson 14 (Ship your first managed agent):</strong> a hands-on build of an incident-response agent that makes these primitives concrete.</li>
+<li><strong>Next, Module 5 · Lesson 15 (Build a production-ready agent):</strong> a deeper, code-along build using multi-agent orchestration, outcomes, memory, and credential vaults.</li>
+<li><strong>Next, Module 5 · Lesson 16 (Tool, skill, or subagent?):</strong> how to keep an agent's design clean as it grows, deciding when to reach for each primitive.</li>
+</ul>
+<hr />
+<p><em>Source: "How to get to production faster with Claude Managed Agents" by Michael and Harrison (Anthropic), with a partner panel from Cloudflare, Daytona, Modal, and Vercel, Code with Claude 2026, London. Code and command snippets are illustrative reconstructions of the approaches described in the talk. Adapt the model names and API details to the current SDK.</em></p>
+    </article>
+    <nav class="lessonnav"><a class="ln prev" href="../module-4-claude-code/12-stop-babysitting-your-agents.html"><span class="dir">&#8592; Previous</span><b>Stop Babysitting Your Agents</b></a><a class="ln home" href="../index.html"><b>All lessons</b></a><a class="ln next" href="14-ship-your-first-managed-agent.html"><span class="dir">Next &#8594;</span><b>Ship Your First Managed Agent</b></a></nav>
+  </main>
+</div>
+
+<footer class="site"><div class="wrap">
+  <a class="logo" href="../index.html">Building with Claude<span class="dot">.</span></a>
+  <span class="fnote">A self-paced course generated from the Code with Claude 2026 (London) talks. Code snippets are illustrative reconstructions of the approaches shown. Adapt them to the current SDK.</span>
+</div></footer>
+
+<style>pre { line-height: 125%; }
+td.linenos .normal { color: inherit; background-color: transparent; padding-left: 5px; padding-right: 5px; }
+span.linenos { color: inherit; background-color: transparent; padding-left: 5px; padding-right: 5px; }
+td.linenos .special { color: #000000; background-color: #ffffc0; padding-left: 5px; padding-right: 5px; }
+span.linenos.special { color: #000000; background-color: #ffffc0; padding-left: 5px; padding-right: 5px; }
+.codehilite .hll { background-color: #ffffcc }
+.codehilite { background: #282C34; color: #ABB2BF }
+.codehilite .c { color: #7F848E } /* Comment */
+.codehilite .err { color: #ABB2BF } /* Error */
+.codehilite .esc { color: #ABB2BF } /* Escape */
+.codehilite .g { color: #ABB2BF } /* Generic */
+.codehilite .k { color: #C678DD } /* Keyword */
+.codehilite .l { color: #ABB2BF } /* Literal */
+.codehilite .n { color: #E06C75 } /* Name */
+.codehilite .o { color: #56B6C2 } /* Operator */
+.codehilite .x { color: #ABB2BF } /* Other */
+.codehilite .p { color: #ABB2BF } /* Punctuation */
+.codehilite .ch { color: #7F848E } /* Comment.Hashbang */
+.codehilite .cm { color: #7F848E } /* Comment.Multiline */
+.codehilite .cp { color: #7F848E } /* Comment.Preproc */
+.codehilite .cpf { color: #7F848E } /* Comment.PreprocFile */
+.codehilite .c1 { color: #7F848E } /* Comment.Single */
+.codehilite .cs { color: #7F848E } /* Comment.Special */
+.codehilite .gd { color: #E06C75 } /* Generic.Deleted */
+.codehilite .ge { color: #ABB2BF; font-style: italic } /* Generic.Emph */
+.codehilite .ges { color: #ABB2BF } /* Generic.EmphStrong */
+.codehilite .gr { color: #E06C75 } /* Generic.Error */
+.codehilite .gh { color: #ABB2BF; font-weight: bold } /* Generic.Heading */
+.codehilite .gi { color: #98C379 } /* Generic.Inserted */
+.codehilite .go { color: #E06C75 } /* Generic.Output */
+.codehilite .gp { color: #ABB2BF } /* Generic.Prompt */
+.codehilite .gs { color: #ABB2BF; font-weight: bold } /* Generic.Strong */
+.codehilite .gu { color: #ABB2BF; font-weight: bold } /* Generic.Subheading */
+.codehilite .gt { color: #E06C75 } /* Generic.Traceback */
+.codehilite .kc { color: #E5C07B } /* Keyword.Constant */
+.codehilite .kd { color: #C678DD } /* Keyword.Declaration */
+.codehilite .kn { color: #C678DD } /* Keyword.Namespace */
+.codehilite .kp { color: #C678DD } /* Keyword.Pseudo */
+.codehilite .kr { color: #C678DD } /* Keyword.Reserved */
+.codehilite .kt { color: #E5C07B } /* Keyword.Type */
+.codehilite .ld { color: #ABB2BF } /* Literal.Date */
+.codehilite .m { color: #D19A66 } /* Literal.Number */
+.codehilite .s { color: #98C379 } /* Literal.String */
+.codehilite .na { color: #E06C75 } /* Name.Attribute */
+.codehilite .nb { color: #E5C07B } /* Name.Builtin */
+.codehilite .nc { color: #E5C07B } /* Name.Class */
+.codehilite .no { color: #E06C75 } /* Name.Constant */
+.codehilite .nd { color: #61AFEF } /* Name.Decorator */
+.codehilite .ni { color: #E06C75 } /* Name.Entity */
+.codehilite .ne { color: #E06C75 } /* Name.Exception */
+.codehilite .nf { color: #61AFEF; font-weight: bold } /* Name.Function */
+.codehilite .nl { color: #E06C75 } /* Name.Label */
+.codehilite .nn { color: #E06C75 } /* Name.Namespace */
+.codehilite .nx { color: #E06C75 } /* Name.Other */
+.codehilite .py { color: #E06C75 } /* Name.Property */
+.codehilite .nt { color: #E06C75 } /* Name.Tag */
+.codehilite .nv { color: #E06C75 } /* Name.Variable */
+.codehilite .ow { color: #56B6C2 } /* Operator.Word */
+.codehilite .pm { color: #ABB2BF } /* Punctuation.Marker */
+.codehilite .w { color: #ABB2BF } /* Text.Whitespace */
+.codehilite .mb { color: #D19A66 } /* Literal.Number.Bin */
+.codehilite .mf { color: #D19A66 } /* Literal.Number.Float */
+.codehilite .mh { color: #D19A66 } /* Literal.Number.Hex */
+.codehilite .mi { color: #D19A66 } /* Literal.Number.Integer */
+.codehilite .mo { color: #D19A66 } /* Literal.Number.Oct */
+.codehilite .sa { color: #98C379 } /* Literal.String.Affix */
+.codehilite .sb { color: #98C379 } /* Literal.String.Backtick */
+.codehilite .sc { color: #98C379 } /* Literal.String.Char */
+.codehilite .dl { color: #98C379 } /* Literal.String.Delimiter */
+.codehilite .sd { color: #98C379 } /* Literal.String.Doc */
+.codehilite .s2 { color: #98C379 } /* Literal.String.Double */
+.codehilite .se { color: #98C379 } /* Literal.String.Escape */
+.codehilite .sh { color: #98C379 } /* Literal.String.Heredoc */
+.codehilite .si { color: #98C379 } /* Literal.String.Interpol */
+.codehilite .sx { color: #98C379 } /* Literal.String.Other */
+.codehilite .sr { color: #98C379 } /* Literal.String.Regex */
+.codehilite .s1 { color: #98C379 } /* Literal.String.Single */
+.codehilite .ss { color: #98C379 } /* Literal.String.Symbol */
+.codehilite .bp { color: #E5C07B } /* Name.Builtin.Pseudo */
+.codehilite .fm { color: #56B6C2; font-weight: bold } /* Name.Function.Magic */
+.codehilite .vc { color: #E06C75 } /* Name.Variable.Class */
+.codehilite .vg { color: #E06C75 } /* Name.Variable.Global */
+.codehilite .vi { color: #E06C75 } /* Name.Variable.Instance */
+.codehilite .vm { color: #E06C75 } /* Name.Variable.Magic */
+.codehilite .il { color: #D19A66 } /* Literal.Number.Integer.Long */</style>
+<script>
+// mobile menu
+const sb=document.getElementById('sidebar'),mb=document.getElementById('menuBtn');
+if(mb){mb.onclick=()=>sb.classList.toggle('open');sb.addEventListener('click',e=>{if(e.target.tagName==='A')sb.classList.remove('open')});}
+const tc=document.getElementById('tocClose');if(tc){tc.onclick=()=>sb.classList.remove('open');}
+// progress
+const prog=document.getElementById('progress');
+addEventListener('scroll',()=>{const h=document.body.scrollHeight-innerHeight;prog.style.width=(h>0?scrollY/h*100:0)+'%'});
+// code chrome + copy
+document.querySelectorAll('.codehilite, pre').forEach(block=>{
+  if(block.parentElement.classList.contains('codehilite'))return;
+  const bar=document.createElement('div');bar.className='code-bar';
+  bar.innerHTML='<span class="dot r"></span><span class="dot y"></span><span class="dot g"></span>';
+  block.appendChild(bar);
+  const btn=document.createElement('button');btn.className='copy-btn';btn.textContent='Copy';
+  btn.onclick=()=>{const t=block.querySelector('code')?.innerText||block.innerText;
+    navigator.clipboard.writeText(t.replace(/\nCopy$/,''));btn.textContent='Copied!';btn.classList.add('done');
+    setTimeout(()=>{btn.textContent='Copy';btn.classList.remove('done')},1500)};
+  block.appendChild(btn);
+});
+// callouts by leading emoji
+const map={'🔑':'cl-key','💡':'cl-tip','✅':'cl-ok','❌':'cl-no','🎯':'cl-goal','🛠':'cl-goal'};
+document.querySelectorAll('blockquote').forEach(q=>{const t=(q.textContent||'').trim();for(const e in map){if(t.startsWith(e)){q.classList.add(map[e]);break}}});
+// check-off
+function makeCheckable(rx){document.querySelectorAll('h2,h3').forEach(h=>{if(!rx.test(h.textContent))return;let el=h.nextElementSibling;
+  while(el&&!/^H[1-3]$/.test(el.tagName)){if(el.tagName==='OL'||el.tagName==='UL'){el.classList.add('checkable');
+    el.querySelectorAll(':scope>li').forEach(li=>{const key='cwc:'+location.pathname+':'+li.textContent.slice(0,60);
+      if(localStorage.getItem(key))li.classList.add('checked');
+      li.addEventListener('click',ev=>{if(ev.target.tagName==='A')return;li.classList.toggle('checked');
+        li.classList.contains('checked')?localStorage.setItem(key,'1'):localStorage.removeItem(key)});});}el=el.nextElementSibling;}});}
+makeCheckable(/learning objectives|milestones/i);
+// scrollspy
+const links=[...document.querySelectorAll('.toc a')];
+const heads=links.map(a=>a.getAttribute('href')).filter(h=>h&&h.startsWith('#')).map(h=>document.getElementById(h.slice(1))).filter(Boolean);
+const spy=()=>{let cur=heads[0]?.id;for(const h of heads){if(h.getBoundingClientRect().top<150)cur=h.id}
+  links.forEach(a=>a.classList.toggle('active',a.getAttribute('href')==='#'+cur))};
+addEventListener('scroll',spy);spy();
+</script>
+</body>
+</html>
