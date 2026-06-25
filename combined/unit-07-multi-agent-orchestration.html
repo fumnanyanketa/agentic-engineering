@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Unit 0: Foundations and the Mental Model | Agentic Engineering</title>
+<title>Unit 7: Multi-Agent Orchestration | Agentic Engineering</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@500;600;700;800&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
@@ -225,9 +225,9 @@ footer.site .fnote{max-width:46em;font-size:13.5px;line-height:1.7}
   <svg class="squiggle" style="bottom:60px;right:40%;" width="70" height="22" viewBox="0 0 90 26" fill="none"><path d="M2 13c8-14 16 14 24 0s16 14 24 0 16 14 24 0" stroke="#f24d63" stroke-width="4" stroke-linecap="round"/></svg>
   <div class="wrap" id="overview">
     <div>
-      <span class="eyebrow">&#10022; Unit 0</span>
-      <h1>Foundations and the Mental <span class="accent">Model</span></h1>
-      <p class="lead">You are not programming the model, you are engineering the environment around a capable but fallible reasoner so it can succeed, and this unit gives you the three things that make that possible: the right mental model (design the workplace, not the brain), exactly enough of how LLMs actually work (tokens, prediction, context, sampling), and a clear picture of where capability is going (an exponential you build *ahead* of, not behind).</p>
+      <span class="eyebrow">&#10022; Unit 7</span>
+      <h1>Multi-Agent <span class="accent">Orchestration</span></h1>
+      <p class="lead">A multi-agent system (one lead agent splitting work among helper agents) is one of the most powerful and most over-used ideas in the field, so this unit teaches you both halves of the craft: when many agents genuinely beat one (read-heavy, parallelizable, high-value work) versus when one agent wins (write-heavy, dependent work), and the deliberate decomposition that follows (tool vs skill vs subagent), so that when you reach for a second agent you do it with reasons and numbers, not because it sounds sophisticated.</p>
       <div class="hero-actions">
         <a class="btn btn-primary" href="#start">Start the lesson &#8594;</a>
         
@@ -269,13 +269,14 @@ footer.site .fnote{max-width:46em;font-size:13.5px;line-height:1.7}
 <li><a href="#why-this-unit-matters">Why this unit matters</a></li>
 <li><a href="#learning-objectives">Learning objectives</a></li>
 <li><a href="#prerequisites">Prerequisites</a></li>
-<li><a href="#part-1-the-mental-model-engineer-the-environment">Part 1: The mental model (engineer the environment)</a></li>
-<li><a href="#part-2-how-llms-work-exactly-enough">Part 2: How LLMs work, exactly enough</a></li>
-<li><a href="#part-3-where-capability-is-going-and-how-to-ride-it">Part 3: Where capability is going (and how to ride it)</a></li>
-<li><a href="#part-4-the-craft-ahead-and-what-you-are-building">Part 4: The craft ahead, and what you are building</a></li>
+<li><a href="#part-1-when-multi-agent-helps-and-when-it-hurts-the-real-debate">Part 1: When multi-agent helps and when it hurts (the real debate)</a></li>
+<li><a href="#part-2-the-cost-reality-hold-both-numbers">Part 2: The cost reality (hold both numbers)</a></li>
+<li><a href="#part-3-how-to-build-orchestrator-worker-and-how-atlas-does-it">Part 3: How to build orchestrator-worker, and how Atlas does it</a></li>
+<li><a href="#part-4-tool-skill-or-subagent-decomposing-deliberately">Part 4: Tool, skill, or subagent? (decomposing deliberately)</a></li>
+<li><a href="#part-5-frameworks-with-eyes-open">Part 5: Frameworks, with eyes open</a></li>
 <li><a href="#key-takeaways">Key takeaways</a></li>
 <li><a href="#common-pitfalls">Common pitfalls</a></li>
-<li><a href="#capstone" class="toc-capstone">🛠️ The Build: your workstation and first measured baseline</a><ul>
+<li><a href="#capstone" class="toc-capstone">🛠️ The Build: Atlas at fleet scale</a><ul>
 <li><a href="#what-you-will-build">What you will build</a></li>
 <li><a href="#milestones-in-order-each-stands-alone">Milestones (in order, each stands alone)</a></li>
 <li><a href="#how-you-will-know-you-are-done">How you will know you are done</a></li>
@@ -291,167 +292,217 @@ footer.site .fnote{max-width:46em;font-size:13.5px;line-height:1.7}
     <article>
       <hr />
 <h2 id="in-one-sentence">In one sentence</h2>
-<p>You are not programming the model, you are engineering the environment around a capable but fallible reasoner so it can succeed, and this unit gives you the three things that make that possible: the right mental model (design the workplace, not the brain), exactly enough of how LLMs actually work (tokens, prediction, context, sampling), and a clear picture of where capability is going (an exponential you build <em>ahead</em> of, not behind).</p>
+<p>A multi-agent system (one lead agent splitting work among helper agents) is one of the most powerful and most over-used ideas in the field, so this unit teaches you both halves of the craft: when many agents genuinely beat one (read-heavy, parallelizable, high-value work) versus when one agent wins (write-heavy, dependent work), and the deliberate decomposition that follows (tool vs skill vs subagent), so that when you reach for a second agent you do it with reasons and numbers, not because it sounds sophisticated.</p>
 <blockquote>
-<p>🎯 <strong>Where this unit is heading.</strong> The payoff is a <strong>Build</strong> that doubles as your launchpad: a working, authenticated environment that makes its first measured model call, streams the response, counts tokens, validates structured output, and runs a tiny temperature-and-model experiment, all committed to your AtlasOS repo. Set it up once here and you never fight setup again. Jump to <strong>"The Build"</strong> to see the finish line.</p>
+<p>🎯 <strong>Where this unit is heading.</strong> The payoff is a <strong>Build</strong> that takes Atlas, your orchestrator, from running one agent (Scout) to dispatching a small fleet: you add a second specialized agent, make the tool-vs-skill-vs-subagent decision deliberately and write it down for the fleet, then prove on your own numbers whether multi-agent actually beat the single-agent baseline. Honest guardrails about when <em>not</em> to go multi-agent are part of the deliverable. Jump to <strong>"The Build"</strong> to see the finish line.</p>
 </blockquote>
 <h2 id="first-principles-companion">First-principles companion</h2>
 <blockquote>
-<p>💡 <strong>The durable ideas behind this unit.</strong> The Claude-specific framing is recent; the concepts are not. For the timeless versions:</p>
+<p>💡 <strong>The durable ideas behind this unit.</strong> The Claude-specific framing is recent; the orchestration ideas are not. For the timeless versions:</p>
 <ul>
-<li><strong><a href="https://arxiv.org/abs/2001.08361">Scaling Laws for Neural Language Models</a></strong> (paper). Why capability rises predictably as you scale model, data, and compute, the engine under "build for the next model."</li>
-<li><strong><a href="https://arxiv.org/abs/2206.07682">Emergent Abilities of Large Language Models</a></strong> (paper). Why a model jumps from "can't" to "can" across a generation, the first-principles account of the capability curve.</li>
-<li><strong><a href="https://en.wikipedia.org/wiki/Bitter_lesson">The Bitter Lesson</a></strong> (essay). General methods that leverage computation beat hand-built scaffolding over time, the basis for keeping your scaffolding thin.</li>
+<li><strong><a href="https://www.anthropic.com/engineering/multi-agent-research-system">How we built our multi-agent research system (Anthropic)</a></strong> (essay). A first-principles treatment of orchestrator-vs-subagent decomposition: when to parallelize, the real cost of subagents, and the communication tradeoffs.</li>
+<li><strong><a href="https://www.anthropic.com/engineering/building-effective-agents">Building Effective Agents (Anthropic)</a></strong> (essay). The pattern catalogue (routing, orchestrator-workers, evaluator-optimizer) that frames every choice in this unit, and the case for starting without a framework.</li>
+<li><strong><a href="https://cognition.ai/blog/dont-build-multi-agents">Don't Build Multi-Agents (Cognition)</a></strong> (essay). The honest counter-case: why parallel agents are fragile, and the "share full context, not just messages" rule.</li>
 </ul>
 </blockquote>
 <h2 id="a-few-plain-language-basics-first">A few plain-language basics first</h2>
 <ul>
-<li><strong>LLM (Large Language Model):</strong> the kind of AI that reads and writes text. Claude is one. Treat it as a very capable, fallible text reasoner, not a program.</li>
-<li><strong>Token:</strong> the unit a model reads and writes in (roughly three quarters of a word). You are billed per token, so more tokens means slower and pricier.</li>
-<li><strong>Context window:</strong> how much text (in tokens) the model can hold in mind at once. Bigger is not always better; quality can degrade as it fills (<strong>context rot</strong>).</li>
-<li><strong>Inference vs training:</strong> <em>training</em> builds the model (not your job here); <em>inference</em> is using it (your whole job here).</li>
-<li><strong>Agent:</strong> an AI that takes a series of actions toward a goal (reading files, running code, fixing errors), not just answering once.</li>
-<li><strong>Scaffolding (or harness):</strong> everything around the model: prompts, tools, loops, environment. The model is the engine; the scaffolding is the rest of the car.</li>
+<li><strong>Multi-agent system:</strong> more than one separate agent, each an LLM running in a loop with tools, splitting the work between them.</li>
+<li><strong>Orchestrator (lead):</strong> the main agent that reads the task, breaks it up, and dispatches the pieces. In your build this is <strong>Atlas</strong>.</li>
+<li><strong>Worker (subagent):</strong> a separate agent instance with its own context window that the lead hands one piece of work to, and that returns a short summary.</li>
+<li><strong>Orchestrator-worker pattern:</strong> the most common multi-agent shape: lead decomposes, workers run (often in parallel), lead synthesizes.</li>
+<li><strong>Breadth-first task:</strong> one where you look in many independent places at once (research), rather than following one chain of dependent steps.</li>
+<li><strong>Tool / skill / subagent:</strong> the three primitives you decompose into. A <strong>tool</strong> is code the agent runs; a <strong>skill</strong> is packaged info pulled in only when needed; a <strong>subagent</strong> is a separate Claude with its own context.</li>
+<li><strong>Framework:</strong> a ready-made library that writes the agent loop for you, instead of you wiring it by hand.</li>
 </ul>
 <p>You do not need to memorise these. Each returns the first time it matters.</p>
 <h2 id="why-this-unit-matters">Why this unit matters</h2>
-<p>Most people meet LLMs as a chat box and form the wrong mental model: that you "tell the AI what to do" and it obeys, like a program. That model fails the moment you try to build something real. The professional frame is different and it is the foundation of everything else in this course:</p>
+<p>Multi-agent is where good engineers most often over-build. The shape sounds impressive, the demos look magic, and so people reach for it by default. Two well-known engineering teams have publicly disagreed about whether you should, and the useful skill is not picking a winner but knowing where the line between them sits.</p>
 <blockquote>
-<p>🔑 <strong>The whole craft in one line.</strong> You are not programming the model. You are engineering its context and environment so that a capable but fallible reasoner can succeed. Prompting, context engineering, tools, memory, and evals are all just ways of designing that environment.</p>
+<p>🔑 <strong>The whole unit in one line.</strong> Multi-agent is a tool with a steep price tag, not a default. Reach for it only when the task is breadth-first, parallelizable, and high-value enough to justify the cost, and when you do build, decompose deliberately: the right primitive (tool, skill, or subagent) for each job, measured against evals.</p>
 </blockquote>
-<p>Get this frame right and the rest of the course is a set of techniques for the same goal. Get it wrong and you will spend months fighting the model instead of designing for it.</p>
+<p>Get this right and you ship one excellent orchestrator plus the few agents that earn their place. Get it wrong and you ship five fragile demos whose outputs do not fit together and whose bill is fifteen times higher than it needed to be.</p>
 <h2 id="learning-objectives">Learning objectives</h2>
 <p>By the end of this unit you will be able to:</p>
 <ol>
-<li>State and apply the core mental model: engineer the environment, not the model.</li>
-<li>Explain, <em>exactly enough</em>, how an LLM works: tokens, next-token prediction, attention, the training stages, context windows, and sampling controls.</li>
-<li>Describe where capability is going (capability exponential vs adoption linear) and the three concrete gains driving it (planning, error recovery, long-horizon coherence).</li>
-<li>Apply the four habits for riding the curve: build for the next model, keep evals unsaturated, shrink scaffolding, and close the agent loop.</li>
-<li>Stand up a working, measured environment and make your first instrumented model call.</li>
+<li>State the real boundary between multi-agent and single-agent work (read-heavy/parallelizable versus write-heavy/dependent) and apply it to a task.</li>
+<li>Build the orchestrator-worker pattern: decompose, dispatch workers in isolated context, synthesize their summaries.</li>
+<li>Hold quality and cost together, reasoning about the rough 4x (single-agent) and 15x (multi-agent) token multipliers over plain chat.</li>
+<li>Decide deliberately between a <strong>tool</strong>, a <strong>skill</strong>, and a <strong>subagent</strong> when an agent outgrows its prompt, and document the decision for a fleet.</li>
+<li>Choose a framework (or none) by the shape of the problem, keeping prompts and traces visible.</li>
+<li>Extend Atlas to dispatch a second specialized agent and prove, on your own numbers, whether multi-agent beat the baseline.</li>
 </ol>
 <h2 id="prerequisites">Prerequisites</h2>
 <ul>
-<li><strong>Skills that matter:</strong> comfortable reading/running Python, basic async/await, HTTP/REST and streaming, and git. (A short refresher list is in the Build.)</li>
-<li><strong>Skills you can defer:</strong> model training, GPU kernels, backprop calculus. You build <em>on top of</em> foundation models, not reimplement them.</li>
+<li><strong>From earlier units:</strong> a working agent (Scout) shipped on Claude Managed Agents, an eval suite you can hill-climb on (Unit 8 / Warden seeds), and comfort with tools and MCP (Unit 4).</li>
+<li><strong>Skills that matter:</strong> reading and running Python, editing a config file, and reading an agent's transcript of tool calls.</li>
+<li><strong>Skills you can defer:</strong> building your own orchestration framework. You learn the raw loop, then reach for a framework only when it earns its keep.</li>
 </ul>
 <hr />
-<h2 id="part-1-the-mental-model-engineer-the-environment">Part 1: The mental model (engineer the environment)</h2>
-<p>The single most important shift: stop thinking "how do I instruct the model" and start thinking "how do I design the workplace where this reasoner does good work." That workplace has four parts you will spend the whole course building:</p>
+<h2 id="part-1-when-multi-agent-helps-and-when-it-hurts-the-real-debate">Part 1: When multi-agent helps and when it hurts (the real debate)</h2>
+<p>Start with the disagreement, honestly. One AI lab built a research system in the orchestrator-worker shape: a strong model as the lead, several faster cheaper models as workers, each searching the web in parallel. On the lab's own internal test it beat a single agent (same strong model alone) by about <strong>90 percent</strong>. The reason given: workers run in parallel, so the system chases many independent leads at once. Their summary: multi-agent "excels for breadth-first queries that pursue multiple independent directions simultaneously."</p>
+<p>Another team published the opposite case, titled "Don't Build Multi-Agents." Their argument: parallel setups are <strong>fragile</strong>, because workers running side by side cannot see each other's work. Each makes small decisions, and those decisions quietly conflict. Their example: ask two workers to build a simple game, and one builds a background in one art style while the other builds a character in a clashing one, because neither knew what the other was doing. From this they draw two rules:</p>
 <ul>
-<li><strong>Instructions</strong> (prompting): what you ask and how you frame it.</li>
-<li><strong>Reference material</strong> (context engineering): the right information, in the smallest high-signal form.</li>
-<li><strong>Tools</strong> (function calling, MCP): how the model acts on the world.</li>
-<li><strong>Validation</strong> (evals): how you know the output is good.</li>
+<li><strong>Share full context, not just messages.</strong> If you use helpers, give them the whole history, not a one-line instruction. Most failures come from a worker missing context the others had.</li>
+<li><strong>Actions carry hidden decisions.</strong> Every step commits to something (a name, a format, an approach). When two agents commit to clashing things, merging their output is a mess.</li>
 </ul>
 <blockquote>
-<p>❌ <strong>A common mistake:</strong> treating a wrong answer as a bug to be "instructed away" with ever more rules. Often the real fix is a different model, a tool, or better context, not a longer prompt. Diagnosing <em>which lever</em> is the skill.</p>
+<p>🔑 <strong>The two teams do not actually contradict each other.</strong> They describe two kinds of work. The dividing line is <strong>read-heavy and parallelizable</strong> versus <strong>write-heavy and dependent</strong>. The pro-multi-agent lab admits the same boundary in its own write-up: "domains that require all agents to share the same context or involve many dependencies between agents are not a good fit." That is, word for word, the other team's whole argument.</p>
 </blockquote>
-<p>A practical corollary you adopt today: <strong>treat prompts as versioned software artifacts</strong>, and <strong>track tokens from day one</strong> (for both cost and context budgeting). Both habits feed straight into the AtlasOS build.</p>
-<hr />
-<h2 id="part-2-how-llms-work-exactly-enough">Part 2: How LLMs work, exactly enough</h2>
-<p>You do not need ML theory. You need a working model of the machine you are engineering around.</p>
+<p>So the takeaway is a rule of thumb, not a winner:</p>
 <ul>
-<li><strong>Tokens and tokenization.</strong> Text is sliced into subword chunks ("cat", "ing", " the"). Tokens are the unit of pricing, memory limits, and latency. "Make it cheaper/faster" usually means "use fewer tokens."</li>
-<li><strong>Next-token prediction.</strong> The model's entire function is to read the preceding text and predict the most probable next token, then repeat. It is, at heart, a very sophisticated autocomplete. It predicts sequences; it does not "think" in the human sense.</li>
-<li><strong>Self-attention / transformers.</strong> The architecture lets the model weigh which earlier tokens matter for the next one (connecting "it" back to "the trophy"). This is why context quality matters so much.</li>
-<li><strong>The training pipeline (build time):</strong> pretraining (broad knowledge from massive text), fine-tuning (task ability), and <strong>RLHF</strong> (human feedback for alignment and helpfulness). You consume the result; you do not run this.</li>
-<li><strong>Context window and context rot.</strong> A fixed short-term memory measured in tokens. Bigger windows help but quality can degrade as they fill, so curation beats dumping.</li>
-<li><strong>Sampling controls.</strong> <strong>Temperature</strong> (0 = predictable, high = creative) and <strong>top-p</strong> (nucleus sampling) trade consistency against diversity.</li>
+<li><strong>Multi-agent tends to win</strong> for research, broad search, and information gathering: many independent subtasks, often more information than fits in one context window.</li>
+<li><strong>Single-agent tends to win</strong> for sequential, dependent work like editing code, where step three only makes sense given exactly what step two did.</li>
 </ul>
 <blockquote>
-<p>🔑 <strong>Four mental models to keep.</strong> (1) It is fancy autocomplete, not a mind. (2) Training builds, inference uses. (3) Every model choice trades capability against cost and latency. (4) Knowledge has a hard expiration date (the training cutoff), so connect it to fresh data with tools.</p>
+<p>❌ <strong>A common mistake:</strong> reaching for multi-agent because it "sounds sophisticated," then parallelizing dependent work and getting outputs that do not fit together. The default recommendation of the skeptical team is blunt: "just use a single-threaded linear agent," and when its memory overflows, add one small model whose only job is to compress the history.</p>
 </blockquote>
-<p>You will <em>feel</em> all of this in the Build, where you run the same prompt at three temperatures and across three model sizes and watch quality, latency, and cost move.</p>
-<hr />
-<h2 id="part-3-where-capability-is-going-and-how-to-ride-it">Part 3: Where capability is going (and how to ride it)</h2>
-<p>Two trends define the moment. <strong>Model capability is on an exponential</strong>; <strong>most teams adopt on a straight line.</strong> The gap between the rising curve and the flat line is the opportunity, and closing it is the agentic engineer's job.</p>
-<p>What specifically got better (not vague "models improved")? Three concrete gains:</p>
-<ol>
-<li><strong>Planning before acting.</strong> The model lays out a route instead of lurching step by step.</li>
-<li><strong>Error recovery.</strong> It notices a failure and corrects course instead of derailing.</li>
-<li><strong>Long-horizon coherence.</strong> It stays on task across long runs (minutes, now hours).</li>
-</ol>
-<p>Together these three compound into <strong>autonomy</strong>: the plan → execute → verify loop that powers every agent you will build later. The unit of work shifts from <em>task</em> ("write this") to <em>outcome</em> ("keep this correct over time").</p>
+<h2 id="part-2-the-cost-reality-hold-both-numbers">Part 2: The cost reality (hold both numbers)</h2>
+<p>There is a price tag the headline numbers hide. An agent (one LLM in a loop with tools) already burns far more tokens than a plain chat, because the model re-reads its growing history on every step. A rough figure: a single agent uses on the order of <strong>4x</strong> the tokens of a chat, and a multi-agent system on the order of <strong>15x</strong>. A token is a small chunk of text you pay for, so 15x the tokens means roughly 15x the cost.</p>
+<p>That reframes the 90 percent number. It was measured on the team's <em>own internal</em> test, not an independent benchmark, and it came at that much higher cost. The same team is clear: multi-agent only pays off "where the value of the task is high enough" to justify the spend.</p>
 <blockquote>
-<p>🔑 <strong>Four habits for riding the curve.</strong> (1) <strong>Build for the next model</strong>, not just today's. (2) <strong>Keep evals harder than the model</strong> so you can see the jump. (3) <strong>Shrink your scaffolding</strong> as the model gets smarter. (4) <strong>Close the loop</strong> so the agent verifies its own work. These recur in every later unit.</p>
+<p>🔑 <strong>Always hold the two numbers together: the quality gain and the cost multiplier.</strong> A 90 percent quality gain that costs 15x more is a good deal for a high-value research report and a terrible deal for a routine lookup. This is the AtlasOS principle in miniature: <strong>cost per successful outcome, not cost per token.</strong> Cheap models execute in parallel; the expensive lead advises and synthesizes.</p>
+<p>✅ <strong>Best practice:</strong> never quote a multi-agent quality win without measuring it against a single-agent baseline on cost, not just quality. The honest deliverable is the comparison, not the favorite.</p>
 </blockquote>
-<hr />
-<h2 id="part-4-the-craft-ahead-and-what-you-are-building">Part 4: The craft ahead, and what you are building</h2>
-<p>The rest of the course is the environment-design craft, one layer per unit: the coding-agent workflow (Unit 1), prompting and context (2), model and reasoning levers (3), tools and MCP (4), retrieval and memory (5), workflows and agent patterns (6), multi-agent orchestration (7), evals and verification (8), and production (9), ending in the capstone (10).</p>
-<p>Your north-star through all of it is <strong>AtlasOS</strong>: a self-improving operating system of cooperating agents you build one component per unit. This unit builds its foundation: the workstation and your first measured baseline.</p>
-<hr />
+<h2 id="part-3-how-to-build-orchestrator-worker-and-how-atlas-does-it">Part 3: How to build orchestrator-worker, and how Atlas does it</h2>
+<p>The pattern needs no special platform. In plain steps:</p>
+<ul>
+<li>The lead reads the task and <strong>decomposes</strong> it into smaller, independent subtasks.</li>
+<li>For each subtask, the lead starts a worker in its <strong>own separate context</strong>, so workers do not crowd each other's memory. Give each worker enough shared context to avoid the conflicting-decisions trap.</li>
+<li>Each worker does its subtask (often by searching or retrieving) and returns a <strong>short, distilled summary</strong>, not its full transcript.</li>
+<li>The lead collects the summaries and <strong>synthesizes</strong> them into one coherent answer.</li>
+</ul>
+<p>Any agent toolkit can express this, and you can write it yourself with a normal loop and direct model calls. On Claude, two practical refinements come from the implementation side. First, two failure modes to respect: <strong>communication breakdown</strong> between orchestrator and subagent (a lot gets lost in translation, like between two colleagues), and <strong>logging is hard</strong> (you must collect transcripts from multiple agents). Managed agents address both with a <strong>native callable-agents capability</strong>: managed subagents whose logging and observability are as good as the orchestrator's, instead of a subagent hidden inside an opaque tool wrapper.</p>
+<blockquote>
+<p>💡 <strong>The frontier trend: fewer subagents.</strong> As models get smarter, many teams are folding capability back into the main orchestrator, because it can now manage more information at once. "You just don't need as many subagents." Before adding one, ask whether the main agent can simply handle it now. This is the same thin-scaffolding instinct from Unit 0: let the model do more as it improves.</p>
+</blockquote>
+<h2 id="part-4-tool-skill-or-subagent-decomposing-deliberately">Part 4: Tool, skill, or subagent? (decomposing deliberately)</h2>
+<p>Here is the decision you make when <em>one</em> agent grows too big, which is just as important as the multi-agent question. An agent that gets capability "bolted on" over time (a 400-line system prompt, a dozen overlapping tools, tangled subagents) starts to <strong>regress</strong> in the very areas it used to be great at. The fix is not more instructions. It is moving each job to the right primitive.</p>
+<table>
+<thead>
+<tr>
+<th>Primitive</th>
+<th>Reach for it when...</th>
+<th>Why</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Tool</strong></td>
+<td>The model is doing work it should offload, especially data work.</td>
+<td>A bash tool to write and run a script over a CSV beats reading the whole file into context. One workshop task dropped from over 200,000 tokens to a fraction by swapping special tools for code execution.</td>
+</tr>
+<tr>
+<td><strong>Skill</strong></td>
+<td>Claude needs the info <em>sometimes</em>, not always.</td>
+<td>Load it on demand (<strong>progressive disclosure</strong>). Keep the system prompt for "only what Claude needs regardless of task." Separated skills also stop policies contradicting each other.</td>
+</tr>
+<tr>
+<td><strong>Subagent</strong></td>
+<td>You want to parallelize (throw a lot of Claude at it) <em>or</em> you need a fresh, context-free mind (the reviewer should not be the writer).</td>
+<td>These are the only two cases that earn the communication and logging overhead.</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p>🔑 <strong>Start tools with human-like primitives.</strong> Give the agent the same primitives a human has at work: a file system, a browser/web search, and the ability to write and run code. Add custom tools only when these fall short, and reach for MCP last (only when many clients need the same governed tools). On managed agents these primitives come built in.</p>
+<p>💡 <strong>A worked example.</strong> An overgrown inventory agent shrank from a ~400-line prompt and 12 tools (three were hidden subagent wrappers) to a ~15-line prompt, 3 primitive tools (bash, read, write), business logic moved into skills, and exactly <strong>one</strong> justified subagent (forecasting, kept isolated so the main conversation cannot distort it). The eval score climbed from ~83% to ~92%, and tokens, cost, and latency all dropped. You only knew because you measured: <strong>hill-climb on evals, changing one thing at a time.</strong></p>
+</blockquote>
+<h2 id="part-5-frameworks-with-eyes-open">Part 5: Frameworks, with eyes open</h2>
+<p>A <strong>framework</strong> is a library that writes the agent loop for you (the model thinks, calls a tool, reads the result, thinks again). Without one you write that loop yourself against a model's API. Both are valid; the question is order.</p>
+<p>A widely cited guide recommends <strong>starting without a framework</strong>: "many patterns can be implemented in a few lines of code," and frameworks "often create extra layers of abstraction that can obscure the underlying prompts and responses, making them harder to debug." A framework can hide the very things you most need to see when something breaks: the exact prompt sent and the exact response received.</p>
+<blockquote>
+<p>✅ <strong>How to choose, in one sentence.</strong> Learn the raw loop first; then, if your problem is complex enough that a framework's plumbing (retries, state, branching, human-approval steps, built-in tracing) clearly earns its keep, pick the one whose shape matches your problem, and keep the underlying prompts and traces visible no matter what you choose.</p>
+<p>❌ <strong>Pitfalls:</strong> adopting a heavy framework before you understand the loop it hides; framework <strong>lock-in</strong> that makes switching painful later; copying a trendy tool without asking whether it fits; and trusting comparison posts uncritically, since many are written by the tool's own vendor and features change fast.</p>
+</blockquote>
 <h2 id="key-takeaways">Key takeaways</h2>
 <ol>
-<li><strong>Engineer the environment, not the model.</strong> Instructions, context, tools, validation: that is the whole craft.</li>
-<li><strong>Know the machine exactly enough.</strong> Tokens, next-token prediction, attention, context windows, sampling. Enough to engineer around, no more.</li>
-<li><strong>Capability is exponential, adoption is linear.</strong> Build <em>ahead</em> of the model; the gap is your opportunity.</li>
-<li><strong>Three gains, four habits.</strong> Planning, error recovery, long-horizon coherence; build for next model, unsaturated evals, thin scaffolding, close the loop.</li>
-<li><strong>Measure from day one.</strong> Tokens, cost, latency, quality. Prompts are versioned artifacts.</li>
+<li><strong>Multi-agent is a tool, not a default.</strong> Reach for it only when work is read-heavy, parallelizable, and high-value.</li>
+<li><strong>The real boundary is read-heavy/parallelizable vs write-heavy/dependent.</strong> The two famous opposing posts agree on exactly this line.</li>
+<li><strong>Hold quality and cost together.</strong> Roughly 4x tokens for one agent, 15x for multi-agent. Optimise cost per successful outcome.</li>
+<li><strong>Decompose deliberately.</strong> Tool for offloaded work, skill for sometimes-needed info, subagent only to parallelize or get a fresh mind.</li>
+<li><strong>Start tools with human-like primitives;</strong> reach for MCP last. Prefer folding work back into the orchestrator as models improve.</li>
+<li><strong>Learn the loop before the framework,</strong> and keep prompts and traces visible whatever you choose.</li>
 </ol>
 <h2 id="common-pitfalls">Common pitfalls</h2>
 <ul>
-<li>❌ Treating the model as a program that obeys instructions, instead of a reasoner you design an environment for.</li>
-<li>❌ Adding more instructions to fix a failure that actually needs a different model, a tool, or better context.</li>
-<li>❌ Dumping everything into a huge context window and assuming bigger is better (context rot).</li>
-<li>❌ Anthropomorphising: assuming the model "knows" or "thinks" rather than predicts.</li>
-<li>❌ Optimising for today's model and freezing your design so the next jump passes you by.</li>
+<li>❌ Using multi-agent by default because it sounds sophisticated.</li>
+<li>❌ Quoting a quality gain while ignoring the roughly 15x cost multiplier.</li>
+<li>❌ Parallelizing dependent work and getting outputs that do not fit together.</li>
+<li>❌ Giving workers a one-line instruction instead of full shared context (the conflicting-decisions trap).</li>
+<li>❌ Fixing a degraded agent by adding more instructions, more tools, or more subagents.</li>
+<li>❌ Hiding subagents inside tool wrappers, losing observability and inviting communication breakdowns.</li>
+<li>❌ Adopting a framework before you understand the loop it hides.</li>
 </ul>
 <hr />
-<h2 id="capstone" class="capstone-h">🛠️ The Build: your workstation and first measured baseline</h2>
+<h2 id="capstone" class="capstone-h">🛠️ The Build: Atlas at fleet scale</h2>
 <blockquote>
-<p>The hands-on payoff. This fuses the two foundation labs (an authenticated, instrumented first call, and a temperature/model experiment) with the AtlasOS pre-flight, so you finish with a working environment <em>and</em> a real feel for the machine, all committed.</p>
+<p>The hands-on payoff. Until now Atlas dispatched one agent, Scout. Here you turn Atlas into a real orchestrator of a small fleet: it decomposes an outcome, dispatches Scout plus one more specialized agent, and synthesizes the result. You make every tool-vs-skill-vs-subagent call deliberately, document it for the fleet, and prove on your own numbers whether multi-agent actually won. This fuses the orchestrator-worker pattern (principles), the decomposition decision (Lesson 16), and the hill-climbing discipline (Lesson 19). It builds the <code>orchestrator/</code> and <code>agents/</code> components in your roadmap.</p>
 </blockquote>
 <h3 id="what-you-will-build">What you will build</h3>
-<p>A working environment proven by three artifacts: a green tool check, a first <strong>instrumented</strong> model call (streamed, token-counted, schema-validated), and a small experiment table comparing temperatures and models.</p>
+<p>An Atlas orchestrator that takes one high-level outcome (for example "produce a competitive-intel brief on three rival products"), decomposes it, dispatches <strong>Scout plus one second agent</strong> (each in its own context), and synthesizes their summaries into one answer, committed to AtlasOS with a written fleet decision record and an honest single-agent comparison.</p>
 <h3 id="milestones-in-order-each-stands-alone">Milestones (in order, each stands alone)</h3>
 <ol>
-<li><strong>Green tool check.</strong> Python 3.10+, git, and the Claude CLI all report a version. Create a virtual environment; store your API key in an environment variable or git-ignored <code>.env</code>. <em>(Full setup detail lives in the AtlasOS pre-flight reference.)</em></li>
-<li><strong>First instrumented call.</strong> Install the SDK, send a prompt, <strong>stream</strong> the response, and print the <strong>token counts</strong> from the usage field. Seeing tokens makes cost and context budgeting concrete from day one.</li>
-<li><strong>Validate structured output.</strong> Ask for JSON and validate it against a small <strong>Pydantic</strong> schema. This is the "treat outputs as contracts" habit in miniature.</li>
-<li><strong>Run the temperature-and-model experiment.</strong> Send the same prompt at temperatures 0, 0.7, and 1.0 (a few runs each), then across a small, a mid, and a frontier model. Record <strong>quality, latency, and cost</strong> in a short table. Write two sentences on what you noticed.</li>
-<li><strong>Commit it to AtlasOS.</strong> Put the scripts and the experiment table in your repo and commit. This is the first artifact of your north-star build.</li>
-<li><strong>Stretch.</strong> Add a token-cost estimate per model; try the same prompt with and without a system message and note the difference.</li>
+<li><strong>Pick the second agent and justify it.</strong> Choose one more specialist whose work is genuinely independent of Scout's (for example <strong>Herald</strong> drafting the brief from Scout's findings, or a second Scout-style researcher covering a separate product). In two sentences, state why this is breadth-first, parallelizable work and not write-heavy, dependent work. If you cannot make that case, the honest move is to keep it single-agent, and you say so.</li>
+<li><strong>Make Atlas the orchestrator.</strong> Have Atlas decompose the outcome into independent subtasks and dispatch one worker per subtask, each in its own context, each given enough shared context to avoid clashing decisions. Use the native callable-agents capability so each subagent logs as cleanly as Atlas. Have each worker return a short distilled summary, and have Atlas synthesize.</li>
+<li><strong>Make the decompose decision and document it for the fleet.</strong> For each capability in the run, write down whether it is a <strong>tool</strong>, a <strong>skill</strong>, or a <strong>subagent</strong>, and why. Keep the system prompt to "only what Atlas always needs"; push situational logic into skills; keep only subagents that parallelize or need a fresh mind. Save this as a short <code>orchestrator/FLEET-DECISIONS.md</code> the whole fleet can follow.</li>
+<li><strong>Run the single-agent baseline.</strong> Build the exact same task as one linear agent (Scout doing everything in one context, compressing history if it overflows). Run both versions.</li>
+<li><strong>Compare on three numbers and decide.</strong> Record <strong>quality, latency, and token cost</strong> for multi-agent vs single-agent. Write one paragraph: which would you ship for this task, and why, using your own numbers and the 4x/15x framing. Honesty includes "single-agent won here."</li>
+<li><strong>Stretch.</strong> Add the guardrails note: list two tasks in your AtlasOS roadmap where you would deliberately <em>not</em> go multi-agent, and why. Then try folding the second agent's job back into Atlas (the frontier "fewer subagents" move) and check whether the orchestrator can now just handle it.</li>
 </ol>
 <h3 id="how-you-will-know-you-are-done">How you will know you are done</h3>
 <ul>
-<li>✅ <code>python3</code>, <code>git</code>, and <code>claude</code> all report a version.</li>
-<li>✅ Your first call streams a reply and prints real token counts.</li>
-<li>✅ JSON output validates against your Pydantic schema.</li>
-<li>✅ Your experiment table shows quality/latency/cost across temperatures and models.</li>
-<li>✅ It is committed to your AtlasOS repo.</li>
+<li>✅ Atlas dispatches at least two specialized agents in isolated context and synthesizes their summaries into one coherent answer.</li>
+<li>✅ Subagents log cleanly (native callable agents), with no opaque tool wrappers.</li>
+<li>✅ <code>FLEET-DECISIONS.md</code> records each tool/skill/subagent choice with a reason.</li>
+<li>✅ You have a single-agent baseline and a numbers-backed paragraph on which you would ship and why.</li>
+<li>✅ You can name at least one case where you chose <em>not</em> to go multi-agent, with the reason.</li>
+<li>✅ The fleet orchestration is committed to your AtlasOS repo.</li>
 </ul>
 <blockquote>
-<p>💡 If any milestone felt shaky, that is your signal for which refresher (Python, async, git, HTTP/streaming) to spend an evening on before Unit 1.</p>
+<p>💡 If your multi-agent version did not beat the baseline on cost-adjusted quality, that is not a failure of the build, it is the lesson. Commit the comparison anyway; it is the most honest artifact in the unit.</p>
 </blockquote>
 <hr />
 <h2 id="cheat-sheet">Cheat sheet</h2>
-<div class="codehilite"><pre><span></span><code>THE MENTAL MODEL
-  You engineer the ENVIRONMENT, not the model.
-  Workplace = instructions + context + tools + validation.
+<div class="codehilite"><pre><span></span><code>SHOULD YOU GO MULTI-AGENT?
+  READ-heavy + parallelizable + high-value  -&gt; yes (research, broad search)
+  WRITE-heavy + dependent (state changes)   -&gt; no  (editing code; one linear agent)
+  the two famous opposing posts agree on THIS line
 
-THE MACHINE (exactly enough)
-  tokens -&gt; next-token prediction -&gt; attention -&gt; (pretrain/finetune/RLHF)
-  context window (watch for rot) · temperature &amp; top-p (consistency vs diversity)
-  fancy autocomplete · training builds / inference uses · knowledge has a cutoff
+THE COST REALITY (hold both numbers)
+  ~4x tokens  = single agent vs chat
+  ~15x tokens = multi-agent vs chat
+  optimise COST PER SUCCESSFUL OUTCOME, not cost per token
+  always compare against the single-agent baseline
 
-WHERE IT&#39;S GOING
-  capability = exponential ; adoption = linear ; close the gap
-  three gains: planning · error recovery · long-horizon coherence
-  four habits: build for next model · unsaturated evals · thin scaffolding · close the loop
+ORCHESTRATOR-WORKER
+  lead DECOMPOSES -&gt; workers run in OWN context (give shared context) -&gt;
+  workers return SHORT summaries -&gt; lead SYNTHESIZES
+  use native callable agents (clean logging) · watch communication breakdowns
+  frontier trend: FEWER subagents as models improve
 
-DAY-ONE HABITS
-  measure tokens/cost/latency · prompts are versioned artifacts · pick the cheapest capable model
+PICK THE PRIMITIVE
+  TOOL      -&gt; offload work the model is doing (esp. code exec over data)
+  SKILL     -&gt; info needed SOMETIMES; load on demand (progressive disclosure)
+  SUBAGENT  -&gt; only to PARALLELIZE or get a FRESH, context-free mind
+  tools order: Claude primitives -&gt; custom local -&gt; MCP (last)
+
+FRAMEWORKS, EYES OPEN
+  learn the raw loop first · pick by problem shape, not popularity
+  keep prompts + traces visible · beware lock-in and vendor comparisons
 </code></pre></div>
 
 <h2 id="how-this-connects-to-the-rest-of-the-course">How this connects to the rest of the course</h2>
 <ul>
-<li><strong>Next, Unit 1 (The coding-agent workflow):</strong> you set up Claude Code as the environment you build everything else <em>with</em>. Your measured baseline from this unit is the first thing it helps you extend.</li>
-<li><strong>Throughout:</strong> every later unit is one more layer of the environment you started designing here, and one more AtlasOS component.</li>
+<li><strong>Earlier, Unit 4 (Tools and MCP):</strong> the primitives and MCP order-of-preference you now decompose onto.</li>
+<li><strong>Earlier, Unit 6 (Workflows and agent patterns):</strong> the single-agent loop multi-agent is measured against.</li>
+<li><strong>Companion, Unit 8 (Evals and verification):</strong> the hill-climbing harness and Warden graders that make every decompose decision measurable, not guessed.</li>
+<li><strong>Next, Unit 9 (Production):</strong> you deploy this fleet on real infrastructure, where the cost multiplier and clean per-agent logging stop being theory.</li>
 </ul>
 <hr />
-<p><em>Unit 0 of the combined path. Fuses the vendor-neutral principles of Agentic Engineering Modules 00–01 with the Claude-specific implementation of Building with Claude (pre-flight and the Foundations module). Adapt model ids and SDK details to the current docs.</em></p>
+<p><em>Unit 7 of the combined path. Fuses the vendor-neutral principles of Agentic Engineering Modules 10-11 with the Claude-specific implementation of Building with Claude Lessons 16 and 19. Token multipliers, eval scores, and architecture details are drawn from the source write-ups; adapt model ids and SDK details to the current docs.</em></p>
     </article>
-    <nav class="lessonnav"><a class="ln home" href="index.html"><b>All units</b></a><a class="ln next" href="unit-01-coding-agent-workflow.html"><span class="dir">Next &#8594;</span><b>Unit 1: The Coding-Agent Workflow</b></a></nav>
+    <nav class="lessonnav"><a class="ln prev" href="unit-05-retrieval-memory-state.html"><span class="dir">&#8592; Previous</span><b>Unit 5: Retrieval, Memory and State</b></a><a class="ln home" href="index.html"><b>All units</b></a></nav>
   </main>
 </div>
 
