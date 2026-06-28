@@ -254,7 +254,7 @@ footer.site .fnote{max-width:46em;font-size:13.5px;line-height:1.7}
         
       </div>
       <div class="chips">
-        <span class="chip">&#127908; <b>Unit 0 of 11</b></span>
+        <span class="chip">&#127908; <b>Unit 0 of 12</b></span>
         <span class="chip">&#9201; <b>Step 3 of 7</b></span>
         <span class="chip">&#128296; <b>Hands-on capstone</b></span>
       </div>
@@ -331,7 +331,7 @@ footer.site .fnote{max-width:46em;font-size:13.5px;line-height:1.7}
 <p>Two words people mix up: <strong>training</strong> is when the model is built (the stages above); <strong>inference</strong> is when you use the finished model to get an answer. Every prompt you send is inference.</p>
 <p>One practical consequence: a model has a <strong>training cutoff</strong>, the date after which it learned nothing new. If a library or a fact changed after that date, the model simply will not know, and (because it predicts plausible text) it may confidently invent something. As Simon Willison puts it, do not anthropomorphise the model, and always remember the cutoff.</p>
 <h3 id="the-context-window-and-context-rot">The context window (and context rot)</h3>
-<p>The <strong>context window</strong> is the model's short-term working memory: the most text, counted in tokens, it can look at in a single request. Anything beyond that has to be left out. Today's frontier models hold a great deal (up to roughly a million tokens), but a bigger window is not free. Cramming in too much can actually <em>hurt</em> quality, an effect people call <strong>context rot</strong>: the model gets distracted by the noise and loses the signal. You learn to manage this deliberately in Unit 2 and Unit 5. For now, the takeaway is: context is finite and precious, so put the right things in it, not everything.</p>
+<p>The <strong>context window</strong> is the model's short-term working memory: the most text, counted in tokens, it can look at in a single request. Anything beyond that has to be left out. Today's frontier models hold a great deal (up to roughly a million tokens), but a bigger window is not free. Cramming in too much can actually <em>hurt</em> quality, an effect people call <strong>context rot</strong>: the model gets distracted by the noise and loses the signal. You learn to manage this deliberately in Unit 3 and Unit 6. For now, the takeaway is: context is finite and precious, so put the right things in it, not everything.</p>
 <h3 id="sampling-controls-temperature">Sampling controls: temperature</h3>
 <p>When the model picks the next token, you can tune how adventurous it is. The main dial is <strong>temperature</strong>:</p>
 <ul>

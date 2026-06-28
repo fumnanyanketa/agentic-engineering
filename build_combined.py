@@ -23,7 +23,7 @@ import build_lessons_html as bl
 ROOT = pathlib.Path(__file__).resolve().parent
 COMBINED = ROOT / "combined"
 COURSE_NAME = "Agentic Engineering"
-TOTAL_UNITS = 11
+TOTAL_UNITS = 12
 
 # ---------------------------------------------------------------------------
 # De-brand the shared lesson template (model-agnostic course) and adapt a few

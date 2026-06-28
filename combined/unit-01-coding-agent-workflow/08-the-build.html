@@ -254,7 +254,7 @@ footer.site .fnote{max-width:46em;font-size:13.5px;line-height:1.7}
         
       </div>
       <div class="chips">
-        <span class="chip">&#127908; <b>Unit 1 of 11</b></span>
+        <span class="chip">&#127908; <b>Unit 1 of 12</b></span>
         <span class="chip">&#9201; <b>Step 9 of 9</b></span>
         <span class="chip">&#128296; <b>Hands-on capstone</b></span>
       </div>
@@ -305,6 +305,7 @@ footer.site .fnote{max-width:46em;font-size:13.5px;line-height:1.7}
 <li><a href="#what-you-will-build">What you will build</a></li>
 <li><a href="#milestones-in-order-each-fully-explained">Milestones (in order, each fully explained)</a></li>
 <li><a href="#how-you-will-know-you-are-done">How you will know you are done</a></li>
+<li><a href="#verify-it-like-an-engineer-read-explain-break-fix">Verify it like an engineer (read, explain, break, fix)</a></li>
 </ul>
 </li>
 </ul>
@@ -381,6 +382,19 @@ To https://github.com/yourname/atlasos.git
 <p>💡 <strong>If any step felt shaky, that is normal and useful.</strong> Note which one, and that is exactly what to ask your agent (or any model) to explain in more detail. The content here is meant to be complete; reaching for extra help should be about going deeper, not decoding confusion.</p>
 </blockquote>
 <hr />
+<h3 id="verify-it-like-an-engineer-read-explain-break-fix">Verify it like an engineer (read, explain, break, fix)</h3>
+<blockquote>
+<p>🔑 <strong>The one rule of this course.</strong> Do not keep anything the agent wrote that you cannot read, explain out loud, and break on purpose.</p>
+</blockquote>
+<p>Before you call this component done, run it through the five-check verification habit (formalized as the Warden rubric in Unit 2):</p>
+<ol>
+<li><strong>Trace it.</strong> Follow the control flow and data flow of what you just built, end to end.</li>
+<li><strong>Explain it.</strong> Say out loud what each part does and why. If you cannot, ask your coding agent to explain that part, then re-explain it back yourself.</li>
+<li><strong>Check the edges.</strong> Decide what it does on empty, missing, huge, or malformed input.</li>
+<li><strong>Break it on purpose.</strong> Introduce one deliberate fault, predict the failure, run it, and confirm it from the error.</li>
+<li><strong>Read it for safety.</strong> Ask the three questions: what private data can it touch, what untrusted input can reach it, and how could data get out?</li>
+</ol>
+<p>Fix anything real you find, then re-verify. A component that passes all five is one you can defend, not just one that ran.</p>
 <h2 id="cheat-sheet">Cheat sheet</h2>
 <div class="codehilite"><pre><span></span><code>WORKSTATION (set up once)
   VS Code      -&gt; code.visualstudio.com   (your editor)
@@ -409,11 +423,11 @@ THE GIT HEARTBEAT (save + upload your work)
 
 <h2 id="how-this-connects-to-the-rest-of-the-course">How this connects to the rest of the course</h2>
 <ul>
-<li><strong>Next, Unit 2 (Prompting and context engineering):</strong> now that you can drive an agent, you learn to <em>talk to it well</em>, the difference between a vague request and one that lands. You will practise right inside your new <code>atlasos</code> project.</li>
+<li><strong>Next, Unit 2 (Reading and judging code):</strong> now that you can drive an agent, you learn to <em>read and judge what it produces</em>, the floor that makes "review the agent's work like an engineer" real. Then Unit 3 sharpens how you talk to the model. You will practise both inside your new <code>atlasos</code> project.</li>
 <li><strong>Throughout:</strong> every later unit adds one more piece to AtlasOS, and you build all of them with the workstation and agent you set up here. This unit is the tool; the rest is what you make with it.</li>
 </ul>
     </article>
-    <nav class="lessonnav"><a class="ln prev" href="07-recap.html"><span class="dir">&#8592; Previous</span><b>Recap</b></a><a class="ln home" href="../index.html"><b>All units</b></a><a class="ln next" href="../unit-02-prompting-and-context/00-overview.html"><span class="dir">Next &#8594;</span><b>Unit 2: Prompting and Context Engineering</b></a></nav>
+    <nav class="lessonnav"><a class="ln prev" href="07-recap.html"><span class="dir">&#8592; Previous</span><b>Recap</b></a><a class="ln home" href="../index.html"><b>All units</b></a><a class="ln next" href="../unit-02-reading-and-judging-code/00-overview.html"><span class="dir">Next &#8594;</span><b>Unit 2: Reading and Judging Code</b></a></nav>
   </main>
 </div>
 

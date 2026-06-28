@@ -16,15 +16,16 @@ the same. Commands and model ids move fast, so verify against current docs as yo
 
 - [ ] **Unit 0 - Foundations and the Mental Model** -> Build: first measured model call + AtlasOS charter *(launchpad)*
 - [ ] **Unit 1 - The Coding-Agent Workflow** -> Build: the AtlasOS repo + dev loop *(foundation)*
-- [ ] **Unit 2 - Prompting and Context Engineering** -> Build: the `prompts/` library *(Scout's system prompt)*
-- [ ] **Unit 3 - Model and Reasoning Levers** -> Build: the `orchestrator/` routing policy
-- [ ] **Unit 4 - Tools, Function-Calling and MCP** -> Build: the `tools/` layer + an MCP server
-- [ ] **Unit 5 - Retrieval, Memory and State** -> Build: Cortex (`memory/`)
-- [ ] **Unit 6 - Workflows and Agent Patterns** -> Build: Atlas v0 (`orchestrator/`)
-- [ ] **Unit 7 - Multi-Agent Orchestration** -> Build: the Atlas fleet of subagents
-- [ ] **Unit 8 - Evals and Verification** -> Build: Warden (`evals/`)
-- [ ] **Unit 9 - Observability, Safety and Production** -> Build: `deploy/` + `ops/`
-- [ ] **Unit 10 - Capstone and Operating Model** -> Build: AtlasOS v1 + one flagship vertical (Pulse)
+- [ ] **Unit 2 - Reading and Judging Code** -> Build: the Warden verification rubric + first read-break-fix *(the floor)*
+- [ ] **Unit 3 - Prompting and Context Engineering** -> Build: the `prompts/` library *(Scout's system prompt)*
+- [ ] **Unit 4 - Model and Reasoning Levers** -> Build: the `orchestrator/` routing policy
+- [ ] **Unit 5 - Tools, Function-Calling and MCP** -> Build: the `tools/` layer + an MCP server
+- [ ] **Unit 6 - Retrieval, Memory and State** -> Build: Cortex (`memory/`)
+- [ ] **Unit 7 - Workflows and Agent Patterns** -> Build: Atlas v0 (`orchestrator/`)
+- [ ] **Unit 8 - Multi-Agent Orchestration** -> Build: the Atlas fleet of subagents
+- [ ] **Unit 9 - Evals and Verification** -> Build: Warden (`evals/`)
+- [ ] **Unit 10 - Observability, Safety and Production** -> Build: `deploy/` + `ops/`
+- [ ] **Unit 11 - Capstone and Operating Model** -> Build: AtlasOS v1 + one flagship vertical (Pulse)
 
 ---
 

@@ -1,7 +1,7 @@
 # Unit 0: Foundations and the Mental Model
 
 > **Course:** Agentic Engineering, a model-agnostic self-paced path *(working title)*
-> **Unit 0 of 11:** Install the one mental model that the whole course rests on (you engineer the environment, not the model), learn exactly enough about how LLMs work to fix their behaviour, and make your first measured model call across Claude, Gemini, and GPT
+> **Unit 0 of 12:** Install the one mental model that the whole course rests on (you engineer the environment, not the model), learn exactly enough about how LLMs work to fix their behaviour, and make your first measured model call across Claude, Gemini, and GPT
 > **The how, across models:** Claude (Anthropic), Gemini (Google), GPT (OpenAI), current practice verified June 2026
 > **AtlasOS build:** your launchpad (a first measured model call in Python) plus the AtlasOS charter
 > **Estimated time:** 90 to 120 minutes
@@ -72,12 +72,12 @@ That reframing matters because almost everything later in this course is one fac
 ```text
    THE WORKPLACE YOU BUILD            THE COURSE TOPIC IT BECOMES
    ───────────────────────           ───────────────────────────
-   clear instructions on the desk  → prompting              (Unit 2)
-   the right reference material    → context engineering    (Unit 2)
-   the right tools to hand         → tool use / MCP         (Unit 4)
-   a desk that stays stocked       → retrieval & memory     (Unit 5)
-   a way to check the output       → evals & verification   (Units 3, 8)
-   a teammate who acts in a loop   → agents & orchestration (Units 6, 7)
+   clear instructions on the desk  → prompting              (Unit 3)
+   the right reference material    → context engineering    (Unit 3)
+   the right tools to hand         → tool use / MCP         (Unit 5)
+   a desk that stays stocked       → retrieval & memory     (Unit 6)
+   a way to check the output       → evals & verification   (Units 4, 9)
+   a teammate who acts in a loop   → agents & orchestration (Units 7, 8)
 ```
 
 So when something goes wrong, the first question is almost never "is the model broken?" It is "what was missing or confusing in the workplace I built?" Most of the craft of this field is managing what the model can see and what it can do.
@@ -126,7 +126,7 @@ One practical consequence: a model has a **training cutoff**, the date after whi
 
 ### The context window (and context rot)
 
-The **context window** is the model's short-term working memory: the most text, counted in tokens, it can look at in a single request. Anything beyond that has to be left out. Today's frontier models hold a great deal (up to roughly a million tokens), but a bigger window is not free. Cramming in too much can actually *hurt* quality, an effect people call **context rot**: the model gets distracted by the noise and loses the signal. You learn to manage this deliberately in Unit 2 and Unit 5. For now, the takeaway is: context is finite and precious, so put the right things in it, not everything.
+The **context window** is the model's short-term working memory: the most text, counted in tokens, it can look at in a single request. Anything beyond that has to be left out. Today's frontier models hold a great deal (up to roughly a million tokens), but a bigger window is not free. Cramming in too much can actually *hurt* quality, an effect people call **context rot**: the model gets distracted by the noise and loses the signal. You learn to manage this deliberately in Unit 3 and Unit 6. For now, the takeaway is: context is finite and precious, so put the right things in it, not everything.
 
 ### Sampling controls: temperature
 
@@ -154,7 +154,7 @@ The ideas in Part 2 hold for every provider, because they are all transformers t
 | Get a key from | console.anthropic.com | aistudio.google.com | platform.openai.com |
 | Model ids change often | yes, verify in docs | yes, verify in docs | yes, verify in docs |
 
-> 💡 **Choosing a tier is an engineering decision you make constantly.** A handy picture is a ladder: a large "frontier" model at the top (most capable, slowest, priciest), a small fast cheap model at the bottom, and a balanced option in the middle. The discipline, taught hard in Unit 3, is to pick the cheapest model that still meets your quality bar, and to measure rather than assume. (One term: **latency** just means how long you wait for a response.)
+> 💡 **Choosing a tier is an engineering decision you make constantly.** A handy picture is a ladder: a large "frontier" model at the top (most capable, slowest, priciest), a small fast cheap model at the bottom, and a balanced option in the middle. The discipline, taught hard in Unit 4, is to pick the cheapest model that still meets your quality bar, and to measure rather than assume. (One term: **latency** just means how long you wait for a response.)
 
 > ✅ **Hold model ids loosely.** Names, tiers, and prices shift every few months. Whenever this course writes a specific model id, treat it as a placeholder and confirm the current one in the provider's docs. The durable skill is the workflow, not the string.
 
@@ -427,6 +427,20 @@ real infrastructure, and at least one flagship use case works for real.
 
 ---
 
+### Verify it like an engineer (read, explain, break, fix)
+
+> 🔑 **The one rule of this course.** Do not keep anything the agent wrote that you cannot read, explain out loud, and break on purpose.
+
+Before you call this component done, run it through the five-check verification habit (formalized as the Warden rubric in Unit 2):
+
+1. **Trace it.** Follow the control flow and data flow of what you just built, end to end.
+2. **Explain it.** Say out loud what each part does and why. If you cannot, ask your coding agent to explain that part, then re-explain it back yourself.
+3. **Check the edges.** Decide what it does on empty, missing, huge, or malformed input.
+4. **Break it on purpose.** Introduce one deliberate fault, predict the failure, run it, and confirm it from the error.
+5. **Read it for safety.** Ask the three questions: what private data can it touch, what untrusted input can reach it, and how could data get out?
+
+Fix anything real you find, then re-verify. A component that passes all five is one you can defend, not just one that ran.
+
 ## Cheat sheet
 
 ```text
@@ -462,6 +476,7 @@ FIRST MEASURED CALL (Python)
 ## How this connects to the rest of the course
 
 - **Next, Unit 1 (The coding-agent workflow):** you set up the full workstation (editor, a coding agent, git and GitHub) and learn the plan, act, verify loop, the autonomy gained from the three capability gains you met in Part 4. That is where the heavy one-time setup lives; this unit deliberately kept it light.
-- **Soon, Unit 2 (Prompting and context engineering):** the "good workplace" idea from Part 1 becomes concrete craft, clear instructions on the desk and the right reference material in the finite context window.
-- **Soon, Unit 3 (Model and reasoning levers):** the "pick the cheapest model that clears the bar" discipline from Part 3 becomes a rigorous "cost per successful outcome" method.
+- **Soon, Unit 2 (Reading and judging code):** before you generate a lot of code, you learn to read it, trace it, explain it, and break it on purpose, the floor under "stay responsible for the result."
+- **Soon, Unit 3 (Prompting and context engineering):** the "good workplace" idea from Part 1 becomes concrete craft, clear instructions on the desk and the right reference material in the finite context window.
+- **Soon, Unit 4 (Model and reasoning levers):** the "pick the cheapest model that clears the bar" discipline from Part 3 becomes a rigorous "cost per successful outcome" method.
 - **Throughout:** every later unit adds one named component to AtlasOS, the platform whose charter you just wrote. This unit is the launchpad; the rest is the flight.

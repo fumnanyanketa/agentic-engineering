@@ -1,7 +1,7 @@
 # Unit 1: The Coding-Agent Workflow
 
 > **Course:** Agentic Engineering, a model-agnostic self-paced path *(working title)*
-> **Unit 1 of 11:** Set up a real workstation, then learn to drive a coding agent (Claude Code, Gemini CLI, or Codex CLI) through a plan, act, verify loop, the tool you build everything else with
+> **Unit 1 of 12:** Set up a real workstation, then learn to drive a coding agent (Claude Code, Gemini CLI, or Codex CLI) through a plan, act, verify loop, the tool you build everything else with
 > **The how, across agents:** Claude Code (Anthropic), Gemini CLI (Google), Codex CLI (OpenAI), current practice verified June 2026
 > **AtlasOS build:** your workstation and your first repository, the launchpad for the whole fleet
 > **Estimated time:** 2 to 3 hours (most of it is one-time setup you never repeat)
@@ -304,10 +304,10 @@ work through the Agentic Engineering course.
 
 You do not need these yet, but it helps to know they exist, because later units build on them.
 
-- **Running several agents at once.** Using a git "worktree" (a second copy of your project on its own branch), you can have two agents working in parallel without colliding. Codex can even run many tasks in the cloud at the same time. (More in Unit 7.)
-- **Automation.** Each agent can run without the chat window, from a script, so a task can run automatically (for example, when you open a pull request on GitHub). (More in Units 6 and 9.)
-- **Plugging in tools (MCP).** A standard called the **Model Context Protocol** lets any of these agents connect to outside systems: a database, your issue tracker, a documentation site. (All of Unit 4.)
-- **Agent-driven review.** The agent can review code changes and flag problems before you merge them, like a second pair of eyes. (More in Unit 8.)
+- **Running several agents at once.** Using a git "worktree" (a second copy of your project on its own branch), you can have two agents working in parallel without colliding. Codex can even run many tasks in the cloud at the same time. (More in Unit 8.)
+- **Automation.** Each agent can run without the chat window, from a script, so a task can run automatically (for example, when you open a pull request on GitHub). (More in Units 7 and 10.)
+- **Plugging in tools (MCP).** A standard called the **Model Context Protocol** lets any of these agents connect to outside systems: a database, your issue tracker, a documentation site. (All of Unit 5.)
+- **Agent-driven review.** The agent can review code changes and flag problems before you merge them, like a second pair of eyes. (More in Unit 9.)
 
 > ✅ **No grading your own homework.** The best setups use a *separate* reviewer (a second agent or a teammate) to check the first agent's work. A self-check catches mechanical mistakes; an independent review catches the judgment ones. You will set this up properly later.
 
@@ -417,6 +417,20 @@ To https://github.com/yourname/atlasos.git
 
 ---
 
+### Verify it like an engineer (read, explain, break, fix)
+
+> 🔑 **The one rule of this course.** Do not keep anything the agent wrote that you cannot read, explain out loud, and break on purpose.
+
+Before you call this component done, run it through the five-check verification habit (formalized as the Warden rubric in Unit 2):
+
+1. **Trace it.** Follow the control flow and data flow of what you just built, end to end.
+2. **Explain it.** Say out loud what each part does and why. If you cannot, ask your coding agent to explain that part, then re-explain it back yourself.
+3. **Check the edges.** Decide what it does on empty, missing, huge, or malformed input.
+4. **Break it on purpose.** Introduce one deliberate fault, predict the failure, run it, and confirm it from the error.
+5. **Read it for safety.** Ask the three questions: what private data can it touch, what untrusted input can reach it, and how could data get out?
+
+Fix anything real you find, then re-verify. A component that passes all five is one you can defend, not just one that ran.
+
 ## Cheat sheet
 
 ```text
@@ -447,5 +461,5 @@ THE GIT HEARTBEAT (save + upload your work)
 
 ## How this connects to the rest of the course
 
-- **Next, Unit 2 (Prompting and context engineering):** now that you can drive an agent, you learn to *talk to it well*, the difference between a vague request and one that lands. You will practise right inside your new `atlasos` project.
+- **Next, Unit 2 (Reading and judging code):** now that you can drive an agent, you learn to *read and judge what it produces*, the floor that makes "review the agent's work like an engineer" real. Then Unit 3 sharpens how you talk to the model. You will practise both inside your new `atlasos` project.
 - **Throughout:** every later unit adds one more piece to AtlasOS, and you build all of them with the workstation and agent you set up here. This unit is the tool; the rest is what you make with it.
