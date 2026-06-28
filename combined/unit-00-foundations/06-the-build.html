@@ -254,7 +254,7 @@ footer.site .fnote{max-width:46em;font-size:13.5px;line-height:1.7}
         
       </div>
       <div class="chips">
-        <span class="chip">&#127908; <b>Unit 0 of 11</b></span>
+        <span class="chip">&#127908; <b>Unit 0 of 12</b></span>
         <span class="chip">&#9201; <b>Step 7 of 7</b></span>
         <span class="chip">&#128296; <b>Hands-on capstone</b></span>
       </div>
@@ -301,6 +301,7 @@ footer.site .fnote{max-width:46em;font-size:13.5px;line-height:1.7}
 <li><a href="#what-you-will-build">What you will build</a></li>
 <li><a href="#milestones-in-order-each-fully-explained">Milestones (in order, each fully explained)</a></li>
 <li><a href="#how-you-will-know-you-are-done">How you will know you are done</a></li>
+<li><a href="#verify-it-like-an-engineer-read-explain-break-fix">Verify it like an engineer (read, explain, break, fix)</a></li>
 </ul>
 </li>
 </ul>
@@ -504,6 +505,19 @@ real infrastructure, and at least one flagship use case works for real.
 <p>💡 <strong>If any step felt shaky, that is normal and useful.</strong> Note which one. The most common snags are a key not set in the current terminal (re-run the <code>export</code> line), an out-of-date model id (verify it in the provider docs), or <code>python3</code> vs <code>python</code> on Windows (try the other one). Reaching for help should be about going deeper, not decoding confusion: the steps here are meant to be complete.</p>
 </blockquote>
 <hr />
+<h3 id="verify-it-like-an-engineer-read-explain-break-fix">Verify it like an engineer (read, explain, break, fix)</h3>
+<blockquote>
+<p>🔑 <strong>The one rule of this course.</strong> Do not keep anything the agent wrote that you cannot read, explain out loud, and break on purpose.</p>
+</blockquote>
+<p>Before you call this component done, run it through the five-check verification habit (formalized as the Warden rubric in Unit 2):</p>
+<ol>
+<li><strong>Trace it.</strong> Follow the control flow and data flow of what you just built, end to end.</li>
+<li><strong>Explain it.</strong> Say out loud what each part does and why. If you cannot, ask your coding agent to explain that part, then re-explain it back yourself.</li>
+<li><strong>Check the edges.</strong> Decide what it does on empty, missing, huge, or malformed input.</li>
+<li><strong>Break it on purpose.</strong> Introduce one deliberate fault, predict the failure, run it, and confirm it from the error.</li>
+<li><strong>Read it for safety.</strong> Ask the three questions: what private data can it touch, what untrusted input can reach it, and how could data get out?</li>
+</ol>
+<p>Fix anything real you find, then re-verify. A component that passes all five is one you can defend, not just one that ran.</p>
 <h2 id="cheat-sheet">Cheat sheet</h2>
 <div class="codehilite"><pre><span></span><code>THE ONE MENTAL MODEL
   You engineer the ENVIRONMENT, not the model.
@@ -537,8 +551,9 @@ FIRST MEASURED CALL (Python)
 <h2 id="how-this-connects-to-the-rest-of-the-course">How this connects to the rest of the course</h2>
 <ul>
 <li><strong>Next, Unit 1 (The coding-agent workflow):</strong> you set up the full workstation (editor, a coding agent, git and GitHub) and learn the plan, act, verify loop, the autonomy gained from the three capability gains you met in Part 4. That is where the heavy one-time setup lives; this unit deliberately kept it light.</li>
-<li><strong>Soon, Unit 2 (Prompting and context engineering):</strong> the "good workplace" idea from Part 1 becomes concrete craft, clear instructions on the desk and the right reference material in the finite context window.</li>
-<li><strong>Soon, Unit 3 (Model and reasoning levers):</strong> the "pick the cheapest model that clears the bar" discipline from Part 3 becomes a rigorous "cost per successful outcome" method.</li>
+<li><strong>Soon, Unit 2 (Reading and judging code):</strong> before you generate a lot of code, you learn to read it, trace it, explain it, and break it on purpose, the floor under "stay responsible for the result."</li>
+<li><strong>Soon, Unit 3 (Prompting and context engineering):</strong> the "good workplace" idea from Part 1 becomes concrete craft, clear instructions on the desk and the right reference material in the finite context window.</li>
+<li><strong>Soon, Unit 4 (Model and reasoning levers):</strong> the "pick the cheapest model that clears the bar" discipline from Part 3 becomes a rigorous "cost per successful outcome" method.</li>
 <li><strong>Throughout:</strong> every later unit adds one named component to AtlasOS, the platform whose charter you just wrote. This unit is the launchpad; the rest is the flight.</li>
 </ul>
     </article>
