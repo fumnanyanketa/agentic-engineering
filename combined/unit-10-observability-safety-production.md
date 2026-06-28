@@ -125,6 +125,8 @@ Tracing tools store traces and draw them as readable trees. Treat them as interc
 
 ---
 
+> 💡 **Monitor outcomes, not just tokens.** Traces, latency, and cost tell you the system is running; they do not tell you it is still *good*. In production an agent's quality drifts: the world changes (new kinds of input, a shift in what users ask, an external event) and accuracy quietly degrades, exactly like a machine-learning model going stale. So watch two more things. First, **quality over time**: sample real runs and score them (the online evals from Unit 9) so a regression shows up as a falling number, not a customer complaint. Second, **business KPIs**: the outcome the agent exists to move (revenue, resolution time, hours saved). If the trace looks healthy but the KPI is sliding, something is wrong that no latency graph will show you.
+
 ## Part 3: Give your agent a guard (guardrails, injection, the trifecta)
 
 An agent built on a model has a property that makes it uniquely easy to trick: **it cannot reliably tell the difference between instructions you gave it and instructions hidden in the text it reads.** Accept that one fact and most defenses follow.
@@ -170,6 +172,19 @@ Two durable principles tie this together. **Least privilege:** every agent and t
 ## Part 4: Give your agent armor (retries, timeouts, fallbacks, cost)
 
 A demo works once; production keeps working when something outside your control breaks. Agents are especially fragile because errors compound: if one step is 95% reliable, ten steps in a row is roughly 0.95 to the tenth power, about 60%; twenty steps drops below 40%. Small per-step error rates become large whole-task failures as the chain grows. You fight this with vendor-neutral moves.
+
+### Design for failure: list the modes first
+
+Hardening is not a grab-bag of tricks; it starts with a deliberate exercise. Before you add a single retry, write down every component in your agent and how each one fails, then decide the response for each. The discipline is to assume every component *will* fail:
+
+| Component | How it fails | Your designed response |
+|---|---|---|
+| Model API | times out, rate-limits, errors | retry with backoff; fall back to a smaller model |
+| The LLM | hallucinates or returns malformed output | validate the output; re-ask; route low-confidence to a human |
+| A tool or database | is down or slow | timeout; cached or default value; degrade gracefully |
+| A classifier | is unsure | threshold the confidence; send the uncertain ones to a human |
+
+The reliability levers below are the *responses* in that last column. Enumerating the failure modes first is what tells you which levers you actually need, and it is the difference between an agent that survives production and one that falls over the first time the API blips.
 
 ### Reliability levers
 

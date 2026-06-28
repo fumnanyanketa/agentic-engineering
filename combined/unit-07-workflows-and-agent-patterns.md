@@ -61,7 +61,32 @@ By the end of this unit you will be able to:
 
 ---
 
-## Part 1: Workflow versus agent (the one distinction to lock in)
+## Part 1: Decompose the human's workflow first
+
+Before you pick a pattern, before you touch a tool, do the thing almost every tutorial skips: look at the real work a human does today, and break it down. An agent is not "an LLM connected to Gmail." It is a design that replaces or assists a real process, and you cannot design it until you understand that process step by step.
+
+The method is old-fashioned, and it is the whole game:
+
+1. **Watch the human do the work.** Sit with the person (or be the person for a day). Most experts cannot tell you what they do, because it is automatic. They will say "I just handle the inquiries." Your job is to observe the actual steps.
+2. **Surface the micro-decisions.** A single "handle a customer inquiry" task is really a dozen or more hidden steps: read the message, judge the urgency, check whether this is an existing customer, pull their history, decide if it is a billing or a technical question, check who is available, draft a reply in the right tone, route it if it is serious, update the record. Each is a decision the human makes without noticing.
+3. **Classify every step.** For each step, ask what kind of work it actually is:
+
+| Step type | Use | Example |
+|---|---|---|
+| Mechanical / rule | a few lines of code, a regex, a lookup | "is this an existing customer?" (a database check) |
+| Deterministic ML | a small trained classifier | "how urgent is this?" (trained on past tickets) |
+| LLM judgment | a model call | "draft a reply in our tone"; "is this billing or technical?" |
+| Human-required | a person, via a human-in-the-loop step | "approve this refund over $500" |
+
+4. **Only now design the architecture.** The shape of the agent falls out of the decomposition: rule steps become plain code, classifier steps become small models, fuzzy language steps become LLM calls, and high-stakes steps get a human gate. The workflow patterns in the rest of this unit are how you wire those steps together.
+
+> 🔑 **Most steps are not LLM steps.** The instinct to throw an LLM at the whole thing is exactly what makes agents fragile and expensive. An LLM is a next-token predictor: right perhaps 99% of the time, and the 1% it is wrong can cost you the business. A well-decomposed agent uses the LLM only where genuine language judgment is needed, and deterministic code everywhere else, so most of it can never hallucinate. (This is the "smallest tool that works" ladder from Unit 4, applied step by step.)
+
+> ❌ **The tutorial trap:** jumping straight from "here is an LLM" to "drag this node and connect it." That skips the only part that makes you an engineer: the decomposition and the per-step judgment that happen before any tool is touched.
+
+> 💡 **A reusable artifact.** Write the decomposition down as a numbered list with a type tag per step. That table *is* your architecture spec: it tells you exactly what to build, and it is the first thing to show a client or teammate to confirm you understood their work.
+
+## Part 2: Workflow versus agent (the one distinction to lock in)
 
 This is the distinction the whole unit rests on, so we make it sharp before anything else.
 
@@ -89,7 +114,7 @@ Both have their place. The reason to care about the line between them is **cost 
 
 ---
 
-## Part 2: The building block (the augmented LLM)
+## Part 3: The building block (the augmented LLM)
 
 Before the patterns, meet the single piece they are all made of. Anthropic's *Building Effective Agents* essay calls it the **augmented LLM**: one model call given three extra abilities beyond plain text generation.
 
@@ -113,7 +138,7 @@ That is the whole block. Once you can picture this one box, every pattern below 
 
 ---
 
-## Part 3: The five workflow patterns
+## Part 4: The five workflow patterns
 
 These five named patterns, drawn from *Building Effective Agents*, solve a large share of real problems without ever handing full control to an autonomous agent. They sit on a ladder of increasing freedom. Learn the shape and the one-sentence rule for each.
 
@@ -200,7 +225,7 @@ One call drafts a translation, a second points out which phrases sound unnatural
 
 ---
 
-## Part 4: Choosing a pattern (a decision table)
+## Part 5: Choosing a pattern (a decision table)
 
 The five patterns climb a ladder of freedom. Chaining, routing, and parallelization follow paths you fix in advance. Orchestrator-workers and evaluator-optimizer let the model make some decisions, but still inside a structure you control. The guiding rule from the essay: add complexity only when it clearly pays off.
 
@@ -218,7 +243,7 @@ The five patterns climb a ladder of freedom. Chaining, routing, and parallelizat
 
 ---
 
-## Part 5: The autonomous agent loop
+## Part 6: The autonomous agent loop
 
 Sometimes a fixed path genuinely will not do, and you need the model to decide for itself. That is an **autonomous agent**. Stripped to its essence, an agent is just **an LLM, plus a system prompt, plus tools, running in a loop**. (A **system prompt** is the standing instruction that tells the model its job and rules.) The loop is the heart of it.
 
@@ -246,7 +271,7 @@ This loop is also model-neutral. It is the **ReAct** pattern (reasoning and acti
 
 ---
 
-## Part 6: Why long agent chains are fragile (and the fix)
+## Part 7: Why long agent chains are fragile (and the fix)
 
 Here is the most important idea about autonomous agents, and the reason you should not reach for them carelessly.
 
@@ -271,7 +296,7 @@ The highest-leverage move on that list is the second one. An agent that can chec
 
 ---
 
-## Part 7: Making a plan trustworthy
+## Part 8: Making a plan trustworthy
 
 A plan an agent shows you is only worth something if the agent actually *follows* it and the result is actually *checked*. Two practical ideas, drawn from teams running this in production, turn a plausible plan into a trustworthy one.
 
@@ -328,10 +353,11 @@ A routine named **Atlas** that lives in your `atlasos` repo under `orchestrator/
 
 ### Milestones (in order, each fully explained)
 
-**1. Write down the three decisions first.** Before building anything, open a scratch note and fill in the three decisions every routine needs. If you cannot fill in all three, you are not ready to build it.
+**1. Decompose the workflow, then name the three decisions.** Pick one small real task Atlas will own (for example, "produce a weekly summary of what changed in this repo"). Before building anything, open a scratch note and do two things: first decompose the task into steps, tagging each as rule, small model, LLM, or human, exactly like Part 1; then fill in the three decisions every routine needs. If you cannot do both, you are not ready to build it.
 
 ```text
-   TRIGGER      -> When does Atlas run?     (weekly schedule, Monday 10:00)
+   DECOMPOSE    -> list the steps; tag each: rule / ML / LLM / human
+   TRIGGER      -> When does Atlas run?      (weekly schedule, Monday 10:00)
    CONTEXT      -> What does it need?        (this repo: code + the docs file)
    STEERABILITY -> How do you keep it honest? (evaluator-optimizer + verify step)
 ```

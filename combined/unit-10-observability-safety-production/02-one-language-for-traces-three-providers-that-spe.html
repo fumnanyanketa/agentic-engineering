@@ -351,6 +351,9 @@ footer.site .fnote{max-width:46em;font-size:13.5px;line-height:1.7}
 <p>❌ <strong>Do not trust "which tool is best" comparisons written by the tool vendors.</strong> Most are marketing, not a referee's verdict. The durable advice: emit OpenTelemetry data, instrument once, keep the freedom to move.</p>
 </blockquote>
 <hr />
+<blockquote>
+<p>💡 <strong>Monitor outcomes, not just tokens.</strong> Traces, latency, and cost tell you the system is running; they do not tell you it is still <em>good</em>. In production an agent's quality drifts: the world changes (new kinds of input, a shift in what users ask, an external event) and accuracy quietly degrades, exactly like a machine-learning model going stale. So watch two more things. First, <strong>quality over time</strong>: sample real runs and score them (the online evals from Unit 9) so a regression shows up as a falling number, not a customer complaint. Second, <strong>business KPIs</strong>: the outcome the agent exists to move (revenue, resolution time, hours saved). If the trace looks healthy but the KPI is sliding, something is wrong that no latency graph will show you.</p>
+</blockquote>
     </article>
     <nav class="lessonnav"><a class="ln prev" href="01-give-your-agent-eyes.html"><span class="dir">&#8592; Previous</span><b>Give your agent eyes</b></a><a class="ln home" href="../index.html"><b>All units</b></a><a class="ln next" href="03-give-your-agent-a-guard.html"><span class="dir">Next &#8594;</span><b>Give your agent a guard</b></a></nav>
   </main>

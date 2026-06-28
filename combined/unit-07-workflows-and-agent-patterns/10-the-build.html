@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Unit 10: Observability, Safety and Production · Give your agent armor | Agentic Engineering</title>
+<title>Unit 7: Workflows and Agent Patterns · The Build | Agentic Engineering</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@500;600;700;800&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
@@ -233,7 +233,7 @@ footer.site .fnote{max-width:46em;font-size:13.5px;line-height:1.7}
   <div class="navlinks">
     <a href="../index.html">All units</a>
     <a href="#overview">Overview</a>
-    <a href="07-the-build.html">The Build</a>
+    <a href="10-the-build.html">The Build</a>
   </div>
   <div class="nav-cta">
     <a class="btn btn-primary" href="#start">Start the lesson &#8594;</a>
@@ -246,16 +246,16 @@ footer.site .fnote{max-width:46em;font-size:13.5px;line-height:1.7}
   
   <div class="wrap" id="overview">
     <div>
-      <span class="eyebrow">&#10022; Unit 10 &middot; Part 4</span>
-      <h1>Give your agent <span class="accent">armor</span></h1>
-      <p class="lead">A demo works once; production keeps working when something outside your control breaks. Agents are especially fragile because errors compound: if one step is 95% reliable, ten steps in a row is roughly 0.95 to the tenth power, about 60%; twenty steps drops below 40%. Small per-step error rates become large whole-task failures as the chain grows. You fight this with vendor-neutral moves.</p>
+      <span class="eyebrow">&#10022; Unit 7</span>
+      <h1>The <span class="accent">Build</span></h1>
+      <p class="lead">A routine named Atlas that lives in your atlasos repo under orchestrator/. It watches your repo, runs a real task end to end using the evaluator-optimizer pattern (draft, then critique, then revise), and finishes with a verify step that confirms the work before accepting it. We will use a documentation-sync task as the concrete example because it is real, low-risk, and easy to verify, but the shape applies to any task you like.</p>
       <div class="hero-actions">
         <a class="btn btn-primary" href="#start">Start the lesson &#8594;</a>
         
       </div>
       <div class="chips">
-        <span class="chip">&#127908; <b>Unit 10 of 12</b></span>
-        <span class="chip">&#9201; <b>Step 5 of 8</b></span>
+        <span class="chip">&#127908; <b>Unit 7 of 12</b></span>
+        <span class="chip">&#9201; <b>Step 11 of 11</b></span>
         <span class="chip">&#128296; <b>Hands-on capstone</b></span>
       </div>
     </div>
@@ -272,7 +272,7 @@ footer.site .fnote{max-width:46em;font-size:13.5px;line-height:1.7}
           <li><span class="ic">&#128296;</span><span>A hands-on capstone you build step by step</span></li>
           <li><span class="ic">&#127919;</span><span>Optional practice drills to reinforce each skill</span></li>
         </ul>
-        <a class="btn btn-coral" href="07-the-build.html" style="width:100%;justify-content:center">Jump to the project</a>
+        <a class="btn btn-coral" href="10-the-build.html" style="width:100%;justify-content:center">Jump to the project</a>
       </div>
     </div>
   </div>
@@ -282,111 +282,158 @@ footer.site .fnote{max-width:46em;font-size:13.5px;line-height:1.7}
   <aside id="sidebar"><div class="toc-card">
     <button class="toc-close" id="tocClose" aria-label="Close menu">&times;</button>
     <p class="toc-title">On this page</p>
-    <p class="toc-title">Unit 10 &middot; Observability, Safety and Production</p>
+    <p class="toc-title">Unit 7 &middot; Workflows and Agent Patterns</p>
 <ul class="unit-toc">
 <li class="done"><a href="00-overview.html">Overview</a>
 </li>
-<li class="done"><a href="01-give-your-agent-eyes.html">Part 1 &middot; Give your agent eyes</a>
+<li class="done"><a href="01-decompose-the-humans-workflow-first.html">Part 1 &middot; Decompose the human&#x27;s workflow first</a>
 </li>
-<li class="done"><a href="02-one-language-for-traces-three-providers-that-spe.html">Part 2 &middot; One language for traces, three providers that speak it</a>
+<li class="done"><a href="02-workflow-versus-agent.html">Part 2 &middot; Workflow versus agent</a>
 </li>
-<li class="done"><a href="03-give-your-agent-a-guard.html">Part 3 &middot; Give your agent a guard</a>
+<li class="done"><a href="03-the-building-block.html">Part 3 &middot; The building block</a>
 </li>
-<li class="active"><a href="04-give-your-agent-armor.html">Part 4 &middot; Give your agent armor</a>
+<li class="done"><a href="04-the-five-workflow-patterns.html">Part 4 &middot; The five workflow patterns</a>
+</li>
+<li class="done"><a href="05-choosing-a-pattern.html">Part 5 &middot; Choosing a pattern</a>
+</li>
+<li class="done"><a href="06-the-autonomous-agent-loop.html">Part 6 &middot; The autonomous agent loop</a>
+</li>
+<li class="done"><a href="07-why-long-agent-chains-are-fragile.html">Part 7 &middot; Why long agent chains are fragile</a>
+</li>
+<li class="done"><a href="08-making-a-plan-trustworthy.html">Part 8 &middot; Making a plan trustworthy</a>
+</li>
+<li class="done"><a href="09-recap.html">Recap</a>
+</li>
+<li class="active"><a href="10-the-build.html">The Build</a>
 <ul class="u-sub">
-<li><a href="#design-for-failure-list-the-modes-first">Design for failure: list the modes first</a></li>
-<li><a href="#reliability-levers">Reliability levers</a></li>
-<li><a href="#a-model-gateway-one-front-door">A model gateway: one front door</a></li>
-<li><a href="#cost-levers-because-every-token-is-money">Cost levers (because every token is money)</a></li>
+<li><a href="#what-you-will-build">What you will build</a></li>
+<li><a href="#milestones-in-order-each-fully-explained">Milestones (in order, each fully explained)</a></li>
+<li><a href="#how-you-will-know-you-are-done">How you will know you are done</a></li>
+<li><a href="#verify-it-like-an-engineer-read-explain-break-fix">Verify it like an engineer (read, explain, break, fix)</a></li>
 </ul>
-</li>
-<li class=""><a href="05-give-your-agent-a-home.html">Part 5 &middot; Give your agent a home</a>
-</li>
-<li class=""><a href="06-recap.html">Recap</a>
-</li>
-<li class=""><a href="07-the-build.html">The Build</a>
 </li>
 </ul>
   </div></aside>
   <main id="start">
     <article>
-      <div class="stepline"><span class="steptxt">Step 5 of 8</span><span class="stepdots"><i class="done"></i><i class="done"></i><i class="done"></i><i class="done"></i><i class="cur"></i><i class=""></i><i class=""></i><i class=""></i></span></div><p>A demo works once; production keeps working when something outside your control breaks. Agents are especially fragile because errors compound: if one step is 95% reliable, ten steps in a row is roughly 0.95 to the tenth power, about 60%; twenty steps drops below 40%. Small per-step error rates become large whole-task failures as the chain grows. You fight this with vendor-neutral moves.</p>
-<h3 id="design-for-failure-list-the-modes-first">Design for failure: list the modes first</h3>
-<p>Hardening is not a grab-bag of tricks; it starts with a deliberate exercise. Before you add a single retry, write down every component in your agent and how each one fails, then decide the response for each. The discipline is to assume every component <em>will</em> fail:</p>
-<table>
-<thead>
-<tr>
-<th>Component</th>
-<th>How it fails</th>
-<th>Your designed response</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>Model API</td>
-<td>times out, rate-limits, errors</td>
-<td>retry with backoff; fall back to a smaller model</td>
-</tr>
-<tr>
-<td>The LLM</td>
-<td>hallucinates or returns malformed output</td>
-<td>validate the output; re-ask; route low-confidence to a human</td>
-</tr>
-<tr>
-<td>A tool or database</td>
-<td>is down or slow</td>
-<td>timeout; cached or default value; degrade gracefully</td>
-</tr>
-<tr>
-<td>A classifier</td>
-<td>is unsure</td>
-<td>threshold the confidence; send the uncertain ones to a human</td>
-</tr>
-</tbody>
-</table>
-<p>The reliability levers below are the <em>responses</em> in that last column. Enumerating the failure modes first is what tells you which levers you actually need, and it is the difference between an agent that survives production and one that falls over the first time the API blips.</p>
-<h3 id="reliability-levers">Reliability levers</h3>
-<ul>
-<li><strong>Shorter loops.</strong> Fewer steps, fewer chances to fail. Cut any step that does not earn its place.</li>
-<li><strong>Verification steps.</strong> Have the agent (or a cheap separate check) confirm a result before relying on it, so an error is caught early instead of poisoning later steps.</li>
-<li><strong>Retries with backoff.</strong> If a step fails, try again, waiting longer before each retry (1s, then 2s, then 4s) so you do not hammer a service that is already struggling.</li>
-<li><strong>Timeouts.</strong> Give up waiting after a set number of seconds instead of hanging forever, then retry or fall back.</li>
-<li><strong>Fallbacks.</strong> When the first provider is down, rate-limited, or slow, switch to a backup model so users still get an answer. ("Rate-limited" means a provider is temporarily refusing extra requests because you sent too many too fast.)</li>
-</ul>
-<div class="codehilite"><pre><span></span><code>   call the model
-        │
-        ▼
-   ┌─────────────┐  ok    ┌────────────┐
-   │ try primary │ ─────▶ │ use result │
-   └─────────────┘        └────────────┘
-        │ fails / times out
-        ▼
-   ┌─────────────┐  retry with backoff (1s, 2s, 4s)
-   │   retry x3  │
-   └─────────────┘
-        │ still failing
-        ▼
-   ┌─────────────┐  ok    ┌────────────┐
-   │  FALLBACK   │ ─────▶ │ use result │   (graceful: user still gets an answer)
-   │ backup model│        └────────────┘
-   └─────────────┘
+      <div class="stepline"><span class="steptxt">Step 11 of 11</span><span class="stepdots"><i class="done"></i><i class="done"></i><i class="done"></i><i class="done"></i><i class="done"></i><i class="done"></i><i class="done"></i><i class="done"></i><i class="done"></i><i class="done"></i><i class="cur"></i></span></div><h2 id="capstone" class="capstone-h">🛠️ The Build: Atlas v0, the orchestrator</h2>
+<blockquote>
+<p>The hands-on payoff. You will create the first version of <strong>Atlas</strong>, the orchestrator at the centre of AtlasOS, as a small routine that runs ONE real task from start to finish, on a schedule or a trigger, using one of the five patterns, with a verify step so its plan can be trusted. By the end it will complete the task once with nobody watching.</p>
+</blockquote>
+<h3 id="what-you-will-build">What you will build</h3>
+<p>A routine named <strong>Atlas</strong> that lives in your <code>atlasos</code> repo under <code>orchestrator/</code>. It watches your repo, runs a real task end to end using the <strong>evaluator-optimizer</strong> pattern (draft, then critique, then revise), and finishes with a <strong>verify step</strong> that confirms the work before accepting it. We will use a documentation-sync task as the concrete example because it is real, low-risk, and easy to verify, but the shape applies to any task you like.</p>
+<blockquote>
+<p>🎯 <strong>Why this task.</strong> Code changes outpace docs in every repo. "Once a week, check what changed and update the docs if they fell behind, then verify the page renders" is a genuine chore, it fits the evaluator-optimizer pattern cleanly, and you can confirm the result by eye. It is the perfect first real job for an orchestrator.</p>
+</blockquote>
+<h3 id="milestones-in-order-each-fully-explained">Milestones (in order, each fully explained)</h3>
+<p><strong>1. Decompose the workflow, then name the three decisions.</strong> Pick one small real task Atlas will own (for example, "produce a weekly summary of what changed in this repo"). Before building anything, open a scratch note and do two things: first decompose the task into steps, tagging each as rule, small model, LLM, or human, exactly like Part 1; then fill in the three decisions every routine needs. If you cannot do both, you are not ready to build it.</p>
+<div class="codehilite"><pre><span></span><code>   DECOMPOSE    -&gt; list the steps; tag each: rule / ML / LLM / human
+   TRIGGER      -&gt; When does Atlas run?      (weekly schedule, Monday 10:00)
+   CONTEXT      -&gt; What does it need?        (this repo: code + the docs file)
+   STEERABILITY -&gt; How do you keep it honest? (evaluator-optimizer + verify step)
 </code></pre></div>
 
-<h3 id="a-model-gateway-one-front-door">A model gateway: one front door</h3>
-<p>A <strong>model gateway</strong> is a small piece of your own software that sits between your app and the model providers, so every model call goes through one place. Routing all calls through one door buys three things at once: <strong>access control</strong> (your secret API keys live in the gateway, not scattered through your code), <strong>fallback policies</strong> (it can retry or switch to a backup automatically), and <strong>a natural home for caching</strong>. It also keeps you portable: swapping providers is a change in one place.</p>
-<h3 id="cost-levers-because-every-token-is-money">Cost levers (because every token is money)</h3>
-<p>Agents are token-hungry because they loop. Control cost with vendor-neutral levers, and always re-run your evals afterward so quality does not quietly regress:</p>
+<p><strong>2. Make a place for Atlas in the repo.</strong> In your VS Code terminal, from inside your <code>atlasos</code> project, create the orchestrator folder and a plan file. The plan file is the explicit, readable plan, so the mechanism is legible:</p>
+<div class="codehilite"><pre><span></span><code># (run from the atlasos project root)
+mkdir -p orchestrator
+</code></pre></div>
+
+<p>Then create <code>orchestrator/atlas-plan.md</code> and write the plan as a checklist your routine will step through. Making the plan explicit is what makes it trustworthy:</p>
+<div class="codehilite"><pre><span></span><code># Atlas v0 plan: weekly docs sync (evaluator-optimizer)
+
+1. GATHER: list changes merged to main since last run; read the docs file.
+2. GENERATE: draft the doc updates the changes imply.
+3. EVALUATE: critique the draft. Does it cover every change? Accurate? In our voice?
+4. REVISE: apply the critique. Repeat EVALUATE/REVISE at most twice.
+5. VERIFY: confirm the docs file still renders and reads correctly.
+6. REPORT: open a PR with the change and a one-line summary. Do NOT merge.
+</code></pre></div>
+
+<p><strong>3. Create the routine inside your agent.</strong> Most coding agents can schedule a session for you. In Claude Code, start the agent in your project and run the scheduling command, then describe the task in plain English:</p>
+<div class="codehilite"><pre><span></span><code>/schedule
+
+Once a week, follow the checklist in orchestrator/atlas-plan.md: review what
+changed on main since last run, draft and then self-critique doc updates for
+orchestrator/README.md, verify the file still reads correctly, and open a PR
+with the change. Do not merge it. Ping me when the PR is open.
+</code></pre></div>
+
+<p>The agent will ask clarifying questions (what time, which repo, whether to notify you). Answer them and let it create the routine. The same idea exists across tools: a trigger plus a prompt plus the repo context. If your agent has no built-in scheduler, you can put the same prompt in a script and run it from a cron job or a GitHub Action on a weekly schedule; the routine shape is identical.</p>
+<blockquote>
+<p>💡 <strong>Context is the ceiling.</strong> Whatever context Atlas can see sets the limit on how well it can do. Give it the repo (to see what changed) and the docs file (to update). If you want it to match a house style, point it at a style note too. Thin context, weak output.</p>
+</blockquote>
+<p><strong>4. Build the evaluator-optimizer loop into the prompt.</strong> The trustworthiness comes from steps 3 to 5 of the plan. In the routine's instructions, make the self-critique explicit: "After drafting, critique your own draft against the checklist: did you cover every change, is it accurate, is it in our voice? Revise and repeat at most twice, then stop." Capping the rounds is non-negotiable; without the cap the loop can run (and bill) without limit.</p>
+<p><strong>5. Add the verify step (the part that makes the plan trustworthy).</strong> Before Atlas opens the PR, it must check its own work against reality, not just claim success. For docs, that means confirming the changed file still renders and reads correctly. Add to the instructions: "Before opening the PR, re-read the final <code>orchestrator/README.md</code> end to end and confirm it is valid Markdown with no broken sections. If anything is wrong, fix it and re-verify before continuing." This is the difference between a plan that is plausible and one you can trust.</p>
+<p><strong>6. Keep a human gate on the risky action.</strong> Notice the plan says <strong>open a PR, do not merge</strong>. That is the trust ladder in action: Atlas v0 only <em>recommends</em> (it opens a PR for you to approve). Later, once you have watched it enough, you can let it merge low-risk changes itself. Do not hand over merge rights on day one.</p>
+<p><strong>7. Run it once, unattended, and confirm it completed.</strong> Trigger the routine (either wait for the schedule, or run it now if your tool allows). Then walk away. Come back and check: did a session run on its own, did it produce a PR, and does the PR contain a sensible docs update with the verify step recorded? Open the session log to read what Atlas actually did, step by step. That log is your proof the mechanism ran as planned.</p>
+<p><strong>8. Commit Atlas to the repo.</strong> Save your work so Atlas v0 is a real part of AtlasOS:</p>
+<div class="codehilite"><pre><span></span><code>git add -A
+git commit -m &quot;Add Atlas v0: weekly docs-sync routine (evaluator-optimizer + verify)&quot;
+git push
+</code></pre></div>
+
+<p><strong>9. Stretch (optional).</strong> Add a second routine that triggers on Atlas's PR and leaves review comments before you look (the generator-and-critiquer pattern, an independent second pair of eyes). Or graduate one piece of Atlas from "recommend only" to "act on its own" once you trust it.</p>
+<h3 id="how-you-will-know-you-are-done">How you will know you are done</h3>
 <ul>
-<li><strong>Right-size the model.</strong> Match each sub-task to the smallest tier that still passes its quality bar. A simple classification can run on a tiny model; only the hardest reasoning step needs the top tier.</li>
-<li><strong>Prompt caching.</strong> A model reads (prefills) all input before answering. If the start of your prompt is stable across requests (instructions, tool definitions, a reference doc), the provider can reuse that work instead of re-reading it: roughly up to 90% lower cost and up to 85% lower time-to-first-token on the cached part. Order your prompt stable-first, changing-last, because changing any part invalidates the cache from there on. One team raised its cache hit rate from 7% to 84% and cut cost by more than half just by moving frequently-changing data to the end. All three major providers (Claude, Gemini, GPT) expose prompt caching; the exact opt-in differs, so check current docs.</li>
-<li><strong>Exact caching.</strong> Store the answer to an identical request and replay it (safe and simple). Treat <strong>semantic caching</strong> (reusing an answer for a question that merely means the same) with caution: a wrong similarity match serves a confidently wrong answer.</li>
+<li>✅ <code>orchestrator/atlas-plan.md</code> exists and spells out the explicit, executable plan.</li>
+<li>✅ A routine named Atlas is scheduled (or triggered) and you can state its trigger, context, and steerability.</li>
+<li>✅ The routine uses the evaluator-optimizer pattern with a CAPPED number of critique rounds.</li>
+<li>✅ There is a real verify step that checks the work against reality before the PR opens.</li>
+<li>✅ Atlas ran ONCE with nobody watching and produced a PR you can inspect.</li>
+<li>✅ Atlas is committed and pushed to your <code>atlasos</code> repo under <code>orchestrator/</code>.</li>
 </ul>
 <blockquote>
-<p>🔑 <strong>Human-in-the-loop is the final backstop.</strong> Let the agent act on its own for low-risk, high-confidence steps, and require a person to approve anything irreversible or expensive. Tie it to confidence and stakes. This is the reliability twin of the security gating in Part 3.</p>
+<p>💡 <strong>If any step felt shaky, that is normal and useful.</strong> Note which one, and that is exactly what to ask your agent to explain in more depth. Reaching for help here should be about going deeper, not decoding confusion.</p>
 </blockquote>
 <hr />
+<h3 id="verify-it-like-an-engineer-read-explain-break-fix">Verify it like an engineer (read, explain, break, fix)</h3>
+<blockquote>
+<p>🔑 <strong>The one rule of this course.</strong> Do not keep anything the agent wrote that you cannot read, explain out loud, and break on purpose.</p>
+</blockquote>
+<p>Before you call this component done, run it through the five-check verification habit (formalized as the Warden rubric in Unit 2):</p>
+<ol>
+<li><strong>Trace it.</strong> Follow the control flow and data flow of what you just built, end to end.</li>
+<li><strong>Explain it.</strong> Say out loud what each part does and why. If you cannot, ask your coding agent to explain that part, then re-explain it back yourself.</li>
+<li><strong>Check the edges.</strong> Decide what it does on empty, missing, huge, or malformed input.</li>
+<li><strong>Break it on purpose.</strong> Introduce one deliberate fault, predict the failure, run it, and confirm it from the error.</li>
+<li><strong>Read it for safety.</strong> Ask the three questions: what private data can it touch, what untrusted input can reach it, and how could data get out?</li>
+</ol>
+<p>Fix anything real you find, then re-verify. A component that passes all five is one you can defend, not just one that ran.</p>
+<h2 id="cheat-sheet">Cheat sheet</h2>
+<div class="codehilite"><pre><span></span><code>WORKFLOW vs AGENT
+  workflow = you fix the path  (predictable, cheap, debuggable)  &lt;- prefer this
+  agent    = model picks the path (flexible, pricier, opaque)
+
+THE BUILDING BLOCK
+  augmented LLM = one model call + tools + retrieval + memory
+
+THE FIVE PATTERNS (rule = reach for it when...)
+  prompt chaining        fixed sequence of known subtasks
+  routing                inputs fall into distinct categories
+  parallelization        independent subtasks OR voting for confidence
+  orchestrator-workers   subtasks unknown until you see the input
+  evaluator-optimizer    clear &quot;good&quot; criteria + feedback helps  (CAP the rounds)
+
+THE AGENT LOOP (ReAct)
+  gather context -&gt; act -&gt; observe (ground truth) -&gt; repeat
+  ALWAYS: a max-loop cap AND a budget. no exceptions.
+
+WHY LONG CHAINS BREAK (p^N)
+  95%/step -&gt; ~36% over 20 steps    fix: short loops + VERIFY + higher per-step
+
+TRUSTWORTHY PLANS
+  make the plan explicit/executable ; end with a VERIFY step
+  trust ladder: recommend -&gt; help act -&gt; act on its own
+</code></pre></div>
+
+<h2 id="how-this-connects-to-the-rest-of-the-course">How this connects to the rest of the course</h2>
+<ul>
+<li><strong>Builds on Unit 6 (retrieval, memory, state):</strong> the compaction, scratchpad, and sub-agent isolation moves from Unit 6 become first-class steps inside these patterns, and an agent's message history is the free memory inside the loop.</li>
+<li><strong>Next, Unit 8 (multi-agent orchestration):</strong> the orchestrator-workers pattern here is the seed of true multi-agent systems. Unit 8 teaches when many agents genuinely beat one, and when a single agent wins.</li>
+<li><strong>Toward the north-star:</strong> Atlas v0 is the orchestrator at the centre of AtlasOS. Every later agent (Scout, Forge, Pulse, Herald, Warden) is a worker Atlas dispatches, and the verify step you built here is the seed of Warden, the verification gatekeeper.</li>
+</ul>
     </article>
-    <nav class="lessonnav"><a class="ln prev" href="03-give-your-agent-a-guard.html"><span class="dir">&#8592; Previous</span><b>Give your agent a guard</b></a><a class="ln home" href="../index.html"><b>All units</b></a><a class="ln next" href="05-give-your-agent-a-home.html"><span class="dir">Next &#8594;</span><b>Give your agent a home</b></a></nav>
+    <nav class="lessonnav"><a class="ln prev" href="09-recap.html"><span class="dir">&#8592; Previous</span><b>Recap</b></a><a class="ln home" href="../index.html"><b>All units</b></a><a class="ln next" href="../unit-08-multi-agent-orchestration/00-overview.html"><span class="dir">Next &#8594;</span><b>Unit 8: Multi-Agent Orchestration</b></a></nav>
   </main>
 </div>
 

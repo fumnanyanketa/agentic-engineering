@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Unit 7: Workflows and Agent Patterns · The autonomous agent loop | Agentic Engineering</title>
+<title>Unit 7: Workflows and Agent Patterns · Decompose the human&#x27;s workflow first | Agentic Engineering</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@500;600;700;800&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
@@ -233,7 +233,7 @@ footer.site .fnote{max-width:46em;font-size:13.5px;line-height:1.7}
   <div class="navlinks">
     <a href="../index.html">All units</a>
     <a href="#overview">Overview</a>
-    <a href="09-the-build.html">The Build</a>
+    <a href="10-the-build.html">The Build</a>
   </div>
   <div class="nav-cta">
     <a class="btn btn-primary" href="#start">Start the lesson &#8594;</a>
@@ -246,16 +246,16 @@ footer.site .fnote{max-width:46em;font-size:13.5px;line-height:1.7}
   
   <div class="wrap" id="overview">
     <div>
-      <span class="eyebrow">&#10022; Unit 7 &middot; Part 5</span>
-      <h1>The autonomous agent <span class="accent">loop</span></h1>
-      <p class="lead">Sometimes a fixed path genuinely will not do, and you need the model to decide for itself. That is an autonomous agent. Stripped to its essence, an agent is just an LLM, plus a system prompt, plus tools, running in a loop. (A system prompt is the standing instruction that tells the model its job and rules.) The loop is the heart of it.</p>
+      <span class="eyebrow">&#10022; Unit 7 &middot; Part 1</span>
+      <h1>Decompose the human&#x27;s workflow <span class="accent">first</span></h1>
+      <p class="lead">Before you pick a pattern, before you touch a tool, do the thing almost every tutorial skips: look at the real work a human does today, and break it down. An agent is not &quot;an LLM connected to Gmail.&quot; It is a design that replaces or assists a real process, and you cannot design it until you understand that process step by step.</p>
       <div class="hero-actions">
         <a class="btn btn-primary" href="#start">Start the lesson &#8594;</a>
         
       </div>
       <div class="chips">
         <span class="chip">&#127908; <b>Unit 7 of 12</b></span>
-        <span class="chip">&#9201; <b>Step 6 of 10</b></span>
+        <span class="chip">&#9201; <b>Step 2 of 11</b></span>
         <span class="chip">&#128296; <b>Hands-on capstone</b></span>
       </div>
     </div>
@@ -272,7 +272,7 @@ footer.site .fnote{max-width:46em;font-size:13.5px;line-height:1.7}
           <li><span class="ic">&#128296;</span><span>A hands-on capstone you build step by step</span></li>
           <li><span class="ic">&#127919;</span><span>Optional practice drills to reinforce each skill</span></li>
         </ul>
-        <a class="btn btn-coral" href="09-the-build.html" style="width:100%;justify-content:center">Jump to the project</a>
+        <a class="btn btn-coral" href="10-the-build.html" style="width:100%;justify-content:center">Jump to the project</a>
       </div>
     </div>
   </div>
@@ -286,53 +286,78 @@ footer.site .fnote{max-width:46em;font-size:13.5px;line-height:1.7}
 <ul class="unit-toc">
 <li class="done"><a href="00-overview.html">Overview</a>
 </li>
-<li class="done"><a href="01-workflow-versus-agent.html">Part 1 &middot; Workflow versus agent</a>
+<li class="active"><a href="01-decompose-the-humans-workflow-first.html">Part 1 &middot; Decompose the human&#x27;s workflow first</a>
 </li>
-<li class="done"><a href="02-the-building-block.html">Part 2 &middot; The building block</a>
+<li class=""><a href="02-workflow-versus-agent.html">Part 2 &middot; Workflow versus agent</a>
 </li>
-<li class="done"><a href="03-the-five-workflow-patterns.html">Part 3 &middot; The five workflow patterns</a>
+<li class=""><a href="03-the-building-block.html">Part 3 &middot; The building block</a>
 </li>
-<li class="done"><a href="04-choosing-a-pattern.html">Part 4 &middot; Choosing a pattern</a>
+<li class=""><a href="04-the-five-workflow-patterns.html">Part 4 &middot; The five workflow patterns</a>
 </li>
-<li class="active"><a href="05-the-autonomous-agent-loop.html">Part 5 &middot; The autonomous agent loop</a>
+<li class=""><a href="05-choosing-a-pattern.html">Part 5 &middot; Choosing a pattern</a>
 </li>
-<li class=""><a href="06-why-long-agent-chains-are-fragile.html">Part 6 &middot; Why long agent chains are fragile</a>
+<li class=""><a href="06-the-autonomous-agent-loop.html">Part 6 &middot; The autonomous agent loop</a>
 </li>
-<li class=""><a href="07-making-a-plan-trustworthy.html">Part 7 &middot; Making a plan trustworthy</a>
+<li class=""><a href="07-why-long-agent-chains-are-fragile.html">Part 7 &middot; Why long agent chains are fragile</a>
 </li>
-<li class=""><a href="08-recap.html">Recap</a>
+<li class=""><a href="08-making-a-plan-trustworthy.html">Part 8 &middot; Making a plan trustworthy</a>
 </li>
-<li class=""><a href="09-the-build.html">The Build</a>
+<li class=""><a href="09-recap.html">Recap</a>
+</li>
+<li class=""><a href="10-the-build.html">The Build</a>
 </li>
 </ul>
   </div></aside>
   <main id="start">
     <article>
-      <div class="stepline"><span class="steptxt">Step 6 of 10</span><span class="stepdots"><i class="done"></i><i class="done"></i><i class="done"></i><i class="done"></i><i class="done"></i><i class="cur"></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i></span></div><p>Sometimes a fixed path genuinely will not do, and you need the model to decide for itself. That is an <strong>autonomous agent</strong>. Stripped to its essence, an agent is just <strong>an LLM, plus a system prompt, plus tools, running in a loop</strong>. (A <strong>system prompt</strong> is the standing instruction that tells the model its job and rules.) The loop is the heart of it.</p>
-<div class="codehilite"><pre><span></span><code>   ┌──────────────────────────────────────────────────┐
-   │                                                  │
-   ▼                                                  │
- 1. GATHER CONTEXT ─▶ 2. ACT ─▶ 3. OBSERVE ─▶ stop? ──┘ no
- what does it need     call a    read the REAL          │
- to know right now?    tool      result (ground         │ yes
-                                 truth, not a guess)     ▼
-                                                       DONE
-</code></pre></div>
-
+      <div class="stepline"><span class="steptxt">Step 2 of 11</span><span class="stepdots"><i class="done"></i><i class="cur"></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i></span></div><p>Before you pick a pattern, before you touch a tool, do the thing almost every tutorial skips: look at the real work a human does today, and break it down. An agent is not "an LLM connected to Gmail." It is a design that replaces or assists a real process, and you cannot design it until you understand that process step by step.</p>
+<p>The method is old-fashioned, and it is the whole game:</p>
 <ol>
-<li><strong>Gather context:</strong> collect what the model needs right now (the task, recent results, relevant data).</li>
-<li><strong>Act:</strong> the model chooses and calls a tool, for example running a command or querying a database.</li>
-<li><strong>Observe:</strong> the tool returns a real result from the environment. This is the crucial part, because it is <strong>ground truth</strong>, what actually happened, rather than the model's guess.</li>
-<li><strong>Repeat</strong> until a stopping condition is met.</li>
+<li><strong>Watch the human do the work.</strong> Sit with the person (or be the person for a day). Most experts cannot tell you what they do, because it is automatic. They will say "I just handle the inquiries." Your job is to observe the actual steps.</li>
+<li><strong>Surface the micro-decisions.</strong> A single "handle a customer inquiry" task is really a dozen or more hidden steps: read the message, judge the urgency, check whether this is an existing customer, pull their history, decide if it is a billing or a technical question, check who is available, draft a reply in the right tone, route it if it is serious, update the record. Each is a decision the human makes without noticing.</li>
+<li><strong>Classify every step.</strong> For each step, ask what kind of work it actually is:</li>
 </ol>
-<p>That last point is not optional. You must <strong>always</strong> include stopping conditions: a maximum number of loops AND a spending budget. Without them an agent can run forever and run up huge cost. One nice detail: the loop has memory for free, because the growing list of past messages <em>is</em> the agent's record of what it has done so far.</p>
-<p>This loop is also model-neutral. It is the <strong>ReAct</strong> pattern (reasoning and acting): the model writes a short thought ("I should look up the price first"), takes an action, reads the result, then reasons again. Claude, Gemini, and GPT can all run it.</p>
+<table>
+<thead>
+<tr>
+<th>Step type</th>
+<th>Use</th>
+<th>Example</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Mechanical / rule</td>
+<td>a few lines of code, a regex, a lookup</td>
+<td>"is this an existing customer?" (a database check)</td>
+</tr>
+<tr>
+<td>Deterministic ML</td>
+<td>a small trained classifier</td>
+<td>"how urgent is this?" (trained on past tickets)</td>
+</tr>
+<tr>
+<td>LLM judgment</td>
+<td>a model call</td>
+<td>"draft a reply in our tone"; "is this billing or technical?"</td>
+</tr>
+<tr>
+<td>Human-required</td>
+<td>a person, via a human-in-the-loop step</td>
+<td>"approve this refund over $500"</td>
+</tr>
+</tbody>
+</table>
+<ol start="4">
+<li><strong>Only now design the architecture.</strong> The shape of the agent falls out of the decomposition: rule steps become plain code, classifier steps become small models, fuzzy language steps become LLM calls, and high-stakes steps get a human gate. The workflow patterns in the rest of this unit are how you wire those steps together.</li>
+</ol>
 <blockquote>
-<p>🔑 <strong>Plan-and-execute versus step-by-step.</strong> There are two ways to plan. <strong>Plan-and-execute</strong> writes the whole plan up front, then carries it out: fewer calls, cheaper, but it adapts poorly if reality differs from the plan. <strong>ReAct (step-by-step)</strong> decides each step as it goes: adapts well to surprises, but uses more calls. Choose by how predictable the path is. Knowable in advance? Plan ahead. Uncertain? Step by step.</p>
+<p>🔑 <strong>Most steps are not LLM steps.</strong> The instinct to throw an LLM at the whole thing is exactly what makes agents fragile and expensive. An LLM is a next-token predictor: right perhaps 99% of the time, and the 1% it is wrong can cost you the business. A well-decomposed agent uses the LLM only where genuine language judgment is needed, and deterministic code everywhere else, so most of it can never hallucinate. (This is the "smallest tool that works" ladder from Unit 4, applied step by step.)</p>
+<p>❌ <strong>The tutorial trap:</strong> jumping straight from "here is an LLM" to "drag this node and connect it." That skips the only part that makes you an engineer: the decomposition and the per-step judgment that happen before any tool is touched.</p>
+<p>💡 <strong>A reusable artifact.</strong> Write the decomposition down as a numbered list with a type tag per step. That table <em>is</em> your architecture spec: it tells you exactly what to build, and it is the first thing to show a client or teammate to confirm you understood their work.</p>
 </blockquote>
-<hr />
     </article>
-    <nav class="lessonnav"><a class="ln prev" href="04-choosing-a-pattern.html"><span class="dir">&#8592; Previous</span><b>Choosing a pattern</b></a><a class="ln home" href="../index.html"><b>All units</b></a><a class="ln next" href="06-why-long-agent-chains-are-fragile.html"><span class="dir">Next &#8594;</span><b>Why long agent chains are fragile</b></a></nav>
+    <nav class="lessonnav"><a class="ln prev" href="00-overview.html"><span class="dir">&#8592; Previous</span><b>Workflows and Agent Patterns</b></a><a class="ln home" href="../index.html"><b>All units</b></a><a class="ln next" href="02-workflow-versus-agent.html"><span class="dir">Next &#8594;</span><b>Workflow versus agent</b></a></nav>
   </main>
 </div>
 

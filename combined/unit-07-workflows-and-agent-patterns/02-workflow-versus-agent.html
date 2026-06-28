@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Unit 7: Workflows and Agent Patterns · Making a plan trustworthy | Agentic Engineering</title>
+<title>Unit 7: Workflows and Agent Patterns · Workflow versus agent | Agentic Engineering</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@500;600;700;800&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
@@ -233,7 +233,7 @@ footer.site .fnote{max-width:46em;font-size:13.5px;line-height:1.7}
   <div class="navlinks">
     <a href="../index.html">All units</a>
     <a href="#overview">Overview</a>
-    <a href="09-the-build.html">The Build</a>
+    <a href="10-the-build.html">The Build</a>
   </div>
   <div class="nav-cta">
     <a class="btn btn-primary" href="#start">Start the lesson &#8594;</a>
@@ -246,16 +246,16 @@ footer.site .fnote{max-width:46em;font-size:13.5px;line-height:1.7}
   
   <div class="wrap" id="overview">
     <div>
-      <span class="eyebrow">&#10022; Unit 7 &middot; Part 7</span>
-      <h1>Making a plan <span class="accent">trustworthy</span></h1>
-      <p class="lead">A plan an agent shows you is only worth something if the agent actually follows it and the result is actually checked. Two practical ideas, drawn from teams running this in production, turn a plausible plan into a trustworthy one.</p>
+      <span class="eyebrow">&#10022; Unit 7 &middot; Part 2</span>
+      <h1>Workflow versus <span class="accent">agent</span></h1>
+      <p class="lead">This is the distinction the whole unit rests on, so we make it sharp before anything else.</p>
       <div class="hero-actions">
         <a class="btn btn-primary" href="#start">Start the lesson &#8594;</a>
         
       </div>
       <div class="chips">
         <span class="chip">&#127908; <b>Unit 7 of 12</b></span>
-        <span class="chip">&#9201; <b>Step 8 of 10</b></span>
+        <span class="chip">&#9201; <b>Step 3 of 11</b></span>
         <span class="chip">&#128296; <b>Hands-on capstone</b></span>
       </div>
     </div>
@@ -272,7 +272,7 @@ footer.site .fnote{max-width:46em;font-size:13.5px;line-height:1.7}
           <li><span class="ic">&#128296;</span><span>A hands-on capstone you build step by step</span></li>
           <li><span class="ic">&#127919;</span><span>Optional practice drills to reinforce each skill</span></li>
         </ul>
-        <a class="btn btn-coral" href="09-the-build.html" style="width:100%;justify-content:center">Jump to the project</a>
+        <a class="btn btn-coral" href="10-the-build.html" style="width:100%;justify-content:center">Jump to the project</a>
       </div>
     </div>
   </div>
@@ -286,47 +286,52 @@ footer.site .fnote{max-width:46em;font-size:13.5px;line-height:1.7}
 <ul class="unit-toc">
 <li class="done"><a href="00-overview.html">Overview</a>
 </li>
-<li class="done"><a href="01-workflow-versus-agent.html">Part 1 &middot; Workflow versus agent</a>
+<li class="done"><a href="01-decompose-the-humans-workflow-first.html">Part 1 &middot; Decompose the human&#x27;s workflow first</a>
 </li>
-<li class="done"><a href="02-the-building-block.html">Part 2 &middot; The building block</a>
+<li class="active"><a href="02-workflow-versus-agent.html">Part 2 &middot; Workflow versus agent</a>
 </li>
-<li class="done"><a href="03-the-five-workflow-patterns.html">Part 3 &middot; The five workflow patterns</a>
+<li class=""><a href="03-the-building-block.html">Part 3 &middot; The building block</a>
 </li>
-<li class="done"><a href="04-choosing-a-pattern.html">Part 4 &middot; Choosing a pattern</a>
+<li class=""><a href="04-the-five-workflow-patterns.html">Part 4 &middot; The five workflow patterns</a>
 </li>
-<li class="done"><a href="05-the-autonomous-agent-loop.html">Part 5 &middot; The autonomous agent loop</a>
+<li class=""><a href="05-choosing-a-pattern.html">Part 5 &middot; Choosing a pattern</a>
 </li>
-<li class="done"><a href="06-why-long-agent-chains-are-fragile.html">Part 6 &middot; Why long agent chains are fragile</a>
+<li class=""><a href="06-the-autonomous-agent-loop.html">Part 6 &middot; The autonomous agent loop</a>
 </li>
-<li class="active"><a href="07-making-a-plan-trustworthy.html">Part 7 &middot; Making a plan trustworthy</a>
+<li class=""><a href="07-why-long-agent-chains-are-fragile.html">Part 7 &middot; Why long agent chains are fragile</a>
 </li>
-<li class=""><a href="08-recap.html">Recap</a>
+<li class=""><a href="08-making-a-plan-trustworthy.html">Part 8 &middot; Making a plan trustworthy</a>
 </li>
-<li class=""><a href="09-the-build.html">The Build</a>
+<li class=""><a href="09-recap.html">Recap</a>
+</li>
+<li class=""><a href="10-the-build.html">The Build</a>
 </li>
 </ul>
   </div></aside>
   <main id="start">
     <article>
-      <div class="stepline"><span class="steptxt">Step 8 of 10</span><span class="stepdots"><i class="done"></i><i class="done"></i><i class="done"></i><i class="done"></i><i class="done"></i><i class="done"></i><i class="done"></i><i class="cur"></i><i class=""></i><i class=""></i></span></div><p>A plan an agent shows you is only worth something if the agent actually <em>follows</em> it and the result is actually <em>checked</em>. Two practical ideas, drawn from teams running this in production, turn a plausible plan into a trustworthy one.</p>
-<p><strong>1. Make the plan the thing that runs.</strong> The strongest version of "the agent followed its plan" is when the plan literally <em>is</em> the program you execute. The research team at Elicit does this with a tiny custom language: the agent writes a small, readable plan as code, plain code runs it, and because running the program <em>is</em> following the plan, fidelity is guaranteed. You do not need a custom language to borrow the idea: keep the plan explicit and executable (a checklist your code steps through, a script, a list of tool calls), so the plan and the execution can never silently disagree.</p>
-<p><strong>2. Always end with a verify step.</strong> This is the move that matters most, and it works in any pattern. After the work is done, check it against reality before accepting it:</p>
-<div class="codehilite"><pre><span></span><code>   PLAN ─▶ ACT ─▶ VERIFY ─┬─ pass ─▶ accept / notify
-                          └─ fail ─▶ fix and loop (up to a limit)
+      <div class="stepline"><span class="steptxt">Step 3 of 11</span><span class="stepdots"><i class="done"></i><i class="done"></i><i class="cur"></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i></span></div><p>This is the distinction the whole unit rests on, so we make it sharp before anything else.</p>
+<p>A <strong>workflow</strong> is a system where the steps are decided ahead of time, by you, the engineer. The model fills in each step, but the path is fixed in your code. "First translate, then summarise, then format" is a workflow: you wrote that order, and it never changes.</p>
+<p>An <strong>agent</strong> is a system where the <strong>model</strong> decides what to do next, on its own, turn by turn, until the job is done. You do not know in advance how many steps it will take or which tools it will call. The model looks at the situation and chooses.</p>
+<div class="codehilite"><pre><span></span><code>   WORKFLOW                              AGENT
+   you fix the path                      the model picks the path
+
+   step 1 ─▶ step 2 ─▶ step 3            ┌────────────────────────┐
+   (always this order)                   │ model: &quot;what next?&quot;    │
+                                         │   ▼                    │
+   predictable                           │ act ─▶ observe ─▶ loop ─┘
+   cheap                                 │
+   easy to debug                         flexible, pricier, harder to debug
 </code></pre></div>
 
-<ul>
-<li>For a docs update: render the changed page and confirm it looks right.</li>
-<li>For a code change: run the tests and the type checker, and require them to pass.</li>
-<li>For a deploy: check the monitoring data and produce a clear <strong>go or no-go</strong> before acting.</li>
-</ul>
+<p>Both have their place. The reason to care about the line between them is <strong>cost and debuggability</strong>. A workflow is predictable: the same input runs the same steps, so when something breaks you know exactly where to look. An agent is flexible but opaque: it might take three steps or thirty, and tracing a failure is harder.</p>
 <blockquote>
-<p>🔑 <strong>Verification is the bottleneck.</strong> When producing work becomes cheap and fast, the scarce, valuable skill becomes <em>checking</em> it. A plan without a verify step is a guess wearing a suit. The verify step is what lets you eventually walk away and trust the result.</p>
-<p>💡 <strong>Trust grows in stages.</strong> A good autonomous routine earns its leash. Start by having it only <strong>recommend</strong> (it investigates and tells you go or no-go). Then let it <strong>help you act</strong>. Only once you have watched it enough do you let it <strong>act on its own</strong>. You never hand over the keys on day one.</p>
+<p>🔑 <strong>Reach for a workflow first.</strong> Only move to a full agent when the task truly cannot be solved with a fixed path, for example when you genuinely cannot know the steps until you see the input. Most real problems are workflow-shaped.</p>
+<p>💡 <strong>This is model-agnostic.</strong> Nothing here depends on which provider you use. A workflow built on Claude, Gemini, or GPT is the same shape; you swap the model call and the rest is identical. The patterns below are wiring diagrams, not provider features.</p>
 </blockquote>
 <hr />
     </article>
-    <nav class="lessonnav"><a class="ln prev" href="06-why-long-agent-chains-are-fragile.html"><span class="dir">&#8592; Previous</span><b>Why long agent chains are fragile</b></a><a class="ln home" href="../index.html"><b>All units</b></a><a class="ln next" href="08-recap.html"><span class="dir">Next &#8594;</span><b>Recap</b></a></nav>
+    <nav class="lessonnav"><a class="ln prev" href="01-decompose-the-humans-workflow-first.html"><span class="dir">&#8592; Previous</span><b>Decompose the human&#x27;s workflow first</b></a><a class="ln home" href="../index.html"><b>All units</b></a><a class="ln next" href="03-the-building-block.html"><span class="dir">Next &#8594;</span><b>The building block</b></a></nav>
   </main>
 </div>
 

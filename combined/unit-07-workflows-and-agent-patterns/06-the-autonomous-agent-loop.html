@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Unit 7: Workflows and Agent Patterns · The building block | Agentic Engineering</title>
+<title>Unit 7: Workflows and Agent Patterns · The autonomous agent loop | Agentic Engineering</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@500;600;700;800&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
@@ -233,7 +233,7 @@ footer.site .fnote{max-width:46em;font-size:13.5px;line-height:1.7}
   <div class="navlinks">
     <a href="../index.html">All units</a>
     <a href="#overview">Overview</a>
-    <a href="09-the-build.html">The Build</a>
+    <a href="10-the-build.html">The Build</a>
   </div>
   <div class="nav-cta">
     <a class="btn btn-primary" href="#start">Start the lesson &#8594;</a>
@@ -246,16 +246,16 @@ footer.site .fnote{max-width:46em;font-size:13.5px;line-height:1.7}
   
   <div class="wrap" id="overview">
     <div>
-      <span class="eyebrow">&#10022; Unit 7 &middot; Part 2</span>
-      <h1>The building <span class="accent">block</span></h1>
-      <p class="lead">Before the patterns, meet the single piece they are all made of. Anthropic&#x27;s Building Effective Agents essay calls it the augmented LLM: one model call given three extra abilities beyond plain text generation.</p>
+      <span class="eyebrow">&#10022; Unit 7 &middot; Part 6</span>
+      <h1>The autonomous agent <span class="accent">loop</span></h1>
+      <p class="lead">Sometimes a fixed path genuinely will not do, and you need the model to decide for itself. That is an autonomous agent. Stripped to its essence, an agent is just an LLM, plus a system prompt, plus tools, running in a loop. (A system prompt is the standing instruction that tells the model its job and rules.) The loop is the heart of it.</p>
       <div class="hero-actions">
         <a class="btn btn-primary" href="#start">Start the lesson &#8594;</a>
         
       </div>
       <div class="chips">
         <span class="chip">&#127908; <b>Unit 7 of 12</b></span>
-        <span class="chip">&#9201; <b>Step 3 of 10</b></span>
+        <span class="chip">&#9201; <b>Step 7 of 11</b></span>
         <span class="chip">&#128296; <b>Hands-on capstone</b></span>
       </div>
     </div>
@@ -272,7 +272,7 @@ footer.site .fnote{max-width:46em;font-size:13.5px;line-height:1.7}
           <li><span class="ic">&#128296;</span><span>A hands-on capstone you build step by step</span></li>
           <li><span class="ic">&#127919;</span><span>Optional practice drills to reinforce each skill</span></li>
         </ul>
-        <a class="btn btn-coral" href="09-the-build.html" style="width:100%;justify-content:center">Jump to the project</a>
+        <a class="btn btn-coral" href="10-the-build.html" style="width:100%;justify-content:center">Jump to the project</a>
       </div>
     </div>
   </div>
@@ -286,49 +286,55 @@ footer.site .fnote{max-width:46em;font-size:13.5px;line-height:1.7}
 <ul class="unit-toc">
 <li class="done"><a href="00-overview.html">Overview</a>
 </li>
-<li class="done"><a href="01-workflow-versus-agent.html">Part 1 &middot; Workflow versus agent</a>
+<li class="done"><a href="01-decompose-the-humans-workflow-first.html">Part 1 &middot; Decompose the human&#x27;s workflow first</a>
 </li>
-<li class="active"><a href="02-the-building-block.html">Part 2 &middot; The building block</a>
+<li class="done"><a href="02-workflow-versus-agent.html">Part 2 &middot; Workflow versus agent</a>
 </li>
-<li class=""><a href="03-the-five-workflow-patterns.html">Part 3 &middot; The five workflow patterns</a>
+<li class="done"><a href="03-the-building-block.html">Part 3 &middot; The building block</a>
 </li>
-<li class=""><a href="04-choosing-a-pattern.html">Part 4 &middot; Choosing a pattern</a>
+<li class="done"><a href="04-the-five-workflow-patterns.html">Part 4 &middot; The five workflow patterns</a>
 </li>
-<li class=""><a href="05-the-autonomous-agent-loop.html">Part 5 &middot; The autonomous agent loop</a>
+<li class="done"><a href="05-choosing-a-pattern.html">Part 5 &middot; Choosing a pattern</a>
 </li>
-<li class=""><a href="06-why-long-agent-chains-are-fragile.html">Part 6 &middot; Why long agent chains are fragile</a>
+<li class="active"><a href="06-the-autonomous-agent-loop.html">Part 6 &middot; The autonomous agent loop</a>
 </li>
-<li class=""><a href="07-making-a-plan-trustworthy.html">Part 7 &middot; Making a plan trustworthy</a>
+<li class=""><a href="07-why-long-agent-chains-are-fragile.html">Part 7 &middot; Why long agent chains are fragile</a>
 </li>
-<li class=""><a href="08-recap.html">Recap</a>
+<li class=""><a href="08-making-a-plan-trustworthy.html">Part 8 &middot; Making a plan trustworthy</a>
 </li>
-<li class=""><a href="09-the-build.html">The Build</a>
+<li class=""><a href="09-recap.html">Recap</a>
+</li>
+<li class=""><a href="10-the-build.html">The Build</a>
 </li>
 </ul>
   </div></aside>
   <main id="start">
     <article>
-      <div class="stepline"><span class="steptxt">Step 3 of 10</span><span class="stepdots"><i class="done"></i><i class="done"></i><i class="cur"></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i></span></div><p>Before the patterns, meet the single piece they are all made of. Anthropic's <em>Building Effective Agents</em> essay calls it the <strong>augmented LLM</strong>: one model call given three extra abilities beyond plain text generation.</p>
-<div class="codehilite"><pre><span></span><code>            ┌───────────────────────────────┐
-            │        AUGMENTED LLM           │
-   input ──▶│  ┌─────────────────────────┐   │──▶ output
-            │  │  the model call         │   │
-            │  └─────────────────────────┘   │
-            │   + TOOLS     (call functions) │  (Unit 5)
-            │   + RETRIEVAL (pull in data)   │  (Unit 6)
-            │   + MEMORY    (carry facts)    │  (Unit 6)
-            └───────────────────────────────┘
+      <div class="stepline"><span class="steptxt">Step 7 of 11</span><span class="stepdots"><i class="done"></i><i class="done"></i><i class="done"></i><i class="done"></i><i class="done"></i><i class="done"></i><i class="cur"></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i></span></div><p>Sometimes a fixed path genuinely will not do, and you need the model to decide for itself. That is an <strong>autonomous agent</strong>. Stripped to its essence, an agent is just <strong>an LLM, plus a system prompt, plus tools, running in a loop</strong>. (A <strong>system prompt</strong> is the standing instruction that tells the model its job and rules.) The loop is the heart of it.</p>
+<div class="codehilite"><pre><span></span><code>   ┌──────────────────────────────────────────────────┐
+   │                                                  │
+   ▼                                                  │
+ 1. GATHER CONTEXT ─▶ 2. ACT ─▶ 3. OBSERVE ─▶ stop? ──┘ no
+ what does it need     call a    read the REAL          │
+ to know right now?    tool      result (ground         │ yes
+                                 truth, not a guess)     ▼
+                                                       DONE
 </code></pre></div>
 
-<ul>
-<li><strong>Tools:</strong> the model can call functions you give it (search, run code, open a PR).</li>
-<li><strong>Retrieval:</strong> the model can pull in outside information it was not trained on.</li>
-<li><strong>Memory:</strong> the model can carry facts from one step to the next.</li>
-</ul>
-<p>That is the whole block. Once you can picture this one box, every pattern below is just a different way of wiring several boxes together. All three abilities are model-neutral: Claude, Gemini, and GPT all expose tool calling (you describe tools as JSON schemas and the model returns a structured call), all can be wired to retrieval, and all can be given memory. Hold the exact parameter names loosely and verify against current docs; the shape is what matters.</p>
+<ol>
+<li><strong>Gather context:</strong> collect what the model needs right now (the task, recent results, relevant data).</li>
+<li><strong>Act:</strong> the model chooses and calls a tool, for example running a command or querying a database.</li>
+<li><strong>Observe:</strong> the tool returns a real result from the environment. This is the crucial part, because it is <strong>ground truth</strong>, what actually happened, rather than the model's guess.</li>
+<li><strong>Repeat</strong> until a stopping condition is met.</li>
+</ol>
+<p>That last point is not optional. You must <strong>always</strong> include stopping conditions: a maximum number of loops AND a spending budget. Without them an agent can run forever and run up huge cost. One nice detail: the loop has memory for free, because the growing list of past messages <em>is</em> the agent's record of what it has done so far.</p>
+<p>This loop is also model-neutral. It is the <strong>ReAct</strong> pattern (reasoning and acting): the model writes a short thought ("I should look up the price first"), takes an action, reads the result, then reasons again. Claude, Gemini, and GPT can all run it.</p>
+<blockquote>
+<p>🔑 <strong>Plan-and-execute versus step-by-step.</strong> There are two ways to plan. <strong>Plan-and-execute</strong> writes the whole plan up front, then carries it out: fewer calls, cheaper, but it adapts poorly if reality differs from the plan. <strong>ReAct (step-by-step)</strong> decides each step as it goes: adapts well to surprises, but uses more calls. Choose by how predictable the path is. Knowable in advance? Plan ahead. Uncertain? Step by step.</p>
+</blockquote>
 <hr />
     </article>
-    <nav class="lessonnav"><a class="ln prev" href="01-workflow-versus-agent.html"><span class="dir">&#8592; Previous</span><b>Workflow versus agent</b></a><a class="ln home" href="../index.html"><b>All units</b></a><a class="ln next" href="03-the-five-workflow-patterns.html"><span class="dir">Next &#8594;</span><b>The five workflow patterns</b></a></nav>
+    <nav class="lessonnav"><a class="ln prev" href="05-choosing-a-pattern.html"><span class="dir">&#8592; Previous</span><b>Choosing a pattern</b></a><a class="ln home" href="../index.html"><b>All units</b></a><a class="ln next" href="07-why-long-agent-chains-are-fragile.html"><span class="dir">Next &#8594;</span><b>Why long agent chains are fragile</b></a></nav>
   </main>
 </div>
 
