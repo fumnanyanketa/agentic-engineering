@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Unit 7: Workflows and Agent Patterns · Choosing a pattern | Agentic Engineering</title>
+<title>Unit 7: Workflows and Agent Patterns · Recap | Agentic Engineering</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@500;600;700;800&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
@@ -233,7 +233,7 @@ footer.site .fnote{max-width:46em;font-size:13.5px;line-height:1.7}
   <div class="navlinks">
     <a href="../index.html">All units</a>
     <a href="#overview">Overview</a>
-    <a href="09-the-build.html">The Build</a>
+    <a href="10-the-build.html">The Build</a>
   </div>
   <div class="nav-cta">
     <a class="btn btn-primary" href="#start">Start the lesson &#8594;</a>
@@ -246,16 +246,16 @@ footer.site .fnote{max-width:46em;font-size:13.5px;line-height:1.7}
   
   <div class="wrap" id="overview">
     <div>
-      <span class="eyebrow">&#10022; Unit 7 &middot; Part 4</span>
-      <h1>Choosing a <span class="accent">pattern</span></h1>
-      <p class="lead">The five patterns climb a ladder of freedom. Chaining, routing, and parallelization follow paths you fix in advance. Orchestrator-workers and evaluator-optimizer let the model make some decisions, but still inside a structure you control. The guiding rule from the essay: add complexity only when it clearly pays off.</p>
+      <span class="eyebrow">&#10022; Unit 7</span>
+      <h1>Recap</h1>
+      <p class="lead">The key takeaways and the common pitfalls to avoid before you build.</p>
       <div class="hero-actions">
         <a class="btn btn-primary" href="#start">Start the lesson &#8594;</a>
         
       </div>
       <div class="chips">
         <span class="chip">&#127908; <b>Unit 7 of 12</b></span>
-        <span class="chip">&#9201; <b>Step 5 of 10</b></span>
+        <span class="chip">&#9201; <b>Step 10 of 11</b></span>
         <span class="chip">&#128296; <b>Hands-on capstone</b></span>
       </div>
     </div>
@@ -272,7 +272,7 @@ footer.site .fnote{max-width:46em;font-size:13.5px;line-height:1.7}
           <li><span class="ic">&#128296;</span><span>A hands-on capstone you build step by step</span></li>
           <li><span class="ic">&#127919;</span><span>Optional practice drills to reinforce each skill</span></li>
         </ul>
-        <a class="btn btn-coral" href="09-the-build.html" style="width:100%;justify-content:center">Jump to the project</a>
+        <a class="btn btn-coral" href="10-the-build.html" style="width:100%;justify-content:center">Jump to the project</a>
       </div>
     </div>
   </div>
@@ -286,72 +286,53 @@ footer.site .fnote{max-width:46em;font-size:13.5px;line-height:1.7}
 <ul class="unit-toc">
 <li class="done"><a href="00-overview.html">Overview</a>
 </li>
-<li class="done"><a href="01-workflow-versus-agent.html">Part 1 &middot; Workflow versus agent</a>
+<li class="done"><a href="01-decompose-the-humans-workflow-first.html">Part 1 &middot; Decompose the human&#x27;s workflow first</a>
 </li>
-<li class="done"><a href="02-the-building-block.html">Part 2 &middot; The building block</a>
+<li class="done"><a href="02-workflow-versus-agent.html">Part 2 &middot; Workflow versus agent</a>
 </li>
-<li class="done"><a href="03-the-five-workflow-patterns.html">Part 3 &middot; The five workflow patterns</a>
+<li class="done"><a href="03-the-building-block.html">Part 3 &middot; The building block</a>
 </li>
-<li class="active"><a href="04-choosing-a-pattern.html">Part 4 &middot; Choosing a pattern</a>
+<li class="done"><a href="04-the-five-workflow-patterns.html">Part 4 &middot; The five workflow patterns</a>
 </li>
-<li class=""><a href="05-the-autonomous-agent-loop.html">Part 5 &middot; The autonomous agent loop</a>
+<li class="done"><a href="05-choosing-a-pattern.html">Part 5 &middot; Choosing a pattern</a>
 </li>
-<li class=""><a href="06-why-long-agent-chains-are-fragile.html">Part 6 &middot; Why long agent chains are fragile</a>
+<li class="done"><a href="06-the-autonomous-agent-loop.html">Part 6 &middot; The autonomous agent loop</a>
 </li>
-<li class=""><a href="07-making-a-plan-trustworthy.html">Part 7 &middot; Making a plan trustworthy</a>
+<li class="done"><a href="07-why-long-agent-chains-are-fragile.html">Part 7 &middot; Why long agent chains are fragile</a>
 </li>
-<li class=""><a href="08-recap.html">Recap</a>
+<li class="done"><a href="08-making-a-plan-trustworthy.html">Part 8 &middot; Making a plan trustworthy</a>
 </li>
-<li class=""><a href="09-the-build.html">The Build</a>
+<li class="active"><a href="09-recap.html">Recap</a>
+</li>
+<li class=""><a href="10-the-build.html">The Build</a>
 </li>
 </ul>
   </div></aside>
   <main id="start">
     <article>
-      <div class="stepline"><span class="steptxt">Step 5 of 10</span><span class="stepdots"><i class="done"></i><i class="done"></i><i class="done"></i><i class="done"></i><i class="cur"></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i></span></div><p>The five patterns climb a ladder of freedom. Chaining, routing, and parallelization follow paths you fix in advance. Orchestrator-workers and evaluator-optimizer let the model make some decisions, but still inside a structure you control. The guiding rule from the essay: add complexity only when it clearly pays off.</p>
-<table>
-<thead>
-<tr>
-<th>Pattern</th>
-<th>One-sentence rule: reach for it when...</th>
-<th>Who decides the steps</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><strong>Prompt chaining</strong></td>
-<td>the task splits into a known, fixed sequence of subtasks</td>
-<td>you (fixed)</td>
-</tr>
-<tr>
-<td><strong>Routing</strong></td>
-<td>inputs fall into distinct categories better handled separately</td>
-<td>you (fixed branches)</td>
-</tr>
-<tr>
-<td><strong>Parallelization</strong></td>
-<td>subtasks are independent, or many opinions raise confidence</td>
-<td>you (fixed set)</td>
-</tr>
-<tr>
-<td><strong>Orchestrator-workers</strong></td>
-<td>you cannot know the subtasks until you see the input</td>
-<td>the model (at runtime)</td>
-</tr>
-<tr>
-<td><strong>Evaluator-optimizer</strong></td>
-<td>you have clear "good" criteria and feedback measurably improves output</td>
-<td>the model (loops to a limit)</td>
-</tr>
-</tbody>
-</table>
-<blockquote>
-<p>✅ <strong>The professional default.</strong> Start with the simplest pattern that could solve the problem. Measure it. Climb the ladder only when the measurements say you need to. A three-step chain that works beats an autonomous agent that mostly works.</p>
-<p>❌ <strong>The classic mistake.</strong> Confusing parallelization (you fix the subtasks in advance) with orchestrator-workers (the model decides them at runtime). If you can list the subtasks before seeing the input, it is parallelization; if you cannot, it is orchestrator-workers.</p>
-</blockquote>
+      <div class="stepline"><span class="steptxt">Step 10 of 11</span><span class="stepdots"><i class="done"></i><i class="done"></i><i class="done"></i><i class="done"></i><i class="done"></i><i class="done"></i><i class="done"></i><i class="done"></i><i class="done"></i><i class="cur"></i><i class=""></i></span></div><h2 id="key-takeaways">Key takeaways</h2>
+<ol>
+<li><strong>Workflow versus agent:</strong> a workflow follows a path you fixed; an agent lets the model pick the path. Prefer a workflow by default; it is cheaper, faster, and easier to debug.</li>
+<li><strong>One building block:</strong> every pattern is the augmented LLM (a model call plus tools, retrieval, and memory) wired up in different shapes.</li>
+<li><strong>Five patterns, one rule each:</strong> chain a fixed sequence, route by category, parallelize independent work, orchestrate when subtasks are decided at runtime, evaluate-and-optimize against clear criteria.</li>
+<li><strong>The agent loop is gather, act, observe, repeat,</strong> and it must ALWAYS have stopping conditions (a max loop count and a budget).</li>
+<li><strong>Long chains are fragile (the p^N problem).</strong> Win with short loops, a verify step, and higher per-step reliability.</li>
+<li><strong>Trust comes from the mechanism.</strong> Make the plan explicit and executable, and end every plan with a verify step.</li>
+<li><strong>All of it is model-agnostic.</strong> The same patterns and loop work with Claude, Gemini, or GPT; hold model ids loosely.</li>
+</ol>
+<h2 id="common-pitfalls">Common pitfalls</h2>
+<ul>
+<li>❌ Reaching for a fully autonomous agent where a simple three-step chain would do the job.</li>
+<li>❌ Confusing parallelization (subtasks fixed by you) with orchestrator-workers (subtasks decided by the model at runtime).</li>
+<li>❌ Running an evaluate-and-optimize loop, or any agent loop, with no cap on rounds, so cost grows without limit.</li>
+<li>❌ Skipping the gates between chained steps, letting one bad output corrupt every step after it.</li>
+<li>❌ Treating an autonomous routine as fire-and-forget with no verification step.</li>
+<li>❌ Letting an agent take a destructive action (a rollback, a delete) on day one, before you have watched it enough to trust it.</li>
+<li>❌ Judging an agent only by its final output and ignoring how it got there.</li>
+</ul>
 <hr />
     </article>
-    <nav class="lessonnav"><a class="ln prev" href="03-the-five-workflow-patterns.html"><span class="dir">&#8592; Previous</span><b>The five workflow patterns</b></a><a class="ln home" href="../index.html"><b>All units</b></a><a class="ln next" href="05-the-autonomous-agent-loop.html"><span class="dir">Next &#8594;</span><b>The autonomous agent loop</b></a></nav>
+    <nav class="lessonnav"><a class="ln prev" href="08-making-a-plan-trustworthy.html"><span class="dir">&#8592; Previous</span><b>Making a plan trustworthy</b></a><a class="ln home" href="../index.html"><b>All units</b></a><a class="ln next" href="10-the-build.html"><span class="dir">Next &#8594;</span><b>The Build</b></a></nav>
   </main>
 </div>
 

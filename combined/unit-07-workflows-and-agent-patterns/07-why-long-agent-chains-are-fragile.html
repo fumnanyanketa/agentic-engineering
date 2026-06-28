@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Unit 7: Workflows and Agent Patterns · The five workflow patterns | Agentic Engineering</title>
+<title>Unit 7: Workflows and Agent Patterns · Why long agent chains are fragile | Agentic Engineering</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@500;600;700;800&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
@@ -233,7 +233,7 @@ footer.site .fnote{max-width:46em;font-size:13.5px;line-height:1.7}
   <div class="navlinks">
     <a href="../index.html">All units</a>
     <a href="#overview">Overview</a>
-    <a href="09-the-build.html">The Build</a>
+    <a href="10-the-build.html">The Build</a>
   </div>
   <div class="nav-cta">
     <a class="btn btn-primary" href="#start">Start the lesson &#8594;</a>
@@ -246,16 +246,16 @@ footer.site .fnote{max-width:46em;font-size:13.5px;line-height:1.7}
   
   <div class="wrap" id="overview">
     <div>
-      <span class="eyebrow">&#10022; Unit 7 &middot; Part 3</span>
-      <h1>The five workflow <span class="accent">patterns</span></h1>
-      <p class="lead">These five named patterns, drawn from Building Effective Agents, solve a large share of real problems without ever handing full control to an autonomous agent. They sit on a ladder of increasing freedom. Learn the shape and the one-sentence rule for each.</p>
+      <span class="eyebrow">&#10022; Unit 7 &middot; Part 7</span>
+      <h1>Why long agent chains are <span class="accent">fragile</span></h1>
+      <p class="lead">Here is the most important idea about autonomous agents, and the reason you should not reach for them carelessly.</p>
       <div class="hero-actions">
         <a class="btn btn-primary" href="#start">Start the lesson &#8594;</a>
         
       </div>
       <div class="chips">
         <span class="chip">&#127908; <b>Unit 7 of 12</b></span>
-        <span class="chip">&#9201; <b>Step 4 of 10</b></span>
+        <span class="chip">&#9201; <b>Step 8 of 11</b></span>
         <span class="chip">&#128296; <b>Hands-on capstone</b></span>
       </div>
     </div>
@@ -272,7 +272,7 @@ footer.site .fnote{max-width:46em;font-size:13.5px;line-height:1.7}
           <li><span class="ic">&#128296;</span><span>A hands-on capstone you build step by step</span></li>
           <li><span class="ic">&#127919;</span><span>Optional practice drills to reinforce each skill</span></li>
         </ul>
-        <a class="btn btn-coral" href="09-the-build.html" style="width:100%;justify-content:center">Jump to the project</a>
+        <a class="btn btn-coral" href="10-the-build.html" style="width:100%;justify-content:center">Jump to the project</a>
       </div>
     </div>
   </div>
@@ -286,108 +286,50 @@ footer.site .fnote{max-width:46em;font-size:13.5px;line-height:1.7}
 <ul class="unit-toc">
 <li class="done"><a href="00-overview.html">Overview</a>
 </li>
-<li class="done"><a href="01-workflow-versus-agent.html">Part 1 &middot; Workflow versus agent</a>
+<li class="done"><a href="01-decompose-the-humans-workflow-first.html">Part 1 &middot; Decompose the human&#x27;s workflow first</a>
 </li>
-<li class="done"><a href="02-the-building-block.html">Part 2 &middot; The building block</a>
+<li class="done"><a href="02-workflow-versus-agent.html">Part 2 &middot; Workflow versus agent</a>
 </li>
-<li class="active"><a href="03-the-five-workflow-patterns.html">Part 3 &middot; The five workflow patterns</a>
-<ul class="u-sub">
-<li><a href="#pattern-1-prompt-chaining">Pattern 1: Prompt chaining</a></li>
-<li><a href="#pattern-2-routing">Pattern 2: Routing</a></li>
-<li><a href="#pattern-3-parallelization">Pattern 3: Parallelization</a></li>
-<li><a href="#pattern-4-orchestrator-workers">Pattern 4: Orchestrator-workers</a></li>
-<li><a href="#pattern-5-evaluator-optimizer">Pattern 5: Evaluator-optimizer</a></li>
-</ul>
+<li class="done"><a href="03-the-building-block.html">Part 3 &middot; The building block</a>
 </li>
-<li class=""><a href="04-choosing-a-pattern.html">Part 4 &middot; Choosing a pattern</a>
+<li class="done"><a href="04-the-five-workflow-patterns.html">Part 4 &middot; The five workflow patterns</a>
 </li>
-<li class=""><a href="05-the-autonomous-agent-loop.html">Part 5 &middot; The autonomous agent loop</a>
+<li class="done"><a href="05-choosing-a-pattern.html">Part 5 &middot; Choosing a pattern</a>
 </li>
-<li class=""><a href="06-why-long-agent-chains-are-fragile.html">Part 6 &middot; Why long agent chains are fragile</a>
+<li class="done"><a href="06-the-autonomous-agent-loop.html">Part 6 &middot; The autonomous agent loop</a>
 </li>
-<li class=""><a href="07-making-a-plan-trustworthy.html">Part 7 &middot; Making a plan trustworthy</a>
+<li class="active"><a href="07-why-long-agent-chains-are-fragile.html">Part 7 &middot; Why long agent chains are fragile</a>
 </li>
-<li class=""><a href="08-recap.html">Recap</a>
+<li class=""><a href="08-making-a-plan-trustworthy.html">Part 8 &middot; Making a plan trustworthy</a>
 </li>
-<li class=""><a href="09-the-build.html">The Build</a>
+<li class=""><a href="09-recap.html">Recap</a>
+</li>
+<li class=""><a href="10-the-build.html">The Build</a>
 </li>
 </ul>
   </div></aside>
   <main id="start">
     <article>
-      <div class="stepline"><span class="steptxt">Step 4 of 10</span><span class="stepdots"><i class="done"></i><i class="done"></i><i class="done"></i><i class="cur"></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i></span></div><p>These five named patterns, drawn from <em>Building Effective Agents</em>, solve a large share of real problems without ever handing full control to an autonomous agent. They sit on a ladder of increasing freedom. Learn the shape and the one-sentence rule for each.</p>
-<h3 id="pattern-1-prompt-chaining">Pattern 1: Prompt chaining</h3>
-<p>Break a task into a <strong>fixed sequence</strong> of steps, where each model call works on the output of the one before it. An assembly line: step one drafts, step two improves, step three formats.</p>
-<div class="codehilite"><pre><span></span><code>input ─▶ [call 1] ─▶ (gate?) ─▶ [call 2] ─▶ (gate?) ─▶ [call 3] ─▶ output
-         draft           check       refine      check       format
+      <div class="stepline"><span class="steptxt">Step 8 of 11</span><span class="stepdots"><i class="done"></i><i class="done"></i><i class="done"></i><i class="done"></i><i class="done"></i><i class="done"></i><i class="done"></i><i class="cur"></i><i class=""></i><i class=""></i><i class=""></i></span></div><p>Here is the most important idea about autonomous agents, and the reason you should not reach for them carelessly.</p>
+<p>Suppose each step of an agent succeeds with probability <em>p</em>, and the steps depend on each other. Then the chance the whole chain of <em>N</em> steps succeeds is roughly <em>p</em> multiplied by itself <em>N</em> times (written <em>p^N</em>). Small per-step errors pile up fast:</p>
+<div class="codehilite"><pre><span></span><code>   per-step 95%:   ~60% success over 10 steps,  ~36% over 20 steps
+   per-step 99%:   ~37% success over 100 steps
 </code></pre></div>
 
-<p>A concrete example: write marketing copy in English (call one), then translate it into Spanish (call two). Each step is simpler and more focused than asking for both at once, which usually raises quality. A <strong>gate</strong> is a small programmatic check between steps (plain code, not a model call) that confirms the previous output is valid before continuing.</p>
-<ul>
-<li><strong>Use it when</strong> the task splits cleanly into a known, fixed set of subtasks.</li>
-<li><strong>Trade-off:</strong> more total time (the calls happen one after another) in exchange for higher accuracy.</li>
-</ul>
-<h3 id="pattern-2-routing">Pattern 2: Routing</h3>
-<p>First <strong>classify</strong> the input, then send it down a specialised path built for that category. One call decides "this is type A" or "this is type B", and each type gets its own handling.</p>
-<div class="codehilite"><pre><span></span><code>                        ┌─▶ [refund path]
-input ─▶ [classify] ────┼─▶ [tech-support path]
-                        └─▶ [general path]
-</code></pre></div>
-
-<p>A customer-support system sorts messages into "refund request", "technical problem", or "general question", and each kind goes to a prompt tuned for it. Routing also saves money: send easy requests to a small, cheap, fast model and reserve the large, strong model for the hard ones (this is exactly the model-routing idea from Unit 4).</p>
-<ul>
-<li><strong>Use it when</strong> inputs fall into distinct categories that are genuinely better handled separately.</li>
-<li><strong>Why it helps:</strong> separating categories keeps each prompt focused, so improving one path does not break another.</li>
-</ul>
-<h3 id="pattern-3-parallelization">Pattern 3: Parallelization</h3>
-<p>Run several calls <strong>at the same time</strong> instead of one after another. Two common flavours:</p>
-<ul>
-<li><strong>Sectioning:</strong> split the work into independent parts and run them together. While reviewing a document, one call checks the facts while another checks the tone, simultaneously.</li>
-<li><strong>Voting:</strong> run the <em>same</em> task several times and combine the answers (for example, take the majority). Asking three times "does this code have a security bug?" and trusting the majority verdict raises your confidence.</li>
-</ul>
-<div class="codehilite"><pre><span></span><code>            ┌─▶ [call A] ─┐
-input ──────┼─▶ [call B] ─┼─▶ [combine] ─▶ output
-            └─▶ [call C] ─┘
-            (all at once)
-</code></pre></div>
-
-<ul>
-<li><strong>Use it when</strong> subtasks are independent, or when several separate opinions raise your confidence.</li>
-<li><strong>Benefit:</strong> because the calls run together, the total wait time is much shorter than doing them in sequence.</li>
-</ul>
-<h3 id="pattern-4-orchestrator-workers">Pattern 4: Orchestrator-workers</h3>
-<p>A central call (the <strong>orchestrator</strong>) looks at the task, breaks it into subtasks <strong>on the fly</strong>, hands each to a worker call, and combines the results.</p>
-<div class="codehilite"><pre><span></span><code>input ─▶ [ORCHESTRATOR] ─ decides subtasks at runtime ─┐
-              │                                        │
-              ├─▶ [worker: file A]                     │
-              ├─▶ [worker: file B]   ─▶ [synthesise] ─▶ output
-              └─▶ [worker: file C]                     │
-                  (how many? decided live) ────────────┘
-</code></pre></div>
-
-<p>The key difference from parallelization is <strong>when the subtasks are decided</strong>. In parallelization, you fix the subtasks ahead of time. In orchestrator-workers, the orchestrator decides them at runtime, because you cannot predict them. A concrete example: a coding change that might touch one file or twenty. The orchestrator reads the request, figures out which files need editing, and dispatches a worker per file.</p>
-<ul>
-<li><strong>Use it when</strong> you cannot know the subtasks until you see the actual input.</li>
-<li><strong>Note:</strong> this pattern is the seed of the multi-agent systems in Unit 8, so it is worth understanding well.</li>
-</ul>
-<h3 id="pattern-5-evaluator-optimizer">Pattern 5: Evaluator-optimizer</h3>
-<p>One call <strong>generates</strong> a result; a second call <strong>evaluates</strong> it and gives feedback; the first call tries again using that feedback. This generate-then-critique cycle repeats until the result is good enough or a limit is reached.</p>
-<div class="codehilite"><pre><span></span><code>input ─▶ [GENERATE] ─▶ [EVALUATE] ─ good enough? ─▶ output
-              ▲              │
-              └── feedback ◀─┘   (cap the rounds!)
-</code></pre></div>
-
-<p>One call drafts a translation, a second points out which phrases sound unnatural, the first revises just those. This mirrors a writer improving a draft against an editor's notes.</p>
-<ul>
-<li><strong>Use it when</strong> you have clear criteria for "good", and trying again with feedback measurably improves the result.</li>
-<li><strong>Watch the cost:</strong> always cap the number of rounds, because each round is another pair of calls.</li>
-</ul>
+<p>This is a simplified model. Real agents recover from mistakes, verify results, and have steps that do not all depend on each other, so the true numbers are usually better. But the lesson is firm: <strong>long autonomous chains are fragile by nature.</strong> The way you win is the same three moves every time:</p>
+<ol>
+<li><strong>Keep loops short.</strong> Every extra step compounds the error. Do the least autonomy the task needs.</li>
+<li><strong>Verify at each step.</strong> Give the agent a real way to see ground truth (run the tests, run a type checker, render the page) so each pass can correct the one before it.</li>
+<li><strong>Push per-step reliability as high as you can.</strong> Better prompts, better tools, clearer instructions.</li>
+</ol>
+<p>The highest-leverage move on that list is the second one. An agent that can check its own work is dramatically more reliable than one that trusts its own judgment. This is also where <strong>Reflexion</strong> fits: after a failed attempt, the agent writes itself a short note about what went wrong and keeps it in memory, so its next attempt is better, with no retraining at all.</p>
 <blockquote>
-<p>🔑 <strong>Same five patterns, any provider.</strong> None of these five depend on Claude, Gemini, or GPT specifically. You build every one with plain model API calls. Pick your model per step (Unit 4); the wiring is identical.</p>
+<p>❌ <strong>"More autonomy is always better" is false.</strong> The compounding-error math shows the opposite is often true. A short, verified loop beats a long, unsupervised one almost every time.</p>
+<p>💡 <strong>This is where trust comes from.</strong> Two systems can print word-for-word identical output and deserve completely different levels of trust, because trust depends on the <strong>mechanism</strong>, what actually happened inside to produce the answer. A plan you can read and a verify step you can see are what make a result trustworthy, not the confidence of the text.</p>
 </blockquote>
 <hr />
     </article>
-    <nav class="lessonnav"><a class="ln prev" href="02-the-building-block.html"><span class="dir">&#8592; Previous</span><b>The building block</b></a><a class="ln home" href="../index.html"><b>All units</b></a><a class="ln next" href="04-choosing-a-pattern.html"><span class="dir">Next &#8594;</span><b>Choosing a pattern</b></a></nav>
+    <nav class="lessonnav"><a class="ln prev" href="06-the-autonomous-agent-loop.html"><span class="dir">&#8592; Previous</span><b>The autonomous agent loop</b></a><a class="ln home" href="../index.html"><b>All units</b></a><a class="ln next" href="08-making-a-plan-trustworthy.html"><span class="dir">Next &#8594;</span><b>Making a plan trustworthy</b></a></nav>
   </main>
 </div>
 
