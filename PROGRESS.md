@@ -19,7 +19,7 @@ the same. Commands and model ids move fast, so verify against current docs as yo
 - [ ] **Unit 2 - Reading and Judging Code** -> Build: the Warden verification rubric + first read-break-fix *(the floor)*
 - [ ] **Unit 3 - Prompting and Context Engineering** -> Build: the `prompts/` library *(Scout's system prompt)*
 - [ ] **Unit 4 - Model and Reasoning Levers** -> Build: the `orchestrator/` routing policy
-- [ ] **Unit 5 - Tools, Function-Calling and MCP** -> Build: the `tools/` layer + an MCP server
+- [ ] **Unit 5 - Tools, Skills, and MCP** -> Build: the `tools/` layer, a portable `skills/` layer (one `SKILL.md`), + an MCP server
 - [ ] **Unit 6 - Retrieval, Memory and State** -> Build: Cortex (`memory/`)
 - [ ] **Unit 7 - Workflows and Agent Patterns** -> Build: Atlas v0 (`orchestrator/`)
 - [ ] **Unit 8 - Multi-Agent Orchestration** -> Build: the Atlas fleet of subagents

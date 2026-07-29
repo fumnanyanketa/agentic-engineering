@@ -155,7 +155,7 @@ Subagents are model-neutral. All three leading coding agents ship the orchestrat
 
 ## Part 4: Tool, skill, or subagent? (the decomposition decision)
 
-A subagent is the *heaviest* way to add a capability. Before you spawn one, ask whether a **tool** or a **skill** does the job, because those are cheaper and simpler. This is the decision that keeps a fleet from sprawling.
+A subagent is the *heaviest* way to add a capability. Before you spawn one, ask whether a **tool** or a **skill** does the job, because those are cheaper and simpler. You already met all three primitives in Unit 5 (a tool is an action, an MCP server is access to a live system, a skill is packaged know-how in a `SKILL.md`), and you authored a real skill there, so here they are old friends; this part is about *choosing between them* as an agent grows. This is the decision that keeps a fleet from sprawling.
 
 The common, painful pattern: you ship an agent that works great, then bolt on a capability, then another. Soon the system prompt is hundreds of lines, you have a dozen overlapping tools and tangled subagents, and the agent **regresses** (gets worse) in the very areas it was good at. The fix is not more instructions. It is knowing which **primitive** (basic building block) fits each job.
 
@@ -206,16 +206,18 @@ A fair, even-handed way to decide:
 - **Reasons to use one:** it saves you re-writing common plumbing (retries, state, branching, human-approval steps); it gives a team a shared vocabulary; the good ones include built-in tracing.
 - **Reasons to skip one:** the task is simple enough to write in a few lines; you need full visibility into every prompt and response; or you want to avoid **lock-in** (becoming so tied to one tool that switching later hurts).
 
-The landscape, by **problem shape**, not by leaderboard (the field moves fast; verify current features yourself):
+The landscape, by **problem shape**, not by leaderboard (the field moves fast; treat the names as of mid-2026 and verify current features yourself):
 
-| Shape | What it offers | Good for |
-|---|---|---|
-| Explicit stateful graphs | cycles, branching, retries, checkpoints, human-approval steps | complex flows needing tight path control |
-| Role-based multi-agent | named roles (planner, researcher, writer) that hand off work | clear division of labor |
-| Conversation-style multi-agent | several agents talking, often in parallel | exploratory, discussion-shaped tasks |
-| Provider-native runtimes | each major provider's own agent library | staying inside one ecosystem |
-| Type-safe, model-agnostic libraries | strong typing, works across providers, native MCP | portability across models |
-| Minimal, code-driven libraries | deliberately small, close to the raw loop | when you want the loop, lightly helped |
+| Shape | What it offers | Named examples (verify) | Good for |
+|---|---|---|---|
+| Explicit stateful graphs | cycles, branching, retries, checkpoints, human-approval steps | LangGraph | complex flows needing tight path control |
+| Role-based multi-agent | named roles (planner, researcher, writer) that hand off work | CrewAI | clear division of labor |
+| Conversation-style multi-agent | several agents talking, often in parallel | AutoGen | exploratory, discussion-shaped tasks |
+| Provider-native runtimes | each major provider's own agent library | OpenAI Agents SDK, Google ADK, Claude Agent SDK | staying inside one ecosystem |
+| Type-safe, model-agnostic libraries | strong typing, works across providers, native MCP | Pydantic AI | portability across models |
+| Minimal, code-driven libraries | deliberately small, close to the raw loop | smolagents, or the raw provider SDK | when you want the loop, lightly helped |
+
+> 💡 **The 2026 default for stateful, high-stakes work: LangGraph.** When agents run long, need to be audited, or operate in a regulated setting, most teams in 2026 reach for an explicit stateful graph, and LangGraph is the common choice: it makes the state, the branches, and the checkpoints inspectable, which is exactly what you want when a run has to be explained after the fact. Treat that as a starting point, not a rule. The "learn the loop first" stance still holds, and you still verify the feature set yourself before you commit.
 
 > ❌ **Pitfalls.** Adopting a heavy framework before you understand the loop it hides. Lock-in that makes switching painful. Copying a trendy tool without asking if it fits your problem. And trusting comparison posts uncritically: many are written by the tool's own vendor, and features change fast, so verify yourself.
 

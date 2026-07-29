@@ -198,6 +198,17 @@ The guiding heuristic is simple to say and hard to live by: **aim for the smalle
          everything here competes for attention
 ```
 
+**The four operations, by their common names.** By 2026 the craft of managing that budget has settled into four named moves. You have been doing them already; the names just make them easy to talk about with other practitioners:
+
+| Operation | What it means | Where you will do it |
+|---|---|---|
+| **Write** | persist information *outside* the context window so it survives when the window is trimmed | scratchpads and long-term memory (Unit 6) |
+| **Select** | pull in only the right information for the step at hand (retrieve or curate what enters) | retrieval and RAG (Unit 6) |
+| **Compress** | shrink what you keep: summarize old turns, compact tool results | conversation trimming, summarization |
+| **Isolate** | split work across separate contexts so each one stays small and focused | subagents, each with its own window (Unit 8) |
+
+> 💡 **These are labels, not new work.** "Write, select, compress, isolate" is the common 2026 vocabulary (popularized by the LangChain team) for what this unit already teaches. Learn the names so you recognize them when other practitioners use them, but the underlying skill is the one heuristic you already have: the smallest set of high-signal tokens that still gets the job done. Two of the four (write and select) are the whole of Unit 6; a third (isolate) is the heart of Unit 8.
+
 ---
 
 ## Part 5: Context rot, and why bigger is not a free lunch

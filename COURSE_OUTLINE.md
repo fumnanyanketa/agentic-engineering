@@ -46,10 +46,12 @@ Choosing a model tier (capability vs cost vs latency), cost per successful outco
 lever across providers, the advisor strategy, plus when not to use an LLM at all and when
 fine-tuning is the answer. **Build:** the `orchestrator/` model-routing policy. *AtlasOS: routing.*
 
-## Unit 5 - Tools, Function-Calling and MCP
-How a model calls your code (JSON-schema tools) across Claude, Gemini, and GPT, designing tools
-the model uses reliably, and MCP as one standard across all three coding agents. **Build:** the
-`tools/` layer plus a connected MCP server. *AtlasOS: tools.*
+## Unit 5 - Tools, Skills, and MCP
+How a model calls your code (JSON-schema tools) across Claude, Gemini, and GPT, designing tools the
+model uses reliably, packaging know-how as a portable skill (the open `SKILL.md` standard, with
+progressive disclosure), and MCP as one standard across all three coding agents (including its 2026
+security surface and stateless limits). **Build:** the `tools/` and `skills/` layers plus a connected
+MCP server. *AtlasOS: tools and skills.*
 
 ## Unit 6 - Retrieval, Memory and State
 Retrieval and RAG (embeddings and vector search explained plainly, with a little math intuition),

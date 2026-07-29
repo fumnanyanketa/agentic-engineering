@@ -61,6 +61,8 @@ By the end of this unit you will be able to:
 - **What you do NOT need:** a coding-agent setup, an editor, or git. Those arrive in Unit 1. For this unit you only need Python and one provider account, both set up together in The Build.
 - **One honest note:** you will use a terminal in The Build. If you have never used one, that is fine; we explain every command and you cannot break anything by typing one wrong.
 
+> 🔑 **What this course deliberately does not cover.** Naming the edges keeps you from feeling blindsided when you meet these terms elsewhere. Two adjacent areas sit just outside our scope on purpose. **Computer-use and browser agents** (agents that navigate websites, fill forms, and complete multi-step tasks in a real browser) are a whole production category; we teach the coding-agent and backend/knowledge-work kind, and the principles here transfer, but the browser-driving specifics are their own topic. **The training layer below orchestration** (reinforcement learning for agents, and the "training gym" environments used to build the underlying models) is a live frontier that sits one level beneath this course: we teach you to *orchestrate existing models*, not to *train* them. Everything in these twelve units is about getting reliable work out of models that already exist.
+
 ---
 
 ## Part 1: The one mental model (engineer the environment, not the model)

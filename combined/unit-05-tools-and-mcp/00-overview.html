@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Unit 5: Tools, Function-Calling and MCP · Tools, Function-Calling and MCP | Agentic Engineering</title>
+<title>Unit 5: Tools, Skills, and MCP · Tools, Skills, and MCP | Agentic Engineering</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@500;600;700;800&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
@@ -233,7 +233,7 @@ footer.site .fnote{max-width:46em;font-size:13.5px;line-height:1.7}
   <div class="navlinks">
     <a href="../index.html">All units</a>
     <a href="#overview">Overview</a>
-    <a href="08-the-build.html">The Build</a>
+    <a href="10-the-build.html">The Build</a>
   </div>
   <div class="nav-cta">
     <a class="btn btn-primary" href="#start">Start the lesson &#8594;</a>
@@ -247,15 +247,15 @@ footer.site .fnote{max-width:46em;font-size:13.5px;line-height:1.7}
   <div class="wrap" id="overview">
     <div>
       <span class="eyebrow">&#10022; Unit 5</span>
-      <h1>Tools, Function-Calling and <span class="accent">MCP</span></h1>
-      <p class="lead">A bare language model can only produce text, and this unit gives it hands: you will learn the one universal pattern that lets any model (Claude, Gemini, or GPT) call your code (you describe a tool as a JSON schema, the model returns a structured request, you run it and hand back the result, the model continues), you will see that exact shape side by side across all three providers, and then you will learn MCP, the open standard that lets you plug a whole toolbox into any agent once instead of rewiring it for every tool, finishing by building the `tools/` layer of AtlasOS with a real tool and a real MCP server wired into your coding agent.</p>
+      <h1>Tools, Skills, and <span class="accent">MCP</span></h1>
+      <p class="lead">A bare language model can only produce text, and this unit gives it hands: you will learn the one universal pattern that lets any model (Claude, Gemini, or GPT) call your code (you describe a tool as a JSON schema, the model returns a structured request, you run it and hand back the result, the model continues), you will see that exact shape side by side across all three providers, you will learn how to package a repeatable workflow as a skill (the open `SKILL.md` format) that the model loads only when it is needed, and then you will learn MCP, the open standard that lets you plug a whole toolbox into any agent once instead of rewiring it for every tool, finishing by building the `tools/` and `skills/` layers of AtlasOS with a real tool, a portable skill, and a real MCP server wired into your coding agent.</p>
       <div class="hero-actions">
         <a class="btn btn-primary" href="#start">Start the lesson &#8594;</a>
         
       </div>
       <div class="chips">
         <span class="chip">&#127908; <b>Unit 5 of 12</b></span>
-        <span class="chip">&#9201; <b>Step 1 of 9</b></span>
+        <span class="chip">&#9201; <b>Step 1 of 11</b></span>
         <span class="chip">&#128296; <b>Hands-on capstone</b></span>
       </div>
     </div>
@@ -272,7 +272,7 @@ footer.site .fnote{max-width:46em;font-size:13.5px;line-height:1.7}
           <li><span class="ic">&#128296;</span><span>A hands-on capstone you build step by step</span></li>
           <li><span class="ic">&#127919;</span><span>Optional practice drills to reinforce each skill</span></li>
         </ul>
-        <a class="btn btn-coral" href="08-the-build.html" style="width:100%;justify-content:center">Jump to the project</a>
+        <a class="btn btn-coral" href="10-the-build.html" style="width:100%;justify-content:center">Jump to the project</a>
       </div>
     </div>
   </div>
@@ -282,7 +282,7 @@ footer.site .fnote{max-width:46em;font-size:13.5px;line-height:1.7}
   <aside id="sidebar"><div class="toc-card">
     <button class="toc-close" id="tocClose" aria-label="Close menu">&times;</button>
     <p class="toc-title">On this page</p>
-    <p class="toc-title">Unit 5 &middot; Tools, Function-Calling and MCP</p>
+    <p class="toc-title">Unit 5 &middot; Tools, Skills, and MCP</p>
 <ul class="unit-toc">
 <li class="active"><a href="00-overview.html">Overview</a>
 </li>
@@ -298,19 +298,23 @@ footer.site .fnote{max-width:46em;font-size:13.5px;line-height:1.7}
 </li>
 <li class=""><a href="06-adding-an-mcp-server-to-your-coding-agent.html">Part 6 &middot; Adding an MCP server to your coding agent</a>
 </li>
-<li class=""><a href="07-recap.html">Recap</a>
+<li class=""><a href="07-skills-packaged-know-how-the-model-loads-on-dema.html">Part 7 &middot; Skills, packaged know-how the model loads on demand</a>
 </li>
-<li class=""><a href="08-the-build.html">The Build</a>
+<li class=""><a href="08-authoring-a-skill-the-model-actually-triggers.html">Part 8 &middot; Authoring a skill the model actually triggers</a>
+</li>
+<li class=""><a href="09-recap.html">Recap</a>
+</li>
+<li class=""><a href="10-the-build.html">The Build</a>
 </li>
 </ul>
   </div></aside>
   <main id="start">
     <article>
-      <div class="stepline"><span class="steptxt">Step 1 of 9</span><span class="stepdots"><i class="cur"></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i></span></div><hr />
+      <div class="stepline"><span class="steptxt">Step 1 of 11</span><span class="stepdots"><i class="cur"></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i></span></div><hr />
 <h2 id="in-one-sentence">In one sentence</h2>
-<p>A bare language model can only produce text, and this unit gives it hands: you will learn the one universal pattern that lets any model (Claude, Gemini, or GPT) call your code (you describe a tool as a JSON schema, the model returns a structured request, you run it and hand back the result, the model continues), you will see that exact shape side by side across all three providers, and then you will learn MCP, the open standard that lets you plug a whole toolbox into any agent once instead of rewiring it for every tool, finishing by building the <code>tools/</code> layer of AtlasOS with a real tool and a real MCP server wired into your coding agent.</p>
+<p>A bare language model can only produce text, and this unit gives it hands: you will learn the one universal pattern that lets any model (Claude, Gemini, or GPT) call your code (you describe a tool as a JSON schema, the model returns a structured request, you run it and hand back the result, the model continues), you will see that exact shape side by side across all three providers, you will learn how to package a repeatable workflow as a skill (the open <code>SKILL.md</code> format) that the model loads only when it is needed, and then you will learn MCP, the open standard that lets you plug a whole toolbox into any agent once instead of rewiring it for every tool, finishing by building the <code>tools/</code> and <code>skills/</code> layers of AtlasOS with a real tool, a portable skill, and a real MCP server wired into your coding agent.</p>
 <blockquote>
-<p>🎯 <strong>Where this unit is heading.</strong> The payoff is a <strong>Build</strong> where you create the <code>tools/</code> folder in your AtlasOS repo, hand-write one real tool (a small file-search tool) as a JSON-schema function, run the full tool-use loop yourself so you watch the model actually call it, and then connect one MCP server to your coding agent (Claude Code, Gemini CLI, or Codex CLI) and confirm the agent invokes it. Jump to <strong>"The Build"</strong> to see the finish line, then come back and we will get you there.</p>
+<p>🎯 <strong>Where this unit is heading.</strong> The payoff is a <strong>Build</strong> where you create the <code>tools/</code> folder in your AtlasOS repo, hand-write one real tool (a small file-search tool) as a JSON-schema function, run the full tool-use loop yourself so you watch the model actually call it, author one real skill as a <code>SKILL.md</code> file and watch your coding agent discover and trigger it, and then connect one MCP server to your coding agent (Claude Code, Gemini CLI, or Codex CLI) and confirm the agent invokes it. Jump to <strong>"The Build"</strong> to see the finish line, then come back and we will get you there.</p>
 </blockquote>
 <h2 id="first-principles-companion">First-principles companion</h2>
 <blockquote>
@@ -320,6 +324,8 @@ footer.site .fnote{max-width:46em;font-size:13.5px;line-height:1.7}
 <li><strong><a href="https://arxiv.org/abs/2302.04761" target="_blank" rel="noopener noreferrer">Toolformer: Language Models Can Teach Themselves to Use Tools</a></strong> (paper). The seminal paper on why and how language models call external tools and APIs.</li>
 <li><strong><a href="https://www.anthropic.com/engineering/writing-tools-for-agents" target="_blank" rel="noopener noreferrer">Writing tools for agents (Anthropic)</a></strong> (essay). The durable rules of good tool design (consolidate, namespace, return high-signal output) that hold across every provider.</li>
 <li><strong><a href="https://modelcontextprotocol.io/docs/getting-started/intro" target="_blank" rel="noopener noreferrer">Model Context Protocol: intro docs</a></strong> (docs). The vendor-neutral standard for connecting agents to tools and data, from the source.</li>
+<li><strong><a href="https://agentskills.io" target="_blank" rel="noopener noreferrer">Agent Skills: the open <code>SKILL.md</code> specification</a></strong> (spec). The open standard for packaging procedural knowledge an agent loads on demand: the folder shape, the frontmatter, and progressive disclosure, from the source.</li>
+<li><strong><a href="https://blog.modelcontextprotocol.io/posts/2026-07-28/" target="_blank" rel="noopener noreferrer">The 2026-07-28 MCP specification</a></strong> (release notes). The largest revision of the protocol to date: a stateless core, an extensions framework, and OAuth/OIDC-aligned authorization. Worth a look to see how fast even a "standard" moves.</li>
 </ul>
 </blockquote>
 <h2 id="a-few-plain-language-basics-first">A few plain-language basics first</h2>
@@ -336,6 +342,9 @@ footer.site .fnote{max-width:46em;font-size:13.5px;line-height:1.7}
 <li><strong>MCP (Model Context Protocol):</strong> an open, vendor-neutral standard for connecting tools and data to <em>any</em> agent, so you build an integration once and every compatible agent can use it.</li>
 <li><strong>MCP server:</strong> a small program that exposes tools (and data) in the MCP format. <strong>MCP client / host:</strong> the agent or app that connects to it.</li>
 <li><strong>Coding agent:</strong> the terminal tool you set up in Unit 1 (Claude Code, Gemini CLI, or Codex CLI). It is itself an MCP client, so you can plug MCP servers straight into it.</li>
+<li><strong>Skill:</strong> a packaged piece of know-how (a workflow, a house style, a checklist) that the model loads only when a task needs it. Where a tool is a single action and an MCP server is a live connection, a skill is the <em>instructions for how to do the job well</em>.</li>
+<li><strong><code>SKILL.md</code>:</strong> the open file format for a skill: a folder with a <code>SKILL.md</code> (a short YAML frontmatter block plus a Markdown body) and optional <code>scripts/</code>, <code>references/</code>, and <code>assets/</code>. The same folder works across many agents.</li>
+<li><strong>Progressive disclosure:</strong> the trick that keeps skills cheap. Only each skill's name and one-line description load at startup (about 100 tokens); the full body loads only once the model decides to use it, so a shelf of skills does not fill the context window.</li>
 </ul>
 <h2 id="why-this-unit-matters">Why this unit matters</h2>
 <p>Everything you build from here on, every AtlasOS agent, depends on this one capability. A model that can only talk is a clever parrot. A model that can call tools can search, read files, query a database, send a message, run code: it can act. Function calling is the single mechanism underneath all of it, and MCP is how you stop rewriting the same plumbing for every new tool.</p>
@@ -348,9 +357,10 @@ footer.site .fnote{max-width:46em;font-size:13.5px;line-height:1.7}
 <li>Explain the tool-use loop step by step, and why a tool is just a name, a description, and a JSON schema.</li>
 <li>Write a tool definition and recognise the same shape in Claude, Gemini, and GPT requests.</li>
 <li>Design tools the model uses reliably (good names, clear descriptions, trimmed output, errors as results).</li>
-<li>Explain what MCP is, the N times M problem it solves, and its client/server/host parts and three primitives.</li>
+<li>State in one sentence each the difference between a tool, an MCP server, and a skill, and author a <code>SKILL.md</code> the model actually triggers.</li>
+<li>Explain what MCP is, the N times M problem it solves, its client/server/host parts and three primitives, its 2026 security surface, and one honest limitation.</li>
 <li>Add an MCP server to a coding agent in Claude Code, Gemini CLI, and Codex CLI, and verify the agent invokes it.</li>
-<li>Build the AtlasOS <code>tools/</code> layer: one real hand-written tool plus one connected MCP server.</li>
+<li>Build the AtlasOS <code>tools/</code> and <code>skills/</code> layers: one real hand-written tool, one portable skill, plus one connected MCP server.</li>
 </ol>
 <h2 id="prerequisites">Prerequisites</h2>
 <ul>

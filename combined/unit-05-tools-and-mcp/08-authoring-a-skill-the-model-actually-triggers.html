@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Unit 5: Tools, Function-Calling and MCP · The Build | Agentic Engineering</title>
+<title>Unit 5: Tools, Skills, and MCP · Authoring a skill the model actually triggers | Agentic Engineering</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@500;600;700;800&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
@@ -233,7 +233,7 @@ footer.site .fnote{max-width:46em;font-size:13.5px;line-height:1.7}
   <div class="navlinks">
     <a href="../index.html">All units</a>
     <a href="#overview">Overview</a>
-    <a href="08-the-build.html">The Build</a>
+    <a href="10-the-build.html">The Build</a>
   </div>
   <div class="nav-cta">
     <a class="btn btn-primary" href="#start">Start the lesson &#8594;</a>
@@ -246,16 +246,16 @@ footer.site .fnote{max-width:46em;font-size:13.5px;line-height:1.7}
   
   <div class="wrap" id="overview">
     <div>
-      <span class="eyebrow">&#10022; Unit 5</span>
-      <h1>The <span class="accent">Build</span></h1>
-      <p class="lead">A new tools/ folder in your atlasos repo containing one real tool, a small file-search tool, defined as a JSON-schema function and wired into a tiny script that runs the full tool-use loop so you watch the model call it. Then you connect one MCP server (a filesystem server) to your coding agent and confirm the agent invokes it. Everything is committed to git.</p>
+      <span class="eyebrow">&#10022; Unit 5 &middot; Part 8</span>
+      <h1>Authoring a skill the model actually <span class="accent">triggers</span></h1>
+      <p class="lead">A skill only helps if the model reaches for it at the right moment. Because only the name and description load at startup (Tier 1), those two lines are the entire trigger. Writing them well is the skill of writing skills.</p>
       <div class="hero-actions">
         <a class="btn btn-primary" href="#start">Start the lesson &#8594;</a>
         
       </div>
       <div class="chips">
         <span class="chip">&#127908; <b>Unit 5 of 12</b></span>
-        <span class="chip">&#9201; <b>Step 9 of 9</b></span>
+        <span class="chip">&#9201; <b>Step 9 of 11</b></span>
         <span class="chip">&#128296; <b>Hands-on capstone</b></span>
       </div>
     </div>
@@ -272,7 +272,7 @@ footer.site .fnote{max-width:46em;font-size:13.5px;line-height:1.7}
           <li><span class="ic">&#128296;</span><span>A hands-on capstone you build step by step</span></li>
           <li><span class="ic">&#127919;</span><span>Optional practice drills to reinforce each skill</span></li>
         </ul>
-        <a class="btn btn-coral" href="08-the-build.html" style="width:100%;justify-content:center">Jump to the project</a>
+        <a class="btn btn-coral" href="10-the-build.html" style="width:100%;justify-content:center">Jump to the project</a>
       </div>
     </div>
   </div>
@@ -282,7 +282,7 @@ footer.site .fnote{max-width:46em;font-size:13.5px;line-height:1.7}
   <aside id="sidebar"><div class="toc-card">
     <button class="toc-close" id="tocClose" aria-label="Close menu">&times;</button>
     <p class="toc-title">On this page</p>
-    <p class="toc-title">Unit 5 &middot; Tools, Function-Calling and MCP</p>
+    <p class="toc-title">Unit 5 &middot; Tools, Skills, and MCP</p>
 <ul class="unit-toc">
 <li class="done"><a href="00-overview.html">Overview</a>
 </li>
@@ -298,125 +298,57 @@ footer.site .fnote{max-width:46em;font-size:13.5px;line-height:1.7}
 </li>
 <li class="done"><a href="06-adding-an-mcp-server-to-your-coding-agent.html">Part 6 &middot; Adding an MCP server to your coding agent</a>
 </li>
-<li class="done"><a href="07-recap.html">Recap</a>
+<li class="done"><a href="07-skills-packaged-know-how-the-model-loads-on-dema.html">Part 7 &middot; Skills, packaged know-how the model loads on demand</a>
 </li>
-<li class="active"><a href="08-the-build.html">The Build</a>
-<ul class="u-sub">
-<li><a href="#what-you-will-build">What you will build</a></li>
-<li><a href="#milestones-in-order-each-fully-explained">Milestones (in order, each fully explained)</a></li>
-<li><a href="#how-you-will-know-you-are-done">How you will know you are done</a></li>
-<li><a href="#verify-it-like-an-engineer-read-explain-break-fix">Verify it like an engineer (read, explain, break, fix)</a></li>
-</ul>
+<li class="active"><a href="08-authoring-a-skill-the-model-actually-triggers.html">Part 8 &middot; Authoring a skill the model actually triggers</a>
+</li>
+<li class=""><a href="09-recap.html">Recap</a>
+</li>
+<li class=""><a href="10-the-build.html">The Build</a>
 </li>
 </ul>
   </div></aside>
   <main id="start">
     <article>
-      <div class="stepline"><span class="steptxt">Step 9 of 9</span><span class="stepdots"><i class="done"></i><i class="done"></i><i class="done"></i><i class="done"></i><i class="done"></i><i class="done"></i><i class="done"></i><i class="done"></i><i class="cur"></i></span></div><h2 id="capstone" class="capstone-h">🛠️ The Build: the AtlasOS <code>tools/</code> layer</h2>
-<blockquote>
-<p>The hands-on payoff. You will give AtlasOS its first hands: a real tool the model can call, written by you, plus an MCP server wired into your coding agent. This is the <code>tools/</code> component from the roadmap, and Forge and Scout will lean on it later.</p>
-</blockquote>
-<h3 id="what-you-will-build">What you will build</h3>
-<p>A new <code>tools/</code> folder in your <code>atlasos</code> repo containing one real tool, a small <strong>file-search</strong> tool, defined as a JSON-schema function and wired into a tiny script that runs the full tool-use loop so you watch the model call it. Then you connect one MCP server (a filesystem server) to your coding agent and confirm the agent invokes it. Everything is committed to git.</p>
-<h3 id="milestones-in-order-each-fully-explained">Milestones (in order, each fully explained)</h3>
-<p><strong>1. Open your project and start fresh.</strong> In your VS Code terminal: <code>cd ~/atlasos</code>, then <code>code .</code> to open it. Start your coding agent inside the folder (<code>claude</code>, <code>gemini</code>, or <code>codex</code>). You will let the agent write the code with you, using the plan, act, verify loop from Unit 1.</p>
-<p><strong>2. Create the <code>tools/</code> folder and choose your provider.</strong> Ask the agent, in plain English: <em>"Create a folder called <code>tools/</code> in this repo. Inside it, create a small script that defines one tool and runs the full tool-use loop against [Claude / Gemini / GPT], with no agent framework, so I can watch the model call the tool."</em> Pick whichever provider you have an API key for. Set your API key as an environment variable when the agent tells you to (it will explain the exact variable name for your provider). Read the plan before you let it write.</p>
-<p><strong>3. Define one real tool: <code>search_files</code>.</strong> Have the agent define a tool with this exact shape, a name, a clear description, and a JSON-Schema input:</p>
-<div class="codehilite"><pre><span></span><code># The tool definition the model will see.
-name:        &quot;search_files&quot;
-description: &quot;Search the project&#39;s files for a text string and return the
-              matching file paths and line numbers. Use when the user asks
-              where something is defined or mentioned in the codebase.&quot;
-input_schema:
-  type: object
-  properties:
-    query: { type: string, description: &quot;Text to search for, e.g. &#39;AtlasOS&#39;&quot; }
-  required: [&quot;query&quot;]
+      <div class="stepline"><span class="steptxt">Step 9 of 11</span><span class="stepdots"><i class="done"></i><i class="done"></i><i class="done"></i><i class="done"></i><i class="done"></i><i class="done"></i><i class="done"></i><i class="done"></i><i class="cur"></i><i class=""></i><i class=""></i></span></div><p>A skill only helps if the model reaches for it at the right moment. Because only the <code>name</code> and <code>description</code> load at startup (Tier 1), those two lines are the entire trigger. Writing them well is the skill of writing skills.</p>
+<p>Here is a complete, minimal <code>SKILL.md</code> for a house report format, the kind AtlasOS will reuse:</p>
+<div class="codehilite"><pre><span></span><code>---
+name: report-format
+description: &gt;
+  Format an analytics or status report in the AtlasOS house style.
+  Use whenever you are asked to write, draft, or lay out a report,
+  summary, or briefing for a stakeholder.
+allowed-tools: [search_files]
+---
+
+# AtlasOS report format
+
+When you write any report, follow this structure exactly:
+
+1. Headline verdict (one sentence, the answer first).
+2. What changed (three bullets maximum, most important first).
+3. The numbers (a small table: metric, this period, last period).
+4. What we recommend (one clear next action).
+
+Rules:
+- No hedging in the headline. State the verdict, then support it.
+- Every number cites where it came from.
+- Keep the whole report under one screen.
 </code></pre></div>
 
-<p>The real implementation behind it is small: a function that walks the repo, finds lines containing <code>query</code>, and returns the matching <code>path:line</code> results, trimmed to the first handful so the output stays high-signal (remember Part 4: lean output).</p>
-<p><strong>4. Run the full loop and watch the call happen.</strong> Ask the agent to run the script with a prompt like <em>"Where is AtlasOS described in this project?"</em> You should see, in order: the model returns a <strong>tool call</strong> for <code>search_files</code> with <code>query: "AtlasOS"</code>; your code runs the search and prints the matching files; you return that as a <strong>tool result</strong>; the model writes a final answer that cites the files. If you see the model answer <em>without</em> calling the tool, the description is too vague or the tool was not passed: fix it and re-run. This is the moment the principle becomes real.</p>
-<p><strong>5. Make a tool error recoverable (the reliability rep).</strong> Temporarily change the tool to return <code>"Error: search index unavailable, retry with a simpler query"</code> for one run. Watch a capable model read the error and adjust, rather than crashing. Then restore the working version. You have now seen errors-as-results from Part 2 first hand.</p>
-<p><strong>6. Connect one MCP server to your coding agent.</strong> Leave the script for a moment. In the terminal, add a filesystem MCP server to your agent using the command for your tool from Part 6 (for example <code>claude mcp add filesystem -- npx -y @modelcontextprotocol/server-filesystem ~/atlasos</code>, or the Gemini / Codex equivalent). Start your agent and run <code>/mcp</code>. You should see the server listed with its tools.</p>
-<p><strong>7. Verify the agent actually invokes the MCP tool.</strong> Give the agent a task that needs the server: <em>"Using the filesystem MCP server, list the files in this project and tell me which ones mention AtlasOS."</em> Watch the transcript: it should call the server's <code>list_directory</code> (and <code>read_file</code>) tools by name and show real results. If it answers from memory, the server is not wired up; re-check Milestone 6.</p>
-<p><strong>8. Save your work to git.</strong></p>
-<div class="codehilite"><pre><span></span><code># From inside ~/atlasos, after leaving the agent (type exit):
-git add -A
-git commit -m &quot;Add tools/ layer: search_files tool + MCP server wiring&quot;
-git push
-
-# What you&#39;ll see after push:
-...
-To https://github.com/yourname/atlasos.git
-   a1b2c3d..e4f5g6h  main -&gt; main
-</code></pre></div>
-
-<p><strong>9. Stretch (optional).</strong> Add a second tool to your script (for example <code>read_file</code>) and confirm the model now <em>chooses correctly</em> between <code>search_files</code> and <code>read_file</code> depending on the question. Choosing well among several tools is exactly what makes an agent feel capable.</p>
-<h3 id="how-you-will-know-you-are-done">How you will know you are done</h3>
+<p>Read the two fields that do the work:</p>
 <ul>
-<li>✅ A <code>tools/</code> folder exists in <code>atlasos</code> with a <code>search_files</code> tool defined as name + description + JSON schema.</li>
-<li>✅ You ran the loop and watched the model return a tool call, your code run it, and the model answer using the result.</li>
-<li>✅ You returned an error as a tool result once and saw the model recover.</li>
-<li>✅ An MCP server is connected to your coding agent and shows up under <code>/mcp</code>.</li>
-<li>✅ You gave a task that required the MCP tool and watched the agent invoke it by name.</li>
-<li>✅ Everything is committed and pushed to GitHub.</li>
+<li><strong><code>name</code></strong> is a short, stable handle (<code>report-format</code>). It is how the model and other skills refer to this one.</li>
+<li><strong><code>description</code></strong> is the trigger. It must say <em>what the skill does</em> and, more importantly, <em>when to use it</em>, in the user's own language ("write, draft, or lay out a report"). This is the exact same discipline as a tool description from Part 1: the model decides whether to load the skill from these words alone, so a vague description is the number-one reason a skill sits unused.</li>
 </ul>
+<p>The optional <strong><code>allowed-tools</code></strong> field is a sandbox: it lists the tools the skill is permitted to use, so a skill cannot quietly reach for abilities you did not intend. That is a safety lever, not decoration, and it connects straight to the least-privilege habit from Part 5.</p>
 <blockquote>
-<p>💡 <strong>If the model would not call your tool, that is the lesson, not a failure.</strong> Nine times out of ten the fix is a clearer description or better field names. Tightening that text until the model reliably reaches for the tool is the core skill of this unit.</p>
+<p>💡 <strong>Portable by default.</strong> The same <code>SKILL.md</code> folder is read by Claude Code, Codex, Gemini CLI, Cursor, and a growing list of others, because they all implement the open standard. You write the procedure once and every compatible agent can load it, the same "build once, reuse everywhere" payoff MCP gives you for access. Hold the exact field set loosely and verify against the current <code>SKILL.md</code> spec, since the standard is young and still moving.</p>
+<p>✅ <strong>Prove the skill triggers (do not assume).</strong> Authoring a skill is not the same as the model using it, exactly like adding an MCP server. After you write it, give the agent a task that should trigger it ("draft a status report on this week's changes") and watch: it should announce it is using the <code>report-format</code> skill and follow the structure. If it free-styles the format instead, the description is not matching the request. Tighten the <em>when-to-use</em> line and try again. That loop, watch it trigger then fix the description, is the whole craft.</p>
 </blockquote>
 <hr />
-<h3 id="verify-it-like-an-engineer-read-explain-break-fix">Verify it like an engineer (read, explain, break, fix)</h3>
-<blockquote>
-<p>🔑 <strong>The one rule of this course.</strong> Do not keep anything the agent wrote that you cannot read, explain out loud, and break on purpose.</p>
-</blockquote>
-<p>Before you call this component done, run it through the five-check verification habit (formalized as the Warden rubric in Unit 2):</p>
-<ol>
-<li><strong>Trace it.</strong> Follow the control flow and data flow of what you just built, end to end.</li>
-<li><strong>Explain it.</strong> Say out loud what each part does and why. If you cannot, ask your coding agent to explain that part, then re-explain it back yourself.</li>
-<li><strong>Check the edges.</strong> Decide what it does on empty, missing, huge, or malformed input.</li>
-<li><strong>Break it on purpose.</strong> Introduce one deliberate fault, predict the failure, run it, and confirm it from the error.</li>
-<li><strong>Read it for safety.</strong> Ask the three questions: what private data can it touch, what untrusted input can reach it, and how could data get out?</li>
-</ol>
-<p>Fix anything real you find, then re-verify. A component that passes all five is one you can defend, not just one that ran.</p>
-<h2 id="cheat-sheet">Cheat sheet</h2>
-<div class="codehilite"><pre><span></span><code>A TOOL IS THREE THINGS
-  name        -&gt; how the model refers to it (e.g. search_files)
-  description -&gt; plain English: what it does + when to use it (half the tool)
-  input_schema-&gt; JSON Schema: fields, types, which are required
-
-THE TOOL-USE LOOP (universal)
-  1. send tools + user message            4. send tool RESULT back
-  2. model returns a TOOL CALL (asks)     5. model writes final answer
-  3. YOUR code runs the real function     (repeat 2-4 to chain calls)
-  errors are RESULTS, not crashes -&gt; the model recovers
-
-SAME SHAPE, THREE PROVIDERS (verify ids/keys in current docs)
-  Claude : tools[].input_schema | returns tool_use | reply tool_result
-  Gemini : functionDeclarations[].parameters | functionCall | functionResponse
-  GPT    : tools[].function.parameters | tool_calls | role:&quot;tool&quot; message
-
-TOOL DESIGN (reliability beats model choice)
-  consolidate, don&#39;t mirror your DB | namespace names | trim output
-  describe for the model, not the backend | errors as results
-
-MCP = USB-C for AI apps (open standard, N x M -&gt; N + M)
-  host (your agent) -&gt; client -&gt; server ; wire = JSON-RPC 2.0
-  primitives: TOOLS (act) | RESOURCES (read) | PROMPTS (templates)
-
-ADD AN MCP SERVER TO YOUR AGENT, then /mcp to confirm
-  Claude Code : claude mcp add &lt;name&gt; -- npx ...   (.mcp.json)
-  Gemini CLI  : gemini mcp add &lt;name&gt; npx ...      (settings.json)
-  Codex CLI   : codex mcp add &lt;name&gt; -- npx ...    (config.toml)
-  ALWAYS verify the model actually INVOKES the tool.
-</code></pre></div>
-
-<h2 id="how-this-connects-to-the-rest-of-the-course">How this connects to the rest of the course</h2>
-<ul>
-<li><strong>Next, Unit 6 (Retrieval and RAG):</strong> the most useful tool you can give a model is one that fetches the right facts. You will build retrieval on top of the tool-use loop you just learned, and wrap it as an MCP server so any AtlasOS agent can reuse it.</li>
-<li><strong>Throughout:</strong> every AtlasOS agent, Scout researching, Forge building, Warden checking, acts through tools defined exactly the way you did here, and shares them through MCP. This unit is the hands the whole fleet uses.</li>
-</ul>
     </article>
-    <nav class="lessonnav"><a class="ln prev" href="07-recap.html"><span class="dir">&#8592; Previous</span><b>Recap</b></a><a class="ln home" href="../index.html"><b>All units</b></a><a class="ln next" href="../unit-06-retrieval-memory-state/00-overview.html"><span class="dir">Next &#8594;</span><b>Unit 6: Retrieval, Memory and State</b></a></nav>
+    <nav class="lessonnav"><a class="ln prev" href="07-skills-packaged-know-how-the-model-loads-on-dema.html"><span class="dir">&#8592; Previous</span><b>Skills, packaged know-how the model loads on demand</b></a><a class="ln home" href="../index.html"><b>All units</b></a><a class="ln next" href="09-recap.html"><span class="dir">Next &#8594;</span><b>Recap</b></a></nav>
   </main>
 </div>
 
