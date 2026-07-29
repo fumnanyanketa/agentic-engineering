@@ -1,18 +1,18 @@
-# Unit 5: Tools, Function-Calling and MCP
+# Unit 5: Tools, Skills, and MCP
 
 > **Course:** Agentic Engineering, a model-agnostic self-paced path *(working title)*
-> **Unit 5 of 12:** Teach a model to actually *do* things: describe a tool as a JSON schema, let the model ask to call it, run it, and return the result, then plug whole toolboxes into your coding agent with one standard, MCP
-> **The how, across tools/models:** function calling across Claude (Anthropic), Gemini (Google), and GPT (OpenAI); MCP across Claude Code, Gemini CLI, and Codex CLI, current practice verified June 2026
-> **AtlasOS build:** your `tools/` layer, one real hand-written tool the model can call, plus one MCP server connected to your coding agent
-> **Estimated time:** 90 to 120 minutes
+> **Unit 5 of 12:** Teach a model to actually *do* things and give it portable know-how: describe a tool as a JSON schema, let the model ask to call it, run it, and return the result; package a repeatable workflow as a skill the model loads on demand; then plug whole toolboxes into your coding agent with one standard, MCP
+> **The how, across tools/models:** function calling across Claude (Anthropic), Gemini (Google), and GPT (OpenAI); the `SKILL.md` open standard across Claude Code, Codex, Gemini CLI, and Cursor; MCP across Claude Code, Gemini CLI, and Codex CLI, current practice verified July 2026
+> **AtlasOS build:** your `tools/` layer with one real hand-written tool the model can call, one MCP server connected to your coding agent, and a `skills/` layer holding one portable `SKILL.md` the fleet loads on demand
+> **Estimated time:** 110 to 150 minutes
 
 ---
 
 ## In one sentence
 
-A bare language model can only produce text, and this unit gives it hands: you will learn the one universal pattern that lets any model (Claude, Gemini, or GPT) call your code (you describe a tool as a JSON schema, the model returns a structured request, you run it and hand back the result, the model continues), you will see that exact shape side by side across all three providers, and then you will learn MCP, the open standard that lets you plug a whole toolbox into any agent once instead of rewiring it for every tool, finishing by building the `tools/` layer of AtlasOS with a real tool and a real MCP server wired into your coding agent.
+A bare language model can only produce text, and this unit gives it hands: you will learn the one universal pattern that lets any model (Claude, Gemini, or GPT) call your code (you describe a tool as a JSON schema, the model returns a structured request, you run it and hand back the result, the model continues), you will see that exact shape side by side across all three providers, you will learn how to package a repeatable workflow as a skill (the open `SKILL.md` format) that the model loads only when it is needed, and then you will learn MCP, the open standard that lets you plug a whole toolbox into any agent once instead of rewiring it for every tool, finishing by building the `tools/` and `skills/` layers of AtlasOS with a real tool, a portable skill, and a real MCP server wired into your coding agent.
 
-> 🎯 **Where this unit is heading.** The payoff is a **Build** where you create the `tools/` folder in your AtlasOS repo, hand-write one real tool (a small file-search tool) as a JSON-schema function, run the full tool-use loop yourself so you watch the model actually call it, and then connect one MCP server to your coding agent (Claude Code, Gemini CLI, or Codex CLI) and confirm the agent invokes it. Jump to **"The Build"** to see the finish line, then come back and we will get you there.
+> 🎯 **Where this unit is heading.** The payoff is a **Build** where you create the `tools/` folder in your AtlasOS repo, hand-write one real tool (a small file-search tool) as a JSON-schema function, run the full tool-use loop yourself so you watch the model actually call it, author one real skill as a `SKILL.md` file and watch your coding agent discover and trigger it, and then connect one MCP server to your coding agent (Claude Code, Gemini CLI, or Codex CLI) and confirm the agent invokes it. Jump to **"The Build"** to see the finish line, then come back and we will get you there.
 
 ## First-principles companion
 
@@ -22,6 +22,8 @@ A bare language model can only produce text, and this unit gives it hands: you w
 > - **[Toolformer: Language Models Can Teach Themselves to Use Tools](https://arxiv.org/abs/2302.04761)** (paper). The seminal paper on why and how language models call external tools and APIs.
 > - **[Writing tools for agents (Anthropic)](https://www.anthropic.com/engineering/writing-tools-for-agents)** (essay). The durable rules of good tool design (consolidate, namespace, return high-signal output) that hold across every provider.
 > - **[Model Context Protocol: intro docs](https://modelcontextprotocol.io/docs/getting-started/intro)** (docs). The vendor-neutral standard for connecting agents to tools and data, from the source.
+> - **[Agent Skills: the open `SKILL.md` specification](https://agentskills.io)** (spec). The open standard for packaging procedural knowledge an agent loads on demand: the folder shape, the frontmatter, and progressive disclosure, from the source.
+> - **[The 2026-07-28 MCP specification](https://blog.modelcontextprotocol.io/posts/2026-07-28/)** (release notes). The largest revision of the protocol to date: a stateless core, an extensions framework, and OAuth/OIDC-aligned authorization. Worth a look to see how fast even a "standard" moves.
 
 ## A few plain-language basics first
 
@@ -38,6 +40,9 @@ New terms, in plain words. You do not need to memorise these; each is explained 
 - **MCP (Model Context Protocol):** an open, vendor-neutral standard for connecting tools and data to *any* agent, so you build an integration once and every compatible agent can use it.
 - **MCP server:** a small program that exposes tools (and data) in the MCP format. **MCP client / host:** the agent or app that connects to it.
 - **Coding agent:** the terminal tool you set up in Unit 1 (Claude Code, Gemini CLI, or Codex CLI). It is itself an MCP client, so you can plug MCP servers straight into it.
+- **Skill:** a packaged piece of know-how (a workflow, a house style, a checklist) that the model loads only when a task needs it. Where a tool is a single action and an MCP server is a live connection, a skill is the *instructions for how to do the job well*.
+- **`SKILL.md`:** the open file format for a skill: a folder with a `SKILL.md` (a short YAML frontmatter block plus a Markdown body) and optional `scripts/`, `references/`, and `assets/`. The same folder works across many agents.
+- **Progressive disclosure:** the trick that keeps skills cheap. Only each skill's name and one-line description load at startup (about 100 tokens); the full body loads only once the model decides to use it, so a shelf of skills does not fill the context window.
 
 ## Why this unit matters
 
@@ -52,9 +57,10 @@ By the end of this unit you will be able to:
 1. Explain the tool-use loop step by step, and why a tool is just a name, a description, and a JSON schema.
 2. Write a tool definition and recognise the same shape in Claude, Gemini, and GPT requests.
 3. Design tools the model uses reliably (good names, clear descriptions, trimmed output, errors as results).
-4. Explain what MCP is, the N times M problem it solves, and its client/server/host parts and three primitives.
-5. Add an MCP server to a coding agent in Claude Code, Gemini CLI, and Codex CLI, and verify the agent invokes it.
-6. Build the AtlasOS `tools/` layer: one real hand-written tool plus one connected MCP server.
+4. State in one sentence each the difference between a tool, an MCP server, and a skill, and author a `SKILL.md` the model actually triggers.
+5. Explain what MCP is, the N times M problem it solves, its client/server/host parts and three primitives, its 2026 security surface, and one honest limitation.
+6. Add an MCP server to a coding agent in Claude Code, Gemini CLI, and Codex CLI, and verify the agent invokes it.
+7. Build the AtlasOS `tools/` and `skills/` layers: one real hand-written tool, one portable skill, plus one connected MCP server.
 
 ## Prerequisites
 
@@ -207,6 +213,8 @@ You can now hand any model a tool. The next problem is practical: every time you
 
 It is no longer one company's project. Announced in November 2024, it has been adopted across the industry and, in December 2025, was donated to the **Agentic AI Foundation**, a vendor-neutral body under the Linux Foundation. Treat it like any open web standard: a common protocol many vendors implement, not a single product. ([Linux Foundation: forming the Agentic AI Foundation](https://www.linuxfoundation.org/press/linux-foundation-announces-the-formation-of-the-agentic-ai-foundation))
 
+> ⚠️ **The protocol is moving, and not always compatibly.** The **2026-07-28** revision is the largest change in MCP's history. Headline shifts: a **stateless protocol core** that runs over ordinary HTTP (so a server can sit behind a plain load balancer or run serverless), an **Extensions** framework, **Tasks** moved out of the core into an extension, **MCP Apps** (server-rendered UIs), authorization aligned with **OAuth 2.0 and OpenID Connect**, and a formal deprecation policy. Some of it is not backward compatible. You do not need the details to finish this unit; you need the habit: note the spec date you built against, and re-check the current spec before you ship. ([2026-07-28 spec](https://blog.modelcontextprotocol.io/posts/2026-07-28/))
+
 **The N times M problem.** Suppose you have *N* AI applications and *M* tools. Without a standard, you build a custom connector for every pairing: *N times M* integrations. 10 apps and 10 tools is 100 connectors.
 
 ```text
@@ -235,7 +243,9 @@ The two sides talk using **JSON-RPC 2.0**, a standard lightweight format for sen
 - **Resources:** structured data the model can read into its context, such as a file's contents or a database record.
 - **Prompts:** reusable prompt templates or canned workflows a user or app can pull in on demand.
 
-> 🔑 **Tool descriptions from a server are untrusted input.** When you connect a third-party MCP server, its tool descriptions flow straight into your model's context. A malicious server can try to manipulate your agent through that text (called "tool poisoning"). Prefer servers you trust, and apply the same skepticism you would to any untrusted input.
+> ❌ **The MCP security surface, in one place.** Convenience cuts both ways. Treat a third-party server with the same distrust as any untrusted input, because several risks ride in on it: **untrusted tool descriptions** flow straight into your model's context, so a malicious server can try to steer your agent through that text ("tool poisoning"); **registry and supply-chain risk**, where a popular-looking server is actually hostile; and **local execution risk**, where a stdio server runs code on your machine. The response is boring and effective: prefer servers you trust, grant each the **least privilege** it needs, and vet third-party servers before connecting. This is the same lethal-trifecta reasoning from Unit 2 (private data plus untrusted input plus a way out), and Unit 10 hardens it further. National cyber agencies have published guidance on exactly this surface, which is a sign of how real it is.
+
+**One honest limitation.** MCP is stateless by design, which is clean for simple request/response calls and, with the 2026-07-28 core, cleaner still. It is more awkward for long, stateful workflows that chain twenty or more tool calls and need state carried between steps. Many teams solve this by adding their own small state layer on top rather than expecting the protocol to hold it. MCP is the default for tool and data access; it is not a workflow engine. Naming this keeps the unit honest: MCP is a very good standard, not a silver bullet.
 
 ---
 
@@ -273,9 +283,103 @@ codex mcp add filesystem -- npx -y @modelcontextprotocol/server-filesystem ~/atl
 
 In every case, after adding the server you run `/mcp` *inside* the agent and you will see the server listed with the tools it exposes (for a filesystem server, things like `read_file`, `write_file`, `list_directory`). The agent can now use those tools the same way it uses its built-in ones.
 
-> 💡 **Verify against current docs.** The exact server package name, the `mcp add` flags, and the config-file keys move quickly across all three CLIs. The pattern (add a server by command or URL, then `/mcp` to confirm) is stable. Check each tool's current docs for the precise syntax, and only connect servers you trust.
+> 💡 **Verify against current docs (as of July 2026).** The exact server package name, the `mcp add` flags, and the config-file keys move quickly across all three CLIs, and the protocol itself was overhauled on 2026-07-28. The pattern (add a server by command or URL, then `/mcp` to confirm) is stable. Check each tool's current docs for the precise syntax, note the spec date you are building against, and only connect servers you trust.
 
 > ✅ **Prove it actually got invoked.** Adding a server is not the same as the agent using it. After connecting, give the agent a task that *requires* the new tool ("use the filesystem server to list the files in this folder") and watch the transcript: you should see it call the server's tool by name and show the result. If it answers from memory instead, the server is not wired up. That check, did the model really invoke the tool, is the whole game.
+
+---
+
+## Part 7: Skills, packaged know-how the model loads on demand
+
+You have given the model an action (a tool) and a way to reach a live system (an MCP server). There is a third primitive, and in 2026 it became the one every practitioner talks about: a **skill**. A tool is a single verb. An MCP server is a socket into a running system. A skill is the *procedure*: the workflow, the house style, the checklist, the "how we do this here" that turns a capable model into a capable colleague.
+
+The idea started as an Anthropic feature in October 2025, became an open standard in December 2025, and was donated to the same Agentic AI Foundation that now stewards MCP. Within a few months the open `SKILL.md` format was read by dozens of tools across vendors (Claude Code, Codex, Gemini CLI, Cursor, and more), all from the same folder on disk. If MCP is the open standard for *what a model can access*, Agent Skills is the open standard for *how a model should work*, and it is the layer closest to the procedural knowledge this whole course teaches. ([Agent Skills open standard](https://thenewstack.io/agent-skills-anthropics-next-bid-to-define-ai-standards/))
+
+**What a skill is on disk.** A skill is just a folder:
+
+```text
+skills/
+  report-format/
+    SKILL.md          # required: YAML frontmatter + Markdown instructions
+    references/       # optional: deeper docs the model reads only if needed
+    scripts/          # optional: helper scripts the skill can run
+    assets/           # optional: templates, examples, boilerplate
+```
+
+The `SKILL.md` itself is two parts: a short **YAML frontmatter** block (at minimum a `name` and a `description`) and a **Markdown body** of instructions, kept short (a few hundred lines at most). That is the whole format. It is deliberately boring, which is why so many tools could adopt it so quickly.
+
+**Why it does not blow up your context window: progressive disclosure.** A shelf of twenty skills would be useless if all twenty loaded at once. Skills avoid that with three tiers:
+
+```text
+   TIER 1 (always loaded):  name + description only, about 100 tokens each
+        |   the model sees the menu, nothing more
+        v
+   TIER 2 (on demand):      the full SKILL.md body
+        |   loaded only when the model decides this skill fits
+        v
+   TIER 3 (as needed):      references/, scripts/, assets/
+            pulled in only when the body points to them
+```
+
+Only the name and description sit in context at startup. The body loads when the model reaches for the skill; the deeper files load only if the body sends it there. This is the same "keep the menu and the output lean" lesson from tool search in Part 4, applied to know-how.
+
+**Access versus workflow, the one distinction to keep.** Match the primitive to the question you are answering:
+
+| Primitive | The question it answers | Example |
+|---|---|---|
+| **Tool** | "What single action can I take?" | `search_files`, `send_email` |
+| **MCP server** | "What live system can I reach?" | your database, your issue tracker |
+| **Skill** | "How should I do this job well?" | your report format, your review checklist |
+
+They compose. A real task often uses all three at once: a skill (the procedure) that calls tools (the actions) against an MCP server (the live system).
+
+> 🔑 **Reach for a skill when the knowledge is a repeatable way of working, not a one-off instruction.** A tool is a verb, an MCP server is a socket, a skill is the playbook. If you find yourself pasting the same "here is how we format this, check this, structure this" into prompt after prompt, that is a skill waiting to be written.
+
+> 💡 **Skills move know-how out of the system prompt.** The situational instructions that bloat a system prompt ("always format Pulse reports like this, with these sections, in this tone") are exactly what belongs in a skill: loaded only when a report is actually being written, portable to any agent, and versioned in git like code. A leaner system prompt plus a shelf of on-demand skills beats one giant prompt that pays for every instruction on every call.
+
+---
+
+## Part 8: Authoring a skill the model actually triggers
+
+A skill only helps if the model reaches for it at the right moment. Because only the `name` and `description` load at startup (Tier 1), those two lines are the entire trigger. Writing them well is the skill of writing skills.
+
+Here is a complete, minimal `SKILL.md` for a house report format, the kind AtlasOS will reuse:
+
+```text
+---
+name: report-format
+description: >
+  Format an analytics or status report in the AtlasOS house style.
+  Use whenever you are asked to write, draft, or lay out a report,
+  summary, or briefing for a stakeholder.
+allowed-tools: [search_files]
+---
+
+# AtlasOS report format
+
+When you write any report, follow this structure exactly:
+
+1. Headline verdict (one sentence, the answer first).
+2. What changed (three bullets maximum, most important first).
+3. The numbers (a small table: metric, this period, last period).
+4. What we recommend (one clear next action).
+
+Rules:
+- No hedging in the headline. State the verdict, then support it.
+- Every number cites where it came from.
+- Keep the whole report under one screen.
+```
+
+Read the two fields that do the work:
+
+- **`name`** is a short, stable handle (`report-format`). It is how the model and other skills refer to this one.
+- **`description`** is the trigger. It must say *what the skill does* and, more importantly, *when to use it*, in the user's own language ("write, draft, or lay out a report"). This is the exact same discipline as a tool description from Part 1: the model decides whether to load the skill from these words alone, so a vague description is the number-one reason a skill sits unused.
+
+The optional **`allowed-tools`** field is a sandbox: it lists the tools the skill is permitted to use, so a skill cannot quietly reach for abilities you did not intend. That is a safety lever, not decoration, and it connects straight to the least-privilege habit from Part 5.
+
+> 💡 **Portable by default.** The same `SKILL.md` folder is read by Claude Code, Codex, Gemini CLI, Cursor, and a growing list of others, because they all implement the open standard. You write the procedure once and every compatible agent can load it, the same "build once, reuse everywhere" payoff MCP gives you for access. Hold the exact field set loosely and verify against the current `SKILL.md` spec, since the standard is young and still moving.
+
+> ✅ **Prove the skill triggers (do not assume).** Authoring a skill is not the same as the model using it, exactly like adding an MCP server. After you write it, give the agent a task that should trigger it ("draft a status report on this week's changes") and watch: it should announce it is using the `report-format` skill and follow the structure. If it free-styles the format instead, the description is not matching the request. Tighten the *when-to-use* line and try again. That loop, watch it trigger then fix the description, is the whole craft.
 
 ---
 
@@ -285,8 +389,10 @@ In every case, after adding the server you run `/mcp` *inside* the agent and you
 2. **The loop is universal:** send tools plus message, get a tool call, run it, return the result, repeat. The model decides *what*, your code decides *how*.
 3. **The shape is identical across Claude, Gemini, and GPT.** Only wrapper keys differ (`input_schema` vs `parameters`). Hold model ids and field names loosely; verify against current docs.
 4. **Tool design beats model choice for reliability.** Consolidate tools, namespace names, trim output, and return errors as results so the model can recover.
-5. **MCP turns N times M wiring into N plus M.** Build a server once; every MCP client (including your coding agent) can use it.
-6. **Adding an MCP server is one command per agent**, then `/mcp` to confirm. Always verify the model actually invokes the tool.
+5. **Three primitives, three questions.** A tool answers "what action?", an MCP server answers "what live system?", a skill answers "how should I do this job well?" They compose, and skills are portable across agents by the open `SKILL.md` standard.
+6. **A skill is triggered by its description.** Only the name and description load at startup (progressive disclosure), so the *when-to-use* line is the whole trigger. Write it like a tool description.
+7. **MCP turns N times M wiring into N plus M.** Build a server once; every MCP client (including your coding agent) can use it. Treat third-party servers as untrusted, grant least privilege, and know MCP is stateless by design (the 2026-07-28 spec doubled down on that).
+8. **Adding an MCP server or a skill is cheap; confirming it fired is the job.** After wiring either one, give a task that requires it and watch the agent actually invoke the tool or trigger the skill.
 
 ## Common pitfalls
 
@@ -296,18 +402,21 @@ In every case, after adding the server you run `/mcp` *inside* the agent and you
 - ❌ Hiding a tool error (crashing or swallowing it) instead of returning it as a clear, recoverable result.
 - ❌ Trusting the prompt to keep a tool safe instead of validating inputs in code.
 - ❌ Rebuilding a one-off integration for something MCP already standardizes.
-- ❌ Connecting an untrusted third-party MCP server whose tool descriptions flow into your context.
-- ❌ Assuming "server added" means "tool used." Verify the model actually invoked it.
+- ❌ Connecting an untrusted third-party MCP server whose tool descriptions flow into your context, or granting it more privilege than it needs.
+- ❌ Assuming "server added" means "tool used," or "skill written" means "skill triggered." Verify the model actually invoked or loaded it.
+- ❌ Writing a skill with a vague *when-to-use* description, then wondering why the model never loads it.
+- ❌ Leaving situational know-how bloating a system prompt when it belongs in an on-demand skill.
+- ❌ Treating MCP as a workflow engine for long stateful chains; it is stateless by design, so add your own state layer when you need one.
 
 ---
 
 ## 🛠️ The Build: the AtlasOS `tools/` layer
 
-> The hands-on payoff. You will give AtlasOS its first hands: a real tool the model can call, written by you, plus an MCP server wired into your coding agent. This is the `tools/` component from the roadmap, and Forge and Scout will lean on it later.
+> The hands-on payoff. You will give AtlasOS its first hands: a real tool the model can call, written by you, a portable skill that packages one house workflow, plus an MCP server wired into your coding agent. This is the `tools/` and `skills/` component from the roadmap, and Forge, Scout, Pulse, and Herald will lean on it later.
 
 ### What you will build
 
-A new `tools/` folder in your `atlasos` repo containing one real tool, a small **file-search** tool, defined as a JSON-schema function and wired into a tiny script that runs the full tool-use loop so you watch the model call it. Then you connect one MCP server (a filesystem server) to your coding agent and confirm the agent invokes it. Everything is committed to git.
+A new `tools/` folder in your `atlasos` repo containing one real tool, a small **file-search** tool, defined as a JSON-schema function and wired into a tiny script that runs the full tool-use loop so you watch the model call it. A new `skills/` folder holding one portable **`report-format`** skill as a real `SKILL.md`, which you watch your coding agent discover and trigger. And one MCP server (a filesystem server) connected to your coding agent, which you confirm the agent invokes. Everything is committed to git.
 
 ### Milestones (in order, each fully explained)
 
@@ -340,12 +449,16 @@ The real implementation behind it is small: a function that walks the repo, find
 
 **7. Verify the agent actually invokes the MCP tool.** Give the agent a task that needs the server: *"Using the filesystem MCP server, list the files in this project and tell me which ones mention AtlasOS."* Watch the transcript: it should call the server's `list_directory` (and `read_file`) tools by name and show real results. If it answers from memory, the server is not wired up; re-check Milestone 6.
 
-**8. Save your work to git.**
+**8. Author one real skill as a `SKILL.md`.** Create a `skills/report-format/` folder in your repo and, with the agent, write a `SKILL.md` using the shape from Part 8: YAML frontmatter with a `name` (`report-format`) and a `description` that says what it does and *when to use it* ("write, draft, or lay out a report"), then a short Markdown body with your house report structure. Keep the body under one screen. This is situational know-how moved out of any system prompt and into a portable, versioned file.
+
+**9. Prove the skill triggers.** Start your coding agent in the repo so it can see `skills/`, then give it a task that should trigger the skill: *"Draft a short status report on this week's changes to this project."* Watch for it to announce it is using the `report-format` skill and follow your structure. If it free-styles the format, tighten the *when-to-use* line in the description and try again. Seeing the model reach for the skill on its own is the moment this primitive becomes real, the skills counterpart to watching a tool call happen in Milestone 4.
+
+**10. Save your work to git.**
 
 ```text
 # From inside ~/atlasos, after leaving the agent (type exit):
 git add -A
-git commit -m "Add tools/ layer: search_files tool + MCP server wiring"
+git commit -m "Add tools/ + skills/ layers: search_files tool, report-format skill, MCP server wiring"
 git push
 
 # What you'll see after push:
@@ -354,13 +467,15 @@ To https://github.com/yourname/atlasos.git
    a1b2c3d..e4f5g6h  main -> main
 ```
 
-**9. Stretch (optional).** Add a second tool to your script (for example `read_file`) and confirm the model now *chooses correctly* between `search_files` and `read_file` depending on the question. Choosing well among several tools is exactly what makes an agent feel capable.
+**11. Stretch (optional).** Add a second tool to your script (for example `read_file`) and confirm the model now *chooses correctly* between `search_files` and `read_file` depending on the question. Then add a second skill (for example a `commit-message` skill) and confirm the agent picks the right skill for the task. Choosing well among several tools and skills is exactly what makes an agent feel capable.
 
 ### How you will know you are done
 
 - ✅ A `tools/` folder exists in `atlasos` with a `search_files` tool defined as name + description + JSON schema.
 - ✅ You ran the loop and watched the model return a tool call, your code run it, and the model answer using the result.
 - ✅ You returned an error as a tool result once and saw the model recover.
+- ✅ A `skills/report-format/SKILL.md` exists with a `name` and a *when-to-use* `description`, and you can state in one sentence each how a tool, an MCP server, and a skill differ.
+- ✅ You gave a task that should trigger the skill and watched the agent announce and follow it (not free-style the format).
 - ✅ An MCP server is connected to your coding agent and shows up under `/mcp`.
 - ✅ You gave a task that required the MCP tool and watched the agent invoke it by name.
 - ✅ Everything is committed and pushed to GitHub.
@@ -406,18 +521,34 @@ TOOL DESIGN (reliability beats model choice)
   consolidate, don't mirror your DB | namespace names | trim output
   describe for the model, not the backend | errors as results
 
+THREE PRIMITIVES, THREE QUESTIONS
+  TOOL        -> "what single action?"     (search_files, send_email)
+  MCP SERVER  -> "what live system?"       (your DB, your issue tracker)
+  SKILL       -> "how should I do this?"   (report format, review checklist)
+  they compose: a skill calls tools against an MCP server
+
+SKILL = packaged know-how in an open file (SKILL.md)
+  folder: SKILL.md (+ optional scripts/ references/ assets/)
+  SKILL.md = YAML frontmatter (name + description [+ allowed-tools]) + body
+  progressive disclosure: only name+description load at startup (~100 tok)
+  the description's when-to-use line is the whole trigger (write it like a tool desc)
+  portable: same folder read by Claude Code, Codex, Gemini CLI, Cursor, ...
+
 MCP = USB-C for AI apps (open standard, N x M -> N + M)
   host (your agent) -> client -> server ; wire = JSON-RPC 2.0
   primitives: TOOLS (act) | RESOURCES (read) | PROMPTS (templates)
+  2026-07-28 spec: stateless core, extensions, MCP Apps, OAuth/OIDC (verify!)
+  security: untrusted tool descriptions | supply chain | least privilege
 
 ADD AN MCP SERVER TO YOUR AGENT, then /mcp to confirm
   Claude Code : claude mcp add <name> -- npx ...   (.mcp.json)
   Gemini CLI  : gemini mcp add <name> npx ...      (settings.json)
   Codex CLI   : codex mcp add <name> -- npx ...    (config.toml)
-  ALWAYS verify the model actually INVOKES the tool.
+  ALWAYS verify the model actually INVOKES the tool (or TRIGGERS the skill).
 ```
 
 ## How this connects to the rest of the course
 
 - **Next, Unit 6 (Retrieval and RAG):** the most useful tool you can give a model is one that fetches the right facts. You will build retrieval on top of the tool-use loop you just learned, and wrap it as an MCP server so any AtlasOS agent can reuse it.
-- **Throughout:** every AtlasOS agent, Scout researching, Forge building, Warden checking, acts through tools defined exactly the way you did here, and shares them through MCP. This unit is the hands the whole fleet uses.
+- **Later, Unit 8 (Multi-agent orchestration):** the tool-versus-skill-versus-subagent decision you make there builds directly on the three primitives from this unit, so skills arrive as something you have already authored, not a new idea.
+- **Throughout:** every AtlasOS agent, Scout researching, Forge building, Pulse and Herald drafting from the `report-format` skill, Warden checking, acts through tools defined exactly the way you did here, shares them through MCP, and loads shared skills on demand. This unit is the hands and the playbook the whole fleet uses.

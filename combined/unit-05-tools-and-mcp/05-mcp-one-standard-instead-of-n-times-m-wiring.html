@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Unit 5: Tools, Function-Calling and MCP · MCP, one standard instead of N times M wiring | Agentic Engineering</title>
+<title>Unit 5: Tools, Skills, and MCP · MCP, one standard instead of N times M wiring | Agentic Engineering</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@500;600;700;800&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
@@ -233,7 +233,7 @@ footer.site .fnote{max-width:46em;font-size:13.5px;line-height:1.7}
   <div class="navlinks">
     <a href="../index.html">All units</a>
     <a href="#overview">Overview</a>
-    <a href="08-the-build.html">The Build</a>
+    <a href="10-the-build.html">The Build</a>
   </div>
   <div class="nav-cta">
     <a class="btn btn-primary" href="#start">Start the lesson &#8594;</a>
@@ -255,7 +255,7 @@ footer.site .fnote{max-width:46em;font-size:13.5px;line-height:1.7}
       </div>
       <div class="chips">
         <span class="chip">&#127908; <b>Unit 5 of 12</b></span>
-        <span class="chip">&#9201; <b>Step 6 of 9</b></span>
+        <span class="chip">&#9201; <b>Step 6 of 11</b></span>
         <span class="chip">&#128296; <b>Hands-on capstone</b></span>
       </div>
     </div>
@@ -272,7 +272,7 @@ footer.site .fnote{max-width:46em;font-size:13.5px;line-height:1.7}
           <li><span class="ic">&#128296;</span><span>A hands-on capstone you build step by step</span></li>
           <li><span class="ic">&#127919;</span><span>Optional practice drills to reinforce each skill</span></li>
         </ul>
-        <a class="btn btn-coral" href="08-the-build.html" style="width:100%;justify-content:center">Jump to the project</a>
+        <a class="btn btn-coral" href="10-the-build.html" style="width:100%;justify-content:center">Jump to the project</a>
       </div>
     </div>
   </div>
@@ -282,7 +282,7 @@ footer.site .fnote{max-width:46em;font-size:13.5px;line-height:1.7}
   <aside id="sidebar"><div class="toc-card">
     <button class="toc-close" id="tocClose" aria-label="Close menu">&times;</button>
     <p class="toc-title">On this page</p>
-    <p class="toc-title">Unit 5 &middot; Tools, Function-Calling and MCP</p>
+    <p class="toc-title">Unit 5 &middot; Tools, Skills, and MCP</p>
 <ul class="unit-toc">
 <li class="done"><a href="00-overview.html">Overview</a>
 </li>
@@ -298,17 +298,24 @@ footer.site .fnote{max-width:46em;font-size:13.5px;line-height:1.7}
 </li>
 <li class=""><a href="06-adding-an-mcp-server-to-your-coding-agent.html">Part 6 &middot; Adding an MCP server to your coding agent</a>
 </li>
-<li class=""><a href="07-recap.html">Recap</a>
+<li class=""><a href="07-skills-packaged-know-how-the-model-loads-on-dema.html">Part 7 &middot; Skills, packaged know-how the model loads on demand</a>
 </li>
-<li class=""><a href="08-the-build.html">The Build</a>
+<li class=""><a href="08-authoring-a-skill-the-model-actually-triggers.html">Part 8 &middot; Authoring a skill the model actually triggers</a>
+</li>
+<li class=""><a href="09-recap.html">Recap</a>
+</li>
+<li class=""><a href="10-the-build.html">The Build</a>
 </li>
 </ul>
   </div></aside>
   <main id="start">
     <article>
-      <div class="stepline"><span class="steptxt">Step 6 of 9</span><span class="stepdots"><i class="done"></i><i class="done"></i><i class="done"></i><i class="done"></i><i class="done"></i><i class="cur"></i><i class=""></i><i class=""></i><i class=""></i></span></div><p>You can now hand any model a tool. The next problem is practical: every time you want to connect a model to a new tool or data source (a database, your issue tracker, a docs site), you write custom plumbing. Do that across many apps and many tools and the wiring explodes.</p>
+      <div class="stepline"><span class="steptxt">Step 6 of 11</span><span class="stepdots"><i class="done"></i><i class="done"></i><i class="done"></i><i class="done"></i><i class="done"></i><i class="cur"></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i></span></div><p>You can now hand any model a tool. The next problem is practical: every time you want to connect a model to a new tool or data source (a database, your issue tracker, a docs site), you write custom plumbing. Do that across many apps and many tools and the wiring explodes.</p>
 <p><strong>MCP</strong> stands for <strong>Model Context Protocol</strong>. A <strong>protocol</strong> is just an agreed set of rules for how two programs talk, like a shared language. MCP is an open standard for secure, two-way connections between AI applications and the tools and data they need. The common analogy: MCP is "the USB-C port for AI applications." Just as USB-C lets any compatible device plug into any compatible port, MCP lets any compatible agent plug into any compatible tool. (<a href="https://modelcontextprotocol.io/docs/getting-started/intro" target="_blank" rel="noopener noreferrer">MCP docs</a>)</p>
 <p>It is no longer one company's project. Announced in November 2024, it has been adopted across the industry and, in December 2025, was donated to the <strong>Agentic AI Foundation</strong>, a vendor-neutral body under the Linux Foundation. Treat it like any open web standard: a common protocol many vendors implement, not a single product. (<a href="https://www.linuxfoundation.org/press/linux-foundation-announces-the-formation-of-the-agentic-ai-foundation" target="_blank" rel="noopener noreferrer">Linux Foundation: forming the Agentic AI Foundation</a>)</p>
+<blockquote>
+<p>⚠️ <strong>The protocol is moving, and not always compatibly.</strong> The <strong>2026-07-28</strong> revision is the largest change in MCP's history. Headline shifts: a <strong>stateless protocol core</strong> that runs over ordinary HTTP (so a server can sit behind a plain load balancer or run serverless), an <strong>Extensions</strong> framework, <strong>Tasks</strong> moved out of the core into an extension, <strong>MCP Apps</strong> (server-rendered UIs), authorization aligned with <strong>OAuth 2.0 and OpenID Connect</strong>, and a formal deprecation policy. Some of it is not backward compatible. You do not need the details to finish this unit; you need the habit: note the spec date you built against, and re-check the current spec before you ship. (<a href="https://blog.modelcontextprotocol.io/posts/2026-07-28/" target="_blank" rel="noopener noreferrer">2026-07-28 spec</a>)</p>
+</blockquote>
 <p><strong>The N times M problem.</strong> Suppose you have <em>N</em> AI applications and <em>M</em> tools. Without a standard, you build a custom connector for every pairing: <em>N times M</em> integrations. 10 apps and 10 tools is 100 connectors.</p>
 <div class="codehilite"><pre><span></span><code>   WITHOUT MCP (N x M):              WITH MCP (N + M):
    app1 ─┬─ tool1                    app1 ─┐         ┌─ tool1
@@ -334,8 +341,9 @@ footer.site .fnote{max-width:46em;font-size:13.5px;line-height:1.7}
 <li><strong>Prompts:</strong> reusable prompt templates or canned workflows a user or app can pull in on demand.</li>
 </ul>
 <blockquote>
-<p>🔑 <strong>Tool descriptions from a server are untrusted input.</strong> When you connect a third-party MCP server, its tool descriptions flow straight into your model's context. A malicious server can try to manipulate your agent through that text (called "tool poisoning"). Prefer servers you trust, and apply the same skepticism you would to any untrusted input.</p>
+<p>❌ <strong>The MCP security surface, in one place.</strong> Convenience cuts both ways. Treat a third-party server with the same distrust as any untrusted input, because several risks ride in on it: <strong>untrusted tool descriptions</strong> flow straight into your model's context, so a malicious server can try to steer your agent through that text ("tool poisoning"); <strong>registry and supply-chain risk</strong>, where a popular-looking server is actually hostile; and <strong>local execution risk</strong>, where a stdio server runs code on your machine. The response is boring and effective: prefer servers you trust, grant each the <strong>least privilege</strong> it needs, and vet third-party servers before connecting. This is the same lethal-trifecta reasoning from Unit 2 (private data plus untrusted input plus a way out), and Unit 10 hardens it further. National cyber agencies have published guidance on exactly this surface, which is a sign of how real it is.</p>
 </blockquote>
+<p><strong>One honest limitation.</strong> MCP is stateless by design, which is clean for simple request/response calls and, with the 2026-07-28 core, cleaner still. It is more awkward for long, stateful workflows that chain twenty or more tool calls and need state carried between steps. Many teams solve this by adding their own small state layer on top rather than expecting the protocol to hold it. MCP is the default for tool and data access; it is not a workflow engine. Naming this keeps the unit honest: MCP is a very good standard, not a silver bullet.</p>
 <hr />
     </article>
     <nav class="lessonnav"><a class="ln prev" href="04-designing-tools-the-model-uses-reliably.html"><span class="dir">&#8592; Previous</span><b>Designing tools the model uses reliably</b></a><a class="ln home" href="../index.html"><b>All units</b></a><a class="ln next" href="06-adding-an-mcp-server-to-your-coding-agent.html"><span class="dir">Next &#8594;</span><b>Adding an MCP server to your coding agent</b></a></nav>

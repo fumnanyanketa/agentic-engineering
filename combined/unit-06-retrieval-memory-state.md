@@ -134,6 +134,14 @@ QUESTION
 
 > ✅ **Sensible defaults.** Use hybrid search (semantic plus BM25) fused with RRF, add a re-ranker on the top candidates for a cheap quality boost, and chunk thoughtfully so each passage stands on its own. You rarely need anything fancier to start.
 
+**The next layer up (name these, reach for them when the query justifies it).** Hybrid search plus a re-ranker is the production baseline you just learned, and for most systems it is enough. Three named patterns sit on top of it in 2026, each an add-on, not a replacement:
+
+- **Adaptive RAG.** Instead of one fixed pipeline, a small classifier routes each query by complexity: a simple lookup goes to plain top-k, a harder one to hybrid-plus-reranker, a relationship question to graph retrieval, an open-ended one to an agentic retrieve-evaluate-re-retrieve loop. This is the emerging default, and it is the same routing idea you meet as a workflow pattern in Unit 7 and as a model-routing policy in Unit 4, pointed at retrieval.
+- **GraphRAG and temporal knowledge graphs.** When questions are about *relationships* or need *multi-hop* reasoning ("which suppliers connect to this recalled part, and when did that change?"), a knowledge graph beats flat chunks. The honest cost: a graph is another system to build and maintain, so reach for it only when relationship queries actually justify it.
+- **Dedicated memory frameworks.** For the memory side (Parts 6 to 8), off-the-shelf libraries now exist (for example Mem0) that handle storage, retrieval, and decay for you. Worth knowing they exist; you will still build memory by hand once in this unit, because doing it once is how you learn what such a framework is doing for you.
+
+> 💡 **Retrieval for breadth, memory for continuity, both together.** Most production systems use retrieval to pull in the right facts for one step and memory to carry continuity across steps, and they run side by side. Naive single-vector top-k is the wrong tool for agent memory, which is a big part of why "just use RAG for memory" disappoints. Keep the two jobs distinct.
+
 ---
 
 ## Part 4: Retrieval is just a tool the model can call

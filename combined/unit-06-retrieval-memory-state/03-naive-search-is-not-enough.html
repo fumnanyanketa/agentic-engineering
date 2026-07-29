@@ -327,6 +327,15 @@ footer.site .fnote{max-width:46em;font-size:13.5px;line-height:1.7}
 <blockquote>
 <p>✅ <strong>Sensible defaults.</strong> Use hybrid search (semantic plus BM25) fused with RRF, add a re-ranker on the top candidates for a cheap quality boost, and chunk thoughtfully so each passage stands on its own. You rarely need anything fancier to start.</p>
 </blockquote>
+<p><strong>The next layer up (name these, reach for them when the query justifies it).</strong> Hybrid search plus a re-ranker is the production baseline you just learned, and for most systems it is enough. Three named patterns sit on top of it in 2026, each an add-on, not a replacement:</p>
+<ul>
+<li><strong>Adaptive RAG.</strong> Instead of one fixed pipeline, a small classifier routes each query by complexity: a simple lookup goes to plain top-k, a harder one to hybrid-plus-reranker, a relationship question to graph retrieval, an open-ended one to an agentic retrieve-evaluate-re-retrieve loop. This is the emerging default, and it is the same routing idea you meet as a workflow pattern in Unit 7 and as a model-routing policy in Unit 4, pointed at retrieval.</li>
+<li><strong>GraphRAG and temporal knowledge graphs.</strong> When questions are about <em>relationships</em> or need <em>multi-hop</em> reasoning ("which suppliers connect to this recalled part, and when did that change?"), a knowledge graph beats flat chunks. The honest cost: a graph is another system to build and maintain, so reach for it only when relationship queries actually justify it.</li>
+<li><strong>Dedicated memory frameworks.</strong> For the memory side (Parts 6 to 8), off-the-shelf libraries now exist (for example Mem0) that handle storage, retrieval, and decay for you. Worth knowing they exist; you will still build memory by hand once in this unit, because doing it once is how you learn what such a framework is doing for you.</li>
+</ul>
+<blockquote>
+<p>💡 <strong>Retrieval for breadth, memory for continuity, both together.</strong> Most production systems use retrieval to pull in the right facts for one step and memory to carry continuity across steps, and they run side by side. Naive single-vector top-k is the wrong tool for agent memory, which is a big part of why "just use RAG for memory" disappoints. Keep the two jobs distinct.</p>
+</blockquote>
 <hr />
     </article>
     <nav class="lessonnav"><a class="ln prev" href="02-the-moving-parts.html"><span class="dir">&#8592; Previous</span><b>The moving parts</b></a><a class="ln home" href="../index.html"><b>All units</b></a><a class="ln next" href="04-retrieval-is-just-a-tool-the-model-can-call.html"><span class="dir">Next &#8594;</span><b>Retrieval is just a tool the model can call</b></a></nav>

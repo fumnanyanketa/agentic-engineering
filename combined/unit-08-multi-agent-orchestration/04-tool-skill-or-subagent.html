@@ -248,7 +248,7 @@ footer.site .fnote{max-width:46em;font-size:13.5px;line-height:1.7}
     <div>
       <span class="eyebrow">&#10022; Unit 8 &middot; Part 4</span>
       <h1>Tool, skill, or <span class="accent">subagent?</span></h1>
-      <p class="lead">A subagent is the heaviest way to add a capability. Before you spawn one, ask whether a tool or a skill does the job, because those are cheaper and simpler. This is the decision that keeps a fleet from sprawling.</p>
+      <p class="lead">A subagent is the heaviest way to add a capability. Before you spawn one, ask whether a tool or a skill does the job, because those are cheaper and simpler. You already met all three primitives in Unit 5 (a tool is an action, an MCP server is access to a live system, a skill is packaged know-how in a SKILL.md), and you authored a real skill there, so here they are old friends; this part is about choosing between them as an agent grows. This is the decision that keeps a fleet from sprawling.</p>
       <div class="hero-actions">
         <a class="btn btn-primary" href="#start">Start the lesson &#8594;</a>
         
@@ -304,7 +304,7 @@ footer.site .fnote{max-width:46em;font-size:13.5px;line-height:1.7}
   </div></aside>
   <main id="start">
     <article>
-      <div class="stepline"><span class="steptxt">Step 5 of 8</span><span class="stepdots"><i class="done"></i><i class="done"></i><i class="done"></i><i class="done"></i><i class="cur"></i><i class=""></i><i class=""></i><i class=""></i></span></div><p>A subagent is the <em>heaviest</em> way to add a capability. Before you spawn one, ask whether a <strong>tool</strong> or a <strong>skill</strong> does the job, because those are cheaper and simpler. This is the decision that keeps a fleet from sprawling.</p>
+      <div class="stepline"><span class="steptxt">Step 5 of 8</span><span class="stepdots"><i class="done"></i><i class="done"></i><i class="done"></i><i class="done"></i><i class="cur"></i><i class=""></i><i class=""></i><i class=""></i></span></div><p>A subagent is the <em>heaviest</em> way to add a capability. Before you spawn one, ask whether a <strong>tool</strong> or a <strong>skill</strong> does the job, because those are cheaper and simpler. You already met all three primitives in Unit 5 (a tool is an action, an MCP server is access to a live system, a skill is packaged know-how in a <code>SKILL.md</code>), and you authored a real skill there, so here they are old friends; this part is about <em>choosing between them</em> as an agent grows. This is the decision that keeps a fleet from sprawling.</p>
 <p>The common, painful pattern: you ship an agent that works great, then bolt on a capability, then another. Soon the system prompt is hundreds of lines, you have a dozen overlapping tools and tangled subagents, and the agent <strong>regresses</strong> (gets worse) in the very areas it was good at. The fix is not more instructions. It is knowing which <strong>primitive</strong> (basic building block) fits each job.</p>
 <div class="codehilite"><pre><span></span><code>PICK THE RIGHT PRIMITIVE
   TOOL       -&gt; the agent is doing work it should OFFLOAD to code.

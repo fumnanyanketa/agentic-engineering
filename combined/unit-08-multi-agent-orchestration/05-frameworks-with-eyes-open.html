@@ -313,12 +313,13 @@ footer.site .fnote{max-width:46em;font-size:13.5px;line-height:1.7}
 <li><strong>Reasons to use one:</strong> it saves you re-writing common plumbing (retries, state, branching, human-approval steps); it gives a team a shared vocabulary; the good ones include built-in tracing.</li>
 <li><strong>Reasons to skip one:</strong> the task is simple enough to write in a few lines; you need full visibility into every prompt and response; or you want to avoid <strong>lock-in</strong> (becoming so tied to one tool that switching later hurts).</li>
 </ul>
-<p>The landscape, by <strong>problem shape</strong>, not by leaderboard (the field moves fast; verify current features yourself):</p>
+<p>The landscape, by <strong>problem shape</strong>, not by leaderboard (the field moves fast; treat the names as of mid-2026 and verify current features yourself):</p>
 <table>
 <thead>
 <tr>
 <th>Shape</th>
 <th>What it offers</th>
+<th>Named examples (verify)</th>
 <th>Good for</th>
 </tr>
 </thead>
@@ -326,36 +327,43 @@ footer.site .fnote{max-width:46em;font-size:13.5px;line-height:1.7}
 <tr>
 <td>Explicit stateful graphs</td>
 <td>cycles, branching, retries, checkpoints, human-approval steps</td>
+<td>LangGraph</td>
 <td>complex flows needing tight path control</td>
 </tr>
 <tr>
 <td>Role-based multi-agent</td>
 <td>named roles (planner, researcher, writer) that hand off work</td>
+<td>CrewAI</td>
 <td>clear division of labor</td>
 </tr>
 <tr>
 <td>Conversation-style multi-agent</td>
 <td>several agents talking, often in parallel</td>
+<td>AutoGen</td>
 <td>exploratory, discussion-shaped tasks</td>
 </tr>
 <tr>
 <td>Provider-native runtimes</td>
 <td>each major provider's own agent library</td>
+<td>OpenAI Agents SDK, Google ADK, Claude Agent SDK</td>
 <td>staying inside one ecosystem</td>
 </tr>
 <tr>
 <td>Type-safe, model-agnostic libraries</td>
 <td>strong typing, works across providers, native MCP</td>
+<td>Pydantic AI</td>
 <td>portability across models</td>
 </tr>
 <tr>
 <td>Minimal, code-driven libraries</td>
 <td>deliberately small, close to the raw loop</td>
+<td>smolagents, or the raw provider SDK</td>
 <td>when you want the loop, lightly helped</td>
 </tr>
 </tbody>
 </table>
 <blockquote>
+<p>💡 <strong>The 2026 default for stateful, high-stakes work: LangGraph.</strong> When agents run long, need to be audited, or operate in a regulated setting, most teams in 2026 reach for an explicit stateful graph, and LangGraph is the common choice: it makes the state, the branches, and the checkpoints inspectable, which is exactly what you want when a run has to be explained after the fact. Treat that as a starting point, not a rule. The "learn the loop first" stance still holds, and you still verify the feature set yourself before you commit.</p>
 <p>❌ <strong>Pitfalls.</strong> Adopting a heavy framework before you understand the loop it hides. Lock-in that makes switching painful. Copying a trendy tool without asking if it fits your problem. And trusting comparison posts uncritically: many are written by the tool's own vendor, and features change fast, so verify yourself.</p>
 <p>✅ <strong>The one-sentence rule.</strong> Learn the raw loop first; then, if your problem is complex enough that a framework's plumbing clearly earns its keep, pick the one whose <em>shape</em> matches your problem, and keep the underlying prompts and traces visible no matter what you choose.</p>
 </blockquote>
