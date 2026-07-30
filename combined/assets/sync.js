@@ -10,8 +10,8 @@
 import { firebaseConfig } from "./sync-config.js";
 
 const FB_VER = "10.12.0";
-const LS_LESSONS = "spcs50x:progress";
-const LS_PACE = "spcs50x:pace";
+const LS_LESSONS = "agentic:progress";
+const LS_PACE = "agentic:pace";
 const CONFIGURED = !!(firebaseConfig && firebaseConfig.projectId && firebaseConfig.projectId !== "REPLACE_ME");
 
 let user = null;
