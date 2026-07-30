@@ -322,7 +322,7 @@ footer.site .fnote{max-width:46em;font-size:13.5px;line-height:1.7}
 <p>A model-agnostic habit: for any agent you build, write one sentence answering "what private data can it see, what untrusted input can reach it, and how could data get out?" If all three have an answer, you have a trifecta to design around.</p>
 <hr />
     </article>
-    <nav class="lessonnav"><a class="ln prev" href="07-reading-a-diff-and-judging-a-change.html"><span class="dir">&#8592; Previous</span><b>Reading a diff and judging a change</b></a><a class="ln home" href="../index.html"><b>All units</b></a><a class="ln next" href="09-recap.html"><span class="dir">Next &#8594;</span><b>Recap</b></a></nav>
+    <div class="ls-marker" data-lesson-id="2" data-home="../index.html" style="display:none"></div><nav class="lessonnav"><a class="ln prev" href="07-reading-a-diff-and-judging-a-change.html"><span class="dir">&#8592; Previous</span><b>Reading a diff and judging a change</b></a><a class="ln home" href="../index.html"><b>All units</b></a><a class="ln next" href="09-recap.html"><span class="dir">Next &#8594;</span><b>Recap</b></a></nav>
   </main>
 </div>
 
@@ -451,5 +451,5 @@ const spy=()=>{let cur=heads[0]?.id;for(const h of heads){if(h.getBoundingClient
   links.forEach(a=>a.classList.toggle('active',a.getAttribute('href')==='#'+cur))};
 addEventListener('scroll',spy);spy();
 </script>
-</body>
+<script src="../assets/course-data.js"></script><script type="module" src="../assets/sync.js"></script></body>
 </html>
