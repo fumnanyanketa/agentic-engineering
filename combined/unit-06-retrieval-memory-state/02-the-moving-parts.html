@@ -359,7 +359,7 @@ footer.site .fnote{max-width:46em;font-size:13.5px;line-height:1.7}
 <p>💡 <strong>A little math intuition (optional).</strong> An embedding is just a list of numbers (a vector), maybe a few hundred of them, that places a piece of text as a point in space, with similar meanings landing near each other. "Similarity" is usually <strong>cosine similarity</strong>: picture each text as an arrow from the origin; two arrows pointing in nearly the same direction (a small angle between them) are similar, even if one is longer. Search becomes "find the arrows pointing most nearly the same way as my question." The database does the arithmetic; holding the picture, points in space, nearness as meaning, angle as similarity, is enough to reason about why retrieval returns what it does, and why a weak embedding model gives bad neighbours.</p>
 </blockquote>
     </article>
-    <nav class="lessonnav"><a class="ln prev" href="01-why-a-model-needs-retrieval-at-all.html"><span class="dir">&#8592; Previous</span><b>Why a model needs retrieval at all</b></a><a class="ln home" href="../index.html"><b>All units</b></a><a class="ln next" href="03-naive-search-is-not-enough.html"><span class="dir">Next &#8594;</span><b>Naive search is not enough</b></a></nav>
+    <div class="ls-marker" data-lesson-id="6" data-home="../index.html" style="display:none"></div><nav class="lessonnav"><a class="ln prev" href="01-why-a-model-needs-retrieval-at-all.html"><span class="dir">&#8592; Previous</span><b>Why a model needs retrieval at all</b></a><a class="ln home" href="../index.html"><b>All units</b></a><a class="ln next" href="03-naive-search-is-not-enough.html"><span class="dir">Next &#8594;</span><b>Naive search is not enough</b></a></nav>
   </main>
 </div>
 
@@ -488,5 +488,5 @@ const spy=()=>{let cur=heads[0]?.id;for(const h of heads){if(h.getBoundingClient
   links.forEach(a=>a.classList.toggle('active',a.getAttribute('href')==='#'+cur))};
 addEventListener('scroll',spy);spy();
 </script>
-</body>
+<script src="../assets/course-data.js"></script><script type="module" src="../assets/sync.js"></script></body>
 </html>

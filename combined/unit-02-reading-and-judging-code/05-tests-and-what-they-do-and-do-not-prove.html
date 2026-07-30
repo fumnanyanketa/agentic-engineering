@@ -325,7 +325,7 @@ footer.site .fnote{max-width:46em;font-size:13.5px;line-height:1.7}
 <p>You can have your agent write tests, but you decide what is worth testing, and you read the tests to confirm they actually check the thing that matters (a test that always passes proves nothing).</p>
 <hr />
     </article>
-    <nav class="lessonnav"><a class="ln prev" href="04-when-it-breaks.html"><span class="dir">&#8592; Previous</span><b>When it breaks</b></a><a class="ln home" href="../index.html"><b>All units</b></a><a class="ln next" href="06-talking-to-the-outside-world.html"><span class="dir">Next &#8594;</span><b>Talking to the outside world</b></a></nav>
+    <div class="ls-marker" data-lesson-id="2" data-home="../index.html" style="display:none"></div><nav class="lessonnav"><a class="ln prev" href="04-when-it-breaks.html"><span class="dir">&#8592; Previous</span><b>When it breaks</b></a><a class="ln home" href="../index.html"><b>All units</b></a><a class="ln next" href="06-talking-to-the-outside-world.html"><span class="dir">Next &#8594;</span><b>Talking to the outside world</b></a></nav>
   </main>
 </div>
 
@@ -454,5 +454,5 @@ const spy=()=>{let cur=heads[0]?.id;for(const h of heads){if(h.getBoundingClient
   links.forEach(a=>a.classList.toggle('active',a.getAttribute('href')==='#'+cur))};
 addEventListener('scroll',spy);spy();
 </script>
-</body>
+<script src="../assets/course-data.js"></script><script type="module" src="../assets/sync.js"></script></body>
 </html>

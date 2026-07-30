@@ -322,7 +322,7 @@ footer.site .fnote{max-width:46em;font-size:13.5px;line-height:1.7}
 <p>💡 <strong>Where this goes at production scale (a pointer).</strong> What you built here is a small offline suite, exactly right for learning and for a tight inner loop. In production it grows in three directions. First, <em>size</em>: from a handful of cases to hundreds or thousands, drawn from real failures as they happen, so the suite mirrors reality. Second, <em>online evaluation</em>: instead of only running fixed cases offline, you sample real live traffic, score a slice of it (with an LLM judge or human review), and watch the score over time, so regressions surface in production, not just in your test file. Third, <em>gating</em>: the suite runs automatically on every change and blocks a deploy when the score drops. The discipline is identical to what you just practised; only the scale and the plumbing grow. Verify specifics against your eval framework's current docs.</p>
 </blockquote>
     </article>
-    <nav class="lessonnav"><a class="ln prev" href="05-keep-one-deliberately-hard-case.html"><span class="dir">&#8592; Previous</span><b>keep one deliberately hard case</b></a><a class="ln home" href="../index.html"><b>All units</b></a><a class="ln next" href="07-recap.html"><span class="dir">Next &#8594;</span><b>Recap</b></a></nav>
+    <div class="ls-marker" data-lesson-id="9" data-home="../index.html" style="display:none"></div><nav class="lessonnav"><a class="ln prev" href="05-keep-one-deliberately-hard-case.html"><span class="dir">&#8592; Previous</span><b>keep one deliberately hard case</b></a><a class="ln home" href="../index.html"><b>All units</b></a><a class="ln next" href="07-recap.html"><span class="dir">Next &#8594;</span><b>Recap</b></a></nav>
   </main>
 </div>
 
@@ -451,5 +451,5 @@ const spy=()=>{let cur=heads[0]?.id;for(const h of heads){if(h.getBoundingClient
   links.forEach(a=>a.classList.toggle('active',a.getAttribute('href')==='#'+cur))};
 addEventListener('scroll',spy);spy();
 </script>
-</body>
+<script src="../assets/course-data.js"></script><script type="module" src="../assets/sync.js"></script></body>
 </html>

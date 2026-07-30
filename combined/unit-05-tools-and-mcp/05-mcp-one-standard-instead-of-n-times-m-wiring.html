@@ -346,7 +346,7 @@ footer.site .fnote{max-width:46em;font-size:13.5px;line-height:1.7}
 <p><strong>One honest limitation.</strong> MCP is stateless by design, which is clean for simple request/response calls and, with the 2026-07-28 core, cleaner still. It is more awkward for long, stateful workflows that chain twenty or more tool calls and need state carried between steps. Many teams solve this by adding their own small state layer on top rather than expecting the protocol to hold it. MCP is the default for tool and data access; it is not a workflow engine. Naming this keeps the unit honest: MCP is a very good standard, not a silver bullet.</p>
 <hr />
     </article>
-    <nav class="lessonnav"><a class="ln prev" href="04-designing-tools-the-model-uses-reliably.html"><span class="dir">&#8592; Previous</span><b>Designing tools the model uses reliably</b></a><a class="ln home" href="../index.html"><b>All units</b></a><a class="ln next" href="06-adding-an-mcp-server-to-your-coding-agent.html"><span class="dir">Next &#8594;</span><b>Adding an MCP server to your coding agent</b></a></nav>
+    <div class="ls-marker" data-lesson-id="5" data-home="../index.html" style="display:none"></div><nav class="lessonnav"><a class="ln prev" href="04-designing-tools-the-model-uses-reliably.html"><span class="dir">&#8592; Previous</span><b>Designing tools the model uses reliably</b></a><a class="ln home" href="../index.html"><b>All units</b></a><a class="ln next" href="06-adding-an-mcp-server-to-your-coding-agent.html"><span class="dir">Next &#8594;</span><b>Adding an MCP server to your coding agent</b></a></nav>
   </main>
 </div>
 
@@ -475,5 +475,5 @@ const spy=()=>{let cur=heads[0]?.id;for(const h of heads){if(h.getBoundingClient
   links.forEach(a=>a.classList.toggle('active',a.getAttribute('href')==='#'+cur))};
 addEventListener('scroll',spy);spy();
 </script>
-</body>
+<script src="../assets/course-data.js"></script><script type="module" src="../assets/sync.js"></script></body>
 </html>
