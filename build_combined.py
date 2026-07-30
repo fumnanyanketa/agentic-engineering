@@ -27,6 +27,10 @@ ASSETS = COMBINED / "assets"
 COURSE_NAME = "Agentic Engineering"
 TOTAL_UNITS = 12
 
+# Browser-tab favicon: a self-contained SVG (teal "A" on navy) as a base64 data
+# URI, so it needs no separate file and resolves identically at every page depth.
+FAVICON_LINK = '<link rel="icon" type="image/svg+xml" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAzMiAzMiI+PHJlY3Qgd2lkdGg9IjMyIiBoZWlnaHQ9IjMyIiByeD0iNyIgZmlsbD0iIzBhMWEyZiIvPjx0ZXh0IHg9IjE2IiB5PSIyMyIgZm9udC1mYW1pbHk9IkFyaWFsLEhlbHZldGljYSxzYW5zLXNlcmlmIiBmb250LXNpemU9IjIxIiBmb250LXdlaWdodD0iYm9sZCIgZmlsbD0iIzE4YzRhMCIgdGV4dC1hbmNob3I9Im1pZGRsZSI+QTwvdGV4dD48L3N2Zz4=">'
+
 # Progress-tracker engine (see references/progress-tracker.md in the course-builder
 # skill). sync.js is the committed engine; this scaffold is written for sync-config.js
 # only if it is missing, so a learner's Firebase keys are never overwritten.
@@ -50,6 +54,9 @@ export const firebaseConfig = {
 # ---------------------------------------------------------------------------
 TEMPLATE = bl.TEMPLATE
 TEMPLATE = TEMPLATE.replace("{{TITLE}} | Building with Claude", "{{TITLE}} | " + COURSE_NAME)
+TEMPLATE = TEMPLATE.replace(
+    '<meta name="viewport" content="width=device-width, initial-scale=1">',
+    '<meta name="viewport" content="width=device-width, initial-scale=1">\n' + FAVICON_LINK, 1)
 TEMPLATE = TEMPLATE.replace(
     "&#10024; Welcome to <b>Building with Claude</b> &middot; a self-paced course",
     "&#10024; Welcome to <b>" + COURSE_NAME + "</b> &middot; a self-paced course",
@@ -600,6 +607,7 @@ def _index_page(rows, n_units):
         "<!doctype html>\n<html lang=\"en\"><head>\n"
         "<meta charset=\"utf-8\"><meta name=\"viewport\" content=\"width=device-width, initial-scale=1\">\n"
         f"<title>{COURSE_NAME} | A model-agnostic, self-paced course</title>\n"
+        + FAVICON_LINK + "\n"
         "<link rel=\"preconnect\" href=\"https://fonts.googleapis.com\">\n"
         "<link href=\"https://fonts.googleapis.com/css2?family=Poppins:wght@500;600;700;800&family=Inter:wght@400;500;600;700&display=swap\" rel=\"stylesheet\">\n"
         "<style>" + _INDEX_CSS + "</style></head>\n<body>\n"
