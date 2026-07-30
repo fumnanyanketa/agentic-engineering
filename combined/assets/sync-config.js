@@ -17,8 +17,8 @@
 // Firestore security rules, not by hiding these values.
 // ---------------------------------------------------------------------------
 export const firebaseConfig = {
-  apiKey: "REPLACE_ME",
-  authDomain: "REPLACE_ME.firebaseapp.com",
-  projectId: "REPLACE_ME",
-  appId: "REPLACE_ME"
+  apiKey: "AIzaSyCy4SsU4X3p48-z3TaSnvDv6hsXEj2epe0",
+  authDomain: "agentic-engineering-unleashed.firebaseapp.com",
+  projectId: "agentic-engineering-unleashed",
+  appId: "1:665524184908:web:f98c3a075a2378829111e9"
 };
