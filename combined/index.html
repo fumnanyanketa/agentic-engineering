@@ -27,6 +27,12 @@ h1,h2{font-family:Poppins,sans-serif;letter-spacing:-.01em}
 .hstat .l{color:#9fb0c2;font-size:13.5px}
 .panel-wrap{max-width:1100px;margin:-52px auto 0;padding:0 26px;position:relative;z-index:5}
 .progress-panel{background:var(--navy-2);border:1px solid #1e3a5a;border-radius:20px;padding:24px 24px 22px;box-shadow:0 24px 60px rgba(8,19,31,.35);color:#e8eef6}
+.progress-panel.compact{display:flex;align-items:center;gap:16px;padding:13px 20px;border-radius:14px;box-shadow:0 14px 34px rgba(8,19,31,.28);flex-wrap:wrap}
+.progress-panel.compact .cp-label{color:var(--teal);font-weight:700;letter-spacing:.06em;text-transform:uppercase;font-size:.7rem;white-space:nowrap}
+.progress-panel.compact .barwrap{flex:1 1 180px;height:9px;margin:0;min-width:120px}
+.progress-panel.compact .cp-pct{font-family:Poppins;font-weight:700;font-size:1.15rem;white-space:nowrap;color:#e8eef6}
+.progress-panel.compact .cp-count{color:#9fb3c8;font-size:.82rem;white-space:nowrap}
+@media(max-width:560px){.progress-panel.compact{gap:11px;padding:11px 14px}.progress-panel.compact .cp-label{display:none}}
 .pp-head{display:flex;align-items:center;justify-content:space-between;gap:14px;flex-wrap:wrap;margin-bottom:6px}
 .pp-title{color:var(--teal);font-weight:700;letter-spacing:.06em;text-transform:uppercase;font-size:.74rem}
 .account{display:flex;align-items:center;gap:12px;flex-wrap:wrap;background:var(--navy-3);border:1px solid #1e3a5a;border-radius:12px;padding:9px 13px}
@@ -95,25 +101,11 @@ dialog button{background:var(--navy-3);color:#e8eef6;border:1px solid #1e3a5a;bo
   </div>
 </header>
 <div class="panel-wrap">
-<section class="progress-panel" data-progress-home>
-  <div class="pp-head">
-    <span class="pp-title">&#10022; Your progress</span>
-    <div class="account" id="account"><span class="dot"></span><span id="acct-msg">Starting up&hellip;</span><button id="acct-btn" style="display:none"></button></div>
-  </div>
-  <div class="stats">
-    <div class="tile accent"><div class="big" id="s-count">0/0</div><div class="lbl">units done</div></div>
-    <div class="tile"><div class="big" id="s-pct">0%</div><div class="lbl">of the course</div></div>
-    <div class="tile streak"><div class="big" id="s-streak">0</div><div class="lbl">day streak</div></div>
-    <div class="tile finish"><div class="big" id="s-finish">set a pace</div><div class="lbl">projected finish</div></div>
-  </div>
+<section class="progress-panel compact" data-progress-home>
+  <span class="cp-label">&#10022; Your progress</span>
   <div class="barwrap"><div id="bar"></div></div>
-  <div class="barrow"><span id="b-left"></span><span id="b-week">0 done in the last 7 days</span></div>
-  <div class="pace"><span>My pace:</span>
-    <button data-p="1">1 / day</button><button data-p="2">2 / day</button>
-    <button data-p="3">3 / day</button><button data-p="5">5 / day</button>
-    <span id="pace-note"></span>
-  </div>
-  <div class="actions"><button id="backup">Back up my progress</button><button id="restore">Restore from backup</button><button class="danger" id="reset">Reset all</button></div>
+  <span class="cp-pct" id="s-pct">0%</span>
+  <span class="cp-count" id="s-count"></span>
 </section>
 </div>
 <main class="wrap">
@@ -123,17 +115,12 @@ dialog button{background:var(--navy-3);color:#e8eef6;border:1px solid #1e3a5a;bo
 <footer><div class="logo">AI Nativity<span class="d">.</span></div>
 <p>An AI Nativity agentic-engineering curriculum. You build one platform, AtlasOS, one component at a time. Built from a deep-research pass across primary sources; commands and model ids age fast, so verify against current docs.</p>
 <p style="margin-top:12px;font-size:13px;opacity:.8">&copy; 2026 AI Nativity &middot; <a href="https://ainativity.substack.com" target="_blank" rel="noopener noreferrer" style="color:#18c4a0">ainativity.substack.com</a></p></footer>
-
-<dialog id="dlg">
-  <p id="dlg-msg"></p>
-  <textarea id="dlg-text"></textarea>
-  <div class="row"><button id="dlg-cancel">Close</button><button id="dlg-ok" style="display:none">Restore</button></div>
-</dialog>
 <script src="assets/course-data.js"></script>
 <script type="module" src="assets/sync.js"></script>
 <script type="module">
 const CS = window.CourseSync;
 function fmt(iso){ if(!iso) return ""; const [y,m,d]=iso.split("-").map(Number); return new Date(y,m-1,d).toLocaleDateString(undefined,{month:"short",day:"numeric"}); }
+function set(id,v){ const el=document.getElementById(id); if(el) el.textContent=v; }
 function render(){
   document.querySelectorAll(".lesson").forEach(row=>{
     const n=row.getAttribute("data-n"); const done=CS.isDone(n);
@@ -141,52 +128,16 @@ function render(){
     const box=row.querySelector(".box"); if(box) box.setAttribute("aria-checked",done?"true":"false");
     const dd=row.querySelector(".ldate"); if(dd) dd.textContent=done?fmt(CS.dateOf(n)):"";
   });
-  updateStats(); paintPace(); paintAccount();
-}
-function updateStats(){
   const s=CS.stats();
-  document.getElementById("s-count").textContent=s.done+"/"+s.total;
-  document.getElementById("s-pct").textContent=s.pct+"%";
-  document.getElementById("bar").style.width=s.pct+"%";
-  const left=s.total-s.done;
-  document.getElementById("b-left").textContent=left===0?"All units complete \u{1F389}":left+" unit"+(left===1?"":"s")+" to go";
-  document.getElementById("s-streak").textContent=s.streak;
-  document.getElementById("b-week").textContent=s.week+" done in the last 7 days";
-  const fin=document.getElementById("s-finish"), pace=CS.state().pace||1;
-  if(left===0){ fin.textContent="Done!"; document.getElementById("pace-note").textContent=""; }
-  else{ const days=Math.ceil(left/pace); const d=new Date(); d.setDate(d.getDate()+days);
-    fin.textContent=d.toLocaleDateString(undefined,{month:"short",day:"numeric",year:"numeric"});
-    document.getElementById("pace-note").textContent="at "+pace+"/day, about "+days+" day"+(days===1?"":"s")+" left"; }
-}
-function paintPace(){ document.querySelectorAll(".pace button").forEach(b=>b.classList.toggle("on",+b.dataset.p===(CS.state().pace||1))); }
-function paintAccount(){
-  const box=document.getElementById("account"), msg=document.getElementById("acct-msg"), btn=document.getElementById("acct-btn");
-  const u=CS.user();
-  box.classList.toggle("on",!!u);
-  if(!CS.configured()){ msg.textContent="Progress is saved in this browser. Set up sync to follow you across devices."; btn.style.display="none"; }
-  else if(u){ msg.textContent="Synced as "+(u.name||u.email||"you")+"."; btn.style.display=""; btn.textContent="Sign out"; btn.className="ghost"; }
-  else{ msg.textContent="Sign in to sync across your laptop and phone."; btn.style.display=""; btn.textContent="Sign in with Google"; btn.className=""; }
+  set("s-count", s.done+"/"+s.total);
+  set("s-pct", s.pct+"%");
+  const bar=document.getElementById("bar"); if(bar) bar.style.width=s.pct+"%";
 }
 document.querySelectorAll(".box").forEach(b=>{
   const n=b.getAttribute("data-n");
   b.addEventListener("click",e=>{ e.preventDefault(); CS.toggleLesson(n); });
   b.addEventListener("keydown",e=>{ if(e.key===" "||e.key==="Enter"){ e.preventDefault(); CS.toggleLesson(n); } });
 });
-document.querySelectorAll(".pace button").forEach(b=>b.addEventListener("click",()=>CS.setPace(+b.dataset.p)));
-document.getElementById("acct-btn").addEventListener("click",()=>{ CS.user()?CS.signOut():CS.signIn(); });
-const dlg=document.getElementById("dlg"), dtext=document.getElementById("dlg-text"),
-      dmsg=document.getElementById("dlg-msg"), dok=document.getElementById("dlg-ok");
-document.getElementById("backup").addEventListener("click",()=>{
-  dmsg.textContent="Copy this and keep it safe. Paste it back with Restore to recover your progress.";
-  dtext.value=CS.exportData(); dtext.readOnly=true; dok.style.display="none"; dlg.showModal(); dtext.select();
-});
-document.getElementById("restore").addEventListener("click",()=>{
-  dmsg.textContent="Paste a backup here and press Restore. This replaces your current progress.";
-  dtext.value=""; dtext.readOnly=false; dok.style.display=""; dlg.showModal();
-});
-dok.addEventListener("click",()=>{ if(CS.importData(dtext.value.trim())) dlg.close(); else alert("That does not look like a valid backup."); });
-document.getElementById("dlg-cancel").addEventListener("click",()=>dlg.close());
-document.getElementById("reset").addEventListener("click",()=>{ if(confirm("Clear all progress? Back it up first if you want a copy.")) CS.reset(); });
 CS.onChange(render);
 render();
 </script>
