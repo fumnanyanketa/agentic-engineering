@@ -12,7 +12,18 @@ import { firebaseConfig } from "./sync-config.js";
 const FB_VER = "10.12.0";
 const LS_LESSONS = "agentic:progress";
 const LS_PACE = "agentic:pace";
-const CONFIGURED = !!(firebaseConfig && firebaseConfig.projectId && firebaseConfig.projectId !== "REPLACE_ME");
+
+// Two sync backends, chosen in course.json:
+//   "sync": {"provider": "firebase"}    Google sign-in + Firestore
+//   "sync": {"provider": "cloudflare"}  a Pages Function behind Cloudflare
+//                                       Access, which means NO second login:
+//                                       Access already authenticated the
+//                                       request, so the endpoint trusts it.
+const SYNC = (typeof window !== "undefined" && window.COURSE_DATA && window.COURSE_DATA.sync) || {};
+const CF_MODE = SYNC.provider === "cloudflare";
+const CF_ENDPOINT = SYNC.endpoint || "/api/progress";
+const CONFIGURED = CF_MODE ||
+  !!(firebaseConfig && firebaseConfig.projectId && firebaseConfig.projectId !== "REPLACE_ME");
 
 let user = null;
 let auth = null, db = null, userDocRef = null, unsubDoc = null, fb = null;
@@ -26,7 +37,26 @@ function emit() { listeners.forEach(fn => { try { fn(); } catch (e) {} }); }
 function todayISO() { const d = new Date(); return d.getFullYear() + "-" + String(d.getMonth() + 1).padStart(2, "0") + "-" + String(d.getDate()).padStart(2, "0"); }
 function daysBetween(a, b) { return Math.round((new Date(b + "T00:00") - new Date(a + "T00:00")) / 86400000); }
 
+// Writes are debounced because Workers KV allows 1,000 writes a day on the
+// free tier and ticking through a phase quickly would otherwise burn one per
+// click. A second of quiet is plenty, and localStorage has already painted.
+let cfWriteTimer = null;
+function pushCloudflare() {
+  clearTimeout(cfWriteTimer);
+  cfWriteTimer = setTimeout(async () => {
+    try {
+      await fetch(CF_ENDPOINT, {
+        method: "PUT",
+        headers: { "content-type": "application/json" },
+        credentials: "same-origin",
+        body: JSON.stringify({ lessons: state.lessons, pace: state.pace }),
+      });
+    } catch (e) { /* offline: localStorage keeps it, next write catches up */ }
+  }, 1000);
+}
+
 async function pushCloud() {
+  if (CF_MODE) { pushCloudflare(); return; }
   if (user && userDocRef && fb) {
     try { await fb.setDoc(userDocRef, { lessons: state.lessons, pace: state.pace, updated: Date.now() }, { merge: true }); } catch (e) {}
   }
@@ -76,6 +106,9 @@ const CourseSync = {
   importData(str) { try { const o = JSON.parse(str); if (o && typeof o === "object") { state.lessons = o; saveLocal(); emit(); pushCloud(); return true; } } catch (e) {} return false; },
   reset() { state.lessons = {}; saveLocal(); emit(); pushCloud(); },
   async signIn() {
+    // Under Cloudflare Access there is nothing to sign in to: reaching this
+    // page at all means you are already authenticated.
+    if (CF_MODE) return;
     if (!CONFIGURED) { alert("Cross-device sync is not set up yet.\nAdd your Firebase config to assets/sync-config.js to enable sign-in."); return; }
     if (!auth || !fb) { alert("Still starting up. Try again in a second."); return; }
     try { await fb.signInWithPopup(auth, new fb.GoogleAuthProvider()); }
@@ -88,7 +121,34 @@ const CourseSync = {
 };
 window.CourseSync = CourseSync;
 
+// Cloudflare mode: read once on load, merge anything this browser did while
+// offline, and let pushCloud() handle writes from then on.
+async function initCloudflare() {
+  try {
+    const res = await fetch(CF_ENDPOINT, { credentials: "same-origin", headers: { "cache-control": "no-cache" } });
+    if (!res.ok) { emit(); return; }
+    const body = await res.json();
+    if (body && body.user) user = { name: body.user, email: body.user, uid: body.user };
+    const cloud = (body && body.data && body.data.lessons) || {};
+    // Union of both sides. A session ticked anywhere counts as done, and the
+    // earlier of two dates wins, so re-reading on a second device never
+    // silently moves a completion date forward.
+    let changed = false;
+    for (const k in state.lessons) {
+      if (!cloud[k] || state.lessons[k] < cloud[k]) { cloud[k] = state.lessons[k]; changed = true; }
+    }
+    state.lessons = cloud;
+    if (body && body.data && typeof body.data.pace === "number") state.pace = body.data.pace;
+    saveLocal(); emit();
+    if (changed) pushCloudflare();
+  } catch (e) {
+    console.warn("CourseSync: progress endpoint unreachable, staying local-only.", e);
+    emit();
+  }
+}
+
 async function initFirebase() {
+  if (CF_MODE) { initCloudflare(); return; }
   if (!CONFIGURED) { emit(); return; }
   try {
     const [appMod, authMod, fsMod] = await Promise.all([
@@ -194,21 +254,26 @@ const barCss = `
 #course-progress-bar:hover .cpb-cta{color:#2dd4bf}
 @media(max-width:560px){#course-progress-bar .cpb-label{display:none}#course-progress-bar{gap:10px;padding:8px 12px;font-size:.8rem}}`;
 function injectCourseBar() {
+  // Renders on unit pages (which carry data-lesson-id) and on the home page,
+  // which carries data-progress-home instead. One strip, every page.
   const box = document.querySelector("[data-lesson-id]");
-  if (!box) return;                                   // lesson pages only
+  const isHome = !box && !!document.querySelector("[data-progress-home]");
+  if (!box && !isHome) return;
   if (document.getElementById("course-progress-bar")) return;
+  const D = window.COURSE_DATA || {};
+  const label = D.progressLabel || "Course progress";
+  const cta = D.progressCta || "View tracker";
   const bs = document.createElement("style"); bs.textContent = barCss; document.head.appendChild(bs);
-  const home = box.getAttribute("data-home") || "../index.html";
-  const bar = document.createElement("a");
+  const bar = document.createElement(isHome ? "div" : "a");
   bar.id = "course-progress-bar";
-  bar.href = home;
+  if (!isHome) bar.href = box.getAttribute("data-home") || "../index.html";
   bar.innerHTML =
-    '<span class="cpb-label">Course progress</span>' +
+    '<span class="cpb-label">' + label + '</span>' +
     '<span class="cpb-track"><span class="cpb-fill"></span></span>' +
     '<span class="cpb-count"></span>' +
     '<span class="cpb-pct"></span>' +
     '<span class="cpb-streak" style="display:none"></span>' +
-    '<span class="cpb-cta">View tracker &#8594;</span>';
+    (isHome ? '' : '<span class="cpb-cta">' + cta + ' &#8594;</span>');
   document.body.appendChild(bar);
   document.body.style.paddingBottom = "56px";
   paintCourseBar();
